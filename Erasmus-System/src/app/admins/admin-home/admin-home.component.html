@@ -1,0 +1,27 @@
+<div class="admin-home">
+  <header class="admin-header">
+    <p>Admin access</p>
+    <div class="button">
+      <span>Logout</span>
+    </div>
+  </header>
+  <div class="content">
+    <aside class="admin-aside">
+      <nav class="admin-nav">
+        <ul>
+          <li><a>Receiving Contacts</a></li>
+          <li><a href="#">Foreign Contacts</a></li>
+          <li><a href="#">Faculties</a></li>
+          <li><a href="#">Fields of Education</a></li>
+          <li><a href="#">Mobilities</a></li>
+          <li><a href="#">Applications</a></li>
+          <li><a href="#">Students</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <router-outlet name="adminMainView" />
+    </main>
+  </div>
+  <app-footer class="footer" />
+</div>

@@ -1,0 +1,97 @@
+.admin-home {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 600px) {
+  .content {
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+}
+
+/* header */
+
+.admin-header {
+  flex: 0 1 10%;
+  background-color: rgb(65, 64, 64);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+}
+
+.admin-header p,
+.admin-header .button {
+  color: white;
+  font-size: 1.5em;
+}
+
+.admin-header .button {
+  padding: 0.5em;
+  border-radius: 5%;
+}
+
+.admin-header .button:hover {
+  cursor: pointer;
+  background-color: rgb(93, 91, 91);
+}
+
+/* aside */
+
+.admin-aside {
+  flex: 0 1 25%;
+  background-color: rgb(65, 64, 64);
+}
+
+@media (min-width: 800px) {
+  .admin-aside {
+    padding: 1em;
+  }
+}
+
+.admin-nav ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (min-width: 600px) {
+  .admin-nav ul {
+    align-items: flex-start;
+  }
+}
+
+@media (min-width: 1200px) {
+  .admin-nav ul {
+    margin-left: 1em;
+    gap: 1em;
+  }
+}
+
+.admin-nav li {
+  list-style: none outside;
+  padding: 1em;
+}
+
+.admin-nav li:hover {
+  background-color: rgb(93, 91, 91);
+}
+
+.admin-nav li a {
+  color: white;
+  font-size: 1.3em;
+}
+
+/* main */
+
+.admin-main {
+  flex: 0 1 75%;
+}
