@@ -17,6 +17,19 @@
   }
 }
 
+/* buttons */
+
+.button {
+  color: white;
+  font-size: 1.5em;
+  padding: 0.5rem;
+}
+
+.button:hover {
+  background-color: rgb(93, 91, 91);
+  cursor: pointer;
+}
+
 /* header */
 
 .admin-header {
@@ -28,32 +41,38 @@
   padding: 1em;
 }
 
-.admin-header p,
-.admin-header .button {
+.admin-header p {
   color: white;
   font-size: 1.5em;
-}
-
-.admin-header .button {
-  padding: 0.5em;
-  border-radius: 5%;
-}
-
-.admin-header .button:hover {
-  cursor: pointer;
-  background-color: rgb(93, 91, 91);
 }
 
 /* aside */
 
 .admin-aside {
-  flex: 0 1 25%;
+  flex: 0 1 auto;
   background-color: rgb(65, 64, 64);
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+/* layout for mobile */
+
+@media (min-width: 600px) {
+  .admin-aside {
+    flex: 0 1 25%;
+  }
 }
 
 @media (min-width: 800px) {
   .admin-aside {
     padding: 1em;
+  }
+}
+
+@media (min-width: 1200px) {
+  .admin-aside {
+    flex: 0 1 20%;
   }
 }
 
@@ -66,23 +85,24 @@
 @media (min-width: 600px) {
   .admin-nav ul {
     align-items: flex-start;
-  }
-}
-
-@media (min-width: 1200px) {
-  .admin-nav ul {
-    margin-left: 1em;
     gap: 1em;
   }
 }
 
 .admin-nav li {
-  list-style: none outside;
-  padding: 1em;
+  list-style: none inside;
+  padding: 0.5em;
+}
+
+@media (min-width: 1200px) {
+  .admin-nav li {
+    margin-left: 2em;
+  }
 }
 
 .admin-nav li:hover {
   background-color: rgb(93, 91, 91);
+  cursor: pointer;
 }
 
 .admin-nav li a {
@@ -90,8 +110,19 @@
   font-size: 1.3em;
 }
 
+.button.toggle-nav {
+  font-size: 1.3em;
+  align-self: center;
+}
+
+@media (min-width: 600px) {
+  .button.toggle-nav {
+    align-self: flex-start;
+  }
+}
+
 /* main */
 
 .admin-main {
-  flex: 0 1 75%;
+  flex: 1 1 75%;
 }

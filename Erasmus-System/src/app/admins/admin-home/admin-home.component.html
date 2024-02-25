@@ -7,20 +7,24 @@
   </header>
   <div class="content">
     <aside class="admin-aside">
-      <nav class="admin-nav">
+      <div (click)="toggleNav()" class="button toggle-nav">
+        <span>{{ isNavShown ? "Hide Navigation" : "Show Navigation" }} </span>
+      </div>
+      <nav class="admin-nav" *ngIf="isNavShown">
         <ul>
-          <li><a>Receiving Contacts</a></li>
-          <li><a href="#">Foreign Contacts</a></li>
-          <li><a href="#">Faculties</a></li>
-          <li><a href="#">Fields of Education</a></li>
-          <li><a href="#">Mobilities</a></li>
-          <li><a href="#">Applications</a></li>
-          <li><a href="#">Students</a></li>
+          <li routerLink="/admins/home"><a>Home</a></li>
+          <li routerLink="#"><a>Receiving Contacts</a></li>
+          <li routerLink="#"><a>Foreign Contacts</a></li>
+          <li routerLink="#"><a>Faculties</a></li>
+          <li routerLink="#"><a>Fields of Education</a></li>
+          <li routerLink="#"><a>Mobilities</a></li>
+          <li routerLink="#"><a>Applications</a></li>
+          <li routerLink="students"><a>Students</a></li>
         </ul>
       </nav>
     </aside>
     <main class="admin-main">
-      <router-outlet name="adminMainView" />
+      <router-outlet />
     </main>
   </div>
   <app-footer class="footer" />
