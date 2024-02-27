@@ -6,8 +6,8 @@ import { AdminStudentsViewComponent } from './admin-students-view/admin-students
 const routes: Routes = [
   {
     path: 'home',
-    component: AdminHomeComponent,
     children: [{ path: 'students', component: AdminStudentsViewComponent }],
+    component: AdminHomeComponent,
   },
 ];
 

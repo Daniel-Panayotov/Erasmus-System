@@ -54,6 +54,7 @@
   display: flex;
   flex-direction: column;
   gap: 1em;
+  position: relative;
 }
 
 /* layout for mobile */
@@ -73,6 +74,19 @@
 @media (min-width: 1200px) {
   .admin-aside {
     flex: 0 1 20%;
+  }
+}
+
+.admin-nav {
+  position: absolute;
+  z-index: 10;
+  background-color: rgb(65, 64, 64);
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .admin-nav {
+    position: static;
   }
 }
 

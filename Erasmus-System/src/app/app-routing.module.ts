@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminGuard } from './shared/guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -8,6 +9,7 @@ const routes: Routes = [
       import('./admins/admins-routing.module').then(
         (m) => m.AdminsRoutingModule
       ),
+    canLoad: [AdminGuard],
   },
 ];
 
