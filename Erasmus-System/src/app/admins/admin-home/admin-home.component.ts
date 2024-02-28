@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { authCookieName } from 'src/app/shared/constants';
+import { environment } from 'src/app/shared/environments/environment';
 
 @Component({
   selector: 'app-admin-home',
@@ -17,6 +17,6 @@ export class AdminHomeComponent {
   }
 
   logoutAdmin(): void {
-    this.cookieService.delete(authCookieName);
+    this.cookieService.delete(environment.authCookieName);
   }
 }

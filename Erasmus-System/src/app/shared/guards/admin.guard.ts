@@ -7,7 +7,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { authCookieName } from '../constants';
+import { environment } from '../environments/environment';
 import { AdminService } from 'src/app/admins/admin.service';
 import { Observable, from, map } from 'rxjs';
 
@@ -19,7 +19,7 @@ export const AdminGuard: CanActivateFn = async (
   const adminService = inject(AdminService);
   const router = inject(Router);
 
-  const cookie = cookieService.get(authCookieName);
+  const cookie = cookieService.get(environment.authCookieName);
 
   if (!cookie) {
     return false;

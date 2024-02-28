@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { AdminStudentsViewComponent } from './admin-students-view/admin-students-view.component';
 import { AdminGuard } from '../shared/guards/admin.guard';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
 
 const routes: Routes = [
   {
@@ -10,6 +11,10 @@ const routes: Routes = [
     component: AdminHomeComponent,
     children: [{ path: 'students', component: AdminStudentsViewComponent }],
     canActivate: [AdminGuard],
+  },
+  {
+    path: 'login',
+    component: AdminLoginComponent,
   },
 ];
 

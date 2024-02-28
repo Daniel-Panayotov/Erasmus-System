@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { from, Observable, map } from 'rxjs';
-import { verifyAdminTokenUrl } from '../shared/constants';
+import { environment } from '../shared/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +16,20 @@ export class AdminService {
       },
     };
 
-    return fetch(verifyAdminTokenUrl, options);
+    return fetch(environment.verifyAdminTokenUrl, options);
+  }
+
+  loginAdmin(data: { email: string; password: string }): Promise<Response> {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+
+    console.log(options.body);
+
+    return fetch(environment.loginAdminUrl, options);
   }
 }
