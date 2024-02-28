@@ -9,7 +9,6 @@ const routes: Routes = [
       import('./admins/admins-routing.module').then(
         (m) => m.AdminsRoutingModule
       ),
-    canLoad: [AdminGuard],
   },
 ];
 
