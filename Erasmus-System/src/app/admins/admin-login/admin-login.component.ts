@@ -3,6 +3,7 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { environment } from 'src/app/shared/environments/environment';
 import { AdminService } from '../admin.service';
 import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-login',
@@ -17,7 +18,8 @@ export class AdminLoginComponent {
   constructor(
     private fb: FormBuilder,
     private adminService: AdminService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private router: Router
   ) {}
 
   //create form with validators
@@ -44,9 +46,10 @@ export class AdminLoginComponent {
     try {
       const response = await this.adminService.loginAdmin({ email, password });
       const data = await response.json();
-      console.log(data);
+      const { jwt } = data;
 
-      // this.cookieService.set(environment.authCookieName, jwt)
+      this.cookieService.set(environment.authCookieName, jwt);
+      this.router.navigate(['/admins/menu']);
     } catch (err) {
       console.log(err);
     }

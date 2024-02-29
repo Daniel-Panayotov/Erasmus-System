@@ -28,8 +28,6 @@ export class AdminService {
       body: JSON.stringify(data),
     };
 
-    console.log(options.body);
-
     return fetch(environment.loginAdminUrl, options);
   }
 }
