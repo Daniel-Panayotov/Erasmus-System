@@ -8,17 +8,6 @@ import { environment } from '../shared/environments/environment';
 export class AdminService {
   constructor() {}
 
-  verifyAdminCookie(cookie: string): Promise<Response> {
-    const options = {
-      method: 'GET',
-      headers: {
-        authCookie: cookie,
-      },
-    };
-
-    return fetch(environment.verifyAdminTokenUrl, options);
-  }
-
   loginAdmin(data: { email: string; password: string }): Promise<Response> {
     const options = {
       method: 'POST',

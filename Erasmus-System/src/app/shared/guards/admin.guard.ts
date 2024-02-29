@@ -8,15 +8,15 @@ import {
 } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../environments/environment';
-import { AdminService } from 'src/app/admins/admin.service';
 import { Observable, from, map } from 'rxjs';
+import { VerifyCookieService } from 'src/app/services/verify-cookie.service';
 
 export const AdminGuard: CanActivateFn = async (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ): Promise<boolean | UrlTree> => {
   const cookieService = inject(CookieService);
-  const adminService = inject(AdminService);
+  const verifyCookieService = inject(VerifyCookieService);
   const router = inject(Router);
 
   const cookie = cookieService.get(environment.authCookieName);
@@ -26,7 +26,7 @@ export const AdminGuard: CanActivateFn = async (
   }
 
   try {
-    const response = await adminService.verifyAdminCookie(cookie);
+    const response = await verifyCookieService.verifyAdminCookie(cookie);
     const data = await response.json();
     const isAdmin = data.isAdmin;
 

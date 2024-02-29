@@ -4,6 +4,7 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { AdminStudentsViewComponent } from './admin-students-view/admin-students-view.component';
 import { AdminGuard } from '../shared/guards/admin.guard';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { notLoggedGuard } from '../shared/guards/not-logged.guard';
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
   {
     path: 'login',
     component: AdminLoginComponent,
+    canActivate: [notLoggedGuard],
   },
 ];
 
