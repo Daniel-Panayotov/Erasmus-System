@@ -4,16 +4,18 @@ import { environment } from 'src/app/shared/environments/environment';
 import { AdminService } from '../admin.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './admin-login.component.html',
   styleUrl: './admin-login.component.css',
 })
 export class AdminLoginComponent {
   showPassword: boolean = false;
+  error: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -34,6 +36,7 @@ export class AdminLoginComponent {
   async onSubmit(): Promise<void> {
     const { email, password } = this.adminLoginForm.value;
 
+    console.log(this.adminLoginForm);
     //validate
     if (!email || !password) {
       return;
@@ -51,7 +54,7 @@ export class AdminLoginComponent {
       this.cookieService.set(environment.authCookieName, jwt);
       this.router.navigate(['/admins/menu']);
     } catch (err) {
-      console.log(err);
+      this.error = true;
     }
   }
 

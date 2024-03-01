@@ -1,14 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminGuard } from './shared/guards/admin.guard';
+import { NotFoundComponent } from './core/not-found/not-found.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: '/home',
+  },
   {
     path: 'admins',
     loadChildren: () =>
       import('./admins/admins-routing.module').then(
         (m) => m.AdminsRoutingModule
       ),
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
   },
 ];
 

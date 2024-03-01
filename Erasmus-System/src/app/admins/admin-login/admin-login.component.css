@@ -53,3 +53,8 @@
   right: 0;
   padding: 0 0.5em;
 }
+
+.error-message {
+  color: red;
+  font-size: 0.8em;
+}

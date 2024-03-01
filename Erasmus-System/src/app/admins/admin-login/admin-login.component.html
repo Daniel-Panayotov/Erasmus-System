@@ -7,6 +7,7 @@
       (ngSubmit)="onSubmit()"
       class="login-form"
     >
+      <p class="error-message" *ngIf="error">There is an error</p>
       <div class="input-container">
         <label for="loginEmail">Email</label>
         <input
@@ -15,6 +16,15 @@
           formControlName="email"
           autocomplete="email"
         />
+        <p
+          class="error-message"
+          *ngIf="
+            !adminLoginForm.controls.email.valid &&
+            adminLoginForm.controls.email.touched
+          "
+        >
+          Invalid email
+        </p>
       </div>
       <div class="input-container">
         <label for="loginPassword">Password</label>
@@ -29,6 +39,15 @@
             showPassword ? "hide" : "show"
           }}</span>
         </div>
+        <p
+          class="error-message"
+          *ngIf="
+            !adminLoginForm.controls.password.valid &&
+            adminLoginForm.controls.password.touched
+          "
+        >
+          Password must be at least 10 characters long
+        </p>
       </div>
 
       <button
