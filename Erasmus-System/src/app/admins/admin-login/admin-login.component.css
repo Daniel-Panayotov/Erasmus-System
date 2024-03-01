@@ -41,6 +41,7 @@
 .input-container input {
   height: 2em;
   width: 20em;
+  padding-left: 2px;
 }
 
 .password-container {

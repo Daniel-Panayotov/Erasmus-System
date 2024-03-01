@@ -1,16 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
-import { AdminStudentsViewComponent } from './admin-students-view/admin-students-view.component';
+import { AdminStudentsViewComponent } from './admin-home-resources/admin-students-view/admin-students-view.component';
 import { AdminGuard } from '../shared/guards/admin.guard';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { notLoggedGuard } from '../shared/guards/not-logged.guard';
+import { FieldsOfEducationComponent } from './admin-home-resources/fields-of-education/fields-of-education.component';
 
 const routes: Routes = [
   {
     path: 'menu',
     component: AdminHomeComponent,
-    children: [{ path: 'students', component: AdminStudentsViewComponent }],
+    children: [
+      { path: 'students', component: AdminStudentsViewComponent },
+      { path: 'fields-of-education', component: FieldsOfEducationComponent },
+    ],
     canActivate: [AdminGuard],
   },
   {

@@ -1,0 +1,173 @@
+/* general page styles */
+
+.fields-page {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.page-padding {
+  padding: 0.5em;
+}
+
+@media (min-width: 800px) {
+  .page-padding {
+    padding-left: 1.5em;
+  }
+}
+
+.fields-page-container {
+  flex: 0 1 50em;
+  border-inline: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* header */
+
+.fields-header {
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button-add {
+  background-color: orange;
+}
+
+/* main */
+
+.fields-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.settings {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* table */
+
+.fields-table {
+  border-collapse: collapse;
+  align-self: center;
+  width: 100%;
+}
+
+.fields-table,
+.fields-table th,
+.fields-table td {
+  border: 1px solid black;
+}
+
+.fields-table td,
+.fields-table th {
+  padding: 0.5em 0 0.5em 0.2em;
+}
+
+.fields-table th {
+  text-align: left;
+}
+
+.table-body tr td:nth-child(3) {
+  max-width: 5em;
+}
+
+.code-value {
+  max-width: 3em;
+}
+
+/* table buttons */
+
+.buttons {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 0.5em;
+}
+
+.button {
+  padding: 0.5em;
+  border-radius: 0.2em;
+  color: white;
+  cursor: pointer;
+}
+
+@media (min-width: 900px) {
+  .button {
+    padding: 0.5em 1em;
+  }
+}
+
+.button-delete {
+  background-color: red;
+}
+
+.button-edit {
+  background-color: rgb(37, 226, 75);
+}
+
+/* add-field-popup */
+
+.add-field-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid black;
+  z-index: 5;
+  background-color: white;
+  padding: 0.5em;
+  width: 45%;
+}
+
+@media (min-width: 800px) {
+  .add-field-popup {
+    width: 40%;
+  }
+}
+
+.popup-heading {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.add-field-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container input {
+  border: 1px solid black;
+  flex: 0 1 2em;
+  padding-left: 2px;
+}
+
+.add-field-button {
+  border: transparent;
+  background-color: #11be3f;
+  color: white;
+  align-self: center;
+  padding: 0.5rem 2rem;
+  border-radius: 2rem;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.add-field-button:disabled {
+  background-color: red;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.8em;
+}

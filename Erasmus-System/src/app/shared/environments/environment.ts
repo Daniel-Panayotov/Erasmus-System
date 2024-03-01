@@ -1,6 +1,7 @@
 const apiUrl = 'http://localhost:5000';
 const apiAdminUrl = `${apiUrl}/admins`;
 const apiUserUrl = `${apiUrl}/users`;
+const apiFieldOfEducationUrl = `${apiUrl}/fields`;
 
 export const environment = {
   emailRegex:
@@ -9,4 +10,8 @@ export const environment = {
   verifyAdminTokenUrl: `${apiAdminUrl}/verify`,
   verifyNormalCookieUrl: `${apiUserUrl}/verify-cookie`,
   loginAdminUrl: `${apiAdminUrl}/login`,
+  getAllFieldsOfEduUrl: `${apiFieldOfEducationUrl}/getAll`,
+  getOneFieldOfEduUrl: `${apiFieldOfEducationUrl}/getOne`,
+  deleteOneFieldOfEduUrl: `${apiFieldOfEducationUrl}/deleteOne`,
+  createOneFieldUrl: `${apiFieldOfEducationUrl}/create`,
 };

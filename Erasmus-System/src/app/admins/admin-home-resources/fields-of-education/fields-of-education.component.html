@@ -1,0 +1,89 @@
+<div class="fields-page">
+  <div class="fields-page-container">
+    <header class="fields-header page-padding">
+      <p>Fields of Education</p>
+      <div class="button-add button" (click)="togglePopup()">
+        {{ isPopupVisible ? "Cancel" : "Add" }}
+      </div>
+    </header>
+
+    <main class="fields-main page-padding">
+      <div class="settings">
+        <p>
+          Showing {{ fields.length }}
+          {{ fields.length == 1 ? "entry" : "entries" }}
+        </p>
+        <div class="search-setting">
+          <label for="search">Search: </label>
+          <input type="text" name="search" id="search" />
+        </div>
+      </div>
+      <table class="fields-table">
+        <thead>
+          <th class="code-value">Subject Code</th>
+          <th>Subject Name</th>
+          <th>Controls</th>
+        </thead>
+        <tbody class="table-body">
+          <tr *ngFor="let field of fields; let i = index">
+            <td>{{ field.code }}</td>
+            <td>{{ field.name }}</td>
+            <td>
+              <div class="buttons">
+                <div class="button-edit button">Edit</div>
+                <div
+                  class="button-delete button"
+                  (click)="onDelete(field._id, i)"
+                >
+                  Delete
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+
+    <div class="add-field-popup" *ngIf="isPopupVisible">
+      <h2 class="popup-heading">Add field</h2>
+      <p class="error-message" *ngIf="errorAddingField">There was an error</p>
+      <form class="add-field-form" [formGroup]="createFieldForm">
+        <div class="input-container">
+          <label for="code">Code</label>
+          <input type="text" formControlName="code" id="code" />
+          <p
+            class="error-message"
+            *ngIf="
+              !createFieldForm.controls.code.valid &&
+              createFieldForm.controls.code.touched
+            "
+          >
+            Field code must be 3 characters
+          </p>
+        </div>
+        <div class="input-container">
+          <label for="name">Name</label>
+          <input type="text" formControlName="name" id="name" />
+          <p
+            class="error-message"
+            *ngIf="
+              !createFieldForm.controls.name.valid &&
+              createFieldForm.controls.name.touched
+            "
+          >
+            Name must be at least 5 characters
+          </p>
+        </div>
+
+        <button
+          type="submit"
+          class="add-field-button"
+          [disabled]="!createFieldForm.valid"
+          (click)="addField()"
+        >
+          Add
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
