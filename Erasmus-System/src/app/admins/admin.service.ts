@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { from, Observable, map } from 'rxjs';
 import { environment } from '../shared/environments/environment';
+import { adminsEnvironment } from '../shared/environments/apiEnvironment';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,6 @@ export class AdminService {
       body: JSON.stringify(data),
     };
 
-    return fetch(environment.loginAdminUrl, options);
+    return fetch(adminsEnvironment.loginAdminUrl, options);
   }
 }

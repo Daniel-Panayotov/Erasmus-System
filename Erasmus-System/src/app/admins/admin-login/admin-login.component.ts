@@ -50,7 +50,7 @@ export class AdminLoginComponent {
       const data = await response.json();
       const { jwt } = data;
 
-      this.cookieService.set(environment.authCookieName, jwt);
+      this.cookieService.set(environment.authCookieName, jwt, undefined, '/');
       this.router.navigate(['/admins/menu']);
     } catch (err) {
       this.error = true;

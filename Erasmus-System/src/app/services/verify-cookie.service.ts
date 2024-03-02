@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../shared/environments/environment';
+import { cookieEnvironment } from '../shared/environments/apiEnvironment';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,7 @@ export class VerifyCookieService {
   verifyAdminCookie(cookie: string): Promise<Response> {
     return this.verifyCookie.bind(
       this,
-      environment.verifyAdminTokenUrl,
+      cookieEnvironment.verifyAdminTokenUrl,
       cookie
     )();
   }
@@ -29,7 +30,7 @@ export class VerifyCookieService {
   verifyNormalCookie(cookie: string): Promise<Response> {
     return this.verifyCookie.bind(
       this,
-      environment.verifyNormalCookieUrl,
+      cookieEnvironment.verifyNormalCookieUrl,
       cookie
     )();
   }

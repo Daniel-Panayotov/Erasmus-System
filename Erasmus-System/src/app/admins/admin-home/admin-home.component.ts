@@ -18,7 +18,7 @@ export class AdminHomeComponent {
   }
 
   logoutAdmin(): void {
-    this.cookieService.delete(environment.authCookieName);
+    this.cookieService.delete(environment.authCookieName, '/');
     this.router.navigate(['/admins/login']);
   }
 }

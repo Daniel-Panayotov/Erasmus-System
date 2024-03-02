@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../shared/environments/environment';
+import { fieldsEnvironment } from '../shared/environments/apiEnvironment';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +27,7 @@ export class FieldsOfEducationService {
   getAllFields(cookie: string): Promise<Response> {
     return this.requestTemplate.bind(
       this,
-      environment.getAllFieldsOfEduUrl,
+      fieldsEnvironment.getAllUrl,
       'GET',
       cookie
     )();
@@ -35,7 +36,7 @@ export class FieldsOfEducationService {
   getOneField(cookie: string, id: string): Promise<Response> {
     return this.requestTemplate.bind(
       this,
-      environment.getOneFieldOfEduUrl + `/${id}`,
+      fieldsEnvironment.getOneByIdUrl + `/${id}`,
       'GET',
       cookie
     )();
@@ -44,7 +45,7 @@ export class FieldsOfEducationService {
   deleteOneField(cookie: string, id: string): Promise<Response> {
     return this.requestTemplate.bind(
       this,
-      environment.deleteOneFieldOfEduUrl + `/${id}`,
+      fieldsEnvironment.deleteOneUrl + `/${id}`,
       'DELETE',
       cookie
     )();
@@ -64,7 +65,7 @@ export class FieldsOfEducationService {
       body: JSON.stringify(data),
     };
 
-    return fetch(environment.createOneFieldUrl, options);
+    return fetch(fieldsEnvironment.createOneUrl, options);
   }
 
   getOneByParam(
@@ -80,6 +81,6 @@ export class FieldsOfEducationService {
       body: JSON.stringify(data),
     };
 
-    return fetch(environment.getOneFieldByParamUrl, options);
+    return fetch(fieldsEnvironment.getOneByParamUrl, options);
   }
 }
