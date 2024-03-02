@@ -83,4 +83,21 @@ export class FieldsOfEducationService {
 
     return fetch(fieldsEnvironment.getOneByParamUrl, options);
   }
+
+  updateOne(
+    cookie: string,
+    data: { code: string; name: string },
+    id: string
+  ): Promise<Response> {
+    const options = {
+      method: 'PATCH',
+      headers: {
+        [environment.authCookieName]: cookie,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+
+    return fetch(fieldsEnvironment.updateOneById + `/${id}`, options);
+  }
 }

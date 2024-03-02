@@ -14,6 +14,7 @@ export const fieldsEnvironment = {
   deleteOneUrl: `${apiFieldOfEducationUrl}/deleteOne`,
   createOneUrl: `${apiFieldOfEducationUrl}/create`,
   getOneByParamUrl: `${apiFieldOfEducationUrl}/getByParam`,
+  updateOneById: `${apiFieldOfEducationUrl}/UpdateOne`,
 };
 
 export const adminsEnvironment = {

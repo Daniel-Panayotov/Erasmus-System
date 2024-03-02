@@ -2,8 +2,8 @@
   <div class="fields-page-container">
     <header class="fields-header page-padding">
       <p>Fields of Education</p>
-      <div class="button-add button" (click)="togglePopup()">
-        {{ isPopupVisible ? "Cancel" : "Add" }}
+      <div class="button-add button" (click)="toggleAddPopup()">
+        {{ isPopupVisible && !isPopupEdit ? "Close" : "Add" }}
       </div>
     </header>
 
@@ -36,9 +36,15 @@
           <tr *ngFor="let field of fields; let i = index">
             <td>{{ field.code }}</td>
             <td>{{ field.name }}</td>
-            <td>
+            <td class="buttons-td">
               <div class="buttons">
-                <div class="button-edit button">Edit</div>
+                <div class="button-edit button" (click)="toggleEditPopup(i)">
+                  {{
+                    isPopupEdit && isPopupVisible && popupEditIndex == i
+                      ? "Close"
+                      : "Edit"
+                  }}
+                </div>
                 <div
                   class="button-delete button"
                   (click)="onDelete(field._id, i)"
@@ -52,13 +58,15 @@
       </table>
     </main>
 
-    <div class="add-field-popup" *ngIf="isPopupVisible">
-      <h2 class="popup-heading">Add field</h2>
+    <div class="field-popup" *ngIf="isPopupVisible">
+      <h2 class="popup-heading">
+        {{ isPopupEdit ? "Edit field" : "Add field" }}
+      </h2>
       <p class="error-message" *ngIf="errorAddingField">There was an error</p>
       <form
-        class="add-field-form"
-        [formGroup]="createFieldForm"
-        (submit)="addField()"
+        class="field-form"
+        [formGroup]="popupFieldForm"
+        (submit)="isPopupEdit ? editField() : addField()"
       >
         <div class="input-container">
           <label for="code">Code</label>
@@ -66,8 +74,8 @@
           <p
             class="error-message"
             *ngIf="
-              !createFieldForm.controls.code.valid &&
-              createFieldForm.controls.code.touched
+              !popupFieldForm.controls.code.valid &&
+              popupFieldForm.controls.code.touched
             "
           >
             Field code must be 3 characters
@@ -75,12 +83,19 @@
         </div>
         <div class="input-container">
           <label for="name">Name</label>
-          <input type="text" formControlName="name" id="name" />
+          <input
+            type="text"
+            formControlName="name"
+            id="name"
+            value="{{
+              isPopupVisible && isPopupEdit ? fields[popupEditIndex].name : ''
+            }}"
+          />
           <p
             class="error-message"
             *ngIf="
-              !createFieldForm.controls.name.valid &&
-              createFieldForm.controls.name.touched
+              !popupFieldForm.controls.name.valid &&
+              popupFieldForm.controls.name.touched
             "
           >
             Name must be at least 5 characters
@@ -89,10 +104,10 @@
 
         <button
           type="submit"
-          class="add-field-button"
-          [disabled]="!createFieldForm.valid"
+          class="field-popup-button"
+          [disabled]="!popupFieldForm.valid"
         >
-          Add
+          {{ isPopupEdit ? "Edit" : "Add" }}
         </button>
       </form>
     </div>
