@@ -24,10 +24,10 @@ export class FieldsOfEducationService {
     return fetch(url, options);
   }
 
-  getAllFields(cookie: string): Promise<Response> {
+  getAllForPage(cookie: string, page: number): Promise<Response> {
     return this.requestTemplate.bind(
       this,
-      fieldsEnvironment.getAllUrl,
+      fieldsEnvironment.getAllForPageUrl + `/${page}`,
       'GET',
       cookie
     )();

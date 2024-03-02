@@ -20,6 +20,8 @@ export class FieldsOfEducationComponent implements OnInit {
   isPopupVisible: boolean = false;
   isPopupEdit: boolean = false;
   popupEditIndex: number = 0;
+  page: number = 1;
+  pageCount: number = 0;
 
   constructor(
     private fieldsService: FieldsOfEducationService,
@@ -27,13 +29,31 @@ export class FieldsOfEducationComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
-  //get all fields and add them to the global variable
   async ngOnInit(): Promise<void> {
+    this.getFieldsForPage();
+  }
+
+  //get all fields and add them to the global variable
+  async getFieldsForPage(): Promise<void> {
     const authCookie = this.cookieService.get(environment.authCookieName);
     try {
-      const response = await this.fieldsService.getAllFields(authCookie);
-      const data = await response.json();
-      this.fields = data;
+      const response = await this.fieldsService.getAllForPage(
+        authCookie,
+        this.page
+      );
+      const { fields, count } = await response.json();
+      this.fields = fields;
+
+      /* algorithm for the pagination numbers */
+      //the number of all pages
+      const pages = Math.ceil(count / 10);
+      //x = the number of pages displayed below and including the page we are on
+      const x = this.page < 6 ? this.page : 5;
+      //y = the number of pages displayed above the current page
+      const y = pages - x < 5 ? pages - x : 4;
+
+      //the number of pages display with numbers for pagination
+      this.pageCount = x + y;
     } catch (err) {}
   }
 

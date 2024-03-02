@@ -9,7 +9,7 @@ export const cookieEnvironment = {
 };
 
 export const fieldsEnvironment = {
-  getAllUrl: `${apiFieldOfEducationUrl}/getAll`,
+  getAllForPageUrl: `${apiFieldOfEducationUrl}/getAllForPage`,
   getOneByIdUrl: `${apiFieldOfEducationUrl}/getOne`,
   deleteOneUrl: `${apiFieldOfEducationUrl}/deleteOne`,
   createOneUrl: `${apiFieldOfEducationUrl}/create`,
