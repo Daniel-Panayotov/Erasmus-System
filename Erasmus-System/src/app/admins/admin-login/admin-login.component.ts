@@ -36,7 +36,6 @@ export class AdminLoginComponent {
   async onSubmit(): Promise<void> {
     const { email, password } = this.adminLoginForm.value;
 
-    console.log(this.adminLoginForm);
     //validate
     if (!email || !password) {
       return;

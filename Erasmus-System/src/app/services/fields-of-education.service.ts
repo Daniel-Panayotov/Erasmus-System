@@ -7,6 +7,7 @@ import { environment } from '../shared/environments/environment';
 export class FieldsOfEducationService {
   constructor() {}
 
+  //template for requests to bind
   private requestTemplate(
     url: string,
     method: string,
@@ -49,6 +50,7 @@ export class FieldsOfEducationService {
     )();
   }
 
+  // not binded
   addOneField(
     cookie: string,
     data: { name: string; code: string }
@@ -63,5 +65,21 @@ export class FieldsOfEducationService {
     };
 
     return fetch(environment.createOneFieldUrl, options);
+  }
+
+  getOneByParam(
+    cookie: string,
+    data: { select: string; search: string }
+  ): Promise<Response> {
+    const options = {
+      method: 'POST',
+      headers: {
+        [environment.authCookieName]: cookie,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+
+    return fetch(environment.getOneFieldByParamUrl, options);
   }
 }

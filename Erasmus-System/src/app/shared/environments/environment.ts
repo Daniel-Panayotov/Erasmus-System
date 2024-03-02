@@ -14,4 +14,5 @@ export const environment = {
   getOneFieldOfEduUrl: `${apiFieldOfEducationUrl}/getOne`,
   deleteOneFieldOfEduUrl: `${apiFieldOfEducationUrl}/deleteOne`,
   createOneFieldUrl: `${apiFieldOfEducationUrl}/create`,
+  getOneFieldByParamUrl: `${apiFieldOfEducationUrl}/getByParam`,
 };

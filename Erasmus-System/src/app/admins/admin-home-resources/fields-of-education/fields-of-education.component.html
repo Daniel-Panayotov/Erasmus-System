@@ -14,8 +14,16 @@
           {{ fields.length == 1 ? "entry" : "entries" }}
         </p>
         <div class="search-setting">
-          <label for="search">Search: </label>
-          <input type="text" name="search" id="search" />
+          <form [formGroup]="searchFieldForm" (submit)="searchField()">
+            <label for="search"
+              >Search by:
+              <select name="search-param" formControlName="select">
+                <option value="name">name</option>
+                <option value="code">code</option>
+              </select></label
+            >
+            <input type="text" formControlName="search" id="search" />
+          </form>
         </div>
       </div>
       <table class="fields-table">
@@ -47,7 +55,11 @@
     <div class="add-field-popup" *ngIf="isPopupVisible">
       <h2 class="popup-heading">Add field</h2>
       <p class="error-message" *ngIf="errorAddingField">There was an error</p>
-      <form class="add-field-form" [formGroup]="createFieldForm">
+      <form
+        class="add-field-form"
+        [formGroup]="createFieldForm"
+        (submit)="addField()"
+      >
         <div class="input-container">
           <label for="code">Code</label>
           <input type="text" formControlName="code" id="code" />
@@ -79,7 +91,6 @@
           type="submit"
           class="add-field-button"
           [disabled]="!createFieldForm.valid"
-          (click)="addField()"
         >
           Add
         </button>

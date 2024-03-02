@@ -51,6 +51,32 @@ export class FieldsOfEducationComponent implements OnInit {
     } catch (err) {}
   }
 
+  //search form
+
+  searchFieldForm = this.fb.group({
+    search: [''],
+    select: ['name', Validators.required],
+  });
+
+  async searchField(): Promise<void> {
+    const { search, select } = this.searchFieldForm.value;
+
+    if ((select != 'code' && select != 'name') || typeof search != 'string') {
+      return;
+    }
+
+    const authCookie = this.cookieService.get(environment.authCookieName);
+
+    try {
+      const response = await this.fieldsService.getOneByParam(authCookie, {
+        search,
+        select,
+      });
+      const data = await response.json();
+      this.fields = data;
+    } catch (err) {}
+  }
+
   //popup form stuff
 
   createFieldForm = this.fb.group({
@@ -61,8 +87,11 @@ export class FieldsOfEducationComponent implements OnInit {
     name: ['', [Validators.required, Validators.minLength(5)]],
   });
 
+  //reset state when toggling
   togglePopup(): void {
     this.isPopupVisible = !this.isPopupVisible;
+    this.errorAddingField = false;
+    this.createFieldForm.reset();
   }
 
   async addField(): Promise<void> {
@@ -84,8 +113,12 @@ export class FieldsOfEducationComponent implements OnInit {
         name,
       });
       const data = await response.json();
+      //display add data and sort by code - ascending
       this.fields.push(data);
-      this.isPopupVisible = false;
+      this.fields.sort((a, b) => {
+        return a.code.localeCompare(b.code);
+      });
+      this.togglePopup();
     } catch (err) {
       this.errorAddingField = true;
     }
