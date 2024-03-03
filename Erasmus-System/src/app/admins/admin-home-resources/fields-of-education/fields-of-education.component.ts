@@ -16,12 +16,17 @@ import { Fields } from 'src/app/types/fields';
 })
 export class FieldsOfEducationComponent implements OnInit {
   fields: [Fields] = [] as unknown as [Fields]; //variable to hold the fields data
+  //popup form values
   errorAddingField: boolean = false;
   isPopupVisible: boolean = false;
   isPopupEdit: boolean = false;
   popupEditIndex: number = 0;
-  page: number = 1;
+  //pagination values
+  pageCountToIterate: number = 0;
   pageCount: number = 0;
+  page: number = 1;
+  //
+  isSearchActive: boolean = false;
 
   constructor(
     private fieldsService: FieldsOfEducationService,
@@ -33,8 +38,44 @@ export class FieldsOfEducationComponent implements OnInit {
     this.getFieldsForPage();
   }
 
+  async changePage(pageNumber: number): Promise<void> {
+    // check if page is valid
+    if (pageNumber < 1 || pageNumber > this.pageCount) {
+      return;
+    }
+    this.page = pageNumber;
+    //change page depending on whether we have a search value
+    try {
+      switch (this.isSearchActive) {
+        case true:
+          await this.searchField();
+          break;
+        case false:
+          await this.getFieldsForPage();
+          break;
+      }
+    } catch (err) {}
+  }
+
+  calcPages(pages: number): void {
+    /* algorithm for the pagination numbers */
+    //the number of all pages
+    this.pageCount = pages;
+    //x = the number of pages displayed below and including the page we are on
+    const x = this.page < 6 ? this.page : 5;
+    //y = the number of pages displayed above the current page
+    const y = pages - x < 5 ? pages - x : 4;
+
+    //the number of pages display with numbers for pagination
+    this.pageCountToIterate = x + y;
+  }
+
   //get all fields and add them to the global variable
   async getFieldsForPage(): Promise<void> {
+    if (this.isSearchActive) {
+      this.page = 1;
+    }
+
     const authCookie = this.cookieService.get(environment.authCookieName);
     try {
       const response = await this.fieldsService.getAllForPage(
@@ -44,16 +85,8 @@ export class FieldsOfEducationComponent implements OnInit {
       const { fields, count } = await response.json();
       this.fields = fields;
 
-      /* algorithm for the pagination numbers */
-      //the number of all pages
       const pages = Math.ceil(count / 10);
-      //x = the number of pages displayed below and including the page we are on
-      const x = this.page < 6 ? this.page : 5;
-      //y = the number of pages displayed above the current page
-      const y = pages - x < 5 ? pages - x : 4;
-
-      //the number of pages display with numbers for pagination
-      this.pageCount = x + y;
+      this.calcPages(pages);
     } catch (err) {}
   }
 
@@ -73,7 +106,7 @@ export class FieldsOfEducationComponent implements OnInit {
     } catch (err) {}
   }
 
-  //search form
+  /* search form */
 
   searchFieldForm = this.fb.group({
     search: [''],
@@ -83,19 +116,42 @@ export class FieldsOfEducationComponent implements OnInit {
   async searchField(): Promise<void> {
     const { search, select } = this.searchFieldForm.value;
 
-    if ((select != 'code' && select != 'name') || typeof search != 'string') {
+    if (
+      (select != 'code' && select != 'name') ||
+      typeof search != 'string' ||
+      search == ''
+    ) {
+      if (this.isSearchActive) {
+        try {
+          await this.getFieldsForPage();
+        } catch (err) {}
+
+        this.isSearchActive = false;
+      }
       return;
     }
+
+    //check if we have just started searching
+    this.page = !this.isSearchActive ? 1 : this.page;
+
+    this.isSearchActive = true;
 
     const authCookie = this.cookieService.get(environment.authCookieName);
 
     try {
-      const response = await this.fieldsService.getOneByParam(authCookie, {
-        search,
-        select,
-      });
+      const response = await this.fieldsService.getOneByParam(
+        authCookie,
+        {
+          search,
+          select,
+        },
+        this.page
+      );
       const data = await response.json();
-      this.fields = data;
+      this.fields = data.fields;
+
+      const pages = Math.ceil(data.count / 10);
+      this.calcPages(pages);
     } catch (err) {}
   }
 

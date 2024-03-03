@@ -81,13 +81,13 @@
 }
 
 .code-value {
-  max-width: 3em;
+  width: 20%;
 }
 
 /* table buttons */
 
 .buttons-td {
-  max-width: 3em;
+  width: 25%;
 }
 
 .buttons {
@@ -200,13 +200,23 @@
   cursor: pointer;
 }
 
-.pagination-styles:hover {
+.pagination-styles-enabled-hover:hover {
   color: white;
   background-color: orange;
   border-color: orange;
 }
 
+.pagination-styles-disabled {
+  color: rgb(149, 147, 147);
+  border-color: rgb(149, 147, 147);
+}
+
 .numbered-pages {
   display: flex;
   gap: 0.25em;
+}
+
+.page-selected {
+  border: 2px solid black;
+  font-weight: bold;
 }

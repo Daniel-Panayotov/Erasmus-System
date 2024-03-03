@@ -70,7 +70,8 @@ export class FieldsOfEducationService {
 
   getOneByParam(
     cookie: string,
-    data: { select: string; search: string }
+    data: { select: string; search: string },
+    page: number
   ): Promise<Response> {
     const options = {
       method: 'POST',
@@ -81,7 +82,7 @@ export class FieldsOfEducationService {
       body: JSON.stringify(data),
     };
 
-    return fetch(fieldsEnvironment.getOneByParamUrl, options);
+    return fetch(fieldsEnvironment.getOneByParamUrl + `/${page}`, options);
   }
 
   updateOne(

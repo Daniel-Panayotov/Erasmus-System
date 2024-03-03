@@ -32,14 +32,14 @@
       </div>
       <table class="fields-table">
         <thead>
-          <th class="code-value">Subject Code</th>
+          <th>Subject Code</th>
           <th>Subject Name</th>
           <th>Controls</th>
         </thead>
         <tbody class="table-body">
-          <tr *ngFor="let field of fields; let i = index">
-            <td>{{ field.code }}</td>
-            <td>{{ field.name }}</td>
+          <tr class="table-row" *ngFor="let field of fields; let i = index">
+            <td class="code-value">{{ field.code }}</td>
+            <td class="name-td">{{ field.name }}</td>
             <td class="buttons-td">
               <div class="buttons">
                 <div class="button-edit button" (click)="toggleEditPopup(i)">
@@ -64,17 +64,43 @@
 
     <footer class="fields-pagination-footer page-padding">
       <div class="select-page">
-        <div class="page-button-left pagination-styles">&lt; Previous</div>
+        <div
+          class="page-button-left pagination-styles {{
+            page == 1
+              ? 'pagination-styles-disabled'
+              : 'pagination-styles-enabled-hover'
+          }}"
+          (click)="changePage(page - 1)"
+        >
+          &lt; Previous
+        </div>
         <div class="numbered-pages">
           <div
-            class="page-option pagination-styles"
-            *ngFor="let num of [].constructor(pageCount); let i = index"
+            class="page-option pagination-styles  {{
+              page == page - (page - 1 < 5 ? page - 1 : 4) + i
+                ? 'page-selected'
+                : 'pagination-styles-enabled-hover'
+            }}"
+            *ngFor="
+              let num of [].constructor(pageCountToIterate);
+              let i = index
+            "
+            (click)="changePage(page - (page - 1 < 5 ? page - 1 : 4) + i)"
           >
             {{ page - (page - 1 < 5 ? page - 1 : 4) + i }}
           </div>
         </div>
 
-        <div class="page-button-right pagination-styles">Next &gt;</div>
+        <div
+          class="page-button-right pagination-styles {{
+            page == pageCount
+              ? 'pagination-styles-disabled'
+              : 'pagination-styles-enabled-hover'
+          }}"
+          (click)="changePage(page + 1)"
+        >
+          Next &gt;
+        </div>
       </div>
     </footer>
 
