@@ -2,6 +2,7 @@ const apiUrl = 'http://localhost:5000';
 const apiAdminUrl = `${apiUrl}/admins`;
 const apiUserUrl = `${apiUrl}/users`;
 const apiFieldOfEducationUrl = `${apiUrl}/fields`;
+const apiFacultyUrl = `${apiUrl}/faculties`;
 
 export const cookieEnvironment = {
   verifyAdminTokenUrl: `${apiAdminUrl}/verify`,
@@ -15,6 +16,14 @@ export const fieldsEnvironment = {
   createOneUrl: `${apiFieldOfEducationUrl}/create`,
   getOneByParamUrl: `${apiFieldOfEducationUrl}/getByParam`,
   updateOneById: `${apiFieldOfEducationUrl}/UpdateOne`,
+};
+
+export const facultyEnvironment = {
+  createOneUrl: `${apiFacultyUrl}/create`,
+  getAll: `${apiFacultyUrl}/getAll`,
+  getForPage: `${apiFacultyUrl}/getForPage`,
+  updateOne: `${apiFacultyUrl}/update`,
+  deleteOne: `${apiFacultyUrl}/delete`,
 };
 
 export const adminsEnvironment = {
