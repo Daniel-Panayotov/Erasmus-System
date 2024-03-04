@@ -20,12 +20,12 @@ export class FieldsOfEducationComponent implements OnInit {
   errorAddingField: boolean = false;
   isPopupVisible: boolean = false;
   isPopupEdit: boolean = false;
-  popupEditIndex: number = 0;
+  popupIndex: number = 0; // -1 for "add" | index > 0 for edit
   //pagination values
   pageCountToIterate: number = 0;
   pageCount: number = 0;
   page: number = 1;
-  //
+  //search values
   isSearchActive: boolean = false;
   searchParams: any = {};
 
@@ -36,10 +36,21 @@ export class FieldsOfEducationComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.getFieldsForPage();
+    this.changePage(1, false);
   }
 
-  async test(searching: boolean) {
+  async changePage(pageNumber: number, searching: boolean): Promise<void> {
+    // check if page is valid
+    if (pageNumber < 1 || (pageNumber > this.pageCount && pageNumber != 1)) {
+      return;
+    }
+    this.page = pageNumber;
+    try {
+      await this.getFields(searching);
+    } catch (err) {}
+  }
+
+  async getFields(searching: boolean): Promise<void> {
     const authCookie = this.cookieService.get(environment.authCookieName);
     this.page = searching == this.isSearchActive ? this.page : 1;
     let data;
@@ -50,6 +61,16 @@ export class FieldsOfEducationComponent implements OnInit {
         case true:
           if (this.page == 1) {
             this.searchParams = this.searchFieldForm.value;
+          }
+          const { select, search } = this.searchParams;
+
+          //validate unput
+          if (
+            (select != 'code' && select != 'name') ||
+            typeof search != 'string' ||
+            search == ''
+          ) {
+            break;
           }
 
           response = await this.fieldsService.getOneByParam(
@@ -81,39 +102,8 @@ export class FieldsOfEducationComponent implements OnInit {
     this.isSearchActive = searching;
   }
 
-  async changePage2(pageNumber: number, searching: boolean): Promise<void> {
-    // check if page is valid
-    if (pageNumber < 1 || pageNumber > this.pageCount) {
-      return;
-    }
-    this.page = pageNumber;
-    try {
-      await this.test(searching);
-    } catch (err) {}
-  }
-
-  async changePage(pageNumber: number): Promise<void> {
-    // check if page is valid
-    if (pageNumber < 1 || pageNumber > this.pageCount) {
-      return;
-    }
-    this.page = pageNumber;
-    //change page depending on whether we have a search value
-    try {
-      switch (this.isSearchActive) {
-        case true:
-          await this.searchField();
-          break;
-        case false:
-          await this.getFieldsForPage();
-          break;
-      }
-    } catch (err) {}
-  }
-
+  /* algorithm for the pagination numbers */
   calcPages(pages: number): void {
-    /* algorithm for the pagination numbers */
-    //the number of all pages
     this.pageCount = pages;
     //x = the number of pages displayed below and including the page we are on
     const x = this.page < 6 ? this.page : 5;
@@ -124,25 +114,14 @@ export class FieldsOfEducationComponent implements OnInit {
     this.pageCountToIterate = x + y;
   }
 
-  //get all fields and add them to the global variable
-  async getFieldsForPage(): Promise<void> {
-    if (this.isSearchActive) {
-      this.page = 1;
-    }
+  /* search form */
 
-    const authCookie = this.cookieService.get(environment.authCookieName);
-    try {
-      const response = await this.fieldsService.getAllForPage(
-        authCookie,
-        this.page
-      );
-      const { fields, docCount } = await response.json();
-      this.fields = fields;
+  searchFieldForm = this.fb.group({
+    search: [''],
+    select: ['name', Validators.required],
+  });
 
-      const pages = Math.ceil(docCount / 10);
-      this.calcPages(pages);
-    } catch (err) {}
-  }
+  /* DELETE */
 
   async onDelete(id: string, index: number): Promise<void> {
     const isSure = window.confirm('Would you like to delete this field?');
@@ -155,57 +134,8 @@ export class FieldsOfEducationComponent implements OnInit {
 
     try {
       await this.fieldsService.deleteOneField(authCookie, id);
-      //ensure field is deleted from the array
-      this.fields.splice(index, 1);
-    } catch (err) {}
-  }
 
-  /* search form */
-
-  searchFieldForm = this.fb.group({
-    search: [''],
-    select: ['name', Validators.required],
-  });
-
-  async searchField(): Promise<void> {
-    const { search, select } = this.searchFieldForm.value;
-
-    if (
-      (select != 'code' && select != 'name') ||
-      typeof search != 'string' ||
-      search == ''
-    ) {
-      if (this.isSearchActive) {
-        try {
-          await this.getFieldsForPage();
-        } catch (err) {}
-
-        this.isSearchActive = false;
-      }
-      return;
-    }
-
-    //check if we have just started searching
-    this.page = !this.isSearchActive ? 1 : this.page;
-
-    this.isSearchActive = true;
-
-    const authCookie = this.cookieService.get(environment.authCookieName);
-
-    try {
-      const response = await this.fieldsService.getOneByParam(
-        authCookie,
-        {
-          search,
-          select,
-        },
-        this.page
-      );
-      const data = await response.json();
-      this.fields = data.fields;
-
-      const pages = Math.ceil(data.docCount / 10);
-      this.calcPages(pages);
+      await this.changePage(this.page, this.isSearchActive);
     } catch (err) {}
   }
 
@@ -219,52 +149,36 @@ export class FieldsOfEducationComponent implements OnInit {
     name: ['', [Validators.required, Validators.minLength(5)]],
   });
 
-  //reset state when toggling
-  toggleAddPopup(): void {
-    //check if its in edit mode
-    if (this.isPopupVisible && this.isPopupEdit) {
+  togglePopup(isEdit: boolean, i: number): void {
+    if (!this.isPopupVisible) {
+      this.popupIndex = i;
+    }
+    if (this.isPopupVisible && i != this.popupIndex) {
       return;
     }
+
     this.popupFieldForm.reset();
-    //reset state to be add popup
+
+    if (isEdit && !this.isPopupVisible) {
+      const values = {
+        code: this.fields[i].code,
+        name: this.fields[i].name,
+      };
+
+      this.popupFieldForm.setValue(values);
+    }
+
     this.errorAddingField = false;
-    this.isPopupEdit = false;
+    this.isPopupEdit = isEdit;
     this.isPopupVisible = !this.isPopupVisible;
   }
 
-  toggleEditPopup(i: number): void {
-    //check if the action was triggered by correct edit button
-    if (
-      (this.isPopupVisible && this.popupEditIndex != i) ||
-      //popup is add
-      (!this.isPopupEdit && this.isPopupVisible)
-    ) {
-      return;
-    }
-    this.popupFieldForm.reset();
-
-    // set the initial value
-    const values = {
-      code: this.fields[i].code,
-      name: this.fields[i].name,
-    };
-
-    this.popupFieldForm.setValue(values);
-
-    //reset state to be edit popup
-    this.popupEditIndex = i;
-    this.errorAddingField = false;
-    this.isPopupEdit = true;
-    this.isPopupVisible = !this.isPopupVisible;
-  }
-
-  async editField(): Promise<void> {
+  async popupFormAction(): Promise<void> {
     const { code, name } = this.popupFieldForm.value;
 
     if (!code || !name) {
       return;
     }
-
     if (code.length != 3 || name.length < 5) {
       return;
     }
@@ -272,54 +186,30 @@ export class FieldsOfEducationComponent implements OnInit {
     const authCookie = this.cookieService.get(environment.authCookieName);
 
     try {
-      const response = await this.fieldsService.updateOne(
-        authCookie,
-        {
-          code,
-          name,
-        },
-        this.fields[this.popupEditIndex]._id
-      );
-      const data = await response.json();
+      switch (this.isPopupEdit) {
+        case true:
+          await this.fieldsService.updateOne(
+            authCookie,
+            { code, name },
+            this.fields[this.popupIndex]._id
+          );
 
-      //fix values of field
-      this.fields[this.popupEditIndex].name = name;
-      this.fields[this.popupEditIndex].code = code;
+          this.fields[this.popupIndex].name = name;
+          this.fields[this.popupIndex].code = code;
 
-      //reset form
-      this.isPopupVisible = !this.isPopupVisible;
-      this.errorAddingField = false;
-      this.popupFieldForm.reset();
-    } catch (err) {
-      this.errorAddingField = true;
-    }
-  }
+          this.togglePopup(true, this.popupIndex);
+          break;
+        case false:
+          await this.fieldsService.addOneField(authCookie, {
+            code,
+            name,
+          });
 
-  async addField(): Promise<void> {
-    const { code, name } = this.popupFieldForm.value;
+          await this.changePage(this.page, this.isSearchActive);
 
-    if (!code || !name) {
-      return;
-    }
-
-    if (code.length != 3 || name.length < 5) {
-      return;
-    }
-
-    const authCookie = this.cookieService.get(environment.authCookieName);
-
-    try {
-      const response = await this.fieldsService.addOneField(authCookie, {
-        code,
-        name,
-      });
-      const data = await response.json();
-      //display add data and sort by code - ascending
-      this.fields.push(data);
-      this.fields.sort((a, b) => {
-        return a.code.localeCompare(b.code);
-      });
-      this.toggleAddPopup();
+          this.togglePopup(false, -1);
+          break;
+      }
     } catch (err) {
       this.errorAddingField = true;
     }

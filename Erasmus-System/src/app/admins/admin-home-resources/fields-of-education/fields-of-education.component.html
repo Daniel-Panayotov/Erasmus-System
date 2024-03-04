@@ -2,7 +2,7 @@
   <div class="fields-page-container">
     <header class="fields-header page-padding">
       <p>Fields of Education</p>
-      <div class="button-add button" (click)="toggleAddPopup()">
+      <div class="button-add button" (click)="togglePopup(false, -1)">
         {{ isPopupVisible && !isPopupEdit ? "Close" : "Add" }}
       </div>
     </header>
@@ -17,7 +17,7 @@
           <form
             class="search-form"
             [formGroup]="searchFieldForm"
-            (submit)="searchField()"
+            (submit)="changePage(1, true)"
           >
             <label for="search"
               >Search by:
@@ -42,9 +42,9 @@
             <td class="name-td">{{ field.name }}</td>
             <td class="buttons-td">
               <div class="buttons">
-                <div class="button-edit button" (click)="toggleEditPopup(i)">
+                <div class="button-edit button" (click)="togglePopup(true, i)">
                   {{
-                    isPopupEdit && isPopupVisible && popupEditIndex == i
+                    isPopupEdit && isPopupVisible && popupIndex == i
                       ? "Close"
                       : "Edit"
                   }}
@@ -70,7 +70,7 @@
               ? 'pagination-styles-disabled'
               : 'pagination-styles-enabled-hover'
           }}"
-          (click)="changePage(page - 1)"
+          (click)="changePage(page - 1, isSearchActive)"
         >
           &lt; Previous
         </div>
@@ -85,7 +85,12 @@
               let num of [].constructor(pageCountToIterate);
               let i = index
             "
-            (click)="changePage(page - (page - 1 < 5 ? page - 1 : 4) + i)"
+            (click)="
+              changePage(
+                page - (page - 1 < 5 ? page - 1 : 4) + i,
+                isSearchActive
+              )
+            "
           >
             {{ page - (page - 1 < 5 ? page - 1 : 4) + i }}
           </div>
@@ -97,7 +102,7 @@
               ? 'pagination-styles-disabled'
               : 'pagination-styles-enabled-hover'
           }}"
-          (click)="changePage(page + 1)"
+          (click)="changePage(page + 1, isSearchActive)"
         >
           Next &gt;
         </div>
@@ -112,7 +117,7 @@
       <form
         class="field-form"
         [formGroup]="popupFieldForm"
-        (submit)="isPopupEdit ? editField() : addField()"
+        (submit)="popupFormAction()"
       >
         <div class="input-container">
           <label for="code">Code</label>
@@ -134,7 +139,7 @@
             formControlName="name"
             id="name"
             value="{{
-              isPopupVisible && isPopupEdit ? fields[popupEditIndex].name : ''
+              isPopupVisible && isPopupEdit ? fields[popupIndex].name : ''
             }}"
           />
           <p
