@@ -73,7 +73,7 @@ export class FieldsOfEducationComponent implements OnInit {
             break;
           }
 
-          response = await this.fieldsService.getOneByParam(
+          response = await this.fieldsService.getPageByParam(
             authCookie,
             this.searchParams,
             this.page
@@ -82,10 +82,7 @@ export class FieldsOfEducationComponent implements OnInit {
           data = await response.json();
           break;
         case false:
-          response = await this.fieldsService.getAllForPage(
-            authCookie,
-            this.page
-          );
+          response = await this.fieldsService.getPage(authCookie, this.page);
 
           data = await response.json();
           break;
@@ -133,7 +130,7 @@ export class FieldsOfEducationComponent implements OnInit {
     const authCookie = this.cookieService.get(environment.authCookieName);
 
     try {
-      await this.fieldsService.deleteOneField(authCookie, id);
+      await this.fieldsService.deleteOne(authCookie, id);
 
       await this.changePage(this.page, this.isSearchActive);
     } catch (err) {}
@@ -194,22 +191,20 @@ export class FieldsOfEducationComponent implements OnInit {
             this.fields[this.popupIndex]._id
           );
 
-          this.fields[this.popupIndex].name = name;
-          this.fields[this.popupIndex].code = code;
-
-          this.togglePopup(true, this.popupIndex);
           break;
+
         case false:
-          await this.fieldsService.addOneField(authCookie, {
+          await this.fieldsService.createOne(authCookie, {
             code,
             name,
           });
 
-          await this.changePage(this.page, this.isSearchActive);
-
-          this.togglePopup(false, -1);
           break;
       }
+
+      await this.changePage(this.page, this.isSearchActive);
+
+      this.togglePopup(this.isPopupEdit, this.popupIndex);
     } catch (err) {
       this.errorAddingField = true;
     }

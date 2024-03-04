@@ -9,7 +9,7 @@ export class FieldsOfEducationService {
   constructor() {}
 
   //template for requests to bind
-  private requestTemplate(
+  private async requestTemplate(
     url: string,
     method: string,
     cookie: string
@@ -21,54 +21,24 @@ export class FieldsOfEducationService {
       },
     };
 
-    return fetch(url, options);
+    return fetch(url, options).then((res) => {
+      if (!res.ok) {
+        throw new Error(`Error status: ${res.status}`);
+      }
+      return res;
+    });
   }
 
-  getAllForPage(cookie: string, page: number): Promise<Response> {
+  async getPage(cookie: string, page: number): Promise<Response> {
     return this.requestTemplate.bind(
       this,
-      fieldsEnvironment.getForPageUrl + `/${page}`,
-      'GET',
+      fieldsEnvironment.getPageUrl + `/${page}`,
+      'POST',
       cookie
     )();
   }
 
-  getOneField(cookie: string, id: string): Promise<Response> {
-    return this.requestTemplate.bind(
-      this,
-      fieldsEnvironment.getOneByIdUrl + `/${id}`,
-      'GET',
-      cookie
-    )();
-  }
-
-  deleteOneField(cookie: string, id: string): Promise<Response> {
-    return this.requestTemplate.bind(
-      this,
-      fieldsEnvironment.deleteOneUrl + `/${id}`,
-      'DELETE',
-      cookie
-    )();
-  }
-
-  // not binded
-  addOneField(
-    cookie: string,
-    data: { name: string; code: string }
-  ): Promise<Response> {
-    const options = {
-      method: 'POST',
-      headers: {
-        [environment.authCookieName]: cookie,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    };
-
-    return fetch(fieldsEnvironment.createOneUrl, options);
-  }
-
-  getOneByParam(
+  async getPageByParam(
     cookie: string,
     data: { select: string; search: string },
     page: number
@@ -82,10 +52,31 @@ export class FieldsOfEducationService {
       body: JSON.stringify(data),
     };
 
-    return fetch(fieldsEnvironment.getByParamUrl + `/${page}`, options);
+    return fetch(fieldsEnvironment.getPageByParamUrl + `/${page}`, options);
   }
 
-  updateOne(
+  async createOne(
+    cookie: string,
+    data: { name: string; code: string }
+  ): Promise<Response> {
+    const options = {
+      method: 'POST',
+      headers: {
+        [environment.authCookieName]: cookie,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+
+    return fetch(fieldsEnvironment.createOneUrl, options).then((res) => {
+      if (!res.ok) {
+        throw new Error(`Error status: ${res.status}`);
+      }
+      return res;
+    });
+  }
+
+  async updateOne(
     cookie: string,
     data: { code: string; name: string },
     id: string
@@ -99,6 +90,31 @@ export class FieldsOfEducationService {
       body: JSON.stringify(data),
     };
 
-    return fetch(fieldsEnvironment.updateOneById + `/${id}`, options);
+    return fetch(fieldsEnvironment.updateOneById + `/${id}`, options).then(
+      (res) => {
+        if (!res.ok) {
+          throw new Error(`Error status: ${res.status}`);
+        }
+        return res;
+      }
+    );
   }
+
+  async deleteOne(cookie: string, id: string): Promise<Response> {
+    return this.requestTemplate.bind(
+      this,
+      fieldsEnvironment.deleteOneUrl + `/${id}`,
+      'DELETE',
+      cookie
+    )();
+  }
+
+  async getOne(cookie: string, id: string): Promise<Response> {
+    return this.requestTemplate.bind(
+      this,
+      fieldsEnvironment.getOneByIdUrl + `/${id}`,
+      'POST',
+      cookie
+    )();
+  } // unused
 }
