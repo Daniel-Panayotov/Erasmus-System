@@ -26,6 +26,7 @@
   flex: 0 1 3em;
   background-color: #11be3f;
   border: transparent;
+  cursor: pointer;
 }
 
 .login-form .sign-in-btn:disabled {

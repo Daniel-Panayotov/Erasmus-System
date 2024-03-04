@@ -10,20 +10,20 @@ export const cookieEnvironment = {
 };
 
 export const fieldsEnvironment = {
-  getAllForPageUrl: `${apiFieldOfEducationUrl}/getAllForPage`,
-  getOneByIdUrl: `${apiFieldOfEducationUrl}/getOne`,
+  getForPageUrl: `${apiFieldOfEducationUrl}/getForPage`,
+  getByParamUrl: `${apiFieldOfEducationUrl}/getByParam`,
   deleteOneUrl: `${apiFieldOfEducationUrl}/deleteOne`,
   createOneUrl: `${apiFieldOfEducationUrl}/create`,
-  getOneByParamUrl: `${apiFieldOfEducationUrl}/getByParam`,
   updateOneById: `${apiFieldOfEducationUrl}/UpdateOne`,
+  getOneByIdUrl: `${apiFieldOfEducationUrl}/getOne`, //unused
 };
 
 export const facultyEnvironment = {
+  getForPageUrl: `${apiFacultyUrl}/getForPage`,
   createOneUrl: `${apiFacultyUrl}/create`,
-  getAll: `${apiFacultyUrl}/getAll`,
-  getForPage: `${apiFacultyUrl}/getForPage`,
-  updateOne: `${apiFacultyUrl}/update`,
-  deleteOne: `${apiFacultyUrl}/delete`,
+  updateOneUrl: `${apiFacultyUrl}/update`,
+  deleteOneUrl: `${apiFacultyUrl}/delete`,
+  getAllUrl: `${apiFacultyUrl}/getAll`, //unused
 };
 
 export const adminsEnvironment = {

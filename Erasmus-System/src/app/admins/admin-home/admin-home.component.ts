@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/app/shared/environments/environment';
+import { adminRoutes } from 'src/app/shared/environments/siteRoutingEnvironments';
 
 @Component({
   selector: 'app-admin-home',
@@ -10,6 +11,7 @@ import { environment } from 'src/app/shared/environments/environment';
 })
 export class AdminHomeComponent {
   isNavShown: boolean = true;
+  adminRoutes = adminRoutes;
 
   constructor(private cookieService: CookieService, private router: Router) {}
 
@@ -19,6 +21,6 @@ export class AdminHomeComponent {
 
   logoutAdmin(): void {
     this.cookieService.delete(environment.authCookieName, '/');
-    this.router.navigate(['/admins/login']);
+    this.router.navigate([this.adminRoutes.login]);
   }
 }

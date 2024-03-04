@@ -181,42 +181,4 @@
 
 /* pagination footer */
 
-.fields-pagination-footer {
-  margin-top: auto;
-  display: flex;
-  justify-content: center;
-}
-
-.select-page {
-  display: flex;
-  gap: 0.25em;
-  align-items: center;
-}
-
-.pagination-styles {
-  border: 1px solid black;
-  max-height: 3em;
-  padding: 0.2em 0.5em;
-  cursor: pointer;
-}
-
-.pagination-styles-enabled-hover:hover {
-  color: white;
-  background-color: orange;
-  border-color: orange;
-}
-
-.pagination-styles-disabled {
-  color: rgb(149, 147, 147);
-  border-color: rgb(149, 147, 147);
-}
-
-.numbered-pages {
-  display: flex;
-  gap: 0.25em;
-}
-
-.page-selected {
-  border: 2px solid black;
-  font-weight: bold;
-}
+@import url("../../../styles/paginationStyles.css");

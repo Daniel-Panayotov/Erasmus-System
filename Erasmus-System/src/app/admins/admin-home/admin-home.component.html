@@ -13,16 +13,16 @@
       <div class="nav-container">
         <nav class="admin-nav" *ngIf="isNavShown">
           <ul>
-            <li routerLink="/admins/menu"><a>Home</a></li>
+            <li routerLink="{{ adminRoutes.adminMenu }}"><a>Home</a></li>
             <li routerLink="#"><a>Receiving Contacts</a></li>
             <li routerLink="#"><a>Foreign Contacts</a></li>
-            <li routerLink="#"><a>Faculties</a></li>
-            <li routerLink="/admins/menu/fields-of-education">
+            <li routerLink="{{ adminRoutes.faculties }}"><a>Faculties</a></li>
+            <li routerLink="{{ adminRoutes.fieldsOfEdu }}">
               <a>Fields of Education</a>
             </li>
             <li routerLink="#"><a>Mobilities</a></li>
             <li routerLink="#"><a>Applications</a></li>
-            <li routerLink="/admins/menu/students"><a>Students</a></li>
+            <li routerLink="{{ adminRoutes.students }}"><a>Students</a></li>
           </ul>
         </nav>
       </div>

@@ -27,7 +27,7 @@ export class FieldsOfEducationService {
   getAllForPage(cookie: string, page: number): Promise<Response> {
     return this.requestTemplate.bind(
       this,
-      fieldsEnvironment.getAllForPageUrl + `/${page}`,
+      fieldsEnvironment.getForPageUrl + `/${page}`,
       'GET',
       cookie
     )();
@@ -82,7 +82,7 @@ export class FieldsOfEducationService {
       body: JSON.stringify(data),
     };
 
-    return fetch(fieldsEnvironment.getOneByParamUrl + `/${page}`, options);
+    return fetch(fieldsEnvironment.getByParamUrl + `/${page}`, options);
   }
 
   updateOne(
