@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/app/shared/environments/environment';
-import { adminRoutes } from 'src/app/shared/environments/siteRoutingEnvironments';
+import { adminRoutes } from 'src/app/shared/environments/siteRoutingEnvironment';
 
 @Component({
   selector: 'app-admin-home',

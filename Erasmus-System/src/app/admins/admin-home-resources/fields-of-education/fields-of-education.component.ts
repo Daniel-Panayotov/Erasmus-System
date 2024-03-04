@@ -27,6 +27,7 @@ export class FieldsOfEducationComponent implements OnInit {
   page: number = 1;
   //
   isSearchActive: boolean = false;
+  searchParams: any = {};
 
   constructor(
     private fieldsService: FieldsOfEducationService,
@@ -36,6 +37,59 @@ export class FieldsOfEducationComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.getFieldsForPage();
+  }
+
+  async test(searching: boolean) {
+    const authCookie = this.cookieService.get(environment.authCookieName);
+    this.page = searching == this.isSearchActive ? this.page : 1;
+    let data;
+    let response;
+
+    try {
+      switch (searching) {
+        case true:
+          if (this.page == 1) {
+            this.searchParams = this.searchFieldForm.value;
+          }
+
+          response = await this.fieldsService.getOneByParam(
+            authCookie,
+            this.searchParams,
+            this.page
+          );
+
+          data = await response.json();
+          break;
+        case false:
+          response = await this.fieldsService.getAllForPage(
+            authCookie,
+            this.page
+          );
+
+          data = await response.json();
+          break;
+      }
+
+      const { fields, docCount } = data;
+
+      this.fields = fields;
+
+      const pages = Math.ceil(docCount / 10);
+      this.calcPages(pages);
+    } catch (err) {}
+
+    this.isSearchActive = searching;
+  }
+
+  async changePage2(pageNumber: number, searching: boolean): Promise<void> {
+    // check if page is valid
+    if (pageNumber < 1 || pageNumber > this.pageCount) {
+      return;
+    }
+    this.page = pageNumber;
+    try {
+      await this.test(searching);
+    } catch (err) {}
   }
 
   async changePage(pageNumber: number): Promise<void> {
@@ -82,10 +136,10 @@ export class FieldsOfEducationComponent implements OnInit {
         authCookie,
         this.page
       );
-      const { fields, count } = await response.json();
+      const { fields, docCount } = await response.json();
       this.fields = fields;
 
-      const pages = Math.ceil(count / 10);
+      const pages = Math.ceil(docCount / 10);
       this.calcPages(pages);
     } catch (err) {}
   }
@@ -150,7 +204,7 @@ export class FieldsOfEducationComponent implements OnInit {
       const data = await response.json();
       this.fields = data.fields;
 
-      const pages = Math.ceil(data.count / 10);
+      const pages = Math.ceil(data.docCount / 10);
       this.calcPages(pages);
     } catch (err) {}
   }
