@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../shared/environments/environment';
-import { fieldsEnvironment } from '../shared/environments/apiEnvironment';
+import { environment } from '../../shared/environments/environment';
+import { fieldsEnvironment } from '../../shared/environments/apiEnvironment';
 
 @Injectable({
   providedIn: 'root',

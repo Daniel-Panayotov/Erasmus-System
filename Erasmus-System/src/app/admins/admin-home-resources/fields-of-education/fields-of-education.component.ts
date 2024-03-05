@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { FieldsOfEducationService } from 'src/app/services/fields-of-education.service';
+import { FieldsOfEducationService } from 'src/app/services/admin-menu-services/fields-of-education.service';
+import { PaginationService } from 'src/app/services/pagination.service';
 import { environment } from 'src/app/shared/environments/environment';
 import { Fields } from 'src/app/types/fields';
 
@@ -32,7 +32,8 @@ export class FieldsOfEducationComponent implements OnInit {
   constructor(
     private fieldsService: FieldsOfEducationService,
     private cookieService: CookieService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private paginationService: PaginationService
   ) {}
 
   async ngOnInit(): Promise<void> {
