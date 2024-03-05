@@ -4,6 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { FieldsOfEducationService } from './admin-menu-services/fields-of-education.service';
 import { Fields } from 'src/app/types/fields';
 import { FormGroup } from '@angular/forms';
+import { validationRegex } from '../shared/environments/validationEnvironment';
 
 @Injectable({
   providedIn: 'root',
@@ -59,7 +60,7 @@ export class PaginationService {
           if (
             (select != 'code' && select != 'name') ||
             typeof search != 'string' ||
-            search == ''
+            !validationRegex.formFieldNameSearch.exec(search)
           ) {
             break;
           }
@@ -102,22 +103,19 @@ export class PaginationService {
     this._pageCountToIterate = x + y;
   }
 
-  get fields() {
-    return this._fields;
+  get fields(): [Fields] {
+    return JSON.parse(JSON.stringify(this._fields));
   }
-  get pageCountToIterate() {
+  get pageCountToIterate(): number {
     return this._pageCountToIterate;
   }
-  get pageCount() {
+  get pageCount(): number {
     return this._pageCount;
   }
-  get page() {
+  get page(): number {
     return this._page;
   }
-  get isSearchActive() {
+  get isSearchActive(): boolean {
     return this._isSearchActive;
-  }
-  get searchParams() {
-    return this._searchParams;
   }
 }

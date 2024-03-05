@@ -1,10 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { FieldsOfEducationService } from 'src/app/services/admin-menu-services/fields-of-education.service';
 import { PaginationService } from 'src/app/services/pagination.service';
 import { environment } from 'src/app/shared/environments/environment';
+import { validationRegex } from 'src/app/shared/environments/validationEnvironment';
 import { Fields } from 'src/app/types/fields';
 
 @Component({
@@ -15,19 +21,11 @@ import { Fields } from 'src/app/types/fields';
   styleUrl: './fields-of-education.component.css',
 })
 export class FieldsOfEducationComponent implements OnInit {
-  fields: [Fields] = [] as unknown as [Fields]; //variable to hold the fields data
   //popup form values
   errorAddingField: boolean = false;
   isPopupVisible: boolean = false;
   isPopupEdit: boolean = false;
   popupIndex: number = 0; // -1 for "add" | index > 0 for edit
-  //pagination values
-  pageCountToIterate: number = 0;
-  pageCount: number = 0;
-  page: number = 1;
-  //search values
-  isSearchActive: boolean = false;
-  searchParams: any = {};
 
   constructor(
     private fieldsService: FieldsOfEducationService,
@@ -37,79 +35,35 @@ export class FieldsOfEducationComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.changePage(1, false);
+    await this.changePage(1, false, this.searchFieldForm);
   }
 
-  async changePage(pageNumber: number, searching: boolean): Promise<void> {
-    // check if page is valid
-    if (pageNumber < 1 || (pageNumber > this.pageCount && pageNumber != 1)) {
-      return;
-    }
-    this.page = pageNumber;
-    try {
-      await this.getFields(searching);
-    } catch (err) {}
+  async changePage(
+    pageNumber: number,
+    searching: boolean,
+    searchForm: FormGroup
+  ): Promise<void> {
+    await this.paginationService.changePage(pageNumber, searching, searchForm);
   }
 
-  async getFields(searching: boolean): Promise<void> {
-    const authCookie = this.cookieService.get(environment.authCookieName);
-    this.page = searching == this.isSearchActive ? this.page : 1;
-    let data;
-    let response;
-
-    try {
-      switch (searching) {
-        case true:
-          if (this.page == 1) {
-            this.searchParams = this.searchFieldForm.value;
-          }
-          const { select, search } = this.searchParams;
-
-          //validate unput
-          if (
-            (select != 'code' && select != 'name') ||
-            typeof search != 'string' ||
-            search == ''
-          ) {
-            break;
-          }
-
-          response = await this.fieldsService.getPageByParam(
-            authCookie,
-            this.searchParams,
-            this.page
-          );
-
-          data = await response.json();
-          break;
-        case false:
-          response = await this.fieldsService.getPage(authCookie, this.page);
-
-          data = await response.json();
-          break;
-      }
-
-      const { fields, docCount } = data;
-
-      this.fields = fields;
-
-      const pages = Math.ceil(docCount / 10);
-      this.calcPages(pages);
-    } catch (err) {}
-
-    this.isSearchActive = searching;
+  getFields(): [Fields] {
+    return this.paginationService.fields;
   }
 
-  /* algorithm for the pagination numbers */
-  calcPages(pages: number): void {
-    this.pageCount = pages;
-    //x = the number of pages displayed below and including the page we are on
-    const x = this.page < 6 ? this.page : 5;
-    //y = the number of pages displayed above the current page
-    const y = pages - x < 5 ? pages - x : 4;
+  getPageCountToIterate(): number {
+    return this.paginationService.pageCountToIterate;
+  }
 
-    //the number of pages display with numbers for pagination
-    this.pageCountToIterate = x + y;
+  getPageCount(): number {
+    return this.paginationService.pageCount;
+  }
+
+  getPage(): number {
+    return this.paginationService.page;
+  }
+
+  getIsSearchActive(): boolean {
+    return this.paginationService.isSearchActive;
   }
 
   /* search form */
@@ -121,10 +75,10 @@ export class FieldsOfEducationComponent implements OnInit {
 
   /* DELETE */
 
-  async onDelete(id: string, index: number): Promise<void> {
+  async onDelete(id: string): Promise<void> {
     const isSure = window.confirm('Would you like to delete this field?');
 
-    if (!isSure) {
+    if (!isSure || !validationRegex.docId.exec(id)) {
       return;
     }
 
@@ -133,7 +87,7 @@ export class FieldsOfEducationComponent implements OnInit {
     try {
       await this.fieldsService.deleteOne(authCookie, id);
 
-      await this.changePage(this.page, this.isSearchActive);
+      await this.changePage(1, this.getIsSearchActive(), this.searchFieldForm);
     } catch (err) {}
   }
 
@@ -144,7 +98,7 @@ export class FieldsOfEducationComponent implements OnInit {
       '',
       [Validators.required, Validators.minLength(3), Validators.maxLength(3)],
     ],
-    name: ['', [Validators.required, Validators.minLength(5)]],
+    name: ['', [Validators.required, Validators.minLength(4)]],
   });
 
   togglePopup(isEdit: boolean, i: number): void {
@@ -159,8 +113,8 @@ export class FieldsOfEducationComponent implements OnInit {
 
     if (isEdit && !this.isPopupVisible) {
       const values = {
-        code: this.fields[i].code,
-        name: this.fields[i].name,
+        code: this.getFields()[i].code,
+        name: this.getFields()[i].name,
       };
 
       this.popupFieldForm.setValue(values);
@@ -174,10 +128,12 @@ export class FieldsOfEducationComponent implements OnInit {
   async popupFormAction(): Promise<void> {
     const { code, name } = this.popupFieldForm.value;
 
-    if (!code || !name) {
+    if (!code || !name || !parseInt(code)) {
+      this.errorAddingField = true;
       return;
     }
-    if (code.length != 3 || name.length < 5) {
+    if (code.length != 3 || !validationRegex.fieldName.exec(name)) {
+      this.errorAddingField = true;
       return;
     }
 
@@ -189,7 +145,7 @@ export class FieldsOfEducationComponent implements OnInit {
           await this.fieldsService.updateOne(
             authCookie,
             { code, name },
-            this.fields[this.popupIndex]._id
+            this.paginationService.fields[this.popupIndex]._id
           );
 
           break;
@@ -203,7 +159,7 @@ export class FieldsOfEducationComponent implements OnInit {
           break;
       }
 
-      await this.changePage(this.page, this.isSearchActive);
+      await this.changePage(1, this.getIsSearchActive(), this.searchFieldForm);
 
       this.togglePopup(this.isPopupEdit, this.popupIndex);
     } catch (err) {

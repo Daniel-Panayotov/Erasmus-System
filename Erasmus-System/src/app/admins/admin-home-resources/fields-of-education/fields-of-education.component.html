@@ -10,14 +10,20 @@
     <main class="fields-main page-padding">
       <div class="settings">
         <p>
-          Showing {{ fields.length }}
-          {{ fields.length == 1 ? "entry" : "entries" }}
+          Showing {{ getFields().length }}
+          {{ getFields().length == 1 ? "entry" : "entries" }}
         </p>
         <div class="search-setting">
           <form
             class="search-form"
             [formGroup]="searchFieldForm"
-            (submit)="changePage(1, true)"
+            (submit)="
+              changePage(
+                1,
+                searchFieldForm.value.search == '' ? false : true,
+                searchFieldForm
+              )
+            "
           >
             <label for="search"
               >Search by:
@@ -37,7 +43,10 @@
           <th>Controls</th>
         </thead>
         <tbody class="table-body">
-          <tr class="table-row" *ngFor="let field of fields; let i = index">
+          <tr
+            class="table-row"
+            *ngFor="let field of getFields(); let i = index"
+          >
             <td class="code-value">{{ field.code }}</td>
             <td class="name-td">{{ field.name }}</td>
             <td class="buttons-td">
@@ -49,10 +58,7 @@
                       : "Edit"
                   }}
                 </div>
-                <div
-                  class="button-delete button"
-                  (click)="onDelete(field._id, i)"
-                >
+                <div class="button-delete button" (click)="onDelete(field._id)">
                   Delete
                 </div>
               </div>
@@ -66,43 +72,49 @@
       <div class="select-page">
         <div
           class="page-button-left pagination-styles {{
-            page == 1
+            getPage() == 1
               ? 'pagination-styles-disabled'
               : 'pagination-styles-enabled-hover'
           }}"
-          (click)="changePage(page - 1, isSearchActive)"
+          (click)="
+            changePage(getPage() - 1, getIsSearchActive(), searchFieldForm)
+          "
         >
           &lt; Previous
         </div>
         <div class="numbered-pages">
           <div
             class="page-option pagination-styles  {{
-              page == page - (page - 1 < 5 ? page - 1 : 4) + i
+              getPage() ==
+              getPage() - (getPage() - 1 < 5 ? getPage() - 1 : 4) + i
                 ? 'page-selected'
                 : 'pagination-styles-enabled-hover'
             }}"
             *ngFor="
-              let num of [].constructor(pageCountToIterate);
+              let num of [].constructor(getPageCountToIterate());
               let i = index
             "
             (click)="
               changePage(
-                page - (page - 1 < 5 ? page - 1 : 4) + i,
-                isSearchActive
+                getPage() - (getPage() - 1 < 5 ? getPage() - 1 : 4) + i,
+                getIsSearchActive(),
+                searchFieldForm
               )
             "
           >
-            {{ page - (page - 1 < 5 ? page - 1 : 4) + i }}
+            {{ getPage() - (getPage() - 1 < 5 ? getPage() - 1 : 4) + i }}
           </div>
         </div>
 
         <div
           class="page-button-right pagination-styles {{
-            page == pageCount
+            getPage() == getPageCount()
               ? 'pagination-styles-disabled'
               : 'pagination-styles-enabled-hover'
           }}"
-          (click)="changePage(page + 1, isSearchActive)"
+          (click)="
+            changePage(getPage() + 1, getIsSearchActive(), searchFieldForm)
+          "
         >
           Next &gt;
         </div>
@@ -139,7 +151,7 @@
             formControlName="name"
             id="name"
             value="{{
-              isPopupVisible && isPopupEdit ? fields[popupIndex].name : ''
+              isPopupVisible && isPopupEdit ? getFields()[popupIndex].name : ''
             }}"
           />
           <p
