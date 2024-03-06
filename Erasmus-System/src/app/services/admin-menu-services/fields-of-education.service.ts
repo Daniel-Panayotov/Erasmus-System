@@ -23,7 +23,7 @@ export class FieldsOfEducationService {
 
     return fetch(url, options).then((res) => {
       if (!res.ok) {
-        throw new Error(`Error status: ${res.status}`);
+        throw res;
       }
       return res;
     });
@@ -70,7 +70,7 @@ export class FieldsOfEducationService {
 
     return fetch(fieldsEnvironment.createOneUrl, options).then((res) => {
       if (!res.ok) {
-        throw new Error(`Error status: ${res.status}`);
+        throw res;
       }
       return res;
     });
@@ -93,7 +93,7 @@ export class FieldsOfEducationService {
     return fetch(fieldsEnvironment.updateOneById + `/${id}`, options).then(
       (res) => {
         if (!res.ok) {
-          throw new Error(`Error status: ${res.status}`);
+          throw res;
         }
         return res;
       }

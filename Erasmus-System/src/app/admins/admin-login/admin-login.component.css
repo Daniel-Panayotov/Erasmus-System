@@ -54,6 +54,7 @@
   position: absolute;
   right: 0;
   padding: 0 0.5em;
+  cursor: pointer;
 }
 
 .error-message {

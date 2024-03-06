@@ -125,7 +125,7 @@
       <h2 class="popup-heading">
         {{ isPopupEdit ? "Edit field" : "Add field" }}
       </h2>
-      <p class="error-message" *ngIf="errorAddingField">There was an error</p>
+      <p class="error-message" *ngIf="popupError">{{ popupError }}</p>
       <form
         class="field-form"
         [formGroup]="popupFieldForm"

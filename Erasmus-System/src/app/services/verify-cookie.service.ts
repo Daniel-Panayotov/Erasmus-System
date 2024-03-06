@@ -10,7 +10,7 @@ export class VerifyCookieService {
 
   private verifyCookie(url: string, cookie: string): Promise<Response> {
     const options = {
-      method: 'GET',
+      method: 'POST',
       headers: {
         [environment.authCookieName]: cookie,
       },

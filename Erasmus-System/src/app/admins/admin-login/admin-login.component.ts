@@ -16,7 +16,7 @@ import { validationRegex } from 'src/app/shared/environments/validationEnvironme
 })
 export class AdminLoginComponent {
   showPassword: boolean = false;
-  error: boolean = false;
+  error: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -53,8 +53,9 @@ export class AdminLoginComponent {
 
       this.cookieService.set(environment.authCookieName, jwt, undefined, '/');
       this.router.navigate(['/admins/menu']);
-    } catch (err) {
-      this.error = true;
+    } catch (err: any) {
+      const { message } = await err.json();
+      this.error = message;
     }
   }
 

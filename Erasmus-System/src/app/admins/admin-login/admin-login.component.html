@@ -7,7 +7,7 @@
       (ngSubmit)="onSubmit()"
       class="login-form"
     >
-      <p class="error-message" *ngIf="error">There is an error</p>
+      <p class="error-message" *ngIf="error">{{ error }}</p>
       <div class="input-container">
         <label for="loginEmail">Email</label>
         <input

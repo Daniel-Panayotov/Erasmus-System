@@ -22,7 +22,7 @@ import { Fields } from 'src/app/types/fields';
 })
 export class FieldsOfEducationComponent implements OnInit {
   //popup form values
-  errorAddingField: boolean = false;
+  popupError: string = '';
   isPopupVisible: boolean = false;
   isPopupEdit: boolean = false;
   popupIndex: number = 0; // -1 for "add" | index > 0 for edit
@@ -120,7 +120,7 @@ export class FieldsOfEducationComponent implements OnInit {
       this.popupFieldForm.setValue(values);
     }
 
-    this.errorAddingField = false;
+    this.popupError = '';
     this.isPopupEdit = isEdit;
     this.isPopupVisible = !this.isPopupVisible;
   }
@@ -128,12 +128,13 @@ export class FieldsOfEducationComponent implements OnInit {
   async popupFormAction(): Promise<void> {
     const { code, name } = this.popupFieldForm.value;
 
-    if (!code || !name || !parseInt(code)) {
-      this.errorAddingField = true;
+    if (!name || !validationRegex.fieldName.exec(name)) {
+      this.popupError = 'Invalid name';
       return;
     }
-    if (code.length != 3 || !validationRegex.fieldName.exec(name)) {
-      this.errorAddingField = true;
+
+    if (!code || code.length != 3 || !parseInt(code)) {
+      this.popupError = 'Code must be 3 digits';
       return;
     }
 
@@ -162,8 +163,9 @@ export class FieldsOfEducationComponent implements OnInit {
       await this.changePage(1, this.getIsSearchActive(), this.searchFieldForm);
 
       this.togglePopup(this.isPopupEdit, this.popupIndex);
-    } catch (err) {
-      this.errorAddingField = true;
+    } catch (err: any) {
+      const { message } = await err.json();
+      this.popupError = message;
     }
   }
 }
