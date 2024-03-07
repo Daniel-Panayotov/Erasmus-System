@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { FieldsOfEducationService } from 'src/app/services/admin-menu-services/fields-of-education.service';
 import { PaginationService } from 'src/app/services/pagination.service';
