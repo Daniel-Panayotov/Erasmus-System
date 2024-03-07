@@ -1,3 +1,5 @@
+import { PaginationApi } from 'src/app/types/paginationApi';
+
 const apiUrl = 'http://localhost:5000';
 const apiAdminUrl = `${apiUrl}/admins`;
 const apiUserUrl = `${apiUrl}/users`;
@@ -31,4 +33,17 @@ export const facultyEnvironment = {
 
 export const adminsEnvironment = {
   loginAdminUrl: `${apiAdminUrl}/login`,
+};
+
+export const paginationApi: PaginationApi = {
+  fields: (params: boolean): string => {
+    return params
+      ? fieldsEnvironment.getPageByParamUrl
+      : fieldsEnvironment.getPageUrl;
+  },
+  faculties: (params: boolean): string => {
+    return params
+      ? facultyEnvironment.getPageByParamUrl
+      : facultyEnvironment.getPageUrl;
+  },
 };

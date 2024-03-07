@@ -12,6 +12,7 @@ import { PaginationService } from 'src/app/services/pagination.service';
 import { environment } from 'src/app/shared/environments/environment';
 import { validationRegex } from 'src/app/shared/environments/validationEnvironment';
 import { Fields } from 'src/app/types/fields';
+import { searchValue } from 'src/app/types/searchFormValue';
 
 @Component({
   selector: 'app-fields-of-education',
@@ -25,7 +26,7 @@ export class FieldsOfEducationComponent implements OnInit {
   popupError: string = '';
   isPopupVisible: boolean = false;
   isPopupEdit: boolean = false;
-  popupIndex: number = 0; // -1 for "add" | index > 0 for edit
+  popupIndex: number = 0;
 
   constructor(
     private fieldsService: FieldsOfEducationService,
@@ -35,19 +36,23 @@ export class FieldsOfEducationComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    await this.changePage(1, false, this.searchFieldForm);
+    await this.changePage(1, false);
   }
 
-  async changePage(
-    pageNumber: number,
-    searching: boolean,
-    searchForm: FormGroup
-  ): Promise<void> {
-    await this.paginationService.changePage(pageNumber, searching, searchForm);
+  /* Setup getters */
+
+  async changePage(pageNumber: number, searching: boolean): Promise<void> {
+    await this.paginationService.changePage.bind(
+      this.paginationService, // original context
+      pageNumber,
+      searching,
+      this.searchFieldForm.value as searchValue,
+      'fields'
+    )();
   }
 
   getFields(): [Fields] {
-    return this.paginationService.fields;
+    return this.paginationService.documents;
   }
 
   getPageCountToIterate(): number {
@@ -87,7 +92,7 @@ export class FieldsOfEducationComponent implements OnInit {
     try {
       await this.fieldsService.deleteOne(authCookie, id);
 
-      await this.changePage(1, this.getIsSearchActive(), this.searchFieldForm);
+      await this.changePage(1, this.getIsSearchActive());
     } catch (err) {}
   }
 
@@ -100,6 +105,11 @@ export class FieldsOfEducationComponent implements OnInit {
     ],
     name: ['', [Validators.required, Validators.minLength(4)]],
   });
+
+  /* Index is set to differentiate betweens clicked buttons.
+   * Allow only the clicked button to hide the popup.
+   * Index for "Add" = -1 | Indexes for "Edit" >= 0
+   */
 
   togglePopup(isEdit: boolean, i: number): void {
     if (!this.isPopupVisible) {
@@ -146,7 +156,7 @@ export class FieldsOfEducationComponent implements OnInit {
           await this.fieldsService.updateOne(
             authCookie,
             { code, name },
-            this.paginationService.fields[this.popupIndex]._id
+            this.getFields()[this.popupIndex]._id
           );
 
           break;
@@ -160,7 +170,7 @@ export class FieldsOfEducationComponent implements OnInit {
           break;
       }
 
-      await this.changePage(1, this.getIsSearchActive(), this.searchFieldForm);
+      await this.changePage(1, this.getIsSearchActive());
 
       this.togglePopup(this.isPopupEdit, this.popupIndex);
     } catch (err: any) {

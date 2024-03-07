@@ -29,32 +29,6 @@ export class FieldsOfEducationService {
     });
   }
 
-  async getPage(cookie: string, page: number): Promise<Response> {
-    return this.requestTemplate.bind(
-      this,
-      fieldsEnvironment.getPageUrl + `/${page}`,
-      'POST',
-      cookie
-    )();
-  }
-
-  async getPageByParam(
-    cookie: string,
-    data: { select: string; search: string },
-    page: number
-  ): Promise<Response> {
-    const options = {
-      method: 'POST',
-      headers: {
-        [environment.authCookieName]: cookie,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    };
-
-    return fetch(fieldsEnvironment.getPageByParamUrl + `/${page}`, options);
-  }
-
   async createOne(
     cookie: string,
     data: { name: string; code: string }
