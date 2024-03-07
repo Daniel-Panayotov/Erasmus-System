@@ -5,7 +5,7 @@ import { AdminService } from '../admin.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { validationRegex } from 'src/app/shared/environments/validationEnvironment';
+import { globalRegex } from 'src/app/shared/environments/validationEnvironment';
 
 @Component({
   selector: 'app-admin-login',
@@ -29,7 +29,7 @@ export class AdminLoginComponent {
   adminLoginForm = this.fb.group({
     email: [
       '',
-      [Validators.required, Validators.pattern(validationRegex.emailRegex)],
+      [Validators.required, Validators.pattern(globalRegex.emailRegex)],
     ],
     password: ['', [Validators.required, Validators.minLength(10)]],
   });
@@ -42,7 +42,7 @@ export class AdminLoginComponent {
       return;
     }
 
-    if (!validationRegex.emailRegex.exec(email) || password.length < 10) {
+    if (!globalRegex.emailRegex.exec(email) || password.length < 10) {
       return;
     }
 

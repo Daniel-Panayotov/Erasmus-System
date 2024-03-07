@@ -10,7 +10,10 @@ import { CookieService } from 'ngx-cookie-service';
 import { FieldsOfEducationService } from 'src/app/services/admin-menu-services/fields-of-education.service';
 import { PaginationService } from 'src/app/services/pagination.service';
 import { environment } from 'src/app/shared/environments/environment';
-import { validationRegex } from 'src/app/shared/environments/validationEnvironment';
+import {
+  fieldsRegex,
+  globalRegex,
+} from 'src/app/shared/environments/validationEnvironment';
 import { Fields } from 'src/app/types/fields';
 import { searchValue } from 'src/app/types/searchFormValue';
 
@@ -83,7 +86,7 @@ export class FieldsOfEducationComponent implements OnInit {
   async onDelete(id: string): Promise<void> {
     const isSure = window.confirm('Would you like to delete this field?');
 
-    if (!isSure || !validationRegex.docId.exec(id)) {
+    if (!isSure || !globalRegex.docId.exec(id)) {
       return;
     }
 
@@ -138,7 +141,7 @@ export class FieldsOfEducationComponent implements OnInit {
   async popupFormAction(): Promise<void> {
     const { code, name } = this.popupFieldForm.value;
 
-    if (!name || !validationRegex.fieldName.exec(name)) {
+    if (!name || !fieldsRegex.fieldName.exec(name)) {
       this.popupError = 'Invalid name';
       return;
     }
