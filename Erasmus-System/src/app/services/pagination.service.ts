@@ -60,8 +60,8 @@ export class PaginationService {
 
           //validate unput
           if (
-            !indexedSearchRegex['fields'](true).exec(select) ||
-            !indexedSearchRegex['fields'](false).exec(search) ||
+            !indexedSearchRegex[section](true).exec(select) ||
+            !indexedSearchRegex[section](false).exec(search) ||
             typeof search != 'string'
           ) {
             break;
