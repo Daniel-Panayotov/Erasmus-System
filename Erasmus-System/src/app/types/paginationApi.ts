@@ -1,3 +1,5 @@
-export interface PaginationApi {
-  [key: string]: (params: boolean) => string;
+export interface IndexedApi {
+  [key: string]: (params: action) => string;
 }
+
+type action = 'delete' | 'getPage' | 'getByParam';

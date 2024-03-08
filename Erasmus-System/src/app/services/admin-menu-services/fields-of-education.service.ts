@@ -74,15 +74,6 @@ export class FieldsOfEducationService {
     );
   }
 
-  async deleteOne(cookie: string, id: string): Promise<Response> {
-    return this.requestTemplate.bind(
-      this,
-      fieldsEnvironment.deleteOneUrl + `/${id}`,
-      'DELETE',
-      cookie
-    )();
-  }
-
   async getOne(cookie: string, id: string): Promise<Response> {
     return this.requestTemplate.bind(
       this,

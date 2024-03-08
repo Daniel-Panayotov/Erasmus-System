@@ -1,4 +1,4 @@
-import { PaginationApi } from 'src/app/types/paginationApi';
+import { IndexedApi } from 'src/app/types/paginationApi';
 
 const apiUrl = 'http://localhost:5000';
 const apiAdminUrl = `${apiUrl}/admins`;
@@ -35,15 +35,41 @@ export const adminsEnvironment = {
   loginAdminUrl: `${apiAdminUrl}/login`,
 };
 
-export const paginationApi: PaginationApi = {
-  fields: (params: boolean): string => {
-    return params
-      ? fieldsEnvironment.getPageByParamUrl
-      : fieldsEnvironment.getPageUrl;
+export const paginationApi: IndexedApi = {
+  fields: (action): string => {
+    let url = '';
+
+    switch (action) {
+      case 'delete':
+        url = fieldsEnvironment.deleteOneUrl;
+        break;
+      case 'getPage':
+        url = fieldsEnvironment.getPageUrl;
+        break;
+      case 'getByParam':
+        url = fieldsEnvironment.getPageByParamUrl;
+        break;
+      default:
+        break;
+    }
+    return url;
   },
-  faculties: (params: boolean): string => {
-    return params
-      ? facultyEnvironment.getPageByParamUrl
-      : facultyEnvironment.getPageUrl;
+  faculties: (action): string => {
+    let url = '';
+
+    switch (action) {
+      case 'delete':
+        url = facultyEnvironment.deleteOneUrl;
+        break;
+      case 'getPage':
+        url = facultyEnvironment.getPageUrl;
+        break;
+      case 'getByParam':
+        url = facultyEnvironment.getPageByParamUrl;
+        break;
+      default:
+        break;
+    }
+    return url;
   },
 };

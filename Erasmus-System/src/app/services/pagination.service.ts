@@ -83,11 +83,9 @@ export class PaginationService {
 
           break;
       }
-
       const { docs, docCount } = data;
 
       this._documents = docs;
-
       const pages = Math.ceil(docCount / 10);
 
       this.calcPages(pages);
@@ -127,7 +125,7 @@ export class PaginationService {
       },
     };
 
-    const url = paginationApi[section](false) + `/${page}`;
+    const url = paginationApi[section]('getPage') + `/${page}`;
 
     return fetch(url, options).then((res) => {
       if (!res.ok) {
@@ -152,7 +150,7 @@ export class PaginationService {
       body: JSON.stringify(data),
     };
 
-    const url = paginationApi[section](true) + `/${page}`;
+    const url = paginationApi[section]('getByParam') + `/${page}`;
 
     return fetch(url, options).then((res) => {
       if (!res.ok) {

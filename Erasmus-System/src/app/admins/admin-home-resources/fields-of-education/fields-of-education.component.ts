@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { FieldsOfEducationService } from 'src/app/services/admin-menu-services/fields-of-education.service';
+import { DeletionService } from 'src/app/services/deletion.service';
 import { PaginationService } from 'src/app/services/pagination.service';
 import { environment } from 'src/app/shared/environments/environment';
 import {
@@ -32,14 +33,13 @@ export class FieldsOfEducationComponent implements OnInit {
     private fieldsService: FieldsOfEducationService,
     private cookieService: CookieService,
     private fb: FormBuilder,
-    private paginationService: PaginationService
+    private paginationService: PaginationService,
+    private deletionService: DeletionService
   ) {}
 
-  async ngOnInit(): Promise<void> {
-    await this.changePage(1, false);
-  }
+  async ngOnInit(): Promise<void> {}
 
-  /* Setup getters */
+  /* Bind functions */
 
   async changePage(pageNumber: number, searching: boolean): Promise<void> {
     await this.paginationService.changePage.bind(
@@ -50,6 +50,17 @@ export class FieldsOfEducationComponent implements OnInit {
       this.adminModule
     )();
   }
+
+  async deleteField(id: string): Promise<void> {
+    await this.deletionService.onDelete.bind(
+      this.deletionService,
+      id,
+      this.adminModule,
+      this.changePage.bind(this, 1, this.getIsSearchActive())
+    )();
+  }
+
+  /* Setup getters */
 
   getFields(): [Fields] {
     return this.paginationService.documents;
@@ -65,24 +76,6 @@ export class FieldsOfEducationComponent implements OnInit {
     search: [''],
     select: ['name', Validators.required],
   });
-
-  /* DELETE */
-
-  async onDelete(id: string): Promise<void> {
-    const isSure = window.confirm('Would you like to delete this field?');
-
-    if (!isSure || !globalRegex.docId.exec(id)) {
-      return;
-    }
-
-    const authCookie = this.cookieService.get(environment.authCookieName);
-
-    try {
-      await this.fieldsService.deleteOne(authCookie, id);
-
-      await this.changePage(1, this.getIsSearchActive());
-    } catch (err) {}
-  }
 
   //popup form section
 

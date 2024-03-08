@@ -54,7 +54,10 @@
                       : "Edit"
                   }}
                 </div>
-                <div class="button-delete button" (click)="onDelete(field._id)">
+                <div
+                  class="button-delete button"
+                  (click)="deleteField(field._id)"
+                >
                   Delete
                 </div>
               </div>

@@ -52,22 +52,4 @@ export class FacultiesService {
       }
     );
   }
-
-  async deleteOne(cookie: string, id: string): Promise<Response> {
-    const options = {
-      method: 'DELETE',
-      headers: {
-        [environment.authCookieName]: cookie,
-      },
-    };
-
-    return fetch(facultyEnvironment.deleteOneUrl + `/${id}`, options).then(
-      (res) => {
-        if (!res.ok) {
-          throw res;
-        }
-        return res;
-      }
-    );
-  }
 }

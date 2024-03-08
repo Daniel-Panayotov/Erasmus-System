@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { FacultiesService } from 'src/app/services/admin-menu-services/faculties.service';
+import { DeletionService } from 'src/app/services/deletion.service';
 import { PaginationService } from 'src/app/services/pagination.service';
 import { environment } from 'src/app/shared/environments/environment';
 import { globalRegex } from 'src/app/shared/environments/validationEnvironment';
@@ -23,14 +24,13 @@ export class FacultiesComponent implements OnInit {
     private facultiesService: FacultiesService,
     private cookieService: CookieService,
     private paginationService: PaginationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private deletionService: DeletionService
   ) {}
 
-  ngOnInit(): void {
-    this.changePage(1, false);
-  }
+  ngOnInit(): void {}
 
-  /* Setup getters */
+  /* Bind functions */
 
   async changePage(pageNumber: number, searching: boolean): Promise<void> {
     await this.paginationService.changePage.bind(
@@ -41,6 +41,17 @@ export class FacultiesComponent implements OnInit {
       this.adminModule
     )();
   }
+
+  async deleteField(id: string): Promise<void> {
+    await this.deletionService.onDelete.bind(
+      this.deletionService,
+      id,
+      this.adminModule,
+      this.changePage.bind(this, 1, this.getIsSearchActive())
+    )();
+  }
+
+  /* Setup getters */
 
   getFields(): [Faculty] {
     return this.paginationService.documents;
@@ -56,22 +67,4 @@ export class FacultiesComponent implements OnInit {
     search: [''],
     select: ['name', Validators.required],
   });
-
-  /* DELETE */
-
-  async onDelete(id: string): Promise<void> {
-    const isSure = window.confirm('Would you like to delete this field?');
-
-    if (!isSure || !globalRegex.docId.exec(id)) {
-      return;
-    }
-
-    const authCookie = this.cookieService.get(environment.authCookieName);
-
-    try {
-      await this.facultiesService.deleteOne(authCookie, id);
-
-      await this.changePage(1, this.getIsSearchActive());
-    } catch (err) {}
-  }
 }
