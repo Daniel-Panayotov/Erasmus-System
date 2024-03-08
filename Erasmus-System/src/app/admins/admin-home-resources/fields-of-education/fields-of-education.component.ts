@@ -1,15 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { FieldsOfEducationService } from 'src/app/services/admin-menu-services/fields-of-education.service';
 import { DeletionService } from 'src/app/services/deletion.service';
 import { PaginationService } from 'src/app/services/pagination.service';
 import { environment } from 'src/app/shared/environments/environment';
-import {
-  fieldsRegex,
-  globalRegex,
-} from 'src/app/shared/environments/validationEnvironment';
+import { fieldsRegex } from 'src/app/shared/environments/validationEnvironment';
 import { PaginationComponent } from 'src/app/shared/pagination/pagination.component';
 import { Fields } from 'src/app/types/fields';
 import { searchValue } from 'src/app/types/searchFormValue';
@@ -21,7 +18,7 @@ import { searchValue } from 'src/app/types/searchFormValue';
   templateUrl: './fields-of-education.component.html',
   styleUrl: './fields-of-education.component.css',
 })
-export class FieldsOfEducationComponent implements OnInit {
+export class FieldsOfEducationComponent {
   adminModule: string = 'fields';
   //popup form values
   popupError: string = '';
@@ -36,8 +33,6 @@ export class FieldsOfEducationComponent implements OnInit {
     private paginationService: PaginationService,
     private deletionService: DeletionService
   ) {}
-
-  async ngOnInit(): Promise<void> {}
 
   /* Bind functions */
 

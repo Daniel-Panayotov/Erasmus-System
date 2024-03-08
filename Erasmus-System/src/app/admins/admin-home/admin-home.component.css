@@ -10,7 +10,7 @@
   flex-direction: column;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 700px) {
   .content {
     flex-wrap: wrap;
     flex-direction: row;
@@ -59,7 +59,7 @@
 
 /* layout for mobile */
 
-@media (min-width: 600px) {
+@media (min-width: 700px) {
   .admin-aside {
     flex: 0 1 25%;
   }
@@ -84,7 +84,7 @@
   width: 100%;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 700px) {
   .admin-nav {
     position: static;
   }
@@ -96,7 +96,7 @@
   align-items: center;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 700px) {
   .admin-nav ul {
     align-items: flex-start;
     gap: 1em;
@@ -129,7 +129,7 @@
   align-self: center;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 700px) {
   .button.toggle-nav {
     align-self: flex-start;
   }

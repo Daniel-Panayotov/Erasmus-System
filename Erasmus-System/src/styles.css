@@ -25,9 +25,14 @@ html {
   }
 }
 
-body {
+body,
+button {
   font: inherit;
   height: 100vh;
+}
+
+input {
+  font: inherit;
 }
 
 a {

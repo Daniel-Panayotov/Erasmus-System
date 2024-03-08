@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { FacultiesService } from 'src/app/services/admin-menu-services/faculties.service';
 import { DeletionService } from 'src/app/services/deletion.service';
 import { PaginationService } from 'src/app/services/pagination.service';
 import { environment } from 'src/app/shared/environments/environment';
-import { globalRegex } from 'src/app/shared/environments/validationEnvironment';
 import { PaginationComponent } from 'src/app/shared/pagination/pagination.component';
 import { Faculty } from 'src/app/types/faculty';
 import { searchValue } from 'src/app/types/searchFormValue';
@@ -18,7 +17,7 @@ import { searchValue } from 'src/app/types/searchFormValue';
   templateUrl: './faculties.component.html',
   styleUrl: './faculties.component.css',
 })
-export class FacultiesComponent implements OnInit {
+export class FacultiesComponent {
   adminModule: string = 'faculties';
   constructor(
     private facultiesService: FacultiesService,
@@ -27,8 +26,6 @@ export class FacultiesComponent implements OnInit {
     private fb: FormBuilder,
     private deletionService: DeletionService
   ) {}
-
-  ngOnInit(): void {}
 
   /* Bind functions */
 
