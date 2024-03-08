@@ -1,60 +1,11 @@
-/* general page styles */
+/* General styles */
 
-.fields-page {
-  display: flex;
-  justify-content: center;
-  height: 100%;
-}
+@import url("../../../styles/generalAdminModuleStyles.css");
 
-.page-padding {
-  padding: 0.5em;
-}
+/* pagination footer */
 
-@media (min-width: 800px) {
-  .page-padding {
-    padding-left: 1.5em;
-  }
-}
-
-.fields-page-container {
-  flex: 0 1 50em;
-  border-inline: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-/* header */
-
-.fields-header {
-  border-bottom: 1px solid black;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.button-add {
-  background-color: orange;
-}
-
-/* main */
-
-.fields-main {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-}
-
-.settings {
-  display: flex;
-  justify-content: space-between;
-}
-
-.search-form {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex-wrap: wrap;
+.pagination-footer {
+  margin-top: auto;
 }
 
 /* table */
@@ -178,7 +129,3 @@
   color: red;
   font-size: 0.8em;
 }
-
-/* pagination footer */
-
-@import url("../../../styles/paginationStyles.css");

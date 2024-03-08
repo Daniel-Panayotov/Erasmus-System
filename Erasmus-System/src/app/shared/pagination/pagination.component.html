@@ -1,0 +1,46 @@
+<footer class="fields-pagination-footer page-padding">
+  <div class="select-page">
+    <div
+      class="page-button-left pagination-styles {{
+        getPage() == 1
+          ? 'pagination-styles-disabled'
+          : 'pagination-styles-enabled-hover'
+      }}"
+      (click)="changePage(getPage() - 1, getIsSearchActive())"
+    >
+      &lt; Previous
+    </div>
+    <div class="numbered-pages">
+      <div
+        class="page-option pagination-styles  {{
+          getPage() == getPage() - (getPage() - 1 < 5 ? getPage() - 1 : 4) + i
+            ? 'page-selected'
+            : 'pagination-styles-enabled-hover'
+        }}"
+        *ngFor="
+          let num of [].constructor(getPageCountToIterate());
+          let i = index
+        "
+        (click)="
+          changePage(
+            getPage() - (getPage() - 1 < 5 ? getPage() - 1 : 4) + i,
+            getIsSearchActive()
+          )
+        "
+      >
+        {{ getPage() - (getPage() - 1 < 5 ? getPage() - 1 : 4) + i }}
+      </div>
+    </div>
+
+    <div
+      class="page-button-right pagination-styles {{
+        getPage() == getPageCount()
+          ? 'pagination-styles-disabled'
+          : 'pagination-styles-enabled-hover'
+      }}"
+      (click)="changePage(getPage() + 1, getIsSearchActive())"
+    >
+      Next &gt;
+    </div>
+  </div>
+</footer>

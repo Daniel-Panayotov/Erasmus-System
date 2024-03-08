@@ -1,0 +1,58 @@
+/* general page styles */
+
+.main-page {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.page-padding {
+  padding: 0.5em;
+}
+
+@media (min-width: 800px) {
+  .page-padding {
+    padding-left: 1.5em;
+  }
+}
+
+.page-container {
+  flex: 0 1 50em;
+  border-inline: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* header */
+
+.page-header {
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button-add {
+  background-color: orange;
+}
+
+/* main  */
+
+.page-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.settings {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-form {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+}

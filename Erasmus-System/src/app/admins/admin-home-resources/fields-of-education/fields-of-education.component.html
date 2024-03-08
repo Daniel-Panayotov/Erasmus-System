@@ -1,13 +1,13 @@
-<div class="fields-page">
-  <div class="fields-page-container">
-    <header class="fields-header page-padding">
+<div class="main-page">
+  <div class="page-container">
+    <header class="page-header page-padding">
       <p>Fields of Education</p>
       <div class="button-add button" (click)="togglePopup(false, -1)">
         {{ isPopupVisible && !isPopupEdit ? "Close" : "Add" }}
       </div>
     </header>
 
-    <main class="fields-main page-padding">
+    <main class="page-main page-padding">
       <div class="settings">
         <p>
           Showing {{ getFields().length }}
@@ -64,53 +64,11 @@
       </table>
     </main>
 
-    <footer class="fields-pagination-footer page-padding">
-      <div class="select-page">
-        <div
-          class="page-button-left pagination-styles {{
-            getPage() == 1
-              ? 'pagination-styles-disabled'
-              : 'pagination-styles-enabled-hover'
-          }}"
-          (click)="changePage(getPage() - 1, getIsSearchActive())"
-        >
-          &lt; Previous
-        </div>
-        <div class="numbered-pages">
-          <div
-            class="page-option pagination-styles  {{
-              getPage() ==
-              getPage() - (getPage() - 1 < 5 ? getPage() - 1 : 4) + i
-                ? 'page-selected'
-                : 'pagination-styles-enabled-hover'
-            }}"
-            *ngFor="
-              let num of [].constructor(getPageCountToIterate());
-              let i = index
-            "
-            (click)="
-              changePage(
-                getPage() - (getPage() - 1 < 5 ? getPage() - 1 : 4) + i,
-                getIsSearchActive()
-              )
-            "
-          >
-            {{ getPage() - (getPage() - 1 < 5 ? getPage() - 1 : 4) + i }}
-          </div>
-        </div>
-
-        <div
-          class="page-button-right pagination-styles {{
-            getPage() == getPageCount()
-              ? 'pagination-styles-disabled'
-              : 'pagination-styles-enabled-hover'
-          }}"
-          (click)="changePage(getPage() + 1, getIsSearchActive())"
-        >
-          Next &gt;
-        </div>
-      </div>
-    </footer>
+    <app-pagination
+      class="pagination-footer"
+      [searchForm]="searchFieldForm"
+      [adminModule]="adminModule"
+    />
 
     <div class="field-popup" *ngIf="isPopupVisible">
       <h2 class="popup-heading">

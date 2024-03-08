@@ -80,12 +80,16 @@ export class PaginationService {
           response = await this.getPage(authCookie, this._page, section);
 
           data = await response.json();
+
           break;
       }
 
-      this._documents = data[section];
+      const { docs, docCount } = data;
 
-      const pages = Math.ceil(data.docCount / 10);
+      this._documents = docs;
+
+      const pages = Math.ceil(docCount / 10);
+
       this.calcPages(pages);
     } catch (err) {}
 
@@ -100,6 +104,7 @@ export class PaginationService {
      */
 
     this._pageCount = pages;
+
     const x = this._page < 6 ? this._page : 5;
     const y = pages - x < 5 ? pages - x : 4;
 

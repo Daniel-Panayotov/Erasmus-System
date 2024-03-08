@@ -1,0 +1,9 @@
+/* General styles */
+
+@import url("../../../styles/generalAdminModuleStyles.css");
+
+/* pagination styles */
+
+.pagination-footer {
+  margin-top: auto;
+}

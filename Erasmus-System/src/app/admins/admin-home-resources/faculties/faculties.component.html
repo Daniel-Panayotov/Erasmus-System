@@ -1,1 +1,39 @@
-<p>faculties works!</p>
+<div class="main-page">
+  <div class="page-container">
+    <header class="page-header page-padding">
+      <p>Faculties</p>
+      <div class="button-add button">Add</div>
+    </header>
+    <main class="page-main page-padding">
+      <div class="settings">
+        <p>
+          Showing {{ getFields().length }}
+          {{ getFields().length == 1 ? "entry" : "entries" }}
+        </p>
+        <div class="search-setting">
+          <form
+            class="search-form"
+            [formGroup]="searchFieldForm"
+            (submit)="
+              changePage(1, searchFieldForm.value.search == '' ? false : true)
+            "
+          >
+            <label for="search"
+              >Search by:
+              <select name="search-param" formControlName="select">
+                <option value="name">name</option>
+                <option value="code">coordinator</option>
+              </select></label
+            >
+            <input type="text" formControlName="search" id="search" />
+          </form>
+        </div>
+      </div>
+    </main>
+    <app-pagination
+      class="pagination-footer"
+      [searchForm]="searchFieldForm"
+      [adminModule]="adminModule"
+    />
+  </div>
+</div>

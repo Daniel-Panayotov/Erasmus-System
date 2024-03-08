@@ -9,17 +9,19 @@ import {
   fieldsRegex,
   globalRegex,
 } from 'src/app/shared/environments/validationEnvironment';
+import { PaginationComponent } from 'src/app/shared/pagination/pagination.component';
 import { Fields } from 'src/app/types/fields';
 import { searchValue } from 'src/app/types/searchFormValue';
 
 @Component({
   selector: 'app-fields-of-education',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, PaginationComponent],
   templateUrl: './fields-of-education.component.html',
   styleUrl: './fields-of-education.component.css',
 })
 export class FieldsOfEducationComponent implements OnInit {
+  adminModule: string = 'fields';
   //popup form values
   popupError: string = '';
   isPopupVisible: boolean = false;
@@ -45,24 +47,12 @@ export class FieldsOfEducationComponent implements OnInit {
       pageNumber,
       searching,
       this.searchFieldForm.value as searchValue,
-      'fields'
+      this.adminModule
     )();
   }
 
   getFields(): [Fields] {
     return this.paginationService.documents;
-  }
-
-  getPageCountToIterate(): number {
-    return this.paginationService.pageCountToIterate;
-  }
-
-  getPageCount(): number {
-    return this.paginationService.pageCount;
-  }
-
-  getPage(): number {
-    return this.paginationService.page;
   }
 
   getIsSearchActive(): boolean {

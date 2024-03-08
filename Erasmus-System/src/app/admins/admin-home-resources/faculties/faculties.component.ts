@@ -4,17 +4,21 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { FacultiesService } from 'src/app/services/admin-menu-services/faculties.service';
 import { PaginationService } from 'src/app/services/pagination.service';
+import { environment } from 'src/app/shared/environments/environment';
+import { globalRegex } from 'src/app/shared/environments/validationEnvironment';
+import { PaginationComponent } from 'src/app/shared/pagination/pagination.component';
 import { Faculty } from 'src/app/types/faculty';
 import { searchValue } from 'src/app/types/searchFormValue';
 
 @Component({
   selector: 'app-faculties',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, PaginationComponent],
   templateUrl: './faculties.component.html',
   styleUrl: './faculties.component.css',
 })
 export class FacultiesComponent implements OnInit {
+  adminModule: string = 'faculties';
   constructor(
     private facultiesService: FacultiesService,
     private cookieService: CookieService,
@@ -34,24 +38,12 @@ export class FacultiesComponent implements OnInit {
       pageNumber,
       searching,
       this.searchFieldForm.value as searchValue,
-      'faculties'
+      this.adminModule
     )();
   }
 
   getFields(): [Faculty] {
     return this.paginationService.documents;
-  }
-
-  getPageCountToIterate(): number {
-    return this.paginationService.pageCountToIterate;
-  }
-
-  getPageCount(): number {
-    return this.paginationService.pageCount;
-  }
-
-  getPage(): number {
-    return this.paginationService.page;
   }
 
   getIsSearchActive(): boolean {
@@ -64,4 +56,22 @@ export class FacultiesComponent implements OnInit {
     search: [''],
     select: ['name', Validators.required],
   });
+
+  /* DELETE */
+
+  async onDelete(id: string): Promise<void> {
+    const isSure = window.confirm('Would you like to delete this field?');
+
+    if (!isSure || !globalRegex.docId.exec(id)) {
+      return;
+    }
+
+    const authCookie = this.cookieService.get(environment.authCookieName);
+
+    try {
+      await this.facultiesService.deleteOne(authCookie, id);
+
+      await this.changePage(1, this.getIsSearchActive());
+    } catch (err) {}
+  }
 }
