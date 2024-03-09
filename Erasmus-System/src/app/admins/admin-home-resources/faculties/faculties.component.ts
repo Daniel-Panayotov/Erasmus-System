@@ -1,36 +1,41 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service';
-import { FacultiesService } from 'src/app/services/admin-menu-services/faculties.service';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { DeletionService } from 'src/app/services/deletion.service';
 import { PaginationService } from 'src/app/services/pagination.service';
-import { environment } from 'src/app/shared/environments/environment';
-import { facultiesRegex } from 'src/app/shared/environments/validationEnvironment';
-import { PaginationComponent } from 'src/app/shared/pagination/pagination.component';
+import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
 import { Faculty } from 'src/app/types/faculty';
 import { searchValue } from 'src/app/types/searchFormValue';
+import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-form/popup-admin-form.component';
+import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-popup.service';
 
 @Component({
   selector: 'app-faculties',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, PaginationComponent],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    PaginationComponent,
+    PopupAdminFormComponent,
+  ],
   templateUrl: './faculties.component.html',
   styleUrl: './faculties.component.css',
 })
 export class FacultiesComponent {
-  popupError: string = '';
-  isPopupVisible: boolean = false;
-  isPopupEdit: boolean = false;
-  popupIndex: number = 0;
-
   adminModule: string = 'faculties';
+
+  popupForm: FormGroup = {} as any;
+
   constructor(
-    private facultiesService: FacultiesService,
-    private cookieService: CookieService,
     private paginationService: PaginationService,
     private fb: FormBuilder,
-    private deletionService: DeletionService
+    private deletionService: DeletionService,
+    private popupService: AdminPopupService
   ) {}
 
   /* Bind functions */
@@ -56,6 +61,8 @@ export class FacultiesComponent {
 
   /* Setup getters */
 
+  /* pagination getters */
+
   getFaculties(): [Faculty] {
     return this.paginationService.documents;
   }
@@ -71,84 +78,26 @@ export class FacultiesComponent {
     select: ['', Validators.required],
   });
 
-  //popup form section
-
-  popupFieldForm = this.fb.group({
-    name: [
-      '',
-      [Validators.required, Validators.pattern(facultiesRegex.facultyName)],
-    ],
-    coordinator: [
-      '',
-      [Validators.required, Validators.pattern(facultiesRegex.personName)],
-    ],
-  });
-
-  togglePopup(isEdit: boolean, i: number): void {
-    if (!this.isPopupVisible) {
-      this.popupIndex = i;
-    }
-    if (this.isPopupVisible && i != this.popupIndex) {
-      return;
-    }
-
-    this.popupFieldForm.reset();
-
-    if (isEdit && !this.isPopupVisible) {
-      const values = {
-        name: this.getFaculties()[i].name,
-        coordinator: this.getFaculties()[i].coordinator,
-      };
-
-      this.popupFieldForm.setValue(values);
-    }
-
-    this.popupError = '';
-    this.isPopupEdit = isEdit;
-    this.isPopupVisible = !this.isPopupVisible;
+  getChildPopupForm(popupForm: FormGroup) {
+    this.popupForm = popupForm;
   }
 
-  async popupFormAction(): Promise<void> {
-    const { coordinator, name } = this.popupFieldForm.value;
+  togglePopup(isEdit: boolean, i: number) {
+    this.popupService.togglePopup(isEdit, i, this.popupForm, this.adminModule);
+  }
 
-    if (!name || !facultiesRegex.facultyName.exec(name)) {
-      this.popupError = 'Invalid name';
-      return;
-    }
+  /* popup form getters */
 
-    if (!coordinator || !facultiesRegex.facultyName.exec(coordinator)) {
-      this.popupError = 'Invalid coordinator Name';
-      return;
-    }
-
-    const authCookie = this.cookieService.get(environment.authCookieName);
-
-    try {
-      switch (this.isPopupEdit) {
-        case true:
-          await this.facultiesService.updateOne(
-            authCookie,
-            { coordinator, name },
-            this.getFaculties()[this.popupIndex]._id
-          );
-
-          break;
-
-        case false:
-          await this.facultiesService.createOne(authCookie, {
-            coordinator,
-            name,
-          });
-
-          break;
-      }
-
-      await this.changePage(1, this.getIsSearchActive());
-
-      this.togglePopup(this.isPopupEdit, this.popupIndex);
-    } catch (err: any) {
-      const { message } = await err.json();
-      this.popupError = message;
-    }
+  get isPopupVisible(): boolean {
+    return this.popupService.isPopupVisible;
+  }
+  get isPopupEdit(): boolean {
+    return this.popupService.isPopupEdit;
+  }
+  get popupIndex(): number {
+    return this.popupService.popupIndex;
+  }
+  get popupError(): string {
+    return this.popupService.popupError;
   }
 }

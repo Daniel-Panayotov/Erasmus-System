@@ -9,6 +9,7 @@ export const fieldsRegex = {
   formFieldNameSearch: /^([a-zA-Z\s]{1,50}(?:\d{1,3})?)|[0-9]{1,3}$/,
   fieldName: /^[a-zA-Z\s]{4,50}(?:\d{1,3})?$/ /* identical, but matches 4-50 */,
   formSelectSearch: /^(code|name)$/,
+  code: /^(\d{3})$/,
 };
 
 export const facultiesRegex = {

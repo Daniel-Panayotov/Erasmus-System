@@ -1,0 +1,71 @@
+.field-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid black;
+  z-index: 5;
+  background-color: white;
+  padding: 0.5em;
+  width: 65%;
+}
+
+@media (min-width: 500px) {
+  .field-popup {
+    width: 40%;
+  }
+}
+
+@media (min-width: 1000px) {
+  .field-popup {
+    width: 35%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .field-popup {
+    width: 25%;
+  }
+}
+
+.popup-heading {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.field-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container input {
+  border: 1px solid black;
+  flex: 0 1 2em;
+  padding-left: 2px;
+}
+
+.field-popup-button {
+  border: transparent;
+  background-color: #11be3f;
+  color: white;
+  align-self: center;
+  padding: 0.5rem 2rem;
+  border-radius: 2rem;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.field-popup-button:disabled {
+  background-color: red;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.8em;
+}

@@ -7,14 +7,20 @@ import { DeletionService } from 'src/app/services/deletion.service';
 import { PaginationService } from 'src/app/services/pagination.service';
 import { environment } from 'src/app/shared/environments/environment';
 import { fieldsRegex } from 'src/app/shared/environments/validationEnvironment';
-import { PaginationComponent } from 'src/app/shared/pagination/pagination.component';
+import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
 import { Fields } from 'src/app/types/fields';
 import { searchValue } from 'src/app/types/searchFormValue';
+import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-form/popup-admin-form.component';
 
 @Component({
   selector: 'app-fields-of-education',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PaginationComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    PaginationComponent,
+    PopupAdminFormComponent,
+  ],
   templateUrl: './fields-of-education.component.html',
   styleUrl: './fields-of-education.component.css',
 })

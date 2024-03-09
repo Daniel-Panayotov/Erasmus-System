@@ -49,6 +49,12 @@ export const paginationApi: IndexedApi = {
       case 'getByParam':
         url = fieldsEnvironment.getPageByParamUrl;
         break;
+      case 'updateOne':
+        url = fieldsEnvironment.updateOneById;
+        break;
+      case 'createOne':
+        url = fieldsEnvironment.createOneUrl;
+        break;
       default:
         break;
     }
@@ -66,6 +72,12 @@ export const paginationApi: IndexedApi = {
         break;
       case 'getByParam':
         url = facultyEnvironment.getPageByParamUrl;
+        break;
+      case 'updateOne':
+        url = facultyEnvironment.updateOneUrl;
+        break;
+      case 'createOne':
+        url = facultyEnvironment.createOneUrl;
         break;
       default:
         break;

@@ -82,51 +82,10 @@
       [adminModule]="adminModule"
     />
 
-    <div class="field-popup" *ngIf="isPopupVisible">
-      <h2 class="popup-heading">
-        {{ isPopupEdit ? "Edit Document" : "Add Document" }}
-      </h2>
-      <p class="error-message" *ngIf="popupError">{{ popupError }}</p>
-      <form
-        class="field-form"
-        [formGroup]="popupFieldForm"
-        (submit)="popupFormAction()"
-      >
-        <div class="input-container">
-          <label for="name">Name</label>
-          <input type="text" formControlName="name" id="name" />
-          <p
-            class="error-message"
-            *ngIf="
-              !popupFieldForm.controls.name.valid &&
-              popupFieldForm.controls.name.touched
-            "
-          >
-            Faculty Name must be at least 4 characters
-          </p>
-        </div>
-        <div class="input-container">
-          <label for="coordinator">Coordinator</label>
-          <input type="text" formControlName="coordinator" id="coordinator" />
-          <p
-            class="error-message"
-            *ngIf="
-              !popupFieldForm.controls.coordinator.valid &&
-              popupFieldForm.controls.coordinator.touched
-            "
-          >
-            Coordinator Name must be at least 5 characters
-          </p>
-        </div>
-
-        <button
-          type="submit"
-          class="field-popup-button"
-          [disabled]="!popupFieldForm.valid"
-        >
-          {{ isPopupEdit ? "Edit" : "Add" }}
-        </button>
-      </form>
-    </div>
+    <app-popup-admin-form
+      [adminModule]="adminModule"
+      [searchForm]="searchFieldForm"
+      (popupFormEvent)="getChildPopupForm($event)"
+    />
   </div>
 </div>

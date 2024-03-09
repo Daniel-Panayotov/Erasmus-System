@@ -1,0 +1,40 @@
+<div class="field-popup" *ngIf="isPopupVisible">
+  <h2 class="popup-heading">
+    {{ isPopupEdit ? "Edit field" : "Add field" }}
+  </h2>
+  <p class="error-message" *ngIf="popupError">{{ popupError }}</p>
+  <form class="field-form" [formGroup]="popupForm" (submit)="popupFormAction()">
+    <div
+      class="input-container"
+      *ngFor="
+        let property of iterableDocProperties;
+        let i = index;
+        trackBy: trackByFn
+      "
+    >
+      <label for="{{ property[0] }}">{{ property[0] }}</label>
+      <input
+        type="text"
+        formControlName="{{ property[0] }}"
+        id="{{ property[0] }}"
+      />
+      <p
+        class="error-message"
+        *ngIf="
+          !popupForm.controls[property[0]].valid &&
+          popupForm.controls[property[0]].touched
+        "
+      >
+        {{ property[1].error }}
+      </p>
+    </div>
+
+    <button
+      type="submit"
+      class="field-popup-button"
+      [disabled]="!popupForm.valid"
+    >
+      {{ isPopupEdit ? "Edit" : "Add" }}
+    </button>
+  </form>
+</div>
