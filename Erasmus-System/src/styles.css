@@ -25,12 +25,11 @@ html {
   }
 }
 
-body,
-button {
+body {
   font: inherit;
   height: 100vh;
 }
-
+button,
 input {
   font: inherit;
 }

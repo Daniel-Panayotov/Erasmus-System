@@ -4,36 +4,106 @@
   display: flex;
   justify-content: center;
   height: 100%;
+  background-color: #d9d9d9;
 }
 
 .page-padding {
   padding: 0.5em;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 900px) {
   .page-padding {
-    padding-left: 1.5em;
+    padding: 1em 1.5em;
+  }
+}
+
+@media (min-width: 1200px) {
+  .page-padding {
+    padding: 1em 2em;
   }
 }
 
 .page-container {
-  flex: 0 1 50em;
-  border-inline: 1px solid black;
   display: flex;
   flex-direction: column;
   position: relative;
+  width: 100%;
+  gap: 1em;
 }
 
 /* header */
 
 .page-header {
-  border-bottom: 1px solid black;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .button-add {
+  background-color: orange;
+}
+
+/* Settings */
+
+.settings {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 1em;
+}
+
+@media (min-width: 500px) {
+  .settings {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+  }
+}
+
+.search-setting {
+  flex: 0 1 50%;
+}
+
+.search-form {
+  display: flex;
+  gap: 0.5em;
+  justify-content: flex-end;
+}
+
+@media (min-width: 400px) {
+  .search-form {
+    gap: 1em;
+  }
+}
+
+.search-form * {
+  height: 2.5rem;
+  border: none;
+  border-radius: 0.2em;
+}
+
+.search-form-select {
+  padding: 0;
+  outline: none;
+  cursor: pointer;
+}
+
+@media (min-width: 800px) {
+  .search-form-select {
+    padding: 0 0.5em;
+  }
+}
+
+.search-form-input {
+  width: 60%;
+  min-width: 9em;
+  padding: 0em 0.5em;
+}
+
+.search-form-input:focus {
+  outline: 2px solid #11be3f;
+}
+
+.search-form-button {
   background-color: orange;
 }
 
@@ -45,25 +115,48 @@
   gap: 1em;
 }
 
-.settings {
-  display: flex;
-  justify-content: space-between;
+/* Table */
+
+.documents-table {
+  border-collapse: collapse;
+  border-radius: 0.25em;
+  overflow: hidden;
 }
 
-.search-form {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex-wrap: wrap;
+.documents-table thead {
+  background-color: #6e7bdb;
+  color: white;
+}
+
+.documents-table th,
+.documents-table td {
+  text-align: start;
+  padding: 0.4em;
+  font-weight: normal;
+}
+
+.documents-table tr:nth-child(odd) {
+  background-color: rgb(225, 226, 231);
+}
+
+.documents-table tr:nth-child(even) {
+  background-color: #cccfe4;
 }
 
 /* Buttons */
+
+.documents-table-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 0.5em;
+}
 
 .button {
   padding: 0.5em;
   border-radius: 0.2em;
   color: white;
   cursor: pointer;
+  font-weight: 500;
 }
 
 @media (min-width: 900px) {
@@ -78,4 +171,78 @@
 
 .button-edit {
   background-color: rgb(37, 226, 75);
+}
+
+/* Popup */
+
+.field-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid black;
+  z-index: 5;
+  background-color: white;
+  padding: 0.5em;
+  width: 50%;
+}
+
+@media (min-width: 500px) {
+  .field-popup {
+    width: 40%;
+  }
+}
+
+@media (min-width: 1000px) {
+  .field-popup {
+    width: 35%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .field-popup {
+    width: 25%;
+  }
+}
+
+.popup-heading {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.field-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container input {
+  border: 1px solid black;
+  flex: 0 1 2em;
+  padding-left: 2px;
+}
+
+.field-popup-button {
+  border: transparent;
+  background-color: #11be3f;
+  color: white;
+  align-self: center;
+  padding: 0.5rem 2rem;
+  border-radius: 2rem;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.field-popup-button:disabled {
+  background-color: red;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.8em;
 }

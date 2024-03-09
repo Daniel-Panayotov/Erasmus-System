@@ -11,11 +11,24 @@ export const fieldsRegex = {
   formSelectSearch: /^(code|name)$/,
 };
 
+export const facultiesRegex = {
+  facultySearch:
+    /^([a-zA-Z\s]{1,50}(?:\d{1,3})?)|[0-9]{1,3}$/ /* 1-50 characters includes whitespaces, letters and diggits(only last, up to 3)*/,
+  facultyName: /^[a-zA-Z\s]{4,50}(?:\d{1,3})?$/,
+  personName: /^[a-zA-Z\s]{4,20}$/,
+  formSelectSearch: /^(name|coordinator)$/,
+};
+
 export const indexedSearchRegex: SearchIndex = {
   fields: (isSelect: boolean): RegExp => {
     return isSelect
       ? fieldsRegex.formSelectSearch
       : fieldsRegex.formFieldNameSearch;
+  },
+  faculties: (isSelect: boolean): RegExp => {
+    return isSelect
+      ? facultiesRegex.formSelectSearch
+      : facultiesRegex.facultySearch;
   },
 };
 

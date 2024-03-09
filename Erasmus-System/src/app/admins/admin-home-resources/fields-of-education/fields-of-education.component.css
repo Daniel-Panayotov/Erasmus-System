@@ -2,109 +2,22 @@
 
 @import url("../../../styles/generalAdminModuleStyles.css");
 
+/* table proportions */
+
+.code-td {
+  width: 25%;
+}
+
+.name-td {
+  width: 60%;
+}
+
+.buttons-td {
+  width: 15%;
+}
+
 /* pagination footer */
 
 .pagination-footer {
   margin-top: auto;
-}
-
-/* table */
-
-.fields-table {
-  border-collapse: collapse;
-  align-self: center;
-  width: 100%;
-}
-
-.fields-table,
-.fields-table th,
-.fields-table td {
-  border: 1px solid black;
-}
-
-.fields-table td,
-.fields-table th {
-  padding: 0.5em 0 0.5em 0.2em;
-}
-
-.fields-table th {
-  text-align: left;
-}
-
-.code-value {
-  width: 20%;
-}
-
-/* table buttons */
-
-.buttons-td {
-  width: 25%;
-}
-
-.buttons {
-  display: flex;
-  justify-content: space-evenly;
-  gap: 0.5em;
-}
-
-/* add-field-popup */
-
-.field-popup {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 1px solid black;
-  z-index: 5;
-  background-color: white;
-  padding: 0.5em;
-  width: 45%;
-}
-
-@media (min-width: 800px) {
-  .field-popup {
-    width: 40%;
-  }
-}
-
-.popup-heading {
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.field-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-}
-
-.input-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.input-container input {
-  border: 1px solid black;
-  flex: 0 1 2em;
-  padding-left: 2px;
-}
-
-.field-popup-button {
-  border: transparent;
-  background-color: #11be3f;
-  color: white;
-  align-self: center;
-  padding: 0.5rem 2rem;
-  border-radius: 2rem;
-  font-size: 1.2em;
-  cursor: pointer;
-}
-
-.field-popup-button:disabled {
-  background-color: red;
-}
-
-.error-message {
-  color: red;
-  font-size: 0.8em;
 }

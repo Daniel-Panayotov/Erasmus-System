@@ -69,7 +69,7 @@ export class FieldsOfEducationComponent {
 
   searchFieldForm = this.fb.group({
     search: [''],
-    select: ['name', Validators.required],
+    select: ['', Validators.required],
   });
 
   //popup form section
