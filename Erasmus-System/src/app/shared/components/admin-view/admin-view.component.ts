@@ -1,35 +1,30 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-popup.service';
 import { DeletionService } from 'src/app/services/deletion.service';
 import { PaginationService } from 'src/app/services/pagination.service';
-import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
-import { Faculty } from 'src/app/types/adminDocs';
+import { Faculty, Fields } from 'src/app/types/adminDocs';
 import { searchValue } from 'src/app/types/searchFormValue';
-import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-form/popup-admin-form.component';
-import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-popup.service';
+import { listDocProperties } from '../../environments/environment';
 
 @Component({
-  selector: 'app-faculties',
+  selector: 'app-admin-view',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    CommonModule,
-    PaginationComponent,
-    PopupAdminFormComponent,
-  ],
-  templateUrl: './faculties.component.html',
-  styleUrl: './faculties.component.css',
+  imports: [ReactiveFormsModule, CommonModule],
+  templateUrl: './admin-view.component.html',
+  styleUrl: './admin-view.component.css',
 })
-export class FacultiesComponent {
-  adminModule: string = 'faculties';
-
-  popupForm: FormGroup = {} as any;
+export class AdminViewComponent implements OnInit {
+  @Input() adminModule: string = '';
+  @Input() sectionName: string = '';
+  @Input() popupForm: FormGroup = {} as any;
+  @Output() searchFormEvent = new EventEmitter<FormGroup>();
 
   constructor(
     private paginationService: PaginationService,
@@ -37,6 +32,15 @@ export class FacultiesComponent {
     private deletionService: DeletionService,
     private popupService: AdminPopupService
   ) {}
+
+  ngOnInit(): void {
+    this.sendSearchForm();
+  }
+
+  // send form reference to parent
+  sendSearchForm(): void {
+    this.searchFormEvent.emit(this.searchFieldForm);
+  }
 
   /* Bind functions */
 
@@ -59,16 +63,8 @@ export class FacultiesComponent {
     )();
   }
 
-  /* Setup getters */
-
-  /* pagination getters */
-
-  get faculties(): [Faculty] {
-    return this.paginationService.documents;
-  }
-
-  get isSearchActive(): boolean {
-    return this.paginationService.isSearchActive;
+  togglePopup(isEdit: boolean, i: number) {
+    this.popupService.togglePopup(isEdit, i, this.popupForm, this.adminModule);
   }
 
   /* search form */
@@ -78,19 +74,20 @@ export class FacultiesComponent {
     select: ['', Validators.required],
   });
 
-  // popup section
-
-  // get form from child
-  getChildPopupForm(popupForm: FormGroup) {
-    this.popupForm = popupForm;
+  get docProperty() {
+    return Object.entries(listDocProperties[this.adminModule]);
   }
 
-  togglePopup(isEdit: boolean, i: number) {
-    this.popupService.togglePopup(isEdit, i, this.popupForm, this.adminModule);
+  /* pagination getters */
+  get documents(): [Faculty | Fields] {
+    return this.paginationService.documents;
+  }
+
+  get isSearchActive(): boolean {
+    return this.paginationService.isSearchActive;
   }
 
   /* popup form getters */
-
   get isPopupVisible(): boolean {
     return this.popupService.isPopupVisible;
   }

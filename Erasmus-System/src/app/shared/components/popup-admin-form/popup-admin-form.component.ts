@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-popup.service';
 import { docProperties } from 'src/app/types/docProperties';
+import { listDocProperties } from '../../environments/environment';
 
 @Component({
   selector: 'app-popup-admin-form',
@@ -19,7 +20,6 @@ import { docProperties } from 'src/app/types/docProperties';
 export class PopupAdminFormComponent implements OnInit {
   @Input() adminModule: string = '';
   @Input() searchForm: FormGroup = {} as any;
-  // emiter for parent
   @Output() popupFormEvent = new EventEmitter<FormGroup>();
 
   popupForm: FormGroup = {} as any;
@@ -38,7 +38,7 @@ export class PopupAdminFormComponent implements OnInit {
     this.sendPopupForm();
   }
 
-  //function to send form to parent element
+  //send form to parent
   sendPopupForm(): void {
     this.popupFormEvent.emit(this.popupForm);
   }
@@ -48,10 +48,10 @@ export class PopupAdminFormComponent implements OnInit {
    * Setup the form with its prop names and regex
    */
   addFormControls(): void {
-    const docProperty = this.docProperties[this.adminModule];
+    const docProperties = listDocProperties[this.adminModule];
 
-    for (let propertyName in docProperty) {
-      const propertyRegex = docProperty[propertyName].regex;
+    for (let propertyName in docProperties) {
+      const propertyRegex = docProperties[propertyName].regex;
 
       this.popupForm.addControl(
         propertyName,
@@ -79,10 +79,7 @@ export class PopupAdminFormComponent implements OnInit {
 
   //getters
   get iterableDocProperties() {
-    return Object.entries(this.docProperties[this.adminModule]);
-  }
-  get docProperties(): docProperties {
-    return this.popupService.docProperties;
+    return Object.entries(listDocProperties[this.adminModule]);
   }
   get isPopupVisible(): boolean {
     return this.popupService.isPopupVisible;

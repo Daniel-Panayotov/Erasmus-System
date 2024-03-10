@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { PaginationService } from '../pagination.service';
 import { docProperties } from 'src/app/types/docProperties';
 import { getRoute } from 'src/app/shared/environments/apiEnvironment';
-import { environment } from 'src/app/shared/environments/environment';
+import {
+  environment,
+  listDocProperties,
+} from 'src/app/shared/environments/environment';
 import { popupFormValues } from 'src/app/types/popupFormValues';
 import { CookieService } from 'ngx-cookie-service';
 import { searchValue } from 'src/app/types/searchFormValue';
@@ -67,12 +70,12 @@ export class AdminPopupService {
      * Validate form values
      * Collect the form values if valid
      */
-    const docProperty = this.docProperties[adminModule];
+    const docProperties = listDocProperties[adminModule];
 
-    for (let propertyName in docProperty) {
+    for (let propertyName in docProperties) {
       //expand validation
       if (!formValues[propertyName]) {
-        this._popupError = docProperty[propertyName].error;
+        this._popupError = docProperties[propertyName].error;
         break;
       }
       values[propertyName] = formValues[propertyName];
@@ -183,46 +186,15 @@ export class AdminPopupService {
     const values: any = {}; // any
     const document = this.paginationService.documents[i];
 
-    const docProperty = this.docProperties[adminModule];
-    for (let property in docProperty) {
-      values[property] = document[property];
+    const docProperties = listDocProperties[adminModule];
+    for (let propertyName in docProperties) {
+      values[propertyName] = document[propertyName];
     }
 
     return values;
   }
 
-  // structure of documents with their properties, errors and regex
-  private _docProperties: docProperties = {
-    fields: {
-      code: {
-        name: 'Code',
-        error: 'Code must be 3 digits',
-        regex: fieldsRegex.code,
-      },
-      name: {
-        name: 'Name',
-        error: 'Invalid Name',
-        regex: fieldsRegex.fieldName,
-      },
-    },
-    faculties: {
-      name: {
-        name: 'Name',
-        error: 'Faculty Name must be at least 4 characters',
-        regex: facultiesRegex.facultyName,
-      },
-      coordinator: {
-        name: 'Coordinator',
-        error: 'Invalid Coordinator Name',
-        regex: facultiesRegex.personName,
-      },
-    },
-  };
-
   // getters
-  get docProperties(): docProperties {
-    return this._docProperties;
-  }
   get isPopupVisible(): boolean {
     return this._isPopupVisible;
   }

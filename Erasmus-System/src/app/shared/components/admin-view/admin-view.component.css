@@ -1,0 +1,145 @@
+/* header */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-add {
+  background-color: orange;
+}
+
+/* main  */
+
+.page-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+/* Settings */
+
+.settings {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 1em;
+}
+
+@media (min-width: 500px) {
+  .settings {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+  }
+}
+
+.search-setting {
+  flex: 0 1 50%;
+}
+
+.search-form {
+  display: flex;
+  gap: 0.5em;
+  justify-content: flex-end;
+}
+
+@media (min-width: 400px) {
+  .search-form {
+    gap: 1em;
+  }
+}
+
+.search-form * {
+  height: 2.5rem;
+  border: none;
+  border-radius: 0.2em;
+}
+
+.search-form-select {
+  padding: 0;
+  outline: none;
+  cursor: pointer;
+}
+
+@media (min-width: 800px) {
+  .search-form-select {
+    padding: 0 0.5em;
+  }
+}
+
+.search-form-input {
+  width: 60%;
+  min-width: 9em;
+  padding: 0em 0.5em;
+}
+
+.search-form-input:focus {
+  outline: 2px solid #11be3f;
+}
+
+.search-form-button {
+  background-color: orange;
+}
+
+/* Table */
+
+.documents-table {
+  border-collapse: collapse;
+  border-radius: 0.25em;
+  overflow: hidden;
+}
+
+.documents-table thead {
+  background-color: #6e7bdb;
+  color: white;
+}
+
+.documents-table th,
+.documents-table td {
+  text-align: start;
+  padding: 0.4em;
+  font-weight: normal;
+}
+
+.documents-table tr:nth-child(odd) {
+  background-color: rgb(225, 226, 231);
+}
+
+.documents-table tr:nth-child(even) {
+  background-color: #cccfe4;
+}
+
+.action-th {
+  width: 15%;
+}
+
+/* Buttons */
+
+.documents-table-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 0.5em;
+}
+
+.button {
+  padding: 0.5em;
+  border-radius: 0.2em;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+@media (min-width: 900px) {
+  .button {
+    padding: 0.5em 1em;
+  }
+}
+
+.button-delete {
+  background-color: red;
+}
+
+.button-edit {
+  background-color: rgb(37, 226, 75);
+}

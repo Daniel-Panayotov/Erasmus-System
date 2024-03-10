@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../shared/environments/environment';
 import { CookieService } from 'ngx-cookie-service';
-import { indexedSearchRegex } from '../shared/environments/validationEnvironment';
+import { getSelectRegex } from '../shared/environments/validationEnvironment';
 import { searchValue } from '../types/searchFormValue';
 import { getRoute } from '../shared/environments/apiEnvironment';
 
@@ -60,8 +60,7 @@ export class PaginationService {
 
           //validate unput
           if (
-            !indexedSearchRegex[section](true).exec(select) ||
-            !indexedSearchRegex[section](false).exec(search) ||
+            !getSelectRegex(section).exec(select) ||
             typeof search != 'string'
           ) {
             break;
