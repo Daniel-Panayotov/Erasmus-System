@@ -19,6 +19,7 @@ import { docProperties } from 'src/app/types/docProperties';
 export class PopupAdminFormComponent implements OnInit {
   @Input() adminModule: string = '';
   @Input() searchForm: FormGroup = {} as any;
+  // emiter for parent
   @Output() popupFormEvent = new EventEmitter<FormGroup>();
 
   popupForm: FormGroup = {} as any;
@@ -28,6 +29,7 @@ export class PopupAdminFormComponent implements OnInit {
     private popupService: AdminPopupService
   ) {}
 
+  //setup form and send a ref to parent on init
   ngOnInit(): void {
     this.popupForm = this.fb.group({});
 
@@ -36,16 +38,20 @@ export class PopupAdminFormComponent implements OnInit {
     this.sendPopupForm();
   }
 
-  sendPopupForm() {
+  //function to send form to parent element
+  sendPopupForm(): void {
     this.popupFormEvent.emit(this.popupForm);
   }
 
+  /* Loop an object with the document structure and properties
+   * Index it with the given string
+   * Setup the form with its prop names and regex
+   */
   addFormControls(): void {
     const docProperty = this.docProperties[this.adminModule];
 
-    for (let property in docProperty) {
-      const propertyName = docProperty[property].name;
-      const propertyRegex = docProperty[property].regex;
+    for (let propertyName in docProperty) {
+      const propertyRegex = docProperty[propertyName].regex;
 
       this.popupForm.addControl(
         propertyName,
@@ -57,7 +63,8 @@ export class PopupAdminFormComponent implements OnInit {
     }
   }
 
-  popupFormAction() {
+  //function the form calls on submit event
+  popupFormAction(): void {
     this.popupService.popupFormAction(
       this.adminModule,
       this.popupForm,
@@ -65,14 +72,15 @@ export class PopupAdminFormComponent implements OnInit {
     );
   }
 
-  trackByFn(index: any, item: any) {
+  // Allows angular to track the array of items correctly
+  trackByFn(index: any, item: any): any {
     return index;
   }
 
+  //getters
   get iterableDocProperties() {
     return Object.entries(this.docProperties[this.adminModule]);
   }
-
   get docProperties(): docProperties {
     return this.popupService.docProperties;
   }

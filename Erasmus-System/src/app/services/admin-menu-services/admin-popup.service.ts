@@ -26,6 +26,10 @@ export class AdminPopupService {
     private cookieService: CookieService
   ) {}
 
+  /* Index is set to differentiate betweens clicked buttons.
+   * Allow only the clicked button to hide the popup.
+   * Index for "Add" = -1 | Indexes for "Edit" >= 0
+   */
   togglePopup(
     isEdit: boolean,
     i: number,
@@ -65,12 +69,10 @@ export class AdminPopupService {
      */
     const docProperty = this.docProperties[adminModule];
 
-    for (let property in docProperty) {
-      const propertyName = docProperty[property].name;
-
+    for (let propertyName in docProperty) {
       //expand validation
       if (!formValues[propertyName]) {
-        this._popupError = docProperty[property].error;
+        this._popupError = docProperty[propertyName].error;
         break;
       }
       values[propertyName] = formValues[propertyName];
@@ -82,6 +84,7 @@ export class AdminPopupService {
 
     const authCookie = this.cookieService.get(environment.authCookieName);
 
+    // Based on wether popup is edit, we call update/create function
     try {
       switch (this.isPopupEdit) {
         case true:
@@ -100,6 +103,7 @@ export class AdminPopupService {
           break;
       }
 
+      // change the page to show edit/created document
       await this.paginationService.changePage(
         this.paginationService.page,
         this.paginationService.isSearchActive,
@@ -107,6 +111,7 @@ export class AdminPopupService {
         adminModule
       );
 
+      // hide popup
       this.togglePopup(
         this._isPopupEdit,
         this._popupIndex,
@@ -119,6 +124,9 @@ export class AdminPopupService {
     }
   }
 
+  /* Index an obj with the "adminModule" string, then specify the action
+   * Receive Url and fetch with it
+   */
   private async updateOne(
     cookie: string,
     data: { name: string; coordinator: string },
@@ -145,6 +153,9 @@ export class AdminPopupService {
     });
   }
 
+  /* Index an obj with the "adminModule" string, then specify the action
+   * Receive Url and fetch with it
+   */
   private async createOne(
     cookie: string,
     data: { name: string; coordinator: string },
@@ -176,42 +187,42 @@ export class AdminPopupService {
     const document = this.paginationService.documents[i];
 
     const docProperty = this.docProperties[adminModule];
-    for (let item in docProperty) {
-      const propertyName = docProperty[item].name;
-
-      values[propertyName] = document[propertyName];
+    for (let property in docProperty) {
+      values[property] = document[property];
     }
 
     return values;
   }
 
+  // structure of documents with their properties, errors and regex
   private _docProperties: docProperties = {
     fields: {
       code: {
-        name: 'code',
+        name: 'Code',
         error: 'Code must be 3 digits',
         regex: fieldsRegex.code,
       },
       name: {
-        name: 'name',
+        name: 'Name',
         error: 'Invalid Name',
         regex: fieldsRegex.fieldName,
       },
     },
     faculties: {
       name: {
-        name: 'name',
+        name: 'Name',
         error: 'Faculty Name must be at least 4 characters',
         regex: facultiesRegex.facultyName,
       },
       coordinator: {
-        name: 'coordinator',
+        name: 'Coordinator',
         error: 'Invalid Coordinator Name',
         regex: facultiesRegex.personName,
       },
     },
   };
 
+  // getters
   get docProperties(): docProperties {
     return this._docProperties;
   }

@@ -55,7 +55,7 @@ export class FacultiesComponent {
       this.deletionService,
       id,
       this.adminModule,
-      this.changePage.bind(this, 1, this.getIsSearchActive())
+      this.changePage.bind(this, 1, this.isSearchActive)
     )();
   }
 
@@ -63,11 +63,11 @@ export class FacultiesComponent {
 
   /* pagination getters */
 
-  getFaculties(): [Faculty] {
+  get faculties(): [Faculty] {
     return this.paginationService.documents;
   }
 
-  getIsSearchActive(): boolean {
+  get isSearchActive(): boolean {
     return this.paginationService.isSearchActive;
   }
 
@@ -78,6 +78,9 @@ export class FacultiesComponent {
     select: ['', Validators.required],
   });
 
+  // popup section
+
+  // get form from child
   getChildPopupForm(popupForm: FormGroup) {
     this.popupForm = popupForm;
   }

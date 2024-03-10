@@ -10,8 +10,8 @@
     <main class="page-main">
       <div class="settings">
         <p>
-          Showing {{ getFields().length }}
-          {{ getFields().length == 1 ? "entry" : "entries" }}
+          Showing {{ fields.length }}
+          {{ fields.length == 1 ? "entry" : "entries" }}
         </p>
         <div class="search-setting">
           <form
@@ -51,10 +51,7 @@
           <th>Action</th>
         </thead>
         <tbody class="documents-table-body">
-          <tr
-            class="table-row"
-            *ngFor="let field of getFields(); let i = index"
-          >
+          <tr class="table-row" *ngFor="let field of fields; let i = index">
             <td class="code-td">{{ field.code }}</td>
             <td class="name-td">{{ field.name }}</td>
             <td class="buttons-td">
@@ -85,51 +82,10 @@
       [adminModule]="adminModule"
     />
 
-    <div class="field-popup" *ngIf="isPopupVisible">
-      <h2 class="popup-heading">
-        {{ isPopupEdit ? "Edit field" : "Add field" }}
-      </h2>
-      <p class="error-message" *ngIf="popupError">{{ popupError }}</p>
-      <form
-        class="field-form"
-        [formGroup]="popupFieldForm"
-        (submit)="popupFormAction()"
-      >
-        <div class="input-container">
-          <label for="code">Code</label>
-          <input type="text" formControlName="code" id="code" />
-          <p
-            class="error-message"
-            *ngIf="
-              !popupFieldForm.controls.code.valid &&
-              popupFieldForm.controls.code.touched
-            "
-          >
-            Field code must be 3 characters
-          </p>
-        </div>
-        <div class="input-container">
-          <label for="name">Name</label>
-          <input type="text" formControlName="name" id="name" />
-          <p
-            class="error-message"
-            *ngIf="
-              !popupFieldForm.controls.name.valid &&
-              popupFieldForm.controls.name.touched
-            "
-          >
-            Name must be at least 5 characters
-          </p>
-        </div>
-
-        <button
-          type="submit"
-          class="field-popup-button"
-          [disabled]="!popupFieldForm.valid"
-        >
-          {{ isPopupEdit ? "Edit" : "Add" }}
-        </button>
-      </form>
-    </div>
+    <app-popup-admin-form
+      [adminModule]="adminModule"
+      [searchForm]="searchFieldForm"
+      (popupFormEvent)="getChildPopupForm($event)"
+    />
   </div>
 </div>

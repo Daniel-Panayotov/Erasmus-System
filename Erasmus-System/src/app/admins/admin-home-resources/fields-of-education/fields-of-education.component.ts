@@ -1,16 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service';
-import { FieldsOfEducationService } from 'src/app/services/admin-menu-services/fields-of-education.service';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { DeletionService } from 'src/app/services/deletion.service';
 import { PaginationService } from 'src/app/services/pagination.service';
-import { environment } from 'src/app/shared/environments/environment';
-import { fieldsRegex } from 'src/app/shared/environments/validationEnvironment';
 import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
 import { Fields } from 'src/app/types/fields';
 import { searchValue } from 'src/app/types/searchFormValue';
 import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-form/popup-admin-form.component';
+import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-popup.service';
 
 @Component({
   selector: 'app-fields-of-education',
@@ -26,18 +28,14 @@ import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-f
 })
 export class FieldsOfEducationComponent {
   adminModule: string = 'fields';
-  //popup form values
-  popupError: string = '';
-  isPopupVisible: boolean = false;
-  isPopupEdit: boolean = false;
-  popupIndex: number = 0;
+
+  popupForm: FormGroup = {} as any;
 
   constructor(
-    private fieldsService: FieldsOfEducationService,
-    private cookieService: CookieService,
     private fb: FormBuilder,
     private paginationService: PaginationService,
-    private deletionService: DeletionService
+    private deletionService: DeletionService,
+    private popupService: AdminPopupService
   ) {}
 
   /* Bind functions */
@@ -57,20 +55,9 @@ export class FieldsOfEducationComponent {
       this.deletionService,
       id,
       this.adminModule,
-      this.changePage.bind(this, 1, this.getIsSearchActive())
+      this.changePage.bind(this, 1, this.isSearchActive)
     )();
   }
-
-  /* Setup getters */
-
-  getFields(): [Fields] {
-    return this.paginationService.documents;
-  }
-
-  getIsSearchActive(): boolean {
-    return this.paginationService.isSearchActive;
-  }
-
   /* search form */
 
   searchFieldForm = this.fb.group({
@@ -78,86 +65,38 @@ export class FieldsOfEducationComponent {
     select: ['', Validators.required],
   });
 
-  //popup form section
+  /* Setup getters */
 
-  popupFieldForm = this.fb.group({
-    code: [
-      '',
-      [Validators.required, Validators.minLength(3), Validators.maxLength(3)],
-    ],
-    name: ['', [Validators.required, Validators.minLength(4)]],
-  });
-
-  /* Index is set to differentiate betweens clicked buttons.
-   * Allow only the clicked button to hide the popup.
-   * Index for "Add" = -1 | Indexes for "Edit" >= 0
-   */
-
-  togglePopup(isEdit: boolean, i: number): void {
-    if (!this.isPopupVisible) {
-      this.popupIndex = i;
-    }
-    if (this.isPopupVisible && i != this.popupIndex) {
-      return;
-    }
-
-    this.popupFieldForm.reset();
-
-    if (isEdit && !this.isPopupVisible) {
-      const values = {
-        code: this.getFields()[i].code,
-        name: this.getFields()[i].name,
-      };
-
-      this.popupFieldForm.setValue(values);
-    }
-
-    this.popupError = '';
-    this.isPopupEdit = isEdit;
-    this.isPopupVisible = !this.isPopupVisible;
+  get fields(): [Fields] {
+    return this.paginationService.documents;
+  }
+  get isSearchActive(): boolean {
+    return this.paginationService.isSearchActive;
   }
 
-  async popupFormAction(): Promise<void> {
-    const { code, name } = this.popupFieldForm.value;
+  // popup section
 
-    if (!name || !fieldsRegex.fieldName.exec(name)) {
-      this.popupError = 'Invalid name';
-      return;
-    }
+  // get form from child
+  getChildPopupForm(popupForm: FormGroup) {
+    this.popupForm = popupForm;
+  }
 
-    if (!code || code.length != 3 || !parseInt(code)) {
-      this.popupError = 'Code must be 3 digits';
-      return;
-    }
+  togglePopup(isEdit: boolean, i: number) {
+    this.popupService.togglePopup(isEdit, i, this.popupForm, this.adminModule);
+  }
 
-    const authCookie = this.cookieService.get(environment.authCookieName);
+  /* popup form getters */
 
-    try {
-      switch (this.isPopupEdit) {
-        case true:
-          await this.fieldsService.updateOne(
-            authCookie,
-            { code, name },
-            this.getFields()[this.popupIndex]._id
-          );
-
-          break;
-
-        case false:
-          await this.fieldsService.createOne(authCookie, {
-            code,
-            name,
-          });
-
-          break;
-      }
-
-      await this.changePage(1, this.getIsSearchActive());
-
-      this.togglePopup(this.isPopupEdit, this.popupIndex);
-    } catch (err: any) {
-      const { message } = await err.json();
-      this.popupError = message;
-    }
+  get isPopupVisible(): boolean {
+    return this.popupService.isPopupVisible;
+  }
+  get isPopupEdit(): boolean {
+    return this.popupService.isPopupEdit;
+  }
+  get popupIndex(): number {
+    return this.popupService.popupIndex;
+  }
+  get popupError(): string {
+    return this.popupService.popupError;
   }
 }

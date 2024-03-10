@@ -10,8 +10,8 @@
     <main class="page-main">
       <div class="settings">
         <p>
-          Showing {{ getFaculties().length }}
-          {{ getFaculties().length == 1 ? "entry" : "entries" }}
+          Showing {{ faculties.length }}
+          {{ faculties.length == 1 ? "entry" : "entries" }}
         </p>
         <div class="search-setting">
           <form
@@ -51,7 +51,7 @@
           <th>Action</th>
         </thead>
         <tbody class="documents-table-body">
-          <tr *ngFor="let faculty of getFaculties(); let i = index">
+          <tr *ngFor="let faculty of faculties; let i = index">
             <td class="name-td">{{ faculty.name }}</td>
             <td class="coordinator-td">{{ faculty.coordinator }}</td>
             <td class="buttons-td">
