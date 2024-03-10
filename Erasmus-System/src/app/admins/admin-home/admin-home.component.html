@@ -15,7 +15,9 @@
           <ul>
             <li routerLink="{{ adminRoutes.adminMenu }}"><a>Home</a></li>
             <li routerLink="#"><a>Receiving Contacts</a></li>
-            <li routerLink="#"><a>Foreign Contacts</a></li>
+            <li routerLink="{{ adminRoutes.foreignContacts }}">
+              <a>Foreign Contacts</a>
+            </li>
             <li routerLink="{{ adminRoutes.faculties }}"><a>Faculties</a></li>
             <li routerLink="{{ adminRoutes.fieldsOfEdu }}">
               <a>Fields of Education</a>
@@ -31,5 +33,5 @@
       <router-outlet />
     </main>
   </div>
-  <app-footer class="footer" />
+  <app-footer />
 </div>

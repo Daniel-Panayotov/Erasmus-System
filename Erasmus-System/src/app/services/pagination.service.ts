@@ -3,7 +3,7 @@ import { environment } from '../shared/environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { indexedSearchRegex } from '../shared/environments/validationEnvironment';
 import { searchValue } from '../types/searchFormValue';
-import { paginationApi } from '../shared/environments/apiEnvironment';
+import { getRoute } from '../shared/environments/apiEnvironment';
 
 @Injectable({
   providedIn: 'root',
@@ -125,7 +125,7 @@ export class PaginationService {
       },
     };
 
-    const url = paginationApi[section]('getPage') + `/${page}`;
+    const url = getRoute(section, 'getPage') + `/${page}`;
 
     return fetch(url, options).then((res) => {
       if (!res.ok) {
@@ -150,7 +150,7 @@ export class PaginationService {
       body: JSON.stringify(data),
     };
 
-    const url = paginationApi[section]('getByParam') + `/${page}`;
+    const url = getRoute(section, 'getByParam') + `/${page}`;
 
     return fetch(url, options).then((res) => {
       if (!res.ok) {

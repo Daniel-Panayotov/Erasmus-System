@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { globalRegex } from '../shared/environments/validationEnvironment';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../shared/environments/environment';
-import { paginationApi } from '../shared/environments/apiEnvironment';
+import { getRoute } from '../shared/environments/apiEnvironment';
 
 @Injectable({
   providedIn: 'root',
@@ -31,15 +31,14 @@ export class DeletionService {
         },
       };
 
-      await fetch(
-        paginationApi[adminModule]('delete') + `/${id}`,
-        options
-      ).then((res) => {
-        if (!res.ok) {
-          throw res;
+      await fetch(getRoute(adminModule, 'delete') + `/${id}`, options).then(
+        (res) => {
+          if (!res.ok) {
+            throw res;
+          }
+          return res;
         }
-        return res;
-      });
+      );
 
       await changePage();
     } catch (err) {}

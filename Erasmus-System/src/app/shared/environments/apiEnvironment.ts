@@ -9,79 +9,77 @@ export const cookieEnvironment = {
   verifyNormalCookieUrl: `${apiUserUrl}/verify-cookie`,
 };
 
+export const adminsEnvironment = {
+  loginAdminUrl: `${apiAdminUrl}/login`,
+};
+
 const apiFieldOfEducationUrl = `${apiUrl}/fields`;
 
-export const fieldsEnvironment = {
+const fieldsEnvironment = {
   getPageUrl: `${apiFieldOfEducationUrl}/getPage`,
   getPageByParamUrl: `${apiFieldOfEducationUrl}/getPageByParam`,
   createOneUrl: `${apiFieldOfEducationUrl}/create`,
-  updateOneById: `${apiFieldOfEducationUrl}/UpdateOne`,
+  updateOneUrl: `${apiFieldOfEducationUrl}/UpdateOne`,
   deleteOneUrl: `${apiFieldOfEducationUrl}/deleteOne`,
-  getOneByIdUrl: `${apiFieldOfEducationUrl}/getOne`, //unused
 };
 
 const apiFacultyUrl = `${apiUrl}/faculties`;
 
-export const facultyEnvironment = {
+const facultyEnvironment = {
   getPageUrl: `${apiFacultyUrl}/getPage`,
   getPageByParamUrl: `${apiFacultyUrl}/getPageByParam`,
   createOneUrl: `${apiFacultyUrl}/createOne`,
   updateOneUrl: `${apiFacultyUrl}/updateOne`,
   deleteOneUrl: `${apiFacultyUrl}/deleteOne`,
-  getAllUrl: `${apiFacultyUrl}/getAll`, //unused
 };
 
-export const adminsEnvironment = {
-  loginAdminUrl: `${apiAdminUrl}/login`,
+const apiForeignContactsUrl = `${apiUrl}/foreignContacts`;
+
+const foreignContactsEnvironment = {
+  getPageUrl: `${apiForeignContactsUrl}/getPage`,
+  getPageByParamUrl: `${apiForeignContactsUrl}/getPageByParam`,
+  createOneUrl: `${apiForeignContactsUrl}/createOne`,
+  updateOneUrl: `${apiForeignContactsUrl}/updateOne`,
+  deleteOneUrl: `${apiForeignContactsUrl}/deleteOne`,
 };
 
-export const paginationApi: IndexedApi = {
-  fields: (action): string => {
-    let url = '';
+export function getRoute(adminModule: string, action: string): string {
+  const environment = getEnvironment(adminModule) as any;
+  let url = '';
 
-    switch (action) {
-      case 'delete':
-        url = fieldsEnvironment.deleteOneUrl;
-        break;
-      case 'getPage':
-        url = fieldsEnvironment.getPageUrl;
-        break;
-      case 'getByParam':
-        url = fieldsEnvironment.getPageByParamUrl;
-        break;
-      case 'updateOne':
-        url = fieldsEnvironment.updateOneById;
-        break;
-      case 'createOne':
-        url = fieldsEnvironment.createOneUrl;
-        break;
-      default:
-        break;
-    }
-    return url;
-  },
-  faculties: (action): string => {
-    let url = '';
+  switch (action) {
+    case 'delete':
+      url = environment.deleteOneUrl;
+      break;
+    case 'getPage':
+      url = environment.getPageUrl;
+      break;
+    case 'getByParam':
+      url = environment.getPageByParamUrl;
+      break;
+    case 'updateOne':
+      url = environment.updateOneUrl;
+      break;
+    case 'createOne':
+      url = environment.createOneUrl;
+      break;
+  }
 
-    switch (action) {
-      case 'delete':
-        url = facultyEnvironment.deleteOneUrl;
-        break;
-      case 'getPage':
-        url = facultyEnvironment.getPageUrl;
-        break;
-      case 'getByParam':
-        url = facultyEnvironment.getPageByParamUrl;
-        break;
-      case 'updateOne':
-        url = facultyEnvironment.updateOneUrl;
-        break;
-      case 'createOne':
-        url = facultyEnvironment.createOneUrl;
-        break;
-      default:
-        break;
-    }
-    return url;
-  },
-};
+  return url;
+}
+
+function getEnvironment(adminSection: string) {
+  let env;
+  switch (adminSection) {
+    case 'fields':
+      env = fieldsEnvironment;
+      break;
+    case 'faculties':
+      env = facultyEnvironment;
+      break;
+    case 'foreignContacts':
+      env = foreignContactsEnvironment;
+      break;
+  }
+  return env;
+}

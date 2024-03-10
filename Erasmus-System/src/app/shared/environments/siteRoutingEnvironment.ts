@@ -7,4 +7,5 @@ export const adminRoutes = {
   students: `${adminMenuRoute}/students`,
   fieldsOfEdu: `${adminMenuRoute}/fields-of-education`,
   faculties: `${adminMenuRoute}/faculties`,
+  foreignContacts: `${adminMenuRoute}/foreign-contacts`,
 };

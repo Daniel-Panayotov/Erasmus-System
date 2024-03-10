@@ -7,6 +7,7 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { notLoggedGuard } from '../shared/guards/not-logged.guard';
 import { FieldsOfEducationComponent } from './admin-home-resources/fields-of-education/fields-of-education.component';
 import { FacultiesComponent } from './admin-home-resources/faculties/faculties.component';
+import { ForeignContactsComponent } from './admin-home-resources/foreign-contacts/foreign-contacts.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
       { path: 'students', component: AdminStudentsViewComponent },
       { path: 'fields-of-education', component: FieldsOfEducationComponent },
       { path: 'faculties', component: FacultiesComponent },
+      { path: 'foreign-contacts', component: ForeignContactsComponent },
     ],
     canActivate: [AdminGuard],
   },

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PaginationService } from '../pagination.service';
 import { docProperties } from 'src/app/types/docProperties';
-import { paginationApi } from 'src/app/shared/environments/apiEnvironment';
+import { getRoute } from 'src/app/shared/environments/apiEnvironment';
 import { environment } from 'src/app/shared/environments/environment';
 import { popupFormValues } from 'src/app/types/popupFormValues';
 import { CookieService } from 'ngx-cookie-service';
@@ -142,15 +142,14 @@ export class AdminPopupService {
       body: JSON.stringify(data),
     };
 
-    return fetch(
-      paginationApi[adminModule]('updateOne') + `/${id}`,
-      options
-    ).then((res) => {
-      if (!res.ok) {
-        throw res;
+    return fetch(getRoute(adminModule, 'updateOne') + `/${id}`, options).then(
+      (res) => {
+        if (!res.ok) {
+          throw res;
+        }
+        return res;
       }
-      return res;
-    });
+    );
   }
 
   /* Index an obj with the "adminModule" string, then specify the action
@@ -170,14 +169,12 @@ export class AdminPopupService {
       body: JSON.stringify(data),
     };
 
-    return fetch(paginationApi[adminModule]('createOne'), options).then(
-      (res) => {
-        if (!res.ok) {
-          throw res;
-        }
-        return res;
+    return fetch(getRoute(adminModule, 'createOne'), options).then((res) => {
+      if (!res.ok) {
+        throw res;
       }
-    );
+      return res;
+    });
   }
 
   /* Generate an object of values from given document
