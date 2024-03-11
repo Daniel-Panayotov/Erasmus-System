@@ -31,6 +31,7 @@ const facultyEnvironment = {
   createOneUrl: `${apiFacultyUrl}/createOne`,
   updateOneUrl: `${apiFacultyUrl}/updateOne`,
   deleteOneUrl: `${apiFacultyUrl}/deleteOne`,
+  getAllUrl: `${apiFacultyUrl}/getAll`,
 };
 
 const apiForeignContactsUrl = `${apiUrl}/foreignContacts`;
@@ -62,6 +63,10 @@ export function getRoute(adminModule: string, action: string): string {
       break;
     case 'createOne':
       url = environment.createOneUrl;
+      break;
+    case 'getAll':
+      //only for faculty
+      url = environment.getAllUrl;
       break;
   }
 

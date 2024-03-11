@@ -8,4 +8,6 @@ interface docProperty {
   name: string;
   error: string;
   regex: RegExp;
+  class: string;
+  isRef?: string[];
 }

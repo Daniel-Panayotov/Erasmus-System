@@ -9,7 +9,7 @@ import { getRoute } from '../shared/environments/apiEnvironment';
   providedIn: 'root',
 })
 export class PaginationService {
-  private _documents: [any] = [] as any; //variable to hold the documents
+  private _documents: any[] = []; //variable to hold the documents
   //pagination values
   private _pageCountToIterate: number = 0;
   private _pageCount: number = 0;
@@ -19,6 +19,10 @@ export class PaginationService {
   private _searchParams: any = {};
 
   constructor(private cookieService: CookieService) {}
+
+  resetState() {
+    this._documents = [];
+  }
 
   // function to call
   async changePage(
@@ -85,6 +89,7 @@ export class PaginationService {
       const { docs, docCount } = data;
 
       this._documents = docs;
+
       const pages = Math.ceil(docCount / 10);
 
       this.calcPages(pages);

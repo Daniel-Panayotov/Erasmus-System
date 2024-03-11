@@ -44,10 +44,19 @@
   flex-direction: column;
 }
 
-.input-container input {
+.input-container input,
+.input-container select {
   border: 1px solid black;
   flex: 0 1 2em;
+}
+
+.input-container input {
   padding-left: 2px;
+}
+
+.input-container select {
+  outline: none;
+  cursor: pointer;
 }
 
 .field-popup-button {

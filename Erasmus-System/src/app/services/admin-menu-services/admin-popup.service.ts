@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { PaginationService } from '../pagination.service';
-import { docProperties } from 'src/app/types/docProperties';
 import { getRoute } from 'src/app/shared/environments/apiEnvironment';
 import {
   environment,
@@ -10,16 +9,13 @@ import { popupFormValues } from 'src/app/types/popupFormValues';
 import { CookieService } from 'ngx-cookie-service';
 import { searchValue } from 'src/app/types/searchFormValue';
 import { FormGroup } from '@angular/forms';
-import {
-  facultiesRegex,
-  fieldsRegex,
-} from 'src/app/shared/environments/validationEnvironment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminPopupService {
-  private _popupError: string = '';
+  private _errorMessage: string = '';
+  private _popupError: boolean = false;
   private _isPopupVisible: boolean = false;
   private _isPopupEdit: boolean = false;
   private _popupIndex: number = 0;
@@ -28,6 +24,13 @@ export class AdminPopupService {
     private paginationService: PaginationService,
     private cookieService: CookieService
   ) {}
+
+  resetState(): void {
+    this._popupError = false;
+    this._isPopupVisible = false;
+    this._isPopupEdit = false;
+    this._popupIndex = 0;
+  }
 
   /* Index is set to differentiate betweens clicked buttons.
    * Allow only the clicked button to hide the popup.
@@ -53,7 +56,7 @@ export class AdminPopupService {
       popupFieldForm.setValue(values);
     }
 
-    this._popupError = '';
+    this._popupError = false;
     this._isPopupEdit = isEdit;
     this._isPopupVisible = !this.isPopupVisible;
   }
@@ -75,7 +78,7 @@ export class AdminPopupService {
     for (let propertyName in docProperties) {
       //expand validation
       if (!formValues[propertyName]) {
-        this._popupError = docProperties[propertyName].error;
+        this._popupError = true;
         break;
       }
       values[propertyName] = formValues[propertyName];
@@ -123,7 +126,7 @@ export class AdminPopupService {
       );
     } catch (err: any) {
       const { message } = await err.json();
-      this._popupError = message;
+      this._errorMessage = message;
     }
   }
 
@@ -188,7 +191,13 @@ export class AdminPopupService {
 
     const docProperties = listDocProperties[adminModule];
     for (let propertyName in docProperties) {
-      values[propertyName] = document[propertyName];
+      // if property is reference, index value with isRef string
+      if (docProperties[propertyName].isRef) {
+        values[propertyName] =
+          document[propertyName][docProperties[propertyName].isRef![0]];
+      } else {
+        values[propertyName] = document[propertyName];
+      }
     }
 
     return values;
@@ -205,6 +214,6 @@ export class AdminPopupService {
     return this._popupIndex;
   }
   get popupError(): string {
-    return this._popupError;
+    return this._errorMessage;
   }
 }

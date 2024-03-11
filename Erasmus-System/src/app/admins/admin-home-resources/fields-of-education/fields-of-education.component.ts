@@ -96,7 +96,4 @@ export class FieldsOfEducationComponent {
   get popupIndex(): number {
     return this.popupService.popupIndex;
   }
-  get popupError(): string {
-    return this.popupService.popupError;
-  }
 }

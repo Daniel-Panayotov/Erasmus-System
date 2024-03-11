@@ -13,11 +13,24 @@
       "
     >
       <label for="{{ property[0] }}">{{ property[1].name }}</label>
+
       <input
         type="text"
         formControlName="{{ property[0] }}"
         id="{{ property[0] }}"
+        *ngIf="!property[1].isRef; else nonRef"
       />
+
+      <ng-template #nonRef>
+        <select formControlName="{{ property[0] }}" id="{{ property[0] }}">
+          <option
+            *ngFor="let doc of refDocs[property[1].isRef![1]]"
+            value="{{ doc[property[1].isRef![0]] }}"
+          >
+            {{ doc[property[1].isRef![0]] }}
+          </option>
+        </select>
+      </ng-template>
       <p
         class="error-message"
         *ngIf="

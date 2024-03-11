@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -26,7 +26,7 @@ import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-po
   templateUrl: './faculties.component.html',
   styleUrl: './faculties.component.css',
 })
-export class FacultiesComponent {
+export class FacultiesComponent implements OnDestroy {
   adminModule: string = 'faculties';
 
   popupForm: FormGroup = {} as any;
@@ -37,6 +37,10 @@ export class FacultiesComponent {
     private deletionService: DeletionService,
     private popupService: AdminPopupService
   ) {}
+
+  ngOnDestroy(): void {
+    this.paginationService.resetState();
+  }
 
   /* Bind functions */
 
@@ -99,8 +103,5 @@ export class FacultiesComponent {
   }
   get popupIndex(): number {
     return this.popupService.popupIndex;
-  }
-  get popupError(): string {
-    return this.popupService.popupError;
   }
 }

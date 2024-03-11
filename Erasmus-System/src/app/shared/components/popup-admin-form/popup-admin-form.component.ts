@@ -7,8 +7,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-popup.service';
-import { docProperties } from 'src/app/types/docProperties';
-import { listDocProperties } from '../../environments/environment';
+import { environment, listDocProperties } from '../../environments/environment';
+import { CookieService } from 'ngx-cookie-service';
+import { getRoute } from '../../environments/apiEnvironment';
 
 @Component({
   selector: 'app-popup-admin-form',
@@ -24,18 +25,56 @@ export class PopupAdminFormComponent implements OnInit {
 
   popupForm: FormGroup = {} as any;
 
+  refDocs: any = {};
+
   constructor(
     private fb: FormBuilder,
-    private popupService: AdminPopupService
+    private popupService: AdminPopupService,
+    private cookieService: CookieService
   ) {}
 
   //setup form and send a ref to parent on init
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.popupForm = this.fb.group({});
 
     this.addFormControls();
 
     this.sendPopupForm();
+
+    this.getRefDocs().then();
+  }
+
+  async getRefDocs(): Promise<void> {
+    //return
+    const docsToFetch: any[] = [];
+    this.iterableDocProperties.map((val): any => {
+      if (val[1].isRef) {
+        docsToFetch.push(val[1].isRef[1]);
+      }
+    });
+
+    try {
+      for (let doc of docsToFetch) {
+        const res = await this.getDocs(doc);
+        const { docs } = await res.json();
+        this.refDocs[doc] = docs;
+      }
+    } catch (err) {}
+  }
+
+  async getDocs(route: string) {
+    const authCookie = this.cookieService.get(environment.authCookieName);
+
+    const options = {
+      method: 'POST',
+      headers: {
+        [environment.authCookieName]: authCookie,
+      },
+    };
+
+    const url = getRoute(route, 'getAll');
+
+    return fetch(url, options);
   }
 
   //send form to parent
@@ -64,12 +103,16 @@ export class PopupAdminFormComponent implements OnInit {
   }
 
   //function the form calls on submit event
-  popupFormAction(): void {
-    this.popupService.popupFormAction(
-      this.adminModule,
-      this.popupForm,
-      this.searchForm
-    );
+  async popupFormAction(): Promise<void> {
+    try {
+      await this.popupService.popupFormAction(
+        this.adminModule,
+        this.popupForm,
+        this.searchForm
+      );
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   // Allows angular to track the array of items correctly

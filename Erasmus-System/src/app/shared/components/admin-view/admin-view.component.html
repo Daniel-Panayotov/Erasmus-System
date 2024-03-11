@@ -45,12 +45,21 @@
   </div>
   <table class="documents-table">
     <thead>
-      <th *ngFor="let property of docProperty">{{ property[1].name }}</th>
+      <th *ngFor="let property of docProperty" class="{{ property[1].class }}">
+        {{ property[1].name }}
+      </th>
       <th class="action-th">Action</th>
     </thead>
     <tbody class="documents-table-body">
+      <!-- Wait for pagination service to fetch documents -->
       <tr *ngFor="let document of documents; let i = index">
-        <td *ngFor="let property of docProperty">{{ document.name }}</td>
+        <td *ngFor="let property of docProperty">
+          {{
+            property[1].isRef
+              ? document[property[0]][property[1].isRef[0]]
+              : document[property[0]]
+          }}
+        </td>
         <td>
           <div class="documents-table-buttons">
             <div class="button button-edit" (click)="togglePopup(true, i)">

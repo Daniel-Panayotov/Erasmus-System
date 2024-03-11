@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  OnInit,
+  EventEmitter,
+  OnDestroy,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -20,7 +27,7 @@ import { listDocProperties } from '../../environments/environment';
   templateUrl: './admin-view.component.html',
   styleUrl: './admin-view.component.css',
 })
-export class AdminViewComponent implements OnInit {
+export class AdminViewComponent implements OnInit, OnDestroy {
   @Input() adminModule: string = '';
   @Input() sectionName: string = '';
   @Input() popupForm: FormGroup = {} as any;
@@ -37,6 +44,10 @@ export class AdminViewComponent implements OnInit {
     this.sendSearchForm();
   }
 
+  ngOnDestroy(): void {
+    this.popupService.resetState();
+    this.paginationService.resetState();
+  }
   // send form reference to parent
   sendSearchForm(): void {
     this.searchFormEvent.emit(this.searchFieldForm);
@@ -79,7 +90,7 @@ export class AdminViewComponent implements OnInit {
   }
 
   /* pagination getters */
-  get documents(): [Faculty | Fields] {
+  get documents(): [any] {
     return this.paginationService.documents;
   }
 
@@ -96,8 +107,5 @@ export class AdminViewComponent implements OnInit {
   }
   get popupIndex(): number {
     return this.popupService.popupIndex;
-  }
-  get popupError(): string {
-    return this.popupService.popupError;
   }
 }
