@@ -87,7 +87,6 @@
 .documents-table {
   border-collapse: collapse;
   border-radius: 0.25em;
-  overflow: hidden;
 }
 
 .documents-table thead {
@@ -95,11 +94,33 @@
   color: white;
 }
 
+.documents-table th {
+  padding: 0.3em;
+}
+
+.documents-table td {
+  padding: 0.1em;
+  position: relative;
+}
+
 .documents-table th,
 .documents-table td {
   text-align: start;
-  padding: 0.4em;
   font-weight: normal;
+}
+
+.td-content {
+  position: absolute;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 1200px) {
+  .documents-table td {
+    padding: 0.3em 0.2em;
+  }
 }
 
 .documents-table tr:nth-child(odd) {
