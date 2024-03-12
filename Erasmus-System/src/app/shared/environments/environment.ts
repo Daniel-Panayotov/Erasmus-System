@@ -17,13 +17,13 @@ export const listDocProperties: docProperties = {
       name: 'Code',
       error: 'Code must be 3 digits',
       regex: fieldsRegex.code,
-      class: '',
+      class: 'th-25',
     },
     name: {
       name: 'Name',
       error: 'Invalid Name',
       regex: fieldsRegex.fieldName,
-      class: '',
+      class: 'th-60',
     },
   },
   faculties: {
@@ -31,13 +31,13 @@ export const listDocProperties: docProperties = {
       name: 'Name',
       error: 'Faculty Name must be at least 4 characters',
       regex: facultiesRegex.facultyName,
-      class: '',
+      class: 'th-50 ',
     },
     coordinator: {
       name: 'Coordinator',
       error: 'Invalid Coordinator Name',
       regex: facultiesRegex.personNames,
-      class: '',
+      class: 'th-35',
     },
   },
   foreignContacts: {
@@ -70,7 +70,6 @@ export const listDocProperties: docProperties = {
       error: 'Invalid Faculty Name',
       regex: facultiesRegex.facultyName,
       class: 'th-30',
-
       isRef: ['name', 'faculties'],
     },
   },

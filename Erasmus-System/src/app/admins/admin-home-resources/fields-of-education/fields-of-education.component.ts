@@ -1,99 +1,30 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { DeletionService } from 'src/app/services/deletion.service';
-import { PaginationService } from 'src/app/services/pagination.service';
+import { FormGroup } from '@angular/forms';
+import { AdminViewComponent } from 'src/app/shared/components/admin-view/admin-view.component';
 import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
-import { Fields } from 'src/app/types/adminDocs';
-import { searchValue } from 'src/app/types/searchFormValue';
 import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-form/popup-admin-form.component';
-import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-popup.service';
 
 @Component({
   selector: 'app-fields-of-education',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    PaginationComponent,
-    PopupAdminFormComponent,
-  ],
+  imports: [PaginationComponent, PopupAdminFormComponent, AdminViewComponent],
   templateUrl: './fields-of-education.component.html',
   styleUrl: './fields-of-education.component.css',
 })
 export class FieldsOfEducationComponent {
   adminModule: string = 'fields';
+  sectionName: string = 'Fields of Education';
 
+  searchForm: FormGroup = {} as any;
   popupForm: FormGroup = {} as any;
 
-  constructor(
-    private fb: FormBuilder,
-    private paginationService: PaginationService,
-    private deletionService: DeletionService,
-    private popupService: AdminPopupService
-  ) {}
+  constructor() {}
 
-  /* Bind functions */
-
-  async changePage(pageNumber: number, searching: boolean): Promise<void> {
-    await this.paginationService.changePage.bind(
-      this.paginationService, // original context
-      pageNumber,
-      searching,
-      this.searchFieldForm.value as searchValue,
-      this.adminModule
-    )();
+  receiveSearchForm(searchForm: FormGroup) {
+    this.searchForm = searchForm;
   }
 
-  async deleteField(id: string): Promise<void> {
-    await this.deletionService.onDelete.bind(
-      this.deletionService,
-      id,
-      this.adminModule,
-      this.changePage.bind(this, 1, this.isSearchActive)
-    )();
-  }
-  /* search form */
-
-  searchFieldForm = this.fb.group({
-    search: [''],
-    select: ['', Validators.required],
-  });
-
-  /* Setup getters */
-
-  get fields(): [Fields] {
-    return this.paginationService.documents;
-  }
-  get isSearchActive(): boolean {
-    return this.paginationService.isSearchActive;
-  }
-
-  // popup section
-
-  // get form from child
-  getChildPopupForm(popupForm: FormGroup) {
+  receivePopumForm(popupForm: FormGroup) {
     this.popupForm = popupForm;
-  }
-
-  togglePopup(isEdit: boolean, i: number) {
-    this.popupService.togglePopup(isEdit, i, this.popupForm, this.adminModule);
-  }
-
-  /* popup form getters */
-
-  get isPopupVisible(): boolean {
-    return this.popupService.isPopupVisible;
-  }
-  get isPopupEdit(): boolean {
-    return this.popupService.isPopupEdit;
-  }
-  get popupIndex(): number {
-    return this.popupService.popupIndex;
   }
 }
