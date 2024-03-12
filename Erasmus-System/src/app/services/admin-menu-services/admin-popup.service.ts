@@ -77,7 +77,11 @@ export class AdminPopupService {
 
     for (let propertyName in docProperties) {
       //expand validation
-      if (!formValues[propertyName]) {
+      if (
+        !docProperties[propertyName].regex.exec(
+          formValues[propertyName] as string
+        )
+      ) {
         this._popupError = true;
         break;
       }

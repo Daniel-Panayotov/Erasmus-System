@@ -36,7 +36,6 @@ export class PopupAdminFormComponent implements OnInit {
   //setup form and send a ref to parent on init
   async ngOnInit(): Promise<void> {
     this.popupForm = this.fb.group({});
-
     this.addFormControls();
 
     this.sendPopupForm();

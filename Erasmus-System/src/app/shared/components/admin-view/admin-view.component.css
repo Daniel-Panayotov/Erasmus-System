@@ -88,6 +88,7 @@
   border-collapse: collapse;
   border-radius: 0.25em;
   overflow: hidden;
+  overflow-x: auto;
 }
 
 .documents-table thead {
@@ -145,11 +146,12 @@
 .documents-table-buttons {
   display: flex;
   justify-content: space-evenly;
+  flex-wrap: wrap;
   gap: 0.5em;
 }
 
 .button {
-  padding: 0.5em;
+  padding: 0.25rem;
   border-radius: 0.2em;
   color: white;
   cursor: pointer;
@@ -158,8 +160,13 @@
 
 @media (min-width: 900px) {
   .button {
-    padding: 0.5em 1em;
+    padding: 0.35em 0.75em;
   }
+}
+
+.button-action {
+  font-size: 1.2rem;
+  border: 1px solid black;
 }
 
 .button-delete {

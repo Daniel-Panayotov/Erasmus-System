@@ -16,7 +16,6 @@ import {
 import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-popup.service';
 import { DeletionService } from 'src/app/services/deletion.service';
 import { PaginationService } from 'src/app/services/pagination.service';
-import { Faculty, Fields } from 'src/app/types/adminDocs';
 import { searchValue } from 'src/app/types/searchFormValue';
 import { listDocProperties } from '../../environments/environment';
 
