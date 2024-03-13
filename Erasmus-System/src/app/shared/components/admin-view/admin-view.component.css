@@ -111,10 +111,25 @@
 
 .td-content {
   position: absolute;
+  display: block;
   max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.td-popup {
+  position: absolute;
+  display: none;
+  width: fit-content;
+  background-color: white;
+  z-index: 5;
+  top: 3em;
+  padding: 0.1rem;
+}
+
+.td-content:hover + .td-popup {
+  display: block;
 }
 
 @media (min-width: 1200px) {

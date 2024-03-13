@@ -51,16 +51,20 @@
       <th class="action-th">Action</th>
     </thead>
     <tbody class="documents-table-body">
-      <!-- Wait for pagination service to fetch documents -->
       <tr *ngFor="let document of documents; let i = index">
         <td *ngFor="let property of docProperty">
-          <div class="td-content">
+          <span class="td-content">
             {{
               property[1].isRef
                 ? document[property[0]][property[1].isRef[0]]
                 : document[property[0]]
             }}
-          </div>
+          </span>
+          <span class="td-popup">{{
+            property[1].isRef
+              ? document[property[0]][property[1].isRef[0]]
+              : document[property[0]]
+          }}</span>
         </td>
         <td>
           <div class="documents-table-buttons">
