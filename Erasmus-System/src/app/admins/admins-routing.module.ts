@@ -8,6 +8,7 @@ import { notLoggedGuard } from '../shared/guards/not-logged.guard';
 import { FieldsOfEducationComponent } from './admin-home-resources/fields-of-education/fields-of-education.component';
 import { FacultiesComponent } from './admin-home-resources/faculties/faculties.component';
 import { ForeignContactsComponent } from './admin-home-resources/foreign-contacts/foreign-contacts.component';
+import { ReceivingContactsComponent } from './admin-home-resources/receiving-contacts/receiving-contacts.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
       { path: 'fields-of-education', component: FieldsOfEducationComponent },
       { path: 'faculties', component: FacultiesComponent },
       { path: 'foreign-contacts', component: ForeignContactsComponent },
+      { path: 'receiving-contacts', component: ReceivingContactsComponent },
     ],
     canActivate: [AdminGuard],
   },

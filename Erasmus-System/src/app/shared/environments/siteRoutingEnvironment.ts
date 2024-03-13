@@ -8,4 +8,5 @@ export const adminRoutes = {
   fieldsOfEdu: `${adminMenuRoute}/fields-of-education`,
   faculties: `${adminMenuRoute}/faculties`,
   foreignContacts: `${adminMenuRoute}/foreign-contacts`,
+  receivingContacts: `${adminMenuRoute}/receiving-contacts`,
 };

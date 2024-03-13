@@ -14,7 +14,9 @@
         <nav class="admin-nav" *ngIf="isNavShown">
           <ul>
             <li routerLink="{{ adminRoutes.adminMenu }}"><a>Home</a></li>
-            <li routerLink="#"><a>Receiving Contacts</a></li>
+            <li routerLink="{{ adminRoutes.receivingContacts }}">
+              <a>Receiving Contacts</a>
+            </li>
             <li routerLink="{{ adminRoutes.foreignContacts }}">
               <a>Foreign Contacts</a>
             </li>

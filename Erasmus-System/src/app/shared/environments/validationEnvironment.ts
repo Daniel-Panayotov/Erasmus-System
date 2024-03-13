@@ -42,6 +42,9 @@ function getRegexEnv(adminModule: string) {
     case 'foreignContacts':
       regexEnv = contactsRegex;
       break;
+    case 'receivingContacts':
+      regexEnv = contactsRegex;
+      break;
     default:
       break;
   }

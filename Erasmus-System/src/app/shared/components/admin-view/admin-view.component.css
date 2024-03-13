@@ -116,6 +116,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  top: 50%;
+  transform: translate(0, -50%);
 }
 
 .td-popup {
@@ -124,7 +126,7 @@
   width: fit-content;
   background-color: white;
   z-index: 5;
-  top: 3em;
+  top: 2em;
   padding: 0.1rem;
 }
 

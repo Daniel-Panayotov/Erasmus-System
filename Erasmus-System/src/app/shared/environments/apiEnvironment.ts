@@ -44,6 +44,16 @@ const foreignContactsEnvironment = {
   deleteOneUrl: `${apiForeignContactsUrl}/deleteOne`,
 };
 
+const apiReceivingContactsUrl = `${apiUrl}/receivingContacts`;
+
+const receivingContactsEnvironment = {
+  getPageUrl: `${apiReceivingContactsUrl}/getPage`,
+  getPageByParamUrl: `${apiReceivingContactsUrl}/getPageByParam`,
+  createOneUrl: `${apiReceivingContactsUrl}/createOne`,
+  updateOneUrl: `${apiReceivingContactsUrl}/updateOne`,
+  deleteOneUrl: `${apiReceivingContactsUrl}/deleteOne`,
+};
+
 export function getRoute(adminModule: string, action: string): string {
   const environment = getEnvironment(adminModule) as any;
   let url = '';
@@ -84,6 +94,9 @@ function getEnvironment(adminSection: string) {
       break;
     case 'foreignContacts':
       env = foreignContactsEnvironment;
+      break;
+    case 'receivingContacts':
+      env = receivingContactsEnvironment;
       break;
   }
   return env;

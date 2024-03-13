@@ -10,7 +10,16 @@ export const environment = {
   authCookieName: 'authCookie',
 };
 
-// structure of documents with their properties, errors and regex
+/* structure of documents with their properties, errors and regex
+ * Use it to dynamically generate templates/forms/validate input
+ * name: Desired name we want to display on the template
+ * regex: desired regex to validate user input
+ * error: message displayed when regex doesnt match
+ * classes determine the width in % for the table column
+ * isRef: wether the property is a reference in the db.
+ * 0 index: the name of the property we want to extract
+ * 1 index: the name of the api section for the document
+ */
 export const listDocProperties: docProperties = {
   fields: {
     code: {
@@ -41,6 +50,39 @@ export const listDocProperties: docProperties = {
     },
   },
   foreignContacts: {
+    firstName: {
+      name: 'First Name',
+      error: 'Invalid First Name',
+      regex: contactsRegex.personName,
+      class: 'th-10',
+    },
+    lastName: {
+      name: 'Last Name',
+      error: 'Invalid Last Name',
+      regex: contactsRegex.personName,
+      class: 'th-10',
+    },
+    email: {
+      name: 'Email',
+      error: 'Invalid Email',
+      regex: globalRegex.emailRegex,
+      class: 'th-20',
+    },
+    phone: {
+      name: 'Phone',
+      error: 'Invalid Phone Number',
+      regex: globalRegex.phoneNumber,
+      class: 'th-15',
+    },
+    faculty: {
+      name: 'Faculty',
+      error: 'Invalid Faculty Name',
+      regex: facultiesRegex.facultyName,
+      class: 'th-30',
+      isRef: ['name', 'faculties'],
+    },
+  },
+  receivingContacts: {
     firstName: {
       name: 'First Name',
       error: 'Invalid First Name',

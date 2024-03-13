@@ -54,6 +54,7 @@ export class PaginationService {
      * Set search params at page 1, if search is Active.
      * Continue with set params if page != 1
      */
+
     try {
       switch (searching) {
         case true:

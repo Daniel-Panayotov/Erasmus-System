@@ -1,0 +1,23 @@
+<div class="main-page">
+  <div class="page-container page-padding">
+    <app-admin-view
+      class="main-view"
+      [adminModule]="adminModule"
+      [sectionName]="sectionName"
+      [popupForm]="popupForm"
+      (searchFormEvent)="receiveSearchForm($event)"
+    />
+
+    <app-pagination
+      class="pagination-footer"
+      [adminModule]="adminModule"
+      [searchForm]="searchForm"
+    />
+
+    <app-popup-admin-form
+      [adminModule]="adminModule"
+      [searchForm]="searchForm"
+      (popupFormEvent)="receivePopupForm($event)"
+    />
+  </div>
+</div>
