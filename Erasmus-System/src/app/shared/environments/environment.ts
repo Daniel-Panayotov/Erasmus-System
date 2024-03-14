@@ -79,7 +79,6 @@ export const listDocProperties: docProperties = {
       error: 'Invalid Faculty Name',
       regex: facultiesRegex.facultyName,
       class: 'th-30',
-      isRef: ['name', 'faculties'],
     },
   },
   receivingContacts: {

@@ -31,6 +31,7 @@ export class PaginationService {
     searchParams: searchValue,
     section: string
   ): Promise<void> {
+    //validate pageNumber
     if (pageNumber < 1 || (pageNumber > this._pageCount && pageNumber != 1)) {
       return;
     }
@@ -46,6 +47,7 @@ export class PaginationService {
     section: string
   ): Promise<void> {
     const authCookie = this.cookieService.get(environment.authCookieName);
+    //if searchMode changes, start from page 1, otherwise use given page.
     this._page = searching == this._isSearchActive ? this._page : 1;
     let data;
     let response;
@@ -58,6 +60,7 @@ export class PaginationService {
     try {
       switch (searching) {
         case true:
+          //set search params
           if (this._page == 1) {
             this._searchParams = searchParams;
           }
@@ -71,6 +74,7 @@ export class PaginationService {
             break;
           }
 
+          //fetch data
           response = await this.getPageByParam(
             authCookie,
             this._searchParams,
@@ -81,6 +85,7 @@ export class PaginationService {
           data = await response.json();
           break;
         case false:
+          //fetch data
           response = await this.getPage(authCookie, this._page, section);
 
           data = await response.json();

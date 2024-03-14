@@ -27,9 +27,9 @@ import { listDocProperties } from '../../environments/environment';
   styleUrl: './admin-view.component.css',
 })
 export class AdminViewComponent implements OnInit, OnDestroy {
-  @Input() adminModule: string = '';
-  @Input() sectionName: string = '';
-  @Input() popupForm: FormGroup = {} as any;
+  @Input({ required: true }) adminModule: string = '';
+  @Input({ required: true }) sectionName: string = '';
+  @Input({ required: true }) popupForm: FormGroup = {} as any;
   @Output() searchFormEvent = new EventEmitter<FormGroup>();
 
   constructor(
@@ -66,7 +66,7 @@ export class AdminViewComponent implements OnInit, OnDestroy {
 
   async deleteField(id: string): Promise<void> {
     await this.deletionService.onDelete.bind(
-      this.deletionService,
+      this.deletionService, // original context
       id,
       this.adminModule,
       this.changePage.bind(this, 1, this.isSearchActive)

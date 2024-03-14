@@ -19,8 +19,9 @@ import { getRoute } from '../../environments/apiEnvironment';
   styleUrl: './popup-admin-form.component.css',
 })
 export class PopupAdminFormComponent implements OnInit {
-  @Input() adminModule: string = '';
-  @Input() searchForm: FormGroup = {} as any;
+  @Input({ required: true }) adminModule: string = '';
+  @Input({ required: true }) sectionName: string = '';
+  @Input({ required: true }) searchForm: FormGroup = {} as any;
   @Output() popupFormEvent = new EventEmitter<FormGroup>();
 
   popupForm: FormGroup = {} as any;
@@ -44,7 +45,9 @@ export class PopupAdminFormComponent implements OnInit {
   }
 
   async getRefDocs(): Promise<void> {
-    //return
+    /* check if there are reference type properties
+     * if there are, push the routes they must be fetched from to an array
+     */
     const docsToFetch: any[] = [];
     this.iterableDocProperties.map((val): any => {
       if (val[1].isRef) {
@@ -52,6 +55,9 @@ export class PopupAdminFormComponent implements OnInit {
       }
     });
 
+    /* fetch for each item in the array
+     * add them to an object - key: route, data: fetched docs
+     */
     try {
       for (let doc of docsToFetch) {
         const res = await this.getDocs(doc);
@@ -61,6 +67,7 @@ export class PopupAdminFormComponent implements OnInit {
     } catch (err) {}
   }
 
+  /* Function to fetch docs with */
   async getDocs(route: string) {
     const authCookie = this.cookieService.get(environment.authCookieName);
 

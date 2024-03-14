@@ -1,5 +1,3 @@
-import { IndexedApi } from 'src/app/types/paginationApi';
-
 const apiUrl = 'http://localhost:5000';
 const apiAdminUrl = `${apiUrl}/admins`;
 const apiUserUrl = `${apiUrl}/users`;

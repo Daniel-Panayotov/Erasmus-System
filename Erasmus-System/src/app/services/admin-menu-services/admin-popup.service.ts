@@ -49,13 +49,16 @@ export class AdminPopupService {
       return;
     }
 
+    //clear state
     popupFieldForm.reset();
 
+    //set form values if in "Edit" mode
     if (isEdit && !this.isPopupVisible) {
       const values = this.generateValues(i, adminModule);
       popupFieldForm.setValue(values);
     }
 
+    //clear state
     this._popupError = false;
     this._isPopupEdit = isEdit;
     this._isPopupVisible = !this.isPopupVisible;
@@ -71,12 +74,11 @@ export class AdminPopupService {
 
     /* Index an object to get value names, to access the form values
      * Validate form values
-     * Collect the form values if valid
+     * Collect the form values if valid in "values"
      */
     const docProperties = listDocProperties[adminModule];
 
     for (let propertyName in docProperties) {
-      //expand validation
       if (
         !docProperties[propertyName].regex.exec(
           formValues[propertyName] as string
@@ -88,6 +90,7 @@ export class AdminPopupService {
       values[propertyName] = formValues[propertyName];
     }
 
+    //check if theres an error
     if (this._popupError) {
       return;
     }

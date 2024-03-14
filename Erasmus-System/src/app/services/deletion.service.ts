@@ -40,6 +40,7 @@ export class DeletionService {
         }
       );
 
+      //change page automatically
       await changePage();
     } catch (err) {}
   }
