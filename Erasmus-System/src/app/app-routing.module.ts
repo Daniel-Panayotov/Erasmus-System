@@ -16,6 +16,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'users',
+    loadChildren: () =>
+      import('./modules/users/users-routing.module').then(
+        (m) => m.UsersRoutingModule
+      ),
+  },
+  {
     path: '**',
     component: NotFoundComponent,
   },

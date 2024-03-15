@@ -1,65 +1,16 @@
 import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { environment } from 'src/app/shared/environments/environment';
-import { AdminService } from '../admin.service';
-import { CookieService } from 'ngx-cookie-service';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { globalRegex } from 'src/app/shared/environments/validationEnvironment';
+import { AuthPageComponent } from 'src/app/shared/components/auth-page/auth-page.component';
 
 @Component({
   selector: 'app-admin-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [CommonModule, AuthPageComponent],
   templateUrl: './admin-login.component.html',
   styleUrl: './admin-login.component.css',
 })
 export class AdminLoginComponent {
-  showPassword: boolean = false;
-  error: string = '';
-
-  constructor(
-    private fb: FormBuilder,
-    private adminService: AdminService,
-    private cookieService: CookieService,
-    private router: Router
-  ) {}
-
-  //create form with validators
-  adminLoginForm = this.fb.group({
-    email: [
-      '',
-      [Validators.required, Validators.pattern(globalRegex.emailRegex)],
-    ],
-    password: ['', [Validators.required, Validators.minLength(10)]],
-  });
-
-  async onSubmit(): Promise<void> {
-    const { email, password } = this.adminLoginForm.value;
-
-    //validate
-    if (!email || !password) {
-      return;
-    }
-
-    if (!globalRegex.emailRegex.exec(email) || password.length < 10) {
-      return;
-    }
-
-    try {
-      const response = await this.adminService.loginAdmin({ email, password });
-      const data = await response.json();
-      const { jwt } = data;
-
-      this.cookieService.set(environment.authCookieName, jwt, undefined, '/');
-      this.router.navigate(['/admins/menu']);
-    } catch (err: any) {
-      const { message } = await err.json();
-      this.error = message;
-    }
-  }
-
-  toggleShowPassword(): void {
-    this.showPassword = !this.showPassword;
-  }
+  authModule: string = 'admins';
+  authAction: string = 'login';
+  sectionName: string = 'Admin';
 }

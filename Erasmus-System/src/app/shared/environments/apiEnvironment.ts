@@ -1,6 +1,6 @@
 const apiUrl = 'http://localhost:5000';
-const apiAdminUrl = `${apiUrl}/admins`;
 const apiUserUrl = `${apiUrl}/users`;
+const apiAdminUrl = `${apiUrl}/admins`;
 
 export const cookieEnvironment = {
   verifyAdminTokenUrl: `${apiAdminUrl}/verify`,
@@ -8,7 +8,12 @@ export const cookieEnvironment = {
 };
 
 export const adminsEnvironment = {
-  loginAdminUrl: `${apiAdminUrl}/login`,
+  loginUrl: `${apiAdminUrl}/login`,
+};
+
+const usersEnvironment = {
+  loginUrl: `${apiUserUrl}/login`,
+  registerUrl: `${apiUserUrl}/register`,
 };
 
 const apiFieldOfEducationUrl = `${apiUrl}/fields`;
@@ -81,6 +86,23 @@ export function getRoute(adminModule: string, action: string): string {
   return url;
 }
 
+export function getAuthRoute(authModule: string, action: string): string {
+  const environment = getEnvironment(authModule) as any;
+  let url = '';
+
+  switch (action) {
+    case 'login':
+      url = environment.loginUrl;
+      break;
+    case 'register':
+      //for users only
+      url = environment.registerUrl;
+      break;
+  }
+
+  return url;
+}
+
 function getEnvironment(adminSection: string) {
   let env;
   switch (adminSection) {
@@ -95,6 +117,12 @@ function getEnvironment(adminSection: string) {
       break;
     case 'receivingContacts':
       env = receivingContactsEnvironment;
+      break;
+    case 'admins':
+      env = adminsEnvironment;
+      break;
+    case 'users':
+      env = usersEnvironment;
       break;
   }
   return env;

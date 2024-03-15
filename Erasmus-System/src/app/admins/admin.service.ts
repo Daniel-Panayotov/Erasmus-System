@@ -19,7 +19,7 @@ export class AdminService {
       body: JSON.stringify(data),
     };
 
-    return fetch(adminsEnvironment.loginAdminUrl, options).then((res) => {
+    return fetch(adminsEnvironment.loginUrl, options).then((res) => {
       if (!res.ok) {
         throw res;
       }
