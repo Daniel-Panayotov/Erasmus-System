@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { NavigationComponent } from './navigation/navigation.component';
-import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
@@ -13,8 +11,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [NavigationComponent, FooterComponent],
+  declarations: [],
   imports: [CommonModule, RouterModule.forChild(routes)],
-  exports: [NavigationComponent, FooterComponent],
+  exports: [],
 })
 export class CoreModule {}

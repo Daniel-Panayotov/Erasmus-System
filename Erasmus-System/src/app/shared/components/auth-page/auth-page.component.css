@@ -1,6 +1,12 @@
 .auth-page {
   height: 100vh;
   display: flex;
+  flex-direction: column;
+}
+
+.flex-container {
+  height: 100%;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -20,16 +26,27 @@
   gap: 1em;
 }
 
-.auth-form .submit-btn {
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.actions .help-options {
+  display: flex;
+  justify-content: space-between;
+}
+
+.submit-btn {
+  flex: 0 1 3em;
   color: white;
   border-radius: 1.5em;
-  flex: 0 1 3em;
   background-color: #11be3f;
   border: transparent;
   cursor: pointer;
 }
 
-.auth-form .submit-btn:disabled {
+.submit-btn:disabled {
   background-color: red;
 }
 
@@ -60,4 +77,8 @@
 .error-message {
   color: red;
   font-size: 0.8em;
+}
+
+.footer {
+  margin-top: auto;
 }

@@ -1,6 +1,8 @@
 <div class="admin-home">
   <header class="admin-header">
-    <p>Admin access</p>
+    <div class="button" [routerLink]="adminRoutes.adminMenu">
+      <p>Admin access</p>
+    </div>
     <div class="button" (click)="logoutAdmin()">
       <span>Logout</span>
     </div>
@@ -13,7 +15,7 @@
       <div class="nav-container">
         <nav class="admin-nav" *ngIf="isNavShown">
           <ul>
-            <li routerLink="{{ adminRoutes.adminMenu }}"><a>Home</a></li>
+            <li routerLink="{{ homeRoute }}"><a>Home</a></li>
             <li routerLink="{{ adminRoutes.receivingContacts }}">
               <a>Receiving Contacts</a>
             </li>

@@ -1,16 +1,28 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject, input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { globalRegex } from '../../environments/validationEnvironment';
 import { environment } from '../../environments/environment';
 import { AuthService } from 'src/app/services/general-services/auth.service';
+import {
+  getRouteAfterAuth,
+  userRoutes,
+} from '../../environments/siteRoutingEnvironment';
+import { NavigationComponent } from 'src/app/core/navigation/navigation.component';
+import { FooterComponent } from 'src/app/core/footer/footer.component';
 
 @Component({
   selector: 'app-auth-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    RouterModule,
+    NavigationComponent,
+    FooterComponent,
+  ],
   templateUrl: './auth-page.component.html',
   styleUrl: './auth-page.component.css',
 })
@@ -18,6 +30,8 @@ export class AuthPageComponent {
   @Input({ required: true }) authModule: string = '';
   @Input({ required: true }) authAction: string = '';
   @Input({ required: true }) sectionName: string = '';
+
+  userRoutes = userRoutes as any;
 
   showPassword: boolean = false;
   error: string = '';
@@ -74,12 +88,12 @@ export class AuthPageComponent {
 
       /* Navigate to predetermined route
        */
-      this.router.navigate(['/admins/menu']);
+      const route = getRouteAfterAuth(this.authModule);
+      this.router.navigate([route]);
     } catch (err: any) {
       /* Display error
        */
       const { message } = await err.json();
-      console.log(message);
       this.error = message;
     }
   }

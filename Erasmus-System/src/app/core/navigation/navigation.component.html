@@ -1,1 +1,14 @@
-<p>navigation works!</p>
+<header class="page-header">
+  <p class="page-title" [routerLink]="homeRoute">Erasmus</p>
+  <nav class="page-nav">
+    <ul class="not-logged-nav-list" *ngIf="!isAuthenticated">
+      <li [routerLink]="userRoutes['login']"><a>Login</a></li>
+      <li [routerLink]="userRoutes['register']"><a>Register</a></li>
+    </ul>
+    <ul class="logged-nav-list" *ngIf="isAuthenticated">
+      <li [routerLink]="adminMenuRoute" *ngIf="isAdmin"><a>Admin Module</a></li>
+      <li><a>Apply</a></li>
+      <li (click)="logout()"><a>Logout</a></li>
+    </ul>
+  </nav>
+</header>

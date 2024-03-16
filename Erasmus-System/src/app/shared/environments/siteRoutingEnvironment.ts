@@ -1,3 +1,4 @@
+export const home = '/home';
 const adminRoute = '/admins';
 const adminMenuRoute = `${adminRoute}/menu`;
 
@@ -10,3 +11,25 @@ export const adminRoutes = {
   foreignContacts: `${adminMenuRoute}/foreign-contacts`,
   receivingContacts: `${adminMenuRoute}/receiving-contacts`,
 };
+
+const userRoute = '/users';
+
+export const userRoutes = {
+  login: `${userRoute}/login`,
+  register: `${userRoute}/register`,
+};
+
+export function getRouteAfterAuth(section: string): string {
+  let route = '';
+
+  switch (section) {
+    case 'users':
+      route = '/';
+      break;
+    case 'admins':
+      route = adminRoutes.adminMenu;
+      break;
+  }
+
+  return route;
+}

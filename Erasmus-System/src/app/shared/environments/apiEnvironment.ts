@@ -3,8 +3,7 @@ const apiUserUrl = `${apiUrl}/users`;
 const apiAdminUrl = `${apiUrl}/admins`;
 
 export const cookieEnvironment = {
-  verifyAdminTokenUrl: `${apiAdminUrl}/verify`,
-  verifyNormalCookieUrl: `${apiUserUrl}/verify-cookie`,
+  verifyCookieUrl: `${apiUserUrl}/verify-cookie`,
 };
 
 export const adminsEnvironment = {

@@ -8,28 +8,32 @@ import {
 } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../environments/environment';
-import { Observable, from, map } from 'rxjs';
-import { VerifyCookieService } from 'src/app/services/verify-cookie.service';
+import { AuthService } from 'src/app/services/general-services/auth.service';
+import { home } from '../environments/siteRoutingEnvironment';
 
 export const AdminGuard: CanActivateFn = async (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ): Promise<boolean | UrlTree> => {
   const cookieService = inject(CookieService);
-  const verifyCookieService = inject(VerifyCookieService);
+  const authService = inject(AuthService);
   const router = inject(Router);
 
   const cookie = cookieService.get(environment.authCookieName);
 
   if (!cookie) {
+    router.navigate([home]);
     return false;
   }
 
   try {
-    const response = await verifyCookieService.verifyAdminCookie(cookie);
+    const response = await authService.verifyCookie(cookie);
     const data = await response.json();
-    const isAdmin = data.isAdmin;
+    const { isAdmin } = data;
 
+    if (!isAdmin) {
+      router.navigate([home]);
+    }
     return isAdmin;
   } catch (err) {
     return false;

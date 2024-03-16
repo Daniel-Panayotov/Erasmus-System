@@ -6,10 +6,12 @@ describe('NavigationComponent', () => {
   let component: NavigationComponent;
   let fixture: ComponentFixture<NavigationComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [NavigationComponent]
-    });
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [NavigationComponent]
+    })
+    .compileComponents();
+    
     fixture = TestBed.createComponent(NavigationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

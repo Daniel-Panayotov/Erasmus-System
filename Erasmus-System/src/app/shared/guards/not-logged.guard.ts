@@ -1,12 +1,14 @@
-import { CanActivateFn } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { VerifyCookieService } from 'src/app/services/verify-cookie.service';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../environments/environment';
+import { AuthService } from 'src/app/services/general-services/auth.service';
+import { home } from '../environments/siteRoutingEnvironment';
 
 export const notLoggedGuard: CanActivateFn = async (route, state) => {
-  const verifyCookieService = inject(VerifyCookieService);
+  const authService = inject(AuthService);
   const cookieService = inject(CookieService);
+  const router = inject(Router);
 
   const cookie = cookieService.get(environment.authCookieName);
 
@@ -15,12 +17,15 @@ export const notLoggedGuard: CanActivateFn = async (route, state) => {
   }
 
   try {
-    const response = await verifyCookieService.verifyNormalCookie(cookie);
+    const response = await authService.verifyCookie(cookie);
     const data = await response.json();
 
-    const isLogged = data.isLogged;
-    return !isLogged;
+    const { isAuthenticated } = data;
+    if (isAuthenticated) {
+      router.navigate([home]);
+    }
+    return !isAuthenticated;
   } catch (err) {
-    return true;
+    return false;
   }
 };
