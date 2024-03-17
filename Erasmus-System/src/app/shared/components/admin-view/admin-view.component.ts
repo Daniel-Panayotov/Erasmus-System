@@ -6,6 +6,7 @@ import {
   OnInit,
   EventEmitter,
   OnDestroy,
+  inject,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -27,17 +28,15 @@ import { listDocProperties } from '../../environments/environment';
   styleUrl: './admin-view.component.css',
 })
 export class AdminViewComponent implements OnInit, OnDestroy {
+  private paginationService = inject(PaginationService);
+  private fb = inject(FormBuilder);
+  private deletionService = inject(DeletionService);
+  private popupService = inject(AdminPopupService);
+
   @Input({ required: true }) adminModule: string = '';
   @Input({ required: true }) sectionName: string = '';
   @Input({ required: true }) popupForm: FormGroup = {} as any;
   @Output() searchFormEvent = new EventEmitter<FormGroup>();
-
-  constructor(
-    private paginationService: PaginationService,
-    private fb: FormBuilder,
-    private deletionService: DeletionService,
-    private popupService: AdminPopupService
-  ) {}
 
   ngOnInit(): void {
     this.sendSearchForm();

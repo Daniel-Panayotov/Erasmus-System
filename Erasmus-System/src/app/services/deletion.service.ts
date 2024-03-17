@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { globalRegex } from '../shared/environments/validationEnvironment';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../shared/environments/environment';
@@ -8,7 +8,7 @@ import { getRoute } from '../shared/environments/apiEnvironment';
   providedIn: 'root',
 })
 export class DeletionService {
-  constructor(private cookieService: CookieService) {}
+  private cookieService = inject(CookieService);
 
   async onDelete(
     id: string,

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { PaginationService } from 'src/app/services/pagination.service';
 import { searchValue } from 'src/app/types/searchFormValue';
@@ -12,9 +12,10 @@ import { searchValue } from 'src/app/types/searchFormValue';
   styleUrl: './pagination.component.css',
 })
 export class PaginationComponent implements OnInit {
+  private paginationService = inject(PaginationService);
+
   @Input({ required: true }) searchForm: FormGroup = {} as any;
   @Input({ required: true }) adminModule: string = '';
-  constructor(private paginationService: PaginationService) {}
 
   ngOnInit(): void {
     this.changePage(1, false);

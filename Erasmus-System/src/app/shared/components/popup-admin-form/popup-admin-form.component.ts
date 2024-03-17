@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  inject,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -19,6 +26,10 @@ import { getRoute } from '../../environments/apiEnvironment';
   styleUrl: './popup-admin-form.component.css',
 })
 export class PopupAdminFormComponent implements OnInit {
+  private fb = inject(FormBuilder);
+  private popupService = inject(AdminPopupService);
+  private cookieService = inject(CookieService);
+
   @Input({ required: true }) adminModule: string = '';
   @Input({ required: true }) sectionName: string = '';
   @Input({ required: true }) searchForm: FormGroup = {} as any;
@@ -27,12 +38,6 @@ export class PopupAdminFormComponent implements OnInit {
   popupForm: FormGroup = {} as any;
 
   refDocs: any = {};
-
-  constructor(
-    private fb: FormBuilder,
-    private popupService: AdminPopupService,
-    private cookieService: CookieService
-  ) {}
 
   //setup form and send a ref to parent on init
   async ngOnInit(): Promise<void> {

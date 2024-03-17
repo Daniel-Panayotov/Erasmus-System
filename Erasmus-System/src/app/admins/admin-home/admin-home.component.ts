@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { FooterComponent } from 'src/app/core/footer/footer.component';
@@ -17,11 +17,12 @@ import {
   styleUrls: ['./admin-home.component.css'],
 })
 export class AdminHomeComponent {
+  private cookieService = inject(CookieService);
+  private router = inject(Router);
+
   isNavShown: boolean = true;
   adminRoutes = adminRoutes;
   homeRoute: string = home;
-
-  constructor(private cookieService: CookieService, private router: Router) {}
 
   toggleNav(): void {
     this.isNavShown = !this.isNavShown;

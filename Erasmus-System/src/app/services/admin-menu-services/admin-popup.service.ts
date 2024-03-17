@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { PaginationService } from '../pagination.service';
 import { getRoute } from 'src/app/shared/environments/apiEnvironment';
 import {
@@ -14,16 +14,14 @@ import { FormGroup } from '@angular/forms';
   providedIn: 'root',
 })
 export class AdminPopupService {
+  private paginationService = inject(PaginationService);
+  private cookieService = inject(CookieService);
+
   private _errorMessage: string = '';
   private _popupError: boolean = false;
   private _isPopupVisible: boolean = false;
   private _isPopupEdit: boolean = false;
   private _popupIndex: number = 0;
-
-  constructor(
-    private paginationService: PaginationService,
-    private cookieService: CookieService
-  ) {}
 
   resetState(): void {
     this._popupError = false;

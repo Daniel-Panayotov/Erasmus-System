@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { environment } from '../shared/environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { getSelectRegex } from '../shared/environments/validationEnvironment';
@@ -9,6 +9,8 @@ import { getRoute } from '../shared/environments/apiEnvironment';
   providedIn: 'root',
 })
 export class PaginationService {
+  private cookieService = inject(CookieService);
+
   private _documents: any[] = []; //variable to hold the documents
   //pagination values
   private _pageCountToIterate: number = 0;
@@ -17,8 +19,6 @@ export class PaginationService {
   //search values
   private _isSearchActive: boolean = false;
   private _searchParams: any = {};
-
-  constructor(private cookieService: CookieService) {}
 
   resetState() {
     this._documents = [];
