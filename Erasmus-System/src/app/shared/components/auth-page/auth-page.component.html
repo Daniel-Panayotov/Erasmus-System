@@ -9,7 +9,10 @@
         (ngSubmit)="submitForm()"
         class="auth-form"
       >
-        <p class="error-message" *ngIf="error">{{ error }}</p>
+        @if (error) {
+
+        <p class="error-message">{{ error }}</p>
+        }
         <div class="input-container">
           <label for="loginEmail">Email</label>
           <input
@@ -18,15 +21,11 @@
             formControlName="email"
             autocomplete="email"
           />
-          <p
-            class="error-message"
-            *ngIf="
-              !authenticationForm.controls.email.valid &&
-              authenticationForm.controls.email.touched
-            "
-          >
-            Invalid email
-          </p>
+          @if (!authenticationForm.controls.email.valid &&
+          authenticationForm.controls.email.touched) {
+
+          <p class="error-message">Invalid email</p>
+          }
         </div>
         <div class="input-container">
           <label for="loginPassword">Password</label>
@@ -41,15 +40,13 @@
               showPassword ? "hide" : "show"
             }}</span>
           </div>
-          <p
-            class="error-message"
-            *ngIf="
-              !authenticationForm.controls.password.valid &&
-              authenticationForm.controls.password.touched
-            "
-          >
+          @if (!authenticationForm.controls.password.valid &&
+          authenticationForm.controls.password.touched) {
+
+          <p class="error-message">
             Password must be within 10 - 30 characters
           </p>
+          }
         </div>
 
         <div class="actions">
@@ -60,7 +57,10 @@
           >
             {{ authAction == "login" ? "Sign in" : "Register" }}
           </button>
-          <div class="help-options" *ngIf="authModule == 'users'">
+
+          @if (authModule == 'users') {
+
+          <div class="help-options">
             <a
               [routerLink]="
                 authAction == 'login'
@@ -71,6 +71,7 @@
             >
             <a>Forgot password?</a>
           </div>
+          }
         </div>
       </form>
     </div>

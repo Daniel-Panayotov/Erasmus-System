@@ -7,6 +7,9 @@ import {
   EventEmitter,
   OnDestroy,
   inject,
+  HostListener,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -37,6 +40,10 @@ export class AdminViewComponent implements OnInit, OnDestroy {
   @Input({ required: true }) sectionName: string = '';
   @Input({ required: true }) popupForm: FormGroup = {} as any;
   @Output() searchFormEvent = new EventEmitter<FormGroup>();
+
+  @ViewChild('selectBtn') selectBtn: ElementRef = {} as ElementRef;
+  searchSelectName: string = '--- Choose Filter ---';
+  isSearchLiVisible: boolean = false;
 
   ngOnInit(): void {
     this.sendSearchForm();
@@ -82,6 +89,36 @@ export class AdminViewComponent implements OnInit, OnDestroy {
     search: [''],
     select: ['', Validators.required],
   });
+
+  /* Add event Listener to close ul if clicked outside
+   */
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent) {
+    if (
+      event.target != this.selectBtn.nativeElement &&
+      this.isSearchLiVisible
+    ) {
+      this.toggleSelectLi();
+    }
+  }
+
+  /* When li is clicked update formControl value
+   * and update button name to reflect value
+   */
+  changeSelectValue(value: string, valueName: string): void {
+    this.searchSelectName = valueName;
+
+    const values = this.searchFieldForm.value as any;
+    values.select = value;
+
+    this.searchFieldForm.setValue(values);
+
+    this.toggleSelectLi();
+  }
+
+  toggleSelectLi(): void {
+    this.isSearchLiVisible = !this.isSearchLiVisible;
+  }
 
   get docProperty() {
     return Object.entries(listDocProperties[this.adminModule]);

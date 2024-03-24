@@ -1,7 +1,7 @@
 <header class="page-header">
   <p>Browse {{ sectionName }}</p>
   <div class="button-add button" (click)="togglePopup(false, -1)">
-    {{ isPopupVisible && !isPopupEdit ? "Close" : "Add Document" }}
+    {{ isPopupVisible && !isPopupEdit ? "Close Form" : "Add Record" }}
   </div>
 </header>
 <main class="page-main">
@@ -18,21 +18,29 @@
           changePage(1, searchFieldForm.value.search == '' ? false : true)
         "
       >
-        <select
-          name="search-param"
-          class="search-form-select"
-          formControlName="select"
-        >
-          <option value="" class="search-form-option">
-            --- Choose Filter ---
-          </option>
-          <option
-            *ngFor="let property of docProperty"
-            value="{{ property[0] }}"
+        <div class="search-select">
+          <!-- hidden -->
+          <input type="text" formControlName="select" class="hidden-select" />
+
+          <button
+            #selectBtn
+            type="button"
+            class="select-btn"
+            (click)="toggleSelectLi()"
           >
-            {{ property[1].name }}
-          </option>
-        </select>
+            {{ searchSelectName }}
+          </button>
+
+          <ul class="search-form-ul">
+            @for (property of docProperty; track $index) { @if
+            (isSearchLiVisible) {
+
+            <li (click)="changeSelectValue(property[0], property[1].name)">
+              {{ property[1].name }}
+            </li>
+            } }
+          </ul>
+        </div>
         <input
           type="text"
           class="search-form-input"
@@ -45,14 +53,17 @@
   </div>
   <table class="documents-table">
     <thead>
-      <th *ngFor="let property of docProperty" class="{{ property[1].class }}">
+      @for (property of docProperty; track $index) {
+      <th class="{{ property[1].class }}">
         {{ property[1].name }}
       </th>
+      }
       <th class="action-th">Action</th>
     </thead>
     <tbody class="documents-table-body">
       <tr *ngFor="let document of documents; let i = index">
-        <td *ngFor="let property of docProperty">
+        @for (property of docProperty; track $index) {
+        <td>
           <span class="td-content">
             {{
               property[1].isRef
@@ -66,6 +77,7 @@
               : document[property[0]]
           }}</span>
         </td>
+        }
         <td>
           <div class="documents-table-buttons">
             <div class="button button-edit" (click)="togglePopup(true, i)">

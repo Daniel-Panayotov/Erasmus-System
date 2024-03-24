@@ -4,7 +4,7 @@ export type docProperties = {
   };
 };
 
-interface docProperty {
+export interface docProperty {
   name: string;
   error: string;
   regex: RegExp;

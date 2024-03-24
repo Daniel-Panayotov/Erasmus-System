@@ -6,6 +6,9 @@ import {
   Output,
   EventEmitter,
   inject,
+  HostListener,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -17,6 +20,11 @@ import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-po
 import { environment, listDocProperties } from '../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { getRoute } from '../../environments/apiEnvironment';
+import { docProperty } from 'src/app/types/docProperties';
+
+export interface refDocs {
+  [key: string]: any[];
+}
 
 @Component({
   selector: 'app-popup-admin-form',
@@ -32,12 +40,16 @@ export class PopupAdminFormComponent implements OnInit {
 
   @Input({ required: true }) adminModule: string = '';
   @Input({ required: true }) sectionName: string = '';
-  @Input({ required: true }) searchForm: FormGroup = {} as any;
+  @Input({ required: true }) searchForm = {} as FormGroup;
   @Output() popupFormEvent = new EventEmitter<FormGroup>();
 
-  popupForm: FormGroup = {} as any;
+  popupForm = {} as FormGroup;
+  refDocs: refDocs = {};
+  filteredRefDocs: refDocs = {};
 
-  refDocs: any = {};
+  @ViewChild('formControl') formRefControl: ElementRef = {} as ElementRef;
+  searchSelectName: string = '';
+  isSearchLiVisible: boolean = false;
 
   //setup form and send a ref to parent on init
   async ngOnInit(): Promise<void> {
@@ -49,6 +61,57 @@ export class PopupAdminFormComponent implements OnInit {
     this.getRefDocs().then();
   }
 
+  /* When value of input that contains list of referenced values changes
+   * Filter the values based on the input
+   * and display them as suggestions
+   */
+  filterControlValues(
+    formInput: ElementRef,
+    property: [string, docProperty]
+  ): void {
+    const value: string = formInput.nativeElement.value;
+    const docs = this.refDocs[property[1].isRef![1]];
+
+    const filteredDocs: docProperty[] = [];
+
+    for (let doc of docs) {
+      if (doc[property[1].isRef![0]].toLowerCase().includes(value)) {
+        filteredDocs.push(doc);
+      }
+    }
+
+    this.filteredRefDocs[property[1].isRef![1]] = filteredDocs;
+  }
+
+  /*
+   */
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent): void {
+    try {
+      if (
+        this.formRefControl.nativeElement != event.target &&
+        this.isSearchLiVisible
+      ) {
+        this.toggleSelectLi();
+      }
+    } catch (err) {}
+  }
+
+  changeSelectValue(value: string, control: string): void {
+    const values = this.popupForm.value;
+    values[control] = value;
+
+    this.popupForm.setValue(values);
+
+    this.toggleSelectLi();
+  }
+
+  toggleSelectLi(): void {
+    this.isSearchLiVisible = !this.isSearchLiVisible;
+  }
+
+  /*
+   */
   async getRefDocs(): Promise<void> {
     /* check if there are reference type properties
      * if there are, push the routes they must be fetched from to an array

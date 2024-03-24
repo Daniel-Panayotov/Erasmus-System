@@ -14,23 +14,39 @@
     >
       <label for="{{ property[0] }}">{{ property[1].name }}</label>
 
+      @if (!property[1].isRef) {
+
       <input
         type="text"
         formControlName="{{ property[0] }}"
         id="{{ property[0] }}"
-        *ngIf="!property[1].isRef; else nonRef"
       />
+      } @else {
 
-      <ng-template #nonRef>
-        <select formControlName="{{ property[0] }}" id="{{ property[0] }}">
-          <option
-            *ngFor="let doc of refDocs[property[1].isRef![1]]"
-            value="{{ doc[property[1].isRef![0]] }}"
+      <div class="form-control-container">
+        <input
+          #formControl
+          type="text"
+          id="{{ property[0] }}"
+          class="form-control"
+          formControlName="{{ property[0] }}"
+          (click)="toggleSelectLi()"
+          (input)="filterControlValues(formRefControl, property)"
+        />
+
+        <ul class="form-ul">
+          @for (doc of filteredRefDocs[property[1].isRef![1]]; track $index) {
+          @if (isSearchLiVisible) {
+
+          <li
+            (click)="changeSelectValue(doc[property[1].isRef![0]], property[0])"
           >
             {{ doc[property[1].isRef![0]] }}
-          </option>
-        </select>
-      </ng-template>
+          </li>
+          } }
+        </ul>
+      </div>
+      }
       <p
         class="error-message"
         *ngIf="

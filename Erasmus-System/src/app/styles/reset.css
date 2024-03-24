@@ -1,0 +1,29 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font: 16px/1.5 Helvetica, sans-serif;
+}
+
+@media (max-width: 800px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+body {
+  font: inherit;
+  height: 100vh;
+}

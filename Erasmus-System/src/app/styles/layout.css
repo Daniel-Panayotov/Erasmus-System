@@ -1,0 +1,17 @@
+.footer {
+  margin-top: auto;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}

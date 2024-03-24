@@ -35,7 +35,8 @@ export class PaginationService {
     if (pageNumber < 1 || (pageNumber > this._pageCount && pageNumber != 1)) {
       return;
     }
-    this._page = pageNumber;
+    //if searchMode changes, start from page 1, otherwise use given page.
+    this._page = searching == this._isSearchActive ? pageNumber : 1;
     try {
       await this.getFields(searching, searchParams, section);
     } catch (err) {}
@@ -47,8 +48,6 @@ export class PaginationService {
     section: string
   ): Promise<void> {
     const authCookie = this.cookieService.get(environment.authCookieName);
-    //if searchMode changes, start from page 1, otherwise use given page.
-    this._page = searching == this._isSearchActive ? this._page : 1;
     let data;
     let response;
 
@@ -75,41 +74,36 @@ export class PaginationService {
           }
 
           //fetch data
-          response = await this.getPageByParam(
-            authCookie,
-            this._searchParams,
-            this._page,
-            section
-          );
+          response = await this.getPageByParam(authCookie, section);
 
           data = await response.json();
           break;
         case false:
           //fetch data
-          response = await this.getPage(authCookie, this._page, section);
+          response = await this.getPage(authCookie, section);
 
           data = await response.json();
 
           break;
       }
+
       const { docs, docCount } = data;
 
       this._documents = docs;
 
-      const pages = Math.ceil(docCount / 10);
-
-      this.calcPages(pages);
+      this.calcPages(docCount);
     } catch (err) {}
 
     this._isSearchActive = searching;
   }
 
-  private calcPages(pages: number): void {
+  private calcPages(docCount: number): void {
     /* Calculate number for numbered page buttons to iterate over.
      * Have 4 or less page options on each side of main page, if possible
      * x: can be 5 or less (includes current page)
      * y: can be 4 or less
      */
+    const pages = Math.ceil(docCount / 10);
 
     this._pageCount = pages;
 
@@ -123,11 +117,7 @@ export class PaginationService {
    * Indexes an object of functions, from given string, to return base url
    */
 
-  private async getPage(
-    cookie: string,
-    page: number,
-    section: string
-  ): Promise<Response> {
+  private async getPage(cookie: string, section: string): Promise<Response> {
     const options = {
       method: 'POST',
       headers: {
@@ -135,7 +125,7 @@ export class PaginationService {
       },
     };
 
-    const url = getRoute(section, 'getPage') + `/${page}`;
+    const url = getRoute(section, 'getPage') + `/${this._page}`;
 
     return fetch(url, options).then((res) => {
       if (!res.ok) {
@@ -147,8 +137,6 @@ export class PaginationService {
 
   private async getPageByParam(
     cookie: string,
-    data: { select: string; search: string },
-    page: number,
     section: string
   ): Promise<Response> {
     const options = {
@@ -157,10 +145,10 @@ export class PaginationService {
         [environment.authCookieName]: cookie,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(this._searchParams),
     };
 
-    const url = getRoute(section, 'getByParam') + `/${page}`;
+    const url = getRoute(section, 'getByParam') + `/${this._page}`;
 
     return fetch(url, options).then((res) => {
       if (!res.ok) {

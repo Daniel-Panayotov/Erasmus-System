@@ -1,46 +1,42 @@
-<footer class="fields-pagination-footer" *ngIf="getPageCount() > 0">
+@if (pageCount > 0) {
+<footer class="fields-pagination-footer">
   <div class="select-page">
     <div
       class="page-button-left pagination-styles {{
-        getPage() == 1
+        page == 1
           ? 'pagination-styles-disabled'
           : 'pagination-styles-enabled-hover'
       }}"
-      (click)="changePage(getPage() - 1, getIsSearchActive())"
+      (click)="changePage(page - 1, isSearchActive)"
     >
       &lt; Previous
     </div>
     <div class="numbered-pages">
       <div
         class="page-option pagination-styles  {{
-          getPage() == getPage() - (getPage() - 1 < 5 ? getPage() - 1 : 4) + i
+          page == page - (page - 1 < 5 ? page - 1 : 4) + i
             ? 'page-selected'
             : 'pagination-styles-enabled-hover'
         }}"
-        *ngFor="
-          let num of [].constructor(getPageCountToIterate());
-          let i = index
-        "
+        *ngFor="let num of [].constructor(pageCountToIterate); let i = index"
         (click)="
-          changePage(
-            getPage() - (getPage() - 1 < 5 ? getPage() - 1 : 4) + i,
-            getIsSearchActive()
-          )
+          changePage(page - (page - 1 < 5 ? page - 1 : 4) + i, isSearchActive)
         "
       >
-        {{ getPage() - (getPage() - 1 < 5 ? getPage() - 1 : 4) + i }}
+        {{ page - (page - 1 < 5 ? page - 1 : 4) + i }}
       </div>
     </div>
 
     <div
       class="page-button-right pagination-styles {{
-        getPage() == getPageCount()
+        page == pageCount
           ? 'pagination-styles-disabled'
           : 'pagination-styles-enabled-hover'
       }}"
-      (click)="changePage(getPage() + 1, getIsSearchActive())"
+      (click)="changePage(page + 1, isSearchActive)"
     >
       Next &gt;
     </div>
   </div>
 </footer>
+}

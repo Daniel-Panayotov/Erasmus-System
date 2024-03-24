@@ -17,6 +17,7 @@ const userRoute = '/users';
 export const userRoutes = {
   login: `${userRoute}/login`,
   register: `${userRoute}/register`,
+  applyForm: `${userRoute}/apply-erasmus`,
 };
 
 export function getRouteAfterAuth(section: string): string {

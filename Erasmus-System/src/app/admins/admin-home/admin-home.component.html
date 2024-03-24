@@ -13,7 +13,9 @@
         <span>{{ isNavShown ? "Hide Navigation" : "Show Navigation" }} </span>
       </div>
       <div class="nav-container">
-        <nav class="admin-nav" *ngIf="isNavShown">
+        @if (isNavShown) {
+
+        <nav class="admin-nav">
           <ul>
             <li routerLink="{{ homeRoute }}"><a>Home</a></li>
             <li routerLink="{{ adminRoutes.receivingContacts }}">
@@ -31,6 +33,7 @@
             <li routerLink="{{ adminRoutes.students }}"><a>Students</a></li>
           </ul>
         </nav>
+        }
       </div>
     </aside>
     <main class="admin-main">

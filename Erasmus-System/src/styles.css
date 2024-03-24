@@ -1,44 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: inherit;
-}
+@import url("./app/styles/reset.css");
 
-html {
-  box-sizing: border-box;
-  font: 16px/1.5 Helvetica, sans-serif;
-}
-
-@media (max-width: 800px) {
-  html {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 600px) {
-  html {
-    font-size: 12px;
-  }
-}
-
-body {
-  font: inherit;
-  height: 100vh;
-}
-button,
-input {
-  font: inherit;
-}
-
-a {
-  text-decoration: none;
-}
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-}
+@import url("./app/styles/layout.css");

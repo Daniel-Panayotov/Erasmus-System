@@ -31,19 +31,19 @@ export class PaginationComponent implements OnInit {
     )();
   }
 
-  getPageCountToIterate(): number {
+  get pageCountToIterate(): number {
     return this.paginationService.pageCountToIterate;
   }
 
-  getPageCount(): number {
+  get pageCount(): number {
     return this.paginationService.pageCount;
   }
 
-  getPage(): number {
+  get page(): number {
     return this.paginationService.page;
   }
 
-  getIsSearchActive(): boolean {
+  get isSearchActive(): boolean {
     return this.paginationService.isSearchActive;
   }
 }
