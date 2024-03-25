@@ -21,6 +21,8 @@ import { environment, listDocProperties } from '../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { getRoute } from '../../environments/apiEnvironment';
 import { docProperty } from 'src/app/types/docProperties';
+import { adminRecordUnion } from 'src/app/types/adminDocs';
+import { DropdownComponent } from '../dropdown/dropdown.component';
 
 export interface refDocs {
   [key: string]: any[];
@@ -29,7 +31,7 @@ export interface refDocs {
 @Component({
   selector: 'app-popup-admin-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DropdownComponent],
   templateUrl: './popup-admin-form.component.html',
   styleUrl: './popup-admin-form.component.css',
 })
@@ -45,11 +47,6 @@ export class PopupAdminFormComponent implements OnInit {
 
   popupForm = {} as FormGroup;
   refDocs: refDocs = {};
-  filteredRefDocs: refDocs = {};
-
-  @ViewChild('formControl') formRefControl: ElementRef = {} as ElementRef;
-  searchSelectName: string = '';
-  isSearchLiVisible: boolean = false;
 
   //setup form and send a ref to parent on init
   async ngOnInit(): Promise<void> {
@@ -61,58 +58,7 @@ export class PopupAdminFormComponent implements OnInit {
     this.getRefDocs().then();
   }
 
-  /* When value of input that contains list of referenced values changes
-   * Filter the values based on the input
-   * and display them as suggestions
-   */
-  filterControlValues(
-    formInput: ElementRef,
-    property: [string, docProperty]
-  ): void {
-    const value: string = formInput.nativeElement.value;
-    const docs = this.refDocs[property[1].isRef![1]];
-
-    const filteredDocs: docProperty[] = [];
-
-    for (let doc of docs) {
-      if (doc[property[1].isRef![0]].toLowerCase().includes(value)) {
-        filteredDocs.push(doc);
-      }
-    }
-
-    this.filteredRefDocs[property[1].isRef![1]] = filteredDocs;
-  }
-
-  /*
-   */
-  @HostListener('document:click', ['$event'])
-  onClick(event: MouseEvent): void {
-    try {
-      if (
-        this.formRefControl.nativeElement != event.target &&
-        this.isSearchLiVisible
-      ) {
-        this.toggleSelectLi();
-      }
-    } catch (err) {}
-  }
-
-  changeSelectValue(value: string, control: string): void {
-    const values = this.popupForm.value;
-    values[control] = value;
-
-    this.popupForm.setValue(values);
-
-    this.toggleSelectLi();
-  }
-
-  toggleSelectLi(): void {
-    this.isSearchLiVisible = !this.isSearchLiVisible;
-  }
-
-  /*
-   */
-  async getRefDocs(): Promise<void> {
+  private async getRefDocs(): Promise<void> {
     /* check if there are reference type properties
      * if there are, push the routes they must be fetched from to an array
      */
@@ -136,7 +82,7 @@ export class PopupAdminFormComponent implements OnInit {
   }
 
   /* Function to fetch docs with */
-  async getDocs(route: string) {
+  private async getDocs(route: string) {
     const authCookie = this.cookieService.get(environment.authCookieName);
 
     const options = {
@@ -160,7 +106,7 @@ export class PopupAdminFormComponent implements OnInit {
    * Index it with the given string
    * Setup the form with its prop names and regex
    */
-  addFormControls(): void {
+  private addFormControls(): void {
     const docProperties = listDocProperties[this.adminModule];
 
     for (let propertyName in docProperties) {

@@ -25,6 +25,7 @@ export class AdminPopupService {
 
   resetState(): void {
     this._popupError = false;
+    this._errorMessage = '';
     this._isPopupVisible = false;
     this._isPopupEdit = false;
     this._popupIndex = 0;
@@ -58,6 +59,7 @@ export class AdminPopupService {
 
     //clear state
     this._popupError = false;
+    this._errorMessage = '';
     this._isPopupEdit = isEdit;
     this._isPopupVisible = !this.isPopupVisible;
   }

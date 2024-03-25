@@ -48,43 +48,6 @@
   padding-left: 2px;
 }
 
-/* form controls */
-
-.input-container .form-control,
-.input-container .form-ul {
-  flex: 0 1 2em;
-}
-
-.input-container .form-control {
-  flex: 0 0 100%;
-}
-
-.form-control-container {
-  position: relative;
-  display: flex;
-  flex-shrink: 0;
-}
-
-.form-ul {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  height: 8em;
-  overflow-y: auto;
-  width: 100%;
-  z-index: 5;
-  top: 100%;
-}
-
-.form-ul li {
-  list-style: none outside;
-  background-color: white;
-  text-align: center;
-  cursor: pointer;
-  border-bottom: 1px solid black;
-  border-inline: 1px solid black;
-}
-
 /* button */
 
 .field-popup-button {

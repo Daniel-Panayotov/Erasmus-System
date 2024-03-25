@@ -1,0 +1,23 @@
+<div class="form-control-container" [formGroup]="form">
+  <input
+    #formControl
+    type="text"
+    id="{{ property[0] }}"
+    class="form-control"
+    formControlName="{{ property[0] }}"
+    (click)="toggleSelectLi()"
+    (input)="filterControlValues(formRefControl, property)"
+  />
+
+  @if (isSearchUlVisible) {
+
+  <ul class="form-ul">
+    @for (doc of filteredRefDocs[property[1].isRef![1]]; track $index) {
+
+    <li (click)="changeSelectValue(doc[property[1].isRef![0]], property[0])">
+      {{ doc[property[1].isRef![0]] }}
+    </li>
+    }
+  </ul>
+  }
+</div>
