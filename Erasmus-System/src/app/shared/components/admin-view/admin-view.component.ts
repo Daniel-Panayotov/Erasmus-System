@@ -38,7 +38,7 @@ export class AdminViewComponent implements OnInit, OnDestroy {
 
   @Input({ required: true }) adminModule: string = '';
   @Input({ required: true }) sectionName: string = '';
-  @Input({ required: true }) popupForm: FormGroup = {} as any;
+  @Input({ required: true }) popupForm = {} as FormGroup;
   @Output() searchFormEvent = new EventEmitter<FormGroup>();
 
   @ViewChild('selectBtn') selectBtn: ElementRef = {} as ElementRef;
@@ -108,8 +108,11 @@ export class AdminViewComponent implements OnInit, OnDestroy {
   changeSelectValue(value: string, valueName: string): void {
     this.searchSelectName = valueName;
 
-    const values = this.searchFieldForm.value as any;
-    values.select = value;
+    const { search } = this.searchFieldForm.value;
+    if (typeof search != 'string') {
+      return;
+    }
+    const values = { search, select: value };
 
     this.searchFieldForm.setValue(values);
 
@@ -125,7 +128,7 @@ export class AdminViewComponent implements OnInit, OnDestroy {
   }
 
   /* pagination getters */
-  get documents(): [any] {
+  get documents(): any[] {
     return this.paginationService.documents;
   }
 

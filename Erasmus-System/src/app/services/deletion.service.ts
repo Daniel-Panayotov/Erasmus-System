@@ -13,7 +13,7 @@ export class DeletionService {
   async onDelete(
     id: string,
     adminModule: string,
-    changePage: any
+    changePage: () => Promise<void>
   ): Promise<void> {
     const isSure = window.confirm('Would you like to delete this field?');
 

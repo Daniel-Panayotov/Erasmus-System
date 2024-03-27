@@ -15,8 +15,8 @@ export class ForeignContactsComponent {
   adminModule: string = 'foreignContacts';
   sectionName: string = 'Foreign Contacts';
 
-  searchForm: FormGroup = {} as any;
-  popupForm: FormGroup = {} as any;
+  searchForm = {} as FormGroup;
+  popupForm = {} as FormGroup;
 
   receiveSearchForm(searchForm: FormGroup) {
     this.searchForm = searchForm;

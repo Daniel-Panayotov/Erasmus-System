@@ -5,7 +5,10 @@ import {
   environment,
   listDocProperties,
 } from 'src/app/shared/environments/environment';
-import { popupFormValues } from 'src/app/types/popupFormValues';
+import {
+  popupFormValues,
+  validatedFormValues,
+} from 'src/app/types/popupFormValues';
 import { CookieService } from 'ngx-cookie-service';
 import { searchValue } from 'src/app/types/searchFormValue';
 import { FormGroup } from '@angular/forms';
@@ -54,6 +57,8 @@ export class AdminPopupService {
     //set form values if in "Edit" mode
     if (isEdit && !this.isPopupVisible) {
       const values = this.generateValues(i, adminModule);
+      console.log(values);
+
       popupFieldForm.setValue(values);
     }
 
@@ -70,7 +75,7 @@ export class AdminPopupService {
     searchForm: FormGroup
   ): Promise<void> {
     const formValues: popupFormValues = popupFieldForm.value;
-    const values: any = {};
+    const values: validatedFormValues = {};
 
     /* Index an object to get value names, to access the form values
      * Validate form values
@@ -87,13 +92,14 @@ export class AdminPopupService {
         this._popupError = true;
         break;
       }
-      values[propertyName] = formValues[propertyName];
+      values[propertyName] = formValues[propertyName] as string;
     }
 
     //check if theres an error
     if (this._popupError) {
       return;
     }
+    console.log(values);
 
     const authCookie = this.cookieService.get(environment.authCookieName);
 
@@ -142,7 +148,7 @@ export class AdminPopupService {
    */
   private async updateOne(
     cookie: string,
-    data: { name: string; coordinator: string },
+    data: validatedFormValues,
     id: string,
     adminModule: string
   ): Promise<Response> {
@@ -170,7 +176,7 @@ export class AdminPopupService {
    */
   private async createOne(
     cookie: string,
-    data: { name: string; coordinator: string },
+    data: validatedFormValues,
     adminModule: string
   ): Promise<Response> {
     const options = {
@@ -193,7 +199,7 @@ export class AdminPopupService {
   /* Generate an object of values from given document
    */
   private generateValues(i: number, adminModule: string) {
-    const values: any = {}; // any
+    const values: validatedFormValues = {};
     const document = this.paginationService.documents[i];
 
     const docProperties = listDocProperties[adminModule];

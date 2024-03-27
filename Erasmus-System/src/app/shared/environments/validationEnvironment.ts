@@ -4,6 +4,11 @@ export const globalRegex = {
   docId: /^[a-fA-F0-9]{24}$/,
   phoneNumber: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
   country: /^[a-zA-Z]{2,52}$/,
+  year: /^([0-9]{4})$/,
+  date: /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[0-2])\/((19|20)\d{2})$/,
+  normalSentences: /^[a-zA-Z0-9 ,.!?'"(){}[\]:;-]{1,100}$/,
+  word: /^(\w{1,20})$/,
+  gender: /^(male|female)$/,
 };
 
 export const fieldsRegex = {
@@ -24,14 +29,24 @@ export const contactsRegex = {
   select: /^(firstName|lastName|email|phone|faculty)$/,
 };
 
+export const userDataRegex = {
+  studyYears: /^(1[0-2]|[1-9])$/,
+  mobilityType: /^(study|traineeship)$/,
+  semesterSeason: /^(summer|winter|year)$/,
+};
+
+interface regexEnv {
+  select: RegExp;
+}
+
 export function getSelectRegex(adminModule: string): RegExp {
-  const regexEnv = getRegexEnv(adminModule) as any;
+  const regexEnv = getRegexEnv(adminModule);
 
   return regexEnv.select;
 }
 
 function getRegexEnv(adminModule: string) {
-  let regexEnv;
+  let regexEnv = {} as regexEnv;
 
   switch (adminModule) {
     case 'fields':

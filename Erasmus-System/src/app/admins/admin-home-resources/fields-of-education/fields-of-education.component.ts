@@ -15,8 +15,8 @@ export class FieldsOfEducationComponent {
   adminModule: string = 'fields';
   sectionName: string = 'Fields of Education';
 
-  searchForm: FormGroup = {} as any;
-  popupForm: FormGroup = {} as any;
+  searchForm = {} as FormGroup;
+  popupForm = {} as FormGroup;
 
   constructor() {}
 

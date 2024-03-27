@@ -15,8 +15,8 @@ export class FacultiesComponent {
   adminModule: string = 'faculties';
   sectionName: string = 'Faculties';
 
-  searchForm: FormGroup = {} as any;
-  popupForm: FormGroup = {} as any;
+  searchForm = {} as FormGroup;
+  popupForm = {} as FormGroup;
 
   receiveSearchForm(searchForm: FormGroup) {
     this.searchForm = searchForm;

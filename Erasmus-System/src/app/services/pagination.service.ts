@@ -4,6 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { getSelectRegex } from '../shared/environments/validationEnvironment';
 import { searchValue } from '../types/searchFormValue';
 import { getRoute } from '../shared/environments/apiEnvironment';
+import { adminRecordUnion } from '../types/adminDocs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,14 +12,14 @@ import { getRoute } from '../shared/environments/apiEnvironment';
 export class PaginationService {
   private cookieService = inject(CookieService);
 
-  private _documents: any[] = []; //variable to hold the documents
+  private _documents: adminRecordUnion[] = []; //variable to hold the documents
   //pagination values
   private _pageCountToIterate: number = 0;
   private _pageCount: number = 0;
   private _page: number = 1;
   //search values
   private _isSearchActive: boolean = false;
-  private _searchParams: any = {};
+  private _searchParams = {} as searchValue;
 
   resetState() {
     this._documents = [];
@@ -66,6 +67,9 @@ export class PaginationService {
           const { select, search } = this._searchParams;
 
           //validate unput
+          if (typeof select != 'string') {
+            break;
+          }
           if (
             !getSelectRegex(section).exec(select) ||
             typeof search != 'string'
@@ -160,7 +164,7 @@ export class PaginationService {
 
   /* Setup getters */
 
-  get documents(): [any] {
+  get documents(): any[] {
     return JSON.parse(JSON.stringify(this._documents));
   }
   get pageCountToIterate(): number {

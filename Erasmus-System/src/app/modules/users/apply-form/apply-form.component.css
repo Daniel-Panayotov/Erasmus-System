@@ -3,3 +3,68 @@
   display: flex;
   flex-direction: column;
 }
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.5em;
+  gap: 1em;
+}
+
+@media (min-width: 800px) {
+  .main-container {
+    padding: 0.5em 1em;
+  }
+}
+
+.form-title {
+  text-align: center;
+}
+
+/* form layout */
+
+.apply-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+}
+
+.control-container {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 30rem;
+}
+
+.control-container-inner {
+  display: flex;
+  gap: 0.5em;
+}
+
+/* Radio input */
+
+.control-container fieldset {
+  margin-top: auto;
+  border: 1px solid #707070;
+  padding-inline: 0.5em;
+  display: flex;
+  gap: 1em;
+}
+
+.control-container fieldset input {
+  margin-right: 5px;
+}
+
+/*  */
+
+.control-container input {
+  flex: 0 0 2.2rem;
+  padding: 0 3px;
+}
+
+button {
+  background-color: rgb(255, 60, 46);
+  color: white;
+}

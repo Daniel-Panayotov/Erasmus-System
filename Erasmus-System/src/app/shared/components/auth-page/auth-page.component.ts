@@ -31,7 +31,7 @@ export class AuthPageComponent {
   @Input({ required: true }) authAction: string = '';
   @Input({ required: true }) sectionName: string = '';
 
-  userRoutes = userRoutes as any;
+  userRoutes = userRoutes;
 
   showPassword: boolean = false;
   error: string = '';

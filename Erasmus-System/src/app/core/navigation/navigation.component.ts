@@ -21,10 +21,12 @@ export class NavigationComponent implements OnInit {
   //inject dependencies
   authService = inject(AuthService);
   cookieService = inject(CookieService);
+
   //variables
   userRoutes = userRoutes;
   adminMenuRoute = adminRoutes.adminMenu;
   homeRoute: string = home;
+  //
   isAuthenticated: boolean = false;
   isAdmin: boolean = false;
 

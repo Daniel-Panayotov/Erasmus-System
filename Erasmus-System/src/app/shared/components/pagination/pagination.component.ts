@@ -14,7 +14,7 @@ import { searchValue } from 'src/app/types/searchFormValue';
 export class PaginationComponent implements OnInit {
   private paginationService = inject(PaginationService);
 
-  @Input({ required: true }) searchForm: FormGroup = {} as any;
+  @Input({ required: true }) searchForm = {} as FormGroup;
   @Input({ required: true }) adminModule: string = '';
 
   ngOnInit(): void {

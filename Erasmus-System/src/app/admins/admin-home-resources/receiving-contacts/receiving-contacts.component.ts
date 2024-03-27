@@ -15,8 +15,8 @@ export class ReceivingContactsComponent {
   adminModule: string = 'receivingContacts';
   sectionName: string = 'Receiving Contacts';
 
-  searchForm: FormGroup = {} as any;
-  popupForm: FormGroup = {} as any;
+  searchForm = {} as FormGroup;
+  popupForm = {} as FormGroup;
 
   receiveSearchForm(searchForm: FormGroup) {
     this.searchForm = searchForm;

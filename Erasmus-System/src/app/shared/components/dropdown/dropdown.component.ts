@@ -60,7 +60,7 @@ export class DropdownComponent {
 
     for (let doc of docs) {
       if (
-        doc[property[1].isRef![0]]
+        (doc[property[1].isRef![0]] as string)
           .toLowerCase()
           .includes(value.toLocaleLowerCase())
       ) {
@@ -74,9 +74,11 @@ export class DropdownComponent {
   /* When li is clicked update formControl value
    * and update button name to reflect value
    */
-  changeSelectValue(value: string, control: string): void {
+  changeSelectValue(value: any, control: string): void {
+    const selectValue = value as string;
+
     const values = this.form.value;
-    values[control] = value;
+    values[control] = selectValue;
 
     this.form.setValue(values);
 

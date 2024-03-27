@@ -6,9 +6,6 @@ import {
   Output,
   EventEmitter,
   inject,
-  HostListener,
-  ViewChild,
-  ElementRef,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -20,12 +17,11 @@ import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-po
 import { environment, listDocProperties } from '../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { getRoute } from '../../environments/apiEnvironment';
-import { docProperty } from 'src/app/types/docProperties';
-import { adminRecordUnion } from 'src/app/types/adminDocs';
 import { DropdownComponent } from '../dropdown/dropdown.component';
+import { adminRecordUnion } from 'src/app/types/adminDocs';
 
 export interface refDocs {
-  [key: string]: any[];
+  [key: string]: adminRecordUnion[];
 }
 
 @Component({
@@ -62,8 +58,8 @@ export class PopupAdminFormComponent implements OnInit {
     /* check if there are reference type properties
      * if there are, push the routes they must be fetched from to an array
      */
-    const docsToFetch: any[] = [];
-    this.iterableDocProperties.map((val): any => {
+    const docsToFetch: string[] = [];
+    this.iterableDocProperties.map((val) => {
       if (val[1].isRef) {
         docsToFetch.push(val[1].isRef[1]);
       }

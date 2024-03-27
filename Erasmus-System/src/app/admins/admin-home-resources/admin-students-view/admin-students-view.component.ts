@@ -28,7 +28,7 @@ export class AdminStudentsViewComponent {
   adminModule: string = 'users';
   sectionName: string = 'Student accounts';
 
-  popupForm: FormGroup = {} as any;
+  popupForm: FormGroup = {} as FormGroup;
 
   receivePopumForm(popupForm: FormGroup) {
     this.popupForm = popupForm;
