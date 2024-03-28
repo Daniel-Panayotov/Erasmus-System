@@ -35,6 +35,7 @@
 .control-container {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   flex: 0 1 30rem;
 }
 
@@ -68,3 +69,5 @@ button {
   background-color: rgb(255, 60, 46);
   color: white;
 }
+
+/* Dropdown */

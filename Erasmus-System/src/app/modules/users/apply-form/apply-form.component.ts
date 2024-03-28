@@ -12,10 +12,17 @@ import {
 } from 'src/app/shared/environments/environment';
 import {
   contactsRegex,
+  facultiesRegex,
+  fieldsRegex,
   globalRegex,
   userDataRegex,
 } from 'src/app/shared/environments/validationEnvironment';
-import { Faculty, Field } from 'src/app/types/adminDocs';
+import {
+  adminRecords,
+  adminRecordUnion,
+  Faculty,
+  Field,
+} from 'src/app/types/adminDocs';
 
 @Component({
   selector: 'app-apply-form',
@@ -35,10 +42,10 @@ export class ApplyFormComponent implements OnInit {
   private apiService = inject(ApiService);
   private cookieService = inject(CookieService);
 
-  fields: Field[] = [];
+  records = {} as adminRecords;
 
   async ngOnInit(): Promise<void> {
-    await this.getFaculties();
+    await this.fetchRecords();
   }
 
   applyForm = this.fb.group({
@@ -85,21 +92,52 @@ export class ApplyFormComponent implements OnInit {
       '',
       [Validators.required, Validators.pattern(userDataRegex.semesterSeason)],
     ],
+    fieldOfStudyRef: [
+      '',
+      [Validators.required, Validators.pattern(fieldsRegex.fieldName)],
+    ],
+    sendingContactRef: [''],
+    sendingFaculty: [
+      '',
+      [Validators.required, Validators.pattern(facultiesRegex.facultyName)],
+    ],
   });
 
   async onSubmit(): Promise<void> {
     console.log(this.applyForm);
   }
 
-  async getFaculties() {
+  /* Fetch All records needed
+   */
+  async fetchRecords() {
     const cookie = this.cookieService.get(environment.authCookieName);
-    try {
-      const res = await this.apiService.getAll(cookie, 'fields');
-      this.fields = await res.json();
-    } catch (err) {}
+    const userData = listDocProperties['userData'];
+
+    //iterate over each property, if ref fetch it
+    for (let property in userData) {
+      if (!userData[property].isRef) {
+        continue;
+      }
+
+      const apiSection = userData[property].isRef!.apiSection;
+
+      try {
+        const res = await this.apiService.getAll(cookie, apiSection);
+        const { docs } = await res.json();
+        this.records[apiSection] = docs;
+      } catch (err) {}
+    }
   }
 
-  get fieldProperties() {
-    return Object.entries(listDocProperties['fields'])[1];
+  get userDataProperties() {
+    return Object.entries(listDocProperties['userData']);
+  }
+
+  get receivingContacts() {
+    return this.records['receivingContacts'];
+  }
+
+  get fields() {
+    return this.records['fields'];
   }
 }

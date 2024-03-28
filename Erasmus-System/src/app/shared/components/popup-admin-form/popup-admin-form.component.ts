@@ -61,7 +61,7 @@ export class PopupAdminFormComponent implements OnInit {
     const docsToFetch: string[] = [];
     this.iterableDocProperties.map((val) => {
       if (val[1].isRef) {
-        docsToFetch.push(val[1].isRef[1]);
+        docsToFetch.push(val[1].isRef.apiSection);
       }
     });
 

@@ -207,7 +207,9 @@ export class AdminPopupService {
       // if property is reference, index value with isRef string
       if (docProperties[propertyName].isRef) {
         values[propertyName] =
-          document[propertyName][docProperties[propertyName].isRef![0]];
+          document[propertyName][
+            docProperties[propertyName].isRef!.properties[0]
+          ];
       } else {
         values[propertyName] = document[propertyName];
       }

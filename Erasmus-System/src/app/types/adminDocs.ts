@@ -1,3 +1,7 @@
+export interface adminRecords {
+  [key: string]: adminRecordUnion[];
+}
+
 export type adminRecordUnion =
   | Faculty
   | Field

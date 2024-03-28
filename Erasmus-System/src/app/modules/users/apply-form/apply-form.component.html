@@ -184,11 +184,33 @@
         </div>
         <!-- Field of study -->
         <div class="control-container">
-          <!-- <app-dropdown
+          <label for="fieldOfStudyRef">Field of study *</label>
+          <app-dropdown
             [form]="applyForm"
-            [refDocs]="{fields}"
-            [property]="fieldProperties"
-          /> -->
+            [refDocs]="{ fields }"
+            [property]="userDataProperties[0]"
+          />
+        </div>
+        <!-- Contact at sending institution -->
+        <div class="control-container">
+          <label for="sendingContactRef"
+            >Contact person at sending institution</label
+          >
+          <app-dropdown
+            [form]="applyForm"
+            [refDocs]="{ receivingContacts }"
+            [property]="userDataProperties[1]"
+          />
+        </div>
+        <!-- Faculty at sending institution -->
+        <div class="control-container">
+          <label for="sendingFaculty">Faculty at sending institution *</label>
+          <input
+            type="text"
+            id="sendingFaculty"
+            placeholder="EEA"
+            formControlName="sendingFaculty"
+          />
         </div>
         <!-- <button type="submit" [disabled]="!applyForm.valid">Submit</button> -->
       </form>

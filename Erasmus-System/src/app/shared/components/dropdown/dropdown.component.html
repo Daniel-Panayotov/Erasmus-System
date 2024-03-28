@@ -9,13 +9,16 @@
     (input)="filterControlValues(formRefControl, property)"
   />
 
-  @if (isSearchUlVisible) {
+  @if (isSearchUlVisible && property[1].isRef) {
 
   <ul class="form-ul">
-    @for (doc of filteredRefDocs[property[1].isRef![1]]; track $index) {
+    @for (doc of filteredRefDocs[property[1].isRef.apiSection]; track $index) {
 
-    <li (click)="changeSelectValue(doc[property[1].isRef![0]], property[0])">
-      {{ doc[property[1].isRef![0]] }}
+    <li (click)="changeSelectValue(doc, property[1].isRef)">
+      @for (propValue of property[1].isRef.properties; track $index) {
+
+      {{ doc[propValue] }}
+      }
     </li>
     }
   </ul>

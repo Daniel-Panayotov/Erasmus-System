@@ -9,5 +9,11 @@ export interface docProperty {
   error: string;
   regex: RegExp;
   class: string;
-  isRef?: string[];
+  isRef?: refProps;
+}
+
+export interface refProps {
+  apiSection: string;
+  properties: string[];
+  assignPropTo: string;
 }

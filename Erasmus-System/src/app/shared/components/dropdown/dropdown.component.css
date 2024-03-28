@@ -1,11 +1,13 @@
 .form-control-container {
   position: relative;
   display: flex;
+  flex-direction: column;
   flex-shrink: 0;
 }
 
 .form-control-container .form-control {
   flex: 0 0 100%;
+  padding-inline: 3px;
 }
 
 .form-ul {

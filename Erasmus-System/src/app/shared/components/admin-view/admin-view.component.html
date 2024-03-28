@@ -31,15 +31,16 @@
             {{ searchSelectName }}
           </button>
 
+          @if (isSearchLiVisible) {
           <ul class="search-form-ul">
-            @for (property of docProperty; track $index) { @if
-            (isSearchLiVisible) {
+            @for (property of docProperty; track $index) {
 
             <li (click)="changeSelectValue(property[0], property[1].name)">
               {{ property[1].name }}
             </li>
-            } }
+            }
           </ul>
+          }
         </div>
         <input
           type="text"
@@ -67,13 +68,13 @@
           <span class="td-content">
             {{
               property[1].isRef
-                ? document[property[0]][property[1].isRef[0]]
+                ? document[property[0]][property[1].isRef.properties[0]]
                 : document[property[0]]
             }}
           </span>
           <span class="td-popup">{{
             property[1].isRef
-              ? document[property[0]][property[1].isRef[0]]
+              ? document[property[0]][property[1].isRef.properties[0]]
               : document[property[0]]
           }}</span>
         </td>

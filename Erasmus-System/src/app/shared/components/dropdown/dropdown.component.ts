@@ -6,7 +6,7 @@ import {
   HostListener,
 } from '@angular/core';
 import { adminRecordUnion } from 'src/app/types/adminDocs';
-import { docProperty } from 'src/app/types/docProperties';
+import { docProperty, refProps } from 'src/app/types/docProperties';
 import { refDocs } from '../popup-admin-form/popup-admin-form.component';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -54,31 +54,37 @@ export class DropdownComponent {
     property: [string, docProperty]
   ): void {
     const value: string = formInput.nativeElement.value;
-    const docs = this.refDocs[property[1].isRef![1]];
+    const docs = this.refDocs[property[1].isRef!.apiSection];
 
     const filteredDocs: adminRecordUnion[] = [];
 
     for (let doc of docs) {
-      if (
-        (doc[property[1].isRef![0]] as string)
-          .toLowerCase()
-          .includes(value.toLocaleLowerCase())
-      ) {
-        filteredDocs.push(doc);
+      for (let i = 0; i < property[1].isRef!.properties.length; i++) {
+        if (
+          (doc[property[1].isRef!.properties[i]] as string)
+            .toLowerCase()
+            .includes(value.toLocaleLowerCase())
+        ) {
+          filteredDocs.push(doc);
+          break;
+        }
       }
     }
 
-    this.filteredRefDocs[property[1].isRef![1]] = filteredDocs;
+    this.filteredRefDocs[property[1].isRef!.apiSection] = filteredDocs;
   }
 
   /* When li is clicked update formControl value
    * and update button name to reflect value
    */
-  changeSelectValue(value: any, control: string): void {
-    const selectValue = value as string;
-
+  changeSelectValue(record: adminRecordUnion, refProps: refProps): void {
     const values = this.form.value;
-    values[control] = selectValue;
+    let selectValue = '';
+
+    for (let i = 0; i < refProps.properties.length; i++) {
+      selectValue += record[refProps.properties[i]] + ' ';
+    }
+    values[refProps.assignPropTo] = selectValue;
 
     this.form.setValue(values);
 

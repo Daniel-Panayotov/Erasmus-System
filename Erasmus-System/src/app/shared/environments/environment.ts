@@ -18,7 +18,7 @@ export const environment = {
  * classes determine the width in % for the table column
  * isRef: wether the property is a reference in the db.
  * 0 index: the name of the property we want to extract
- * 1 index: the name of the api section for the document
+ * 1 index: the name of the api section for the record
  */
 export const listDocProperties: docProperties = {
   fields: {
@@ -111,7 +111,39 @@ export const listDocProperties: docProperties = {
       error: 'Invalid Faculty Name',
       regex: facultiesRegex.facultyName,
       class: 'th-30',
-      isRef: ['name', 'faculties'],
+      isRef: {
+        apiSection: 'faculties',
+        properties: ['name'],
+        assignPropTo: 'name',
+      },
+    },
+  },
+  userData: {
+    fieldOfStudyRef: {
+      name: 'Field',
+      error: 'Invalid field of study',
+      regex: fieldsRegex.fieldName,
+      class: '',
+      isRef: {
+        apiSection: 'fields',
+        properties: ['code', 'name'],
+        assignPropTo: 'fieldOfStudyRef',
+      },
+    },
+    sendingContactRef: {
+      name: 'Sending contact',
+      error: 'Invalid sending contact',
+      regex: contactsRegex.personName,
+      class: '',
+      isRef: {
+        apiSection: 'receivingContacts',
+        properties: ['firstName', 'lastName'],
+        assignPropTo: 'sendingContactRef',
+      },
     },
   },
 };
+
+interface refProperty {
+  [key: string]: string[];
+}
