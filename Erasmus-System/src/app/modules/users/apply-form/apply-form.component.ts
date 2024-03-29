@@ -17,12 +17,7 @@ import {
   globalRegex,
   userDataRegex,
 } from 'src/app/shared/environments/validationEnvironment';
-import {
-  adminRecords,
-  adminRecordUnion,
-  Faculty,
-  Field,
-} from 'src/app/types/adminDocs';
+import { adminRecords } from 'src/app/types/adminDocs';
 
 @Component({
   selector: 'app-apply-form',
@@ -96,15 +91,36 @@ export class ApplyFormComponent implements OnInit {
       '',
       [Validators.required, Validators.pattern(fieldsRegex.fieldName)],
     ],
-    sendingContactRef: [''],
+    //
+    sendingContactRef: ['', [Validators.pattern(contactsRegex.personName)]],
     sendingFaculty: [
       '',
       [Validators.required, Validators.pattern(facultiesRegex.facultyName)],
     ],
+    receivingFacultyRef: [
+      '',
+      [Validators.required, Validators.pattern(facultiesRegex.facultyName)],
+    ],
+    receivingContactRef: ['', [Validators.pattern(facultiesRegex.facultyName)]],
+    studyFrom: [
+      '',
+      [Validators.required, Validators.pattern(globalRegex.date)],
+    ],
+    studyTo: ['', [Validators.required, Validators.pattern(globalRegex.date)]],
+    accommodation: [
+      '',
+      [Validators.required, Validators.pattern(globalRegex.yes_no)],
+    ],
+    stayFrom: ['', [Validators.required, Validators.pattern(globalRegex.date)]],
+    stayTo: ['', [Validators.required, Validators.pattern(globalRegex.date)]],
+    bulgarianCourse: [
+      '',
+      [Validators.required, Validators.pattern(globalRegex.yes_no)],
+    ],
   });
 
   async onSubmit(): Promise<void> {
-    console.log(this.applyForm.controls);
+    console.log(this.applyForm.value);
   }
 
   /* Fetch All records needed
@@ -137,7 +153,15 @@ export class ApplyFormComponent implements OnInit {
     return this.records['receivingContacts'];
   }
 
+  get foreignContacts() {
+    return this.records['foreignContacts'];
+  }
+
   get fields() {
     return this.records['fields'];
+  }
+
+  get faculties() {
+    return this.records['faculties'];
   }
 }

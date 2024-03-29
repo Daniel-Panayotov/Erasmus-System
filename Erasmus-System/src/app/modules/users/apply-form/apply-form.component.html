@@ -198,7 +198,7 @@
           >
           <app-dropdown
             [form]="applyForm"
-            [refDocs]="{ receivingContacts }"
+            [refDocs]="{ foreignContacts }"
             [property]="userDataProperties[1]"
           />
         </div>
@@ -211,6 +211,121 @@
             placeholder="EEA"
             formControlName="sendingFaculty"
           />
+        </div>
+        <!-- Faculty at receiving institution -->
+        <div class="control-container">
+          <label for="receivingFacultyRef"
+            >Faculty at receiving institution *</label
+          >
+          <app-dropdown
+            [form]="applyForm"
+            [refDocs]="{ faculties }"
+            [property]="userDataProperties[2]"
+          />
+        </div>
+        <div class="control-container">
+          <label for="receivingContactRef"
+            >Contact person at receiving institution</label
+          >
+          <app-dropdown
+            [form]="applyForm"
+            [refDocs]="{ receivingContacts }"
+            [property]="userDataProperties[3]"
+          />
+        </div>
+        <!-- Period of study  -->
+        <div class="control-container">
+          <p>Period of study/traineeship *</p>
+          <div class="control-container-inner">
+            <label for="studyFrom">From</label>
+            <input
+              type="text"
+              id="studyFrom"
+              placeholder="01/04/2023"
+              formControlName="studyFrom"
+            />
+            <label for="studyTo">To</label>
+            <input
+              type="text"
+              id="studyTo"
+              placeholder="13/10/2024"
+              formControlName="studyTo"
+            />
+          </div>
+        </div>
+        <!-- Wishes for accommodation? -->
+        <div class="control-container">
+          <fieldset>
+            <legend>Do you wish for accommodation in the university?*</legend>
+            <div class="radio-group">
+              <input
+                type="radio"
+                name="accommodation"
+                id="accommodation1"
+                value="yes"
+                formControlName="accommodation"
+              />
+              <label for="accommodation1">Yes</label>
+            </div>
+            <div class="radio-group">
+              <input
+                type="radio"
+                name="accommodation"
+                id="accommodation2"
+                value="no"
+                formControlName="accommodation"
+              />
+              <label for="accommodation2">No</label>
+            </div>
+          </fieldset>
+        </div>
+        <!-- Period of stay  -->
+        <div class="control-container">
+          <p>Period of stay at the university *</p>
+          <div class="control-container-inner">
+            <label for="stayFrom">From</label>
+            <input
+              type="text"
+              id="stayFrom"
+              placeholder="01/04/2023"
+              formControlName="stayFrom"
+            />
+            <label for="stayTo">To</label>
+            <input
+              type="text"
+              id="stayTo"
+              placeholder="13/10/2024"
+              formControlName="stayTo"
+            />
+          </div>
+        </div>
+        <!-- Attend bulgarian language course? -->
+        <div class="control-container">
+          <fieldset>
+            <legend>
+              Do you wish to attend Bulgarian language course(60 h)?*
+            </legend>
+            <div class="radio-group">
+              <input
+                type="radio"
+                name="bulgarianCourse"
+                id="bulgarianCourse1"
+                value="yes"
+                formControlName="bulgarianCourse"
+              />
+              <label for="bulgarianCourse1">Yes</label>
+            </div>
+            <div class="radio-group">
+              <input
+                type="radio"
+                name="bulgarianCourse"
+                id="bulgarianCourse2"
+                value="no"
+                formControlName="bulgarianCourse"
+              />
+              <label for="bulgarianCourse2">No</label>
+            </div>
+          </fieldset>
         </div>
         <!-- <button type="submit" [disabled]="!applyForm.valid">Submit</button> -->
       </form>

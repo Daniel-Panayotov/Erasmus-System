@@ -119,6 +119,7 @@ export const listDocProperties: docProperties = {
     },
   },
   userData: {
+    // make id's?
     fieldOfStudyRef: {
       name: 'Field',
       error: 'Invalid field of study',
@@ -136,9 +137,31 @@ export const listDocProperties: docProperties = {
       regex: contactsRegex.personName,
       class: '',
       isRef: {
-        apiSection: 'receivingContacts',
+        apiSection: 'foreignContacts',
         properties: { mainProp: 'email', propsList: ['firstName', 'lastName'] },
         assignPropTo: 'sendingContactRef',
+      },
+    },
+    receivingFacultyRef: {
+      name: 'Receiving faculty',
+      error: 'Invalid receiving faculty',
+      regex: facultiesRegex.facultyName,
+      class: '',
+      isRef: {
+        apiSection: 'faculties',
+        properties: { mainProp: 'name', propsList: ['name'] },
+        assignPropTo: 'receivingFacultyRef',
+      },
+    },
+    receivingContactRef: {
+      name: 'Receiving contact',
+      error: 'Invalid receiving contact',
+      regex: contactsRegex.personName,
+      class: '',
+      isRef: {
+        apiSection: 'receivingContacts',
+        properties: { mainProp: 'email', propsList: ['firstName', 'lastName'] },
+        assignPropTo: 'receivingContactRef',
       },
     },
   },

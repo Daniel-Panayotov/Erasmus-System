@@ -23,7 +23,7 @@ export class DropdownComponent implements AfterViewInit {
   @Input({ required: true }) property = [] as unknown as [string, docProperty];
   @Input({ required: true }) form = {} as FormGroup;
   @Input({ required: true }) refDocs: refDocs = {};
-  @Input() isInEditPopupForm: boolean = false;
+  @Input({ required: false }) isInEditPopupForm: boolean = false;
   filteredRefDocs: refDocs = {};
 
   @ViewChild('fakeInput') fakeFormInput = {} as ElementRef;

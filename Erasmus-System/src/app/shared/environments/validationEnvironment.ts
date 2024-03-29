@@ -9,6 +9,7 @@ export const globalRegex = {
   normalSentences: /^[a-zA-Z0-9 ,.!?'"(){}[\]:;-]{1,100}$/,
   word: /^(\w{1,20})$/,
   gender: /^(male|female)$/,
+  yes_no: /^(yes|no)$/,
 };
 
 export const fieldsRegex = {
