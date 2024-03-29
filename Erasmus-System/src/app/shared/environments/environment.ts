@@ -113,8 +113,8 @@ export const listDocProperties: docProperties = {
       class: 'th-30',
       isRef: {
         apiSection: 'faculties',
-        properties: ['name'],
-        assignPropTo: 'name',
+        properties: { mainProp: 'name', propsList: ['name'] },
+        assignPropTo: 'faculty',
       },
     },
   },
@@ -126,7 +126,7 @@ export const listDocProperties: docProperties = {
       class: '',
       isRef: {
         apiSection: 'fields',
-        properties: ['code', 'name'],
+        properties: { mainProp: 'code', propsList: ['code', 'name'] },
         assignPropTo: 'fieldOfStudyRef',
       },
     },
@@ -137,7 +137,7 @@ export const listDocProperties: docProperties = {
       class: '',
       isRef: {
         apiSection: 'receivingContacts',
-        properties: ['firstName', 'lastName'],
+        properties: { mainProp: 'email', propsList: ['firstName', 'lastName'] },
         assignPropTo: 'sendingContactRef',
       },
     },

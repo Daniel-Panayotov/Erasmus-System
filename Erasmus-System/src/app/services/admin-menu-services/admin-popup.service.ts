@@ -57,7 +57,6 @@ export class AdminPopupService {
     //set form values if in "Edit" mode
     if (isEdit && !this.isPopupVisible) {
       const values = this.generateValues(i, adminModule);
-      console.log(values);
 
       popupFieldForm.setValue(values);
     }
@@ -99,7 +98,6 @@ export class AdminPopupService {
     if (this._popupError) {
       return;
     }
-    console.log(values);
 
     const authCookie = this.cookieService.get(environment.authCookieName);
 
@@ -208,7 +206,7 @@ export class AdminPopupService {
       if (docProperties[propertyName].isRef) {
         values[propertyName] =
           document[propertyName][
-            docProperties[propertyName].isRef!.properties[0]
+            docProperties[propertyName].isRef!.properties.propsList[0]
           ];
       } else {
         values[propertyName] = document[propertyName];

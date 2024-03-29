@@ -14,6 +14,6 @@ export interface docProperty {
 
 export interface refProps {
   apiSection: string;
-  properties: string[];
+  properties: { mainProp: string; propsList: string[] };
   assignPropTo: string;
 }

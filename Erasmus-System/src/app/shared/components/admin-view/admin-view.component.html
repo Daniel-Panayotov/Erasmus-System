@@ -68,13 +68,15 @@
           <span class="td-content">
             {{
               property[1].isRef
-                ? document[property[0]][property[1].isRef.properties[0]]
+                ? document[property[0]][
+                    property[1].isRef.properties.propsList[0]
+                  ]
                 : document[property[0]]
             }}
           </span>
           <span class="td-popup">{{
             property[1].isRef
-              ? document[property[0]][property[1].isRef.properties[0]]
+              ? document[property[0]][property[1].isRef.properties.propsList[0]]
               : document[property[0]]
           }}</span>
         </td>

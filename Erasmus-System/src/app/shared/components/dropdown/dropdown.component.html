@@ -1,12 +1,17 @@
 <div class="form-control-container" [formGroup]="form">
   <input
+    type="text"
+    class="hidden-input"
     #formControl
+    formControlName="{{ property[0] }}"
+  />
+  <input
+    #fakeInput
     type="text"
     id="{{ property[0] }}"
-    class="form-control"
-    formControlName="{{ property[0] }}"
+    class="fake-input"
     (click)="toggleSelectLi()"
-    (input)="filterControlValues(formRefControl, property)"
+    (input)="filterControlValues(fakeFormInput, property)"
   />
 
   @if (isSearchUlVisible && property[1].isRef) {
@@ -15,7 +20,7 @@
     @for (doc of filteredRefDocs[property[1].isRef.apiSection]; track $index) {
 
     <li (click)="changeSelectValue(doc, property[1].isRef)">
-      @for (propValue of property[1].isRef.properties; track $index) {
+      @for (propValue of property[1].isRef.properties.propsList; track $index) {
 
       {{ doc[propValue] }}
       }

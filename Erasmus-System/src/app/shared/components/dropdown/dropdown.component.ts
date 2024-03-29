@@ -4,6 +4,7 @@ import {
   ViewChild,
   ElementRef,
   HostListener,
+  AfterViewInit,
 } from '@angular/core';
 import { adminRecordUnion } from 'src/app/types/adminDocs';
 import { docProperty, refProps } from 'src/app/types/docProperties';
@@ -18,22 +19,31 @@ import { CommonModule } from '@angular/common';
   templateUrl: './dropdown.component.html',
   styleUrl: './dropdown.component.css',
 })
-export class DropdownComponent {
+export class DropdownComponent implements AfterViewInit {
   @Input({ required: true }) property = [] as unknown as [string, docProperty];
   @Input({ required: true }) form = {} as FormGroup;
   @Input({ required: true }) refDocs: refDocs = {};
+  @Input() isInEditPopupForm: boolean = false;
   filteredRefDocs: refDocs = {};
 
-  @ViewChild('formControl') formRefControl = {} as ElementRef;
+  @ViewChild('fakeInput') fakeFormInput = {} as ElementRef;
+  @ViewChild('formControl') formInput = {} as ElementRef;
   isSearchUlVisible: boolean = false;
 
+  ngAfterViewInit(): void {
+    //set fake input value to mirror form control value
+    if (this.isInEditPopupForm) {
+      this.fakeFormInput.nativeElement.value =
+        this.formInput.nativeElement.value;
+    }
+  }
   /*
    */
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent): void {
     try {
       if (
-        this.formRefControl.nativeElement != event.target &&
+        this.fakeFormInput.nativeElement != event.target &&
         this.isSearchUlVisible
       ) {
         this.toggleSelectLi();
@@ -50,18 +60,19 @@ export class DropdownComponent {
    * and display them as suggestions
    */
   filterControlValues(
-    formInput: ElementRef,
+    formFakeInput: ElementRef,
     property: [string, docProperty]
   ): void {
-    const value: string = formInput.nativeElement.value;
+    const value: string = formFakeInput.nativeElement.value;
     const docs = this.refDocs[property[1].isRef!.apiSection];
 
     const filteredDocs: adminRecordUnion[] = [];
 
     for (let doc of docs) {
-      for (let i = 0; i < property[1].isRef!.properties.length; i++) {
+      //check each property if 1+
+      for (let i = 0; i < property[1].isRef!.properties.propsList.length; i++) {
         if (
-          (doc[property[1].isRef!.properties[i]] as string)
+          (doc[property[1].isRef!.properties.propsList[i]] as string)
             .toLowerCase()
             .includes(value.toLocaleLowerCase())
         ) {
@@ -78,15 +89,22 @@ export class DropdownComponent {
    * and update button name to reflect value
    */
   changeSelectValue(record: adminRecordUnion, refProps: refProps): void {
+    //get form values
     const values = this.form.value;
+    const intendedValue = record[refProps.properties.mainProp];
+
+    //set form values
+    values[refProps.assignPropTo] = intendedValue;
+    this.form.setValue(values);
+
+    //create string user views
     let selectValue = '';
 
-    for (let i = 0; i < refProps.properties.length; i++) {
-      selectValue += record[refProps.properties[i]] + ' ';
+    //concatanate desired values to string
+    for (let i = 0; i < refProps.properties.propsList.length; i++) {
+      selectValue += record[refProps.properties.propsList[i]] + ' ';
     }
-    values[refProps.assignPropTo] = selectValue;
-
-    this.form.setValue(values);
+    this.fakeFormInput.nativeElement.value = selectValue;
 
     this.toggleSelectLi();
   }

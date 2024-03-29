@@ -5,9 +5,13 @@
   flex-shrink: 0;
 }
 
-.form-control-container .form-control {
+.form-control-container .fake-input {
   flex: 0 0 100%;
   padding-inline: 3px;
+}
+
+.hidden-input {
+  display: none;
 }
 
 .form-ul {

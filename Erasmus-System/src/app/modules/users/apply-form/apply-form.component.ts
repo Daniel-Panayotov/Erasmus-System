@@ -104,7 +104,7 @@ export class ApplyFormComponent implements OnInit {
   });
 
   async onSubmit(): Promise<void> {
-    console.log(this.applyForm);
+    console.log(this.applyForm.controls);
   }
 
   /* Fetch All records needed
