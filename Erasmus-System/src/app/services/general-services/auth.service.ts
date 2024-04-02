@@ -4,14 +4,18 @@ import {
   getAuthRoute,
 } from 'src/app/shared/environments/apiEnvironment';
 import { environment } from 'src/app/shared/environments/environment';
+import {
+  authActionString,
+  authSectionString,
+} from 'src/app/types/apiEnvironmentTypes';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   async authenticate(
-    authModule: string,
-    action: string,
+    authModule: authSectionString,
+    action: authActionString,
     data: {
       email: string;
       password: string;

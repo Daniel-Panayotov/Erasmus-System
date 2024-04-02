@@ -19,6 +19,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { getRoute } from '../../environments/apiEnvironment';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { adminRecordUnion } from 'src/app/types/adminDocs';
+import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
 
 export interface refDocs {
   [key: string]: adminRecordUnion[];
@@ -36,7 +37,7 @@ export class PopupAdminFormComponent implements OnInit {
   private popupService = inject(AdminPopupService);
   private cookieService = inject(CookieService);
 
-  @Input({ required: true }) adminModule: string = '';
+  @Input({ required: true }) adminModule = '' as adminSectionString;
   @Input({ required: true }) sectionName: string = '';
   @Input({ required: true }) searchForm = {} as FormGroup;
   @Output() popupFormEvent = new EventEmitter<FormGroup>();
@@ -58,7 +59,7 @@ export class PopupAdminFormComponent implements OnInit {
     /* check if there are reference type properties
      * if there are, push the routes they must be fetched from to an array
      */
-    const docsToFetch: string[] = [];
+    const docsToFetch: adminSectionString[] = [];
     this.iterableDocProperties.map((val) => {
       if (val[1].isRef) {
         docsToFetch.push(val[1].isRef.apiSection);
@@ -78,7 +79,7 @@ export class PopupAdminFormComponent implements OnInit {
   }
 
   /* Function to fetch docs with */
-  private async getDocs(route: string) {
+  private async getDocs(route: adminSectionString) {
     const authCookie = this.cookieService.get(environment.authCookieName);
 
     const options = {

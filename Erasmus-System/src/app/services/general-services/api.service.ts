@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { getRoute } from 'src/app/shared/environments/apiEnvironment';
 import { environment } from 'src/app/shared/environments/environment';
+import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  async getAll(cookie: string, section: string) {
+  async getAll(cookie: string, section: adminSectionString) {
     const options = {
       method: 'POST',
       headers: {

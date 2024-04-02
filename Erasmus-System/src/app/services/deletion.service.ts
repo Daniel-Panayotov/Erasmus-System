@@ -3,6 +3,7 @@ import { globalRegex } from '../shared/environments/validationEnvironment';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../shared/environments/environment';
 import { getRoute } from '../shared/environments/apiEnvironment';
+import { adminSectionString } from '../types/apiEnvironmentTypes';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class DeletionService {
 
   async onDelete(
     id: string,
-    adminModule: string,
+    adminModule: adminSectionString,
     changePage: () => Promise<void>
   ): Promise<void> {
     const isSure = window.confirm('Would you like to delete this field?');

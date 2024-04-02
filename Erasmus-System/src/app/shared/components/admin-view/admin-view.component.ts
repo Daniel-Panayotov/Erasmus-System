@@ -22,6 +22,7 @@ import { DeletionService } from 'src/app/services/deletion.service';
 import { PaginationService } from 'src/app/services/pagination.service';
 import { searchValue } from 'src/app/types/searchFormValue';
 import { listDocProperties } from '../../environments/environment';
+import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
 
 @Component({
   selector: 'app-admin-view',
@@ -36,7 +37,7 @@ export class AdminViewComponent implements OnInit, OnDestroy {
   private deletionService = inject(DeletionService);
   private popupService = inject(AdminPopupService);
 
-  @Input({ required: true }) adminModule: string = '';
+  @Input({ required: true }) adminModule = '' as adminSectionString;
   @Input({ required: true }) sectionName: string = '';
   @Input({ required: true }) popupForm = {} as FormGroup;
   @Output() searchFormEvent = new EventEmitter<FormGroup>();

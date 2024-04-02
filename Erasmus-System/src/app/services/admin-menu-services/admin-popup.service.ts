@@ -12,6 +12,7 @@ import {
 import { CookieService } from 'ngx-cookie-service';
 import { searchValue } from 'src/app/types/searchFormValue';
 import { FormGroup } from '@angular/forms';
+import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
 
 @Injectable({
   providedIn: 'root',
@@ -69,7 +70,7 @@ export class AdminPopupService {
   }
 
   async popupFormAction(
-    adminModule: string,
+    adminModule: adminSectionString,
     popupFieldForm: FormGroup,
     searchForm: FormGroup
   ): Promise<void> {
@@ -124,7 +125,7 @@ export class AdminPopupService {
       await this.paginationService.changePage(
         this.paginationService.page,
         this.paginationService.isSearchActive,
-        searchForm.value as searchValue,
+        searchForm.value,
         adminModule
       );
 
@@ -148,7 +149,7 @@ export class AdminPopupService {
     cookie: string,
     data: validatedFormValues,
     id: string,
-    adminModule: string
+    adminModule: adminSectionString
   ): Promise<Response> {
     const options = {
       method: 'PATCH',
@@ -175,7 +176,7 @@ export class AdminPopupService {
   private async createOne(
     cookie: string,
     data: validatedFormValues,
-    adminModule: string
+    adminModule: adminSectionString
   ): Promise<Response> {
     const options = {
       method: 'POST',

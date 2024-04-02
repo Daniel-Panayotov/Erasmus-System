@@ -12,6 +12,10 @@ import {
 } from '../../environments/siteRoutingEnvironment';
 import { NavigationComponent } from 'src/app/core/navigation/navigation.component';
 import { FooterComponent } from 'src/app/core/footer/footer.component';
+import {
+  authActionString,
+  authSectionString,
+} from 'src/app/types/apiEnvironmentTypes';
 
 @Component({
   selector: 'app-auth-form',
@@ -27,8 +31,8 @@ import { FooterComponent } from 'src/app/core/footer/footer.component';
   styleUrl: './auth-page.component.css',
 })
 export class AuthPageComponent {
-  @Input({ required: true }) authModule: string = '';
-  @Input({ required: true }) authAction: string = '';
+  @Input({ required: true }) authModule = '' as authSectionString;
+  @Input({ required: true }) authAction = '' as authActionString;
   @Input({ required: true }) sectionName: string = '';
 
   userRoutes = userRoutes;

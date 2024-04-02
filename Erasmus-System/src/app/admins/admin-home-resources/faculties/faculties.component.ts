@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
 import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-form/popup-admin-form.component';
 import { AdminViewComponent } from 'src/app/shared/components/admin-view/admin-view.component';
+import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
 
 @Component({
   selector: 'app-faculties',
@@ -12,7 +13,7 @@ import { AdminViewComponent } from 'src/app/shared/components/admin-view/admin-v
   styleUrl: './faculties.component.css',
 })
 export class FacultiesComponent {
-  adminModule: string = 'faculties';
+  adminModule: adminSectionString = 'faculties';
   sectionName: string = 'Faculties';
 
   searchForm = {} as FormGroup;

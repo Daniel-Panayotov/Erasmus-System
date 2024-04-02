@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { PaginationService } from 'src/app/services/pagination.service';
+import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
 import { searchValue } from 'src/app/types/searchFormValue';
 
 @Component({
@@ -15,7 +16,7 @@ export class PaginationComponent implements OnInit {
   private paginationService = inject(PaginationService);
 
   @Input({ required: true }) searchForm = {} as FormGroup;
-  @Input({ required: true }) adminModule: string = '';
+  @Input({ required: true }) adminModule = '' as adminSectionString;
 
   ngOnInit(): void {
     this.changePage(1, false);
@@ -26,7 +27,7 @@ export class PaginationComponent implements OnInit {
       this.paginationService, // original context
       pageNumber,
       searching,
-      this.searchForm.value as searchValue,
+      this.searchForm.value,
       this.adminModule
     )();
   }

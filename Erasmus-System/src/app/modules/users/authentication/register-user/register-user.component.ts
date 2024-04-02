@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { AuthPageComponent } from 'src/app/shared/components/auth-page/auth-page.component';
+import {
+  authActionString,
+  authSectionString,
+} from 'src/app/types/apiEnvironmentTypes';
 
 @Component({
   selector: 'app-register-user',
@@ -9,7 +13,7 @@ import { AuthPageComponent } from 'src/app/shared/components/auth-page/auth-page
   styleUrl: './register-user.component.css',
 })
 export class RegisterUserComponent {
-  authModule: string = 'users';
-  authAction: string = 'register';
+  authModule: authSectionString = 'users';
+  authAction: authActionString = 'register';
   sectionName: string = 'User';
 }

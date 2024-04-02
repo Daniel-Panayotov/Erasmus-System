@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { AdminViewComponent } from 'src/app/shared/components/admin-view/admin-view.component';
 import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
 import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-form/popup-admin-form.component';
+import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
 
 @Component({
   selector: 'app-receiving-contacts',
@@ -12,7 +13,7 @@ import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-f
   styleUrl: './receiving-contacts.component.css',
 })
 export class ReceivingContactsComponent {
-  adminModule: string = 'receivingContacts';
+  adminModule: adminSectionString = 'receivingContacts';
   sectionName: string = 'Receiving Contacts';
 
   searchForm = {} as FormGroup;

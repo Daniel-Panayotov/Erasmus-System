@@ -5,6 +5,7 @@ import { getSelectRegex } from '../shared/environments/validationEnvironment';
 import { searchValue } from '../types/searchFormValue';
 import { getRoute } from '../shared/environments/apiEnvironment';
 import { adminRecordUnion } from '../types/adminDocs';
+import { adminSectionString } from '../types/apiEnvironmentTypes';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,7 @@ export class PaginationService {
     pageNumber: number,
     searching: boolean,
     searchParams: searchValue,
-    section: string
+    section: adminSectionString
   ): Promise<void> {
     //validate pageNumber
     if (pageNumber < 1 || (pageNumber > this._pageCount && pageNumber != 1)) {
@@ -46,7 +47,7 @@ export class PaginationService {
   private async getFields(
     searching: boolean,
     searchParams: searchValue,
-    section: string
+    section: adminSectionString
   ): Promise<void> {
     const authCookie = this.cookieService.get(environment.authCookieName);
     let data;
@@ -121,7 +122,10 @@ export class PaginationService {
    * Indexes an object of functions, from given string, to return base url
    */
 
-  private async getPage(cookie: string, section: string): Promise<Response> {
+  private async getPage(
+    cookie: string,
+    section: adminSectionString
+  ): Promise<Response> {
     const options = {
       method: 'POST',
       headers: {
@@ -141,7 +145,7 @@ export class PaginationService {
 
   private async getPageByParam(
     cookie: string,
-    section: string
+    section: adminSectionString
   ): Promise<Response> {
     const options = {
       method: 'POST',

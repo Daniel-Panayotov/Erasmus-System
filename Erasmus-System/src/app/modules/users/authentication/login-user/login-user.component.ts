@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { AuthPageComponent } from 'src/app/shared/components/auth-page/auth-page.component';
+import {
+  authActionString,
+  authSectionString,
+} from 'src/app/types/apiEnvironmentTypes';
 
 @Component({
   selector: 'app-login-user',
@@ -9,7 +13,7 @@ import { AuthPageComponent } from 'src/app/shared/components/auth-page/auth-page
   styleUrl: './login-user.component.css',
 })
 export class LoginUserComponent {
-  authModule: string = 'users';
-  authAction: string = 'login';
+  authModule: authSectionString = 'users';
+  authAction: authActionString = 'login';
   sectionName: string = 'User';
 }

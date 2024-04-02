@@ -1,3 +1,12 @@
+import {
+  routeEnv,
+  authRouteEnv,
+  adminSectionString,
+  authSectionString,
+  authActionString,
+  adminActionString,
+} from 'src/app/types/apiEnvironmentTypes';
+
 const apiUrl = 'http://localhost:5000';
 const apiUserUrl = `${apiUrl}/users`;
 const apiAdminUrl = `${apiUrl}/admins`;
@@ -21,7 +30,7 @@ const fieldsEnvironment: routeEnv = {
   getPageUrl: `${apiFieldOfEducationUrl}/getPage`,
   getPageByParamUrl: `${apiFieldOfEducationUrl}/getPageByParam`,
   createOneUrl: `${apiFieldOfEducationUrl}/create`,
-  updateOneUrl: `${apiFieldOfEducationUrl}/UpdateOne`,
+  updateOneUrl: `${apiFieldOfEducationUrl}/updateOne`,
   deleteOneUrl: `${apiFieldOfEducationUrl}/deleteOne`,
   getAllUrl: `${apiFieldOfEducationUrl}/getAll`,
 };
@@ -59,18 +68,12 @@ const receivingContactsEnvironment: routeEnv = {
   getAllUrl: `${apiReceivingContactsUrl}/getAll`,
 };
 
-interface routeEnv {
-  getPageUrl: string;
-  getPageByParamUrl: string;
-  createOneUrl: string;
-  updateOneUrl: string;
-  deleteOneUrl: string;
-  getAllUrl: string;
-}
-
-export function getRoute(adminModule: string, action: string): string {
+export function getRoute(
+  adminModule: adminSectionString,
+  action: adminActionString
+): string {
   const environment = getEnvironment(adminModule);
-  let url = '';
+  let url;
 
   switch (action) {
     case 'delete':
@@ -96,8 +99,8 @@ export function getRoute(adminModule: string, action: string): string {
   return url;
 }
 
-function getEnvironment(adminSection: string) {
-  let env = {} as routeEnv;
+function getEnvironment(adminSection: adminSectionString) {
+  let env;
   switch (adminSection) {
     case 'fields':
       env = fieldsEnvironment;
@@ -115,14 +118,12 @@ function getEnvironment(adminSection: string) {
   return env;
 }
 
-interface authRouteEnv {
-  loginUrl: string;
-  registerUrl?: string;
-}
-
-export function getAuthRoute(authModule: string, action: string): string {
+export function getAuthRoute(
+  authModule: authSectionString,
+  action: authActionString
+): string {
   const environment = getAuthEnvironment(authModule);
-  let url = '';
+  let url;
 
   switch (action) {
     case 'login':
@@ -137,8 +138,8 @@ export function getAuthRoute(authModule: string, action: string): string {
   return url;
 }
 
-function getAuthEnvironment(adminSection: string) {
-  let env = {} as authRouteEnv;
+function getAuthEnvironment(adminSection: authSectionString) {
+  let env;
   switch (adminSection) {
     case 'admins':
       env = adminsEnvironment;

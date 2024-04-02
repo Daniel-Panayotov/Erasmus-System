@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { AdminViewComponent } from 'src/app/shared/components/admin-view/admin-view.component';
 import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
 import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-form/popup-admin-form.component';
+import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
 
 @Component({
   selector: 'app-fields-of-education',
@@ -12,7 +13,7 @@ import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-f
   styleUrl: './fields-of-education.component.css',
 })
 export class FieldsOfEducationComponent {
-  adminModule: string = 'fields';
+  adminModule: adminSectionString = 'fields';
   sectionName: string = 'Fields of Education';
 
   searchForm = {} as FormGroup;
