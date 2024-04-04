@@ -129,20 +129,7 @@ export class ApplyFormComponent implements OnInit {
     const cookie = this.cookieService.get(environment.authCookieName);
     const userData = listDocProperties['userData'];
 
-    //iterate over each property, if ref fetch it
-    for (let property in userData) {
-      if (!userData[property].isRef) {
-        continue;
-      }
-
-      const apiSection = userData[property].isRef!.apiSection;
-
-      try {
-        const res = await this.apiService.getAll(cookie, apiSection);
-        const { docs } = await res.json();
-        this.records[apiSection] = docs;
-      } catch (err) {}
-    }
+    this.records = await this.apiService.fetchRefRecords(cookie, userData);
   }
 
   get userDataProperties() {

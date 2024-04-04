@@ -6,12 +6,14 @@ import { searchValue } from '../types/searchFormValue';
 import { getRoute } from '../shared/environments/apiEnvironment';
 import { adminRecordUnion } from '../types/adminDocs';
 import { adminSectionString } from '../types/apiEnvironmentTypes';
+import { ApiService } from './general-services/api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PaginationService {
   private cookieService = inject(CookieService);
+  private apiService = inject(ApiService);
 
   private _documents: adminRecordUnion[] = []; //variable to hold the documents
   //pagination values
@@ -79,13 +81,22 @@ export class PaginationService {
           }
 
           //fetch data
-          response = await this.getPageByParam(authCookie, section);
+          response = await this.apiService.getPageByParam(
+            authCookie,
+            section,
+            this._page,
+            this._searchParams
+          );
 
           data = await response.json();
           break;
         case false:
           //fetch data
-          response = await this.getPage(authCookie, section);
+          response = await this.apiService.getPage(
+            authCookie,
+            section,
+            this._page
+          );
 
           data = await response.json();
 
@@ -116,54 +127,6 @@ export class PaginationService {
     const y = pages - x < 5 ? pages - x : 4;
 
     this._pageCountToIterate = x + y;
-  }
-
-  /* Api requests
-   * Indexes an object of functions, from given string, to return base url
-   */
-
-  private async getPage(
-    cookie: string,
-    section: adminSectionString
-  ): Promise<Response> {
-    const options = {
-      method: 'POST',
-      headers: {
-        [environment.authCookieName]: cookie,
-      },
-    };
-
-    const url = getRoute(section, 'getPage') + `/${this._page}`;
-
-    return fetch(url, options).then((res) => {
-      if (!res.ok) {
-        throw res;
-      }
-      return res;
-    });
-  }
-
-  private async getPageByParam(
-    cookie: string,
-    section: adminSectionString
-  ): Promise<Response> {
-    const options = {
-      method: 'POST',
-      headers: {
-        [environment.authCookieName]: cookie,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(this._searchParams),
-    };
-
-    const url = getRoute(section, 'getByParam') + `/${this._page}`;
-
-    return fetch(url, options).then((res) => {
-      if (!res.ok) {
-        throw res;
-      }
-      return res;
-    });
   }
 
   /* Setup getters */

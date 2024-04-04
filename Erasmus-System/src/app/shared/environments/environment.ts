@@ -1,4 +1,4 @@
-import { docProperties } from 'src/app/types/docProperties';
+import { docsWithProperties } from 'src/app/types/docProperties';
 import {
   contactsRegex,
   facultiesRegex,
@@ -15,12 +15,13 @@ export const environment = {
  * name: Desired name we want to display on the template
  * regex: desired regex to validate user input
  * error: message displayed when regex doesnt match
- * classes determine the width in % for the table column
+ * class: determine the width in % for the table column
  * isRef: wether the property is a reference in the db.
- * 0 index: the name of the property we want to extract
- * 1 index: the name of the api section for the record
+ * - properties:
+ *  - mainProp: property to use for later requests
+ *  - propsList: list of properties to visualise in order
  */
-export const listDocProperties: docProperties = {
+export const listDocProperties: docsWithProperties = {
   fields: {
     code: {
       name: 'Code',

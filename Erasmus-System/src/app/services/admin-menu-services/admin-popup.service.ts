@@ -13,6 +13,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { searchValue } from 'src/app/types/searchFormValue';
 import { FormGroup } from '@angular/forms';
 import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
+import { ApiService } from '../general-services/api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,7 @@ import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
 export class AdminPopupService {
   private paginationService = inject(PaginationService);
   private cookieService = inject(CookieService);
+  private apiService = inject(ApiService);
 
   private _errorMessage: string = '';
   private _popupError: boolean = false;
@@ -106,7 +108,7 @@ export class AdminPopupService {
     try {
       switch (this.isPopupEdit) {
         case true:
-          await this.updateOne(
+          await this.apiService.updateOne(
             authCookie,
             values,
             this.paginationService.documents[this.popupIndex]._id,
@@ -116,7 +118,7 @@ export class AdminPopupService {
           break;
 
         case false:
-          await this.createOne(authCookie, values, adminModule);
+          await this.apiService.createOne(authCookie, values, adminModule);
 
           break;
       }
@@ -140,59 +142,6 @@ export class AdminPopupService {
       const { message } = await err.json();
       this._errorMessage = message;
     }
-  }
-
-  /* Index an obj with the "adminModule" string, then specify the action
-   * Receive Url and fetch with it
-   */
-  private async updateOne(
-    cookie: string,
-    data: validatedFormValues,
-    id: string,
-    adminModule: adminSectionString
-  ): Promise<Response> {
-    const options = {
-      method: 'PATCH',
-      headers: {
-        [environment.authCookieName]: cookie,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    };
-
-    return fetch(getRoute(adminModule, 'updateOne') + `/${id}`, options).then(
-      (res) => {
-        if (!res.ok) {
-          throw res;
-        }
-        return res;
-      }
-    );
-  }
-
-  /* Index an obj with the "adminModule" string, then specify the action
-   * Receive Url and fetch with it
-   */
-  private async createOne(
-    cookie: string,
-    data: validatedFormValues,
-    adminModule: adminSectionString
-  ): Promise<Response> {
-    const options = {
-      method: 'POST',
-      headers: {
-        [environment.authCookieName]: cookie,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    };
-
-    return fetch(getRoute(adminModule, 'createOne'), options).then((res) => {
-      if (!res.ok) {
-        throw res;
-      }
-      return res;
-    });
   }
 
   /* Generate an object of values from given document

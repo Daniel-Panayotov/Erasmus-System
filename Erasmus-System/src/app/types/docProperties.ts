@@ -1,9 +1,11 @@
 import { adminSectionString } from './apiEnvironmentTypes';
 
-export type docProperties = {
-  [key: string]: {
-    [property: string]: docProperty;
-  };
+export interface docsWithProperties {
+  [doc: string]: docWithProperties;
+}
+
+export type docWithProperties = {
+  [property: string]: docProperty;
 };
 
 export interface docProperty {

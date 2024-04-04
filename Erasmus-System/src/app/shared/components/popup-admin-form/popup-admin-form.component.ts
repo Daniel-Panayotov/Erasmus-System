@@ -20,6 +20,7 @@ import { getRoute } from '../../environments/apiEnvironment';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { adminRecordUnion } from 'src/app/types/adminDocs';
 import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
+import { ApiService } from 'src/app/services/general-services/api.service';
 
 export interface refDocs {
   [key: string]: adminRecordUnion[];
@@ -36,6 +37,7 @@ export class PopupAdminFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private popupService = inject(AdminPopupService);
   private cookieService = inject(CookieService);
+  private apiService = inject(ApiService);
 
   @Input({ required: true }) adminModule = '' as adminSectionString;
   @Input({ required: true }) sectionName: string = '';
@@ -69,29 +71,15 @@ export class PopupAdminFormComponent implements OnInit {
     /* fetch for each item in the array
      * add them to an object - key: route, data: fetched docs
      */
+    const cookie = this.cookieService.get(environment.authCookieName);
+
     try {
-      for (let doc of docsToFetch) {
-        const res = await this.getDocs(doc);
+      for (let docName of docsToFetch) {
+        const res = await this.apiService.getAllForRecordType(cookie, docName);
         const { docs } = await res.json();
-        this.refDocs[doc] = docs;
+        this.refDocs[docName] = docs;
       }
     } catch (err) {}
-  }
-
-  /* Function to fetch docs with */
-  private async getDocs(route: adminSectionString) {
-    const authCookie = this.cookieService.get(environment.authCookieName);
-
-    const options = {
-      method: 'POST',
-      headers: {
-        [environment.authCookieName]: authCookie,
-      },
-    };
-
-    const url = getRoute(route, 'getAll');
-
-    return fetch(url, options);
   }
 
   //send form to parent
