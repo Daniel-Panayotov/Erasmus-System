@@ -117,6 +117,29 @@ export class ApplyFormComponent implements OnInit {
       '',
       [Validators.required, Validators.pattern(globalRegex.yes_no)],
     ],
+    visitReason: [
+      '',
+      [Validators.required, Validators.pattern(globalRegex.normalSentences)],
+    ],
+    motherLanguage: [
+      '',
+      [Validators.required, Validators.pattern(globalRegex.word)],
+    ],
+    //
+    homeLanguage: ['', [Validators.pattern(globalRegex.word)]],
+    studyDegree: [
+      '',
+      [Validators.required, Validators.pattern(userDataRegex.studyDegree)],
+    ],
+    studyYears: [
+      '',
+      [Validators.required, Validators.pattern(userDataRegex.studyYears)],
+    ],
+    priorStudyErasmus: [
+      '',
+      [Validators.required, Validators.pattern(globalRegex.yes_no)],
+    ],
+    priorStudyMonths: ['', [Validators.required]],
   });
 
   async onSubmit(): Promise<void> {

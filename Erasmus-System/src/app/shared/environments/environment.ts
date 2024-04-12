@@ -167,7 +167,3 @@ export const listDocProperties: docsWithProperties = {
     },
   },
 };
-
-interface refProperty {
-  [key: string]: string[];
-}

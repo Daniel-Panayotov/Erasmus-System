@@ -24,6 +24,10 @@ html {
 }
 
 body {
-  font: inherit;
   height: 100vh;
+}
+
+textarea,
+body {
+  font: inherit;
 }

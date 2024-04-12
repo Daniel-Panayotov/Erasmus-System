@@ -34,6 +34,7 @@ export const userDataRegex = {
   studyYears: /^(1[0-2]|[1-9])$/,
   mobilityType: /^(study|traineeship)$/,
   semesterSeason: /^(summer|winter|year)$/,
+  studyDegree: /^(Bachelor|Master)$/,
 };
 
 interface regexEnv {

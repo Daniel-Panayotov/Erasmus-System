@@ -1,7 +1,12 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
 .auth-page {
-  height: 100vh;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .flex-container {

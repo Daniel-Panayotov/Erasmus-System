@@ -1,7 +1,12 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
 .admin-home {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
 }
 
 .content {
@@ -27,22 +32,6 @@
 .button:hover {
   background-color: rgb(93, 91, 91);
   cursor: pointer;
-}
-
-/* header */
-
-.admin-header {
-  flex: 0 1 10%;
-  background-color: rgb(65, 64, 64);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1em;
-}
-
-.admin-header p {
-  color: white;
-  font-size: 1.5rem;
 }
 
 /* aside */

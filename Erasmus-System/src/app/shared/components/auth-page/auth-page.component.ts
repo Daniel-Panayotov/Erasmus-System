@@ -88,7 +88,7 @@ export class AuthPageComponent {
       /* Get and set jwt
        */
       const { jwt } = await response.json();
-      this.cookieService.set(environment.authCookieName, jwt, undefined, '/');
+      this.authService.setJwtCookie(jwt);
 
       /* Navigate to predetermined route
        */

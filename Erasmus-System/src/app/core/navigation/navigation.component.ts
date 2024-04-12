@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { CommonModule, Location } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from 'src/app/services/general-services/auth.service';
-import { environment } from 'src/app/shared/environments/environment';
 import {
   adminRoutes,
   home,
@@ -17,40 +17,53 @@ import {
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.css',
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent {
   //inject dependencies
   authService = inject(AuthService);
   cookieService = inject(CookieService);
+  location = inject(Location);
+  router = inject(Router);
 
+  isOnAdminPage: boolean = false;
   //variables
   userRoutes = userRoutes;
-  adminMenuRoute = adminRoutes.adminMenu;
+  adminRoutes = adminRoutes;
   homeRoute: string = home;
   //
   isAuthenticated: boolean = false;
   isAdmin: boolean = false;
 
-  async ngOnInit(): Promise<void> {
-    await this.checkCookie();
-  }
+  constructor() {
+    this.location.onUrlChange((url) => {
+      this.isOnAdminPage = url.includes('admins') ? true : false;
+    });
 
-  async checkCookie(): Promise<void> {
-    const cookie = this.cookieService.get(environment.authCookieName);
+    this.authService.authCookieSubject$.pipe(takeUntilDestroyed()).subscribe({
+      next: async (jwt) => {
+        if (!jwt) {
+          this.isAuthenticated = false;
+          this.isAdmin = false;
+          return;
+        }
 
-    try {
-      const res = await this.authService.verifyCookie(cookie);
-      const data = await res.json();
+        try {
+          const res = await this.authService.verifyCookie(jwt);
+          const data = await res.json();
 
-      const { isAdmin, isAuthenticated } = data;
-      this.isAuthenticated = isAuthenticated;
-      this.isAdmin = isAdmin;
-    } catch (err) {}
+          const { isAdmin, isAuthenticated } = data;
+          this.isAuthenticated = isAuthenticated;
+          this.isAdmin = isAdmin;
+        } catch (err) {}
+      },
+      error(err) {
+        console.log(err);
+      },
+    });
   }
 
   logout(): void {
     //clear state
-    this.cookieService.delete(environment.authCookieName, '/');
-    this.isAuthenticated = false;
-    this.isAdmin = false;
+    this.authService.deleteJwtCookie();
+    this.router.navigate(['/home']);
   }
 }

@@ -1,5 +1,4 @@
 <div class="apply-page">
-  <app-navigation />
   <div class="form-main">
     <div class="main-container">
       <h1 class="form-title">Application Form</h1>
@@ -223,6 +222,7 @@
             [property]="userDataProperties[2]"
           />
         </div>
+        <!-- Contact at receiving institution -->
         <div class="control-container">
           <label for="receivingContactRef"
             >Contact person at receiving institution</label
@@ -327,9 +327,104 @@
             </div>
           </fieldset>
         </div>
+        <!-- Reason for visiting -->
+        <div class="control-container">
+          <label for="visitReason"
+            >Briefly state the reasons why you wish to study abroad. *</label
+          >
+          <textarea
+            formControlName="visitReason"
+            id="visitReason"
+            placeholder="I want to learn about different cultures."
+          ></textarea>
+        </div>
+        <!-- Language you are born with -->
+        <div class="control-container">
+          <label for="motherLanguage">Mother language *</label>
+          <input
+            type="text"
+            id="motherLanguage"
+            placeholder="Bulgarian"
+            formControlName="motherLanguage"
+          />
+        </div>
+        <!-- Language you are taught -->
+        <div class="control-container">
+          <label for="homeLanguage"
+            >Language of instruction at home institution *</label
+          >
+          <input
+            type="text"
+            id="homeLanguage"
+            placeholder="Serbian"
+            formControlName="homeLanguage"
+          />
+        </div>
+        <!-- Level of studying degree  -->
+        <div class="control-container">
+          <label for="studyDegree">Degree for which you are studying *</label>
+          <input
+            type="text"
+            id="studyDegree"
+            placeholder="Bachelor | Master"
+            formControlName="studyDegree"
+          />
+        </div>
+        <!-- Number of study years  -->
+        <div class="control-container">
+          <label for="studyYears"
+            >Number of higher education study years prior to departure *</label
+          >
+          <input
+            type="text"
+            id="studyYears"
+            placeholder="4"
+            formControlName="studyYears"
+          />
+        </div>
+        <!-- Has studied for erasmus before -->
+        <div class="control-container">
+          <fieldset>
+            <legend>
+              Have you studied by Erasmus during your current degree?*
+            </legend>
+            <div class="radio-group">
+              <input
+                type="radio"
+                name="priorStudyErasmus"
+                id="priorStudyErasmus1"
+                value="yes"
+                formControlName="priorStudyErasmus"
+              />
+              <label for="bulgarianCourse1">Yes</label>
+            </div>
+            <div class="radio-group">
+              <input
+                type="radio"
+                name="priorStudyErasmus"
+                id="priorStudyErasmus2"
+                value="no"
+                formControlName="priorStudyErasmus"
+              />
+              <label for="bulgarianCourse2">No</label>
+            </div>
+          </fieldset>
+        </div>
+        <!-- Number of months having studied for -->
+        <div class="control-container">
+          <label for="priorStudyMonths"
+            >How many months have you studied during your current degree?
+            *</label
+          >
+          <input
+            type="text"
+            id="priorStudyMonths"
+            placeholder="4"
+            formControlName="priorStudyMonths"
+          />
+        </div>
         <!-- <button type="submit" [disabled]="!applyForm.valid">Submit</button> -->
       </form>
     </div>
   </div>
-  <app-footer class="footer" />
 </div>

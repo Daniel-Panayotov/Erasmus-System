@@ -1,12 +1,4 @@
 <div class="admin-home">
-  <header class="admin-header">
-    <div class="button" [routerLink]="adminRoutes.adminMenu">
-      <p>Admin access</p>
-    </div>
-    <div class="button" (click)="logoutAdmin()">
-      <span>Logout</span>
-    </div>
-  </header>
   <div class="content">
     <aside class="admin-aside">
       <div (click)="toggleNav()" class="button toggle-nav">
@@ -40,5 +32,4 @@
       <router-outlet />
     </main>
   </div>
-  <app-footer />
 </div>

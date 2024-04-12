@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
+import { BehaviorSubject } from 'rxjs';
 import {
   cookieEnvironment,
   getAuthRoute,
@@ -13,6 +15,23 @@ import {
   providedIn: 'root',
 })
 export class AuthService {
+  private cookieService = inject(CookieService);
+
+  private jwt: string = this.cookieService.get(environment.authCookieName);
+  private cookieSubject$ = new BehaviorSubject(this.jwt);
+
+  setJwtCookie(cookie: string): void {
+    this.cookieService.set(environment.authCookieName, cookie, undefined, '/');
+
+    this.cookieSubject$.next(cookie);
+  }
+
+  deleteJwtCookie(): void {
+    this.cookieService.delete(environment.authCookieName, '/');
+
+    this.cookieSubject$.next('');
+  }
+
   async authenticate(
     authModule: authSectionString,
     action: authActionString,
@@ -57,5 +76,9 @@ export class AuthService {
 
       return res;
     });
+  }
+
+  get authCookieSubject$(): BehaviorSubject<string> {
+    return this.cookieSubject$;
   }
 }

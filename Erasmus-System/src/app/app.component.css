@@ -1,0 +1,10 @@
+.site-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.outlet-container {
+  height: calc(100vh - 4.56rem - 3.5rem);
+  overflow: auto;
+}

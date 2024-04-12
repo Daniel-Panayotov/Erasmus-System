@@ -1,5 +1,9 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
 .apply-page {
-  height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -62,6 +66,10 @@
 
 .control-container input {
   flex: 0 0 2.2rem;
+}
+
+.control-container textarea,
+.control-container input {
   padding: 0 3px;
 }
 

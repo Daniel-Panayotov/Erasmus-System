@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { FooterComponent } from 'src/app/core/footer/footer.component';
-import { environment } from 'src/app/shared/environments/environment';
+import { AuthService } from 'src/app/services/general-services/auth.service';
 import {
   adminRoutes,
   home,
@@ -17,7 +16,7 @@ import {
   styleUrls: ['./admin-home.component.css'],
 })
 export class AdminHomeComponent {
-  private cookieService = inject(CookieService);
+  private authService = inject(AuthService);
   private router = inject(Router);
 
   isNavShown: boolean = true;
@@ -29,7 +28,7 @@ export class AdminHomeComponent {
   }
 
   logoutAdmin(): void {
-    this.cookieService.delete(environment.authCookieName, '/');
+    this.authService.deleteJwtCookie();
     this.router.navigate([this.adminRoutes.login]);
   }
 }

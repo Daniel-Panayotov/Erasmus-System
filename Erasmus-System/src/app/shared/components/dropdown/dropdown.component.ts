@@ -26,6 +26,7 @@ export class DropdownComponent implements AfterViewInit {
   @Input({ required: false }) isInEditPopupForm: boolean = false;
   filteredRefDocs: refDocs = {};
 
+  @ViewChild('fakeInputContainer') fakeFormInputContainer = {} as ElementRef;
   @ViewChild('fakeInput') fakeFormInput = {} as ElementRef;
   @ViewChild('formControl') formInput = {} as ElementRef;
   isSearchUlVisible: boolean = false;
@@ -43,7 +44,7 @@ export class DropdownComponent implements AfterViewInit {
   onClick(event: MouseEvent): void {
     try {
       if (
-        this.fakeFormInput.nativeElement != event.target &&
+        !this.fakeFormInputContainer.nativeElement.contains(event.target) &&
         this.isSearchUlVisible
       ) {
         this.toggleSelectLi();

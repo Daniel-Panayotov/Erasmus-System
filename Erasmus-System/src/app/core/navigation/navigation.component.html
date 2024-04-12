@@ -1,10 +1,25 @@
-<header class="page-header">
+<header
+  class="page-header {{ isOnAdminPage ? 'admin-header' : 'user-page-header' }}"
+>
+  @if (isOnAdminPage) {
+
+  <div class="button" [routerLink]="adminRoutes.adminMenu">
+    <p>Admin access</p>
+  </div>
+  <div class="button" (click)="logout()">
+    <span>Logout</span>
+  </div>
+
+  } @else {
+
   <p class="page-title" [routerLink]="homeRoute">Erasmus</p>
   <nav class="page-nav">
     @if (isAuthenticated) {
 
     <ul class="logged-nav-list">
-      <li [routerLink]="adminMenuRoute" *ngIf="isAdmin"><a>Admin Module</a></li>
+      @if (isAdmin) {
+      <li [routerLink]="adminRoutes.adminMenu"><a>Admin Module</a></li>
+      }
       <li [routerLink]="userRoutes['applyForm']"><a>Apply</a></li>
       <li (click)="logout()"><a>Logout</a></li>
     </ul>
@@ -16,4 +31,5 @@
     </ul>
     }
   </nav>
+  }
 </header>
