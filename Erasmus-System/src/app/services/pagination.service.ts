@@ -3,7 +3,6 @@ import { environment } from '../shared/environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { getSelectRegex } from '../shared/environments/validationEnvironment';
 import { searchValue } from '../types/searchFormValue';
-import { getRoute } from '../shared/environments/apiEnvironment';
 import { adminRecordUnion } from '../types/adminDocs';
 import { adminSectionString } from '../types/apiEnvironmentTypes';
 import { ApiService } from './general-services/api.service';
@@ -41,9 +40,8 @@ export class PaginationService {
     }
     //if searchMode changes, start from page 1, otherwise use given page.
     this._page = searching == this._isSearchActive ? pageNumber : 1;
-    try {
-      await this.getFields(searching, searchParams, section);
-    } catch (err) {}
+
+    await this.getFields(searching, searchParams, section);
   }
 
   private async getFields(

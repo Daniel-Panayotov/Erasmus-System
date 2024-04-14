@@ -5,6 +5,5 @@
 }
 
 .outlet-container {
-  height: calc(100vh - 4.56rem - 3.5rem);
-  overflow: auto;
+  flex: 1 0 calc(100vh - 4.56rem - 3.5rem);
 }

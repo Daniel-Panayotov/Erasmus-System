@@ -2,22 +2,19 @@
   <div class="page-container page-padding">
     <app-admin-view
       class="main-view"
-      [adminModule]="adminModule"
-      [sectionName]="sectionName"
+      [componentInputs]="generalComponentInputs"
       [popupForm]="popupForm"
       (searchFormEvent)="receiveSearchForm($event)"
+      (populateListOfClickedDataEvent)="receivePopulateFunction($event)"
     />
 
     <app-pagination
       class="pagination-footer"
-      [adminModule]="adminModule"
-      [searchForm]="searchForm"
+      [componentInputs]="generalComponentInputs"
     />
 
     <app-popup-admin-form
-      [adminModule]="adminModule"
-      [searchForm]="searchForm"
-      [sectionName]="sectionName"
+      [componentInputs]="generalComponentInputs"
       (popupFormEvent)="receivePopupForm($event)"
     />
   </div>

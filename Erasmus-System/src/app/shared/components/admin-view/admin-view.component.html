@@ -1,5 +1,5 @@
 <header class="page-header">
-  <p>Browse {{ sectionName }}</p>
+  <p>Browse {{ componentInputs.sectionName }}</p>
   <div class="button-add button" (click)="togglePopup(false, -1)">
     {{ isPopupVisible && !isPopupEdit ? "Close Form" : "Add Record" }}
   </div>
@@ -15,7 +15,10 @@
         class="search-form"
         [formGroup]="searchFieldForm"
         (submit)="
-          changePage(1, searchFieldForm.value.search == '' ? false : true)
+          componentInputs.changePage(
+            1,
+            searchFieldForm.value.search == '' ? false : true
+          )
         "
       >
         <div class="search-select">
@@ -65,7 +68,11 @@
       <tr *ngFor="let document of documents; let i = index">
         @for (property of docProperty; track $index) {
         <td>
-          <span class="td-content">
+          <span
+            class="td-content"
+            [attr.data-clicked]="listOfClickedData[i][$index]"
+            (click)="toggleTdPopup(i, $index)"
+          >
             {{
               property[1].isRef
                 ? document[property[0]][

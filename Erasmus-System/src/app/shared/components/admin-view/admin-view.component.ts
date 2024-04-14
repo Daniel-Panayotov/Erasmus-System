@@ -20,9 +20,8 @@ import {
 import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-popup.service';
 import { DeletionService } from 'src/app/services/deletion.service';
 import { PaginationService } from 'src/app/services/pagination.service';
-import { searchValue } from 'src/app/types/searchFormValue';
 import { listDocProperties } from '../../environments/environment';
-import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
+import { generalAdminComponentInputs } from 'src/app/types/adminDocs';
 
 @Component({
   selector: 'app-admin-view',
@@ -33,55 +32,60 @@ import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
 })
 export class AdminViewComponent implements OnInit, OnDestroy {
   private paginationService = inject(PaginationService);
-  private fb = inject(FormBuilder);
   private deletionService = inject(DeletionService);
   private popupService = inject(AdminPopupService);
+  private fb = inject(FormBuilder);
 
-  @Input({ required: true }) adminModule = '' as adminSectionString;
-  @Input({ required: true }) sectionName: string = '';
   @Input({ required: true }) popupForm = {} as FormGroup;
+  @Input({ required: true }) componentInputs =
+    {} as generalAdminComponentInputs;
   @Output() searchFormEvent = new EventEmitter<FormGroup>();
+  @Output() populateListOfClickedDataEvent = new EventEmitter<() => void>();
 
   @ViewChild('selectBtn') selectBtn: ElementRef = {} as ElementRef;
   searchSelectName: string = '--- Choose Filter ---';
   isSearchLiVisible: boolean = false;
 
-  ngOnInit(): void {
+  listOfClickedData: boolean[][] = [];
+
+  async ngOnInit() {
     this.sendSearchForm();
+    this.sendPopulateFunction();
+    await this.componentInputs.changePage(1, false);
   }
 
   ngOnDestroy(): void {
     this.popupService.resetState();
     this.paginationService.resetState();
   }
+
   // send form reference to parent
   sendSearchForm(): void {
     this.searchFormEvent.emit(this.searchFieldForm);
   }
 
-  /* Bind functions */
-
-  async changePage(pageNumber: number, searching: boolean): Promise<void> {
-    await this.paginationService.changePage.bind(
-      this.paginationService, // original context
-      pageNumber,
-      searching,
-      this.searchFieldForm.value as searchValue,
-      this.adminModule
-    )();
+  sendPopulateFunction(): void {
+    this.populateListOfClickedDataEvent.emit(
+      this.populateListOfClickedData.bind(this)
+    );
   }
 
   async deleteField(id: string): Promise<void> {
     await this.deletionService.onDelete.bind(
       this.deletionService, // original context
       id,
-      this.adminModule,
-      this.changePage.bind(this, 1, this.isSearchActive)
+      this.componentInputs.adminModule,
+      this.componentInputs.changePage.bind(this, 1, this.isSearchActive)
     )();
   }
 
   togglePopup(isEdit: boolean, i: number) {
-    this.popupService.togglePopup(isEdit, i, this.popupForm, this.adminModule);
+    this.popupService.togglePopup(
+      isEdit,
+      i,
+      this.popupForm,
+      this.componentInputs.adminModule
+    );
   }
 
   /* search form */
@@ -124,8 +128,23 @@ export class AdminViewComponent implements OnInit, OnDestroy {
     this.isSearchLiVisible = !this.isSearchLiVisible;
   }
 
+  toggleTdPopup(outerIndex: number, innerIndex: number) {
+    this.listOfClickedData[outerIndex][innerIndex] =
+      !this.listOfClickedData[outerIndex][innerIndex];
+  }
+
+  /* Loop through each record and its properties */
+  populateListOfClickedData() {
+    for (let outerI = 0; outerI < this.documents.length; outerI++) {
+      this.listOfClickedData[outerI] = [];
+      for (let innerI = 0; innerI < this.docProperty.length; innerI++) {
+        this.listOfClickedData[outerI][innerI] = false;
+      }
+    }
+  }
+
   get docProperty() {
-    return Object.entries(listDocProperties[this.adminModule]);
+    return Object.entries(listDocProperties[this.componentInputs.adminModule]);
   }
 
   /* pagination getters */

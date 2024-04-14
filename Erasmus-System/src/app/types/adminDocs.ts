@@ -1,3 +1,5 @@
+import { adminActionString, adminSectionString } from './apiEnvironmentTypes';
+
 export interface adminRecords {
   [key: string]: adminRecordUnion[];
 }
@@ -44,4 +46,10 @@ export interface ReceivingContact {
   faculty: Faculty;
   __v: number;
   [key: string]: string | number | Faculty;
+}
+
+export interface generalAdminComponentInputs {
+  adminModule: adminSectionString;
+  sectionName: string;
+  changePage: (pageNumber: number, searching: boolean) => Promise<void>;
 }

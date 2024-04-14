@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, inject } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { PaginationService } from 'src/app/services/pagination.service';
-import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
-import { searchValue } from 'src/app/types/searchFormValue';
+import { generalAdminComponentInputs } from 'src/app/types/adminDocs';
 
 @Component({
   selector: 'app-pagination',
@@ -15,22 +13,10 @@ import { searchValue } from 'src/app/types/searchFormValue';
 export class PaginationComponent implements OnInit {
   private paginationService = inject(PaginationService);
 
-  @Input({ required: true }) searchForm = {} as FormGroup;
-  @Input({ required: true }) adminModule = '' as adminSectionString;
+  @Input({ required: true }) componentInputs =
+    {} as generalAdminComponentInputs;
 
-  ngOnInit(): void {
-    this.changePage(1, false);
-  }
-
-  async changePage(pageNumber: number, searching: boolean): Promise<void> {
-    await this.paginationService.changePage.bind(
-      this.paginationService, // original context
-      pageNumber,
-      searching,
-      this.searchForm.value,
-      this.adminModule
-    )();
-  }
+  ngOnInit(): void {}
 
   get pageCountToIterate(): number {
     return this.paginationService.pageCountToIterate;

@@ -16,11 +16,14 @@ import {
 import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-popup.service';
 import { environment, listDocProperties } from '../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
-import { getRoute } from '../../environments/apiEnvironment';
 import { DropdownComponent } from '../dropdown/dropdown.component';
-import { adminRecordUnion } from 'src/app/types/adminDocs';
+import {
+  adminRecordUnion,
+  generalAdminComponentInputs,
+} from 'src/app/types/adminDocs';
 import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
 import { ApiService } from 'src/app/services/general-services/api.service';
+import { PaginationService } from 'src/app/services/pagination.service';
 
 export interface refDocs {
   [key: string]: adminRecordUnion[];
@@ -38,10 +41,10 @@ export class PopupAdminFormComponent implements OnInit {
   private popupService = inject(AdminPopupService);
   private cookieService = inject(CookieService);
   private apiService = inject(ApiService);
+  private paginationService = inject(PaginationService);
 
-  @Input({ required: true }) adminModule = '' as adminSectionString;
-  @Input({ required: true }) sectionName: string = '';
-  @Input({ required: true }) searchForm = {} as FormGroup;
+  @Input({ required: true }) componentInputs =
+    {} as generalAdminComponentInputs;
   @Output() popupFormEvent = new EventEmitter<FormGroup>();
 
   popupForm = {} as FormGroup;
@@ -50,11 +53,11 @@ export class PopupAdminFormComponent implements OnInit {
   //setup form and send a ref to parent on init
   async ngOnInit(): Promise<void> {
     this.popupForm = this.fb.group({});
-    this.addFormControls();
 
+    this.addFormControls();
     this.sendPopupForm();
 
-    this.getRefDocs().then();
+    await this.getRefDocs();
   }
 
   private async getRefDocs(): Promise<void> {
@@ -92,7 +95,7 @@ export class PopupAdminFormComponent implements OnInit {
    * Setup the form with its prop names and regex
    */
   private addFormControls(): void {
-    const docProperties = listDocProperties[this.adminModule];
+    const docProperties = listDocProperties[this.componentInputs.adminModule];
 
     for (let propertyName in docProperties) {
       const propertyRegex = docProperties[propertyName].regex;
@@ -109,15 +112,15 @@ export class PopupAdminFormComponent implements OnInit {
 
   //function the form calls on submit event
   async popupFormAction(): Promise<void> {
-    try {
-      await this.popupService.popupFormAction(
-        this.adminModule,
-        this.popupForm,
-        this.searchForm
-      );
-    } catch (err) {
-      console.log(err);
-    }
+    await this.popupService.popupFormAction(
+      this.componentInputs.adminModule,
+      this.popupForm
+    );
+
+    await this.componentInputs.changePage(
+      this.paginationService.page,
+      this.paginationService.isSearchActive
+    );
   }
 
   // Allows angular to track the array of items correctly
@@ -127,7 +130,7 @@ export class PopupAdminFormComponent implements OnInit {
 
   //getters
   get iterableDocProperties() {
-    return Object.entries(listDocProperties[this.adminModule]);
+    return Object.entries(listDocProperties[this.componentInputs.adminModule]);
   }
   get isPopupVisible(): boolean {
     return this.popupService.isPopupVisible;

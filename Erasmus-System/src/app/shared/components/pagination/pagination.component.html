@@ -7,7 +7,7 @@
           ? 'pagination-styles-disabled'
           : 'pagination-styles-enabled-hover'
       }}"
-      (click)="changePage(page - 1, isSearchActive)"
+      (click)="componentInputs.changePage(page - 1, isSearchActive)"
     >
       &lt; Previous
     </div>
@@ -20,7 +20,10 @@
         }}"
         *ngFor="let num of [].constructor(pageCountToIterate); let i = index"
         (click)="
-          changePage(page - (page - 1 < 5 ? page - 1 : 4) + i, isSearchActive)
+          componentInputs.changePage(
+            page - (page - 1 < 5 ? page - 1 : 4) + i,
+            isSearchActive
+          )
         "
       >
         {{ page - (page - 1 < 5 ? page - 1 : 4) + i }}
@@ -33,7 +36,7 @@
           ? 'pagination-styles-disabled'
           : 'pagination-styles-enabled-hover'
       }}"
-      (click)="changePage(page + 1, isSearchActive)"
+      (click)="componentInputs.changePage(page + 1, isSearchActive)"
     >
       Next &gt;
     </div>

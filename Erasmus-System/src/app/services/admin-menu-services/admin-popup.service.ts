@@ -1,6 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { PaginationService } from '../pagination.service';
-import { getRoute } from 'src/app/shared/environments/apiEnvironment';
 import {
   environment,
   listDocProperties,
@@ -10,7 +9,6 @@ import {
   validatedFormValues,
 } from 'src/app/types/popupFormValues';
 import { CookieService } from 'ngx-cookie-service';
-import { searchValue } from 'src/app/types/searchFormValue';
 import { FormGroup } from '@angular/forms';
 import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
 import { ApiService } from '../general-services/api.service';
@@ -73,8 +71,7 @@ export class AdminPopupService {
 
   async popupFormAction(
     adminModule: adminSectionString,
-    popupFieldForm: FormGroup,
-    searchForm: FormGroup
+    popupFieldForm: FormGroup
   ): Promise<void> {
     const formValues: popupFormValues = popupFieldForm.value;
     const values: validatedFormValues = {};
@@ -122,14 +119,6 @@ export class AdminPopupService {
 
           break;
       }
-
-      // change the page to show edit/created document
-      await this.paginationService.changePage(
-        this.paginationService.page,
-        this.paginationService.isSearchActive,
-        searchForm.value,
-        adminModule
-      );
 
       // hide popup
       this.togglePopup(

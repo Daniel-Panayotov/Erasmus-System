@@ -167,6 +167,9 @@
   padding: 0.1rem;
 }
 
+.td-content[data-clicked="true"] + .td-popup {
+  display: block;
+}
 .td-content:hover + .td-popup {
   display: block;
 }

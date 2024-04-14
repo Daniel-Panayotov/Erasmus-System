@@ -35,7 +35,7 @@ export class NavigationComponent {
 
   constructor() {
     this.location.onUrlChange((url) => {
-      this.isOnAdminPage = url.includes('admins') ? true : false;
+      this.isOnAdminPage = url.includes('/admins/menu') ? true : false;
     });
 
     this.authService.authCookieSubject$.pipe(takeUntilDestroyed()).subscribe({
