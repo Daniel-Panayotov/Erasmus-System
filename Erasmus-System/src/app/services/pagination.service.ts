@@ -35,6 +35,7 @@ export class PaginationService {
     section: adminSectionString
   ): Promise<void> {
     //validate pageNumber
+
     if (pageNumber < 1 || (pageNumber > this._pageCount && pageNumber != 1)) {
       return;
     }

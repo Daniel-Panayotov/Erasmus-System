@@ -58,11 +58,11 @@
   <table class="documents-table">
     <thead>
       @for (property of docProperty; track $index) {
-      <th class="{{ property[1].class }}">
+      <th class="{{ property[1].widthClass }}">
         {{ property[1].name }}
       </th>
       }
-      <th class="action-th">Action</th>
+      <th class="th-15">Action</th>
     </thead>
     <tbody class="documents-table-body">
       <tr *ngFor="let document of documents; let i = index">
@@ -99,7 +99,7 @@
             </div>
             <div
               class="button button-delete"
-              (click)="deleteField(document._id)"
+              (click)="deleteRecord(document._id)"
             >
               Delete
             </div>

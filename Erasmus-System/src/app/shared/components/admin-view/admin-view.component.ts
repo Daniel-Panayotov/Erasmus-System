@@ -22,6 +22,19 @@ import { DeletionService } from 'src/app/services/deletion.service';
 import { PaginationService } from 'src/app/services/pagination.service';
 import { listDocProperties } from '../../environments/environment';
 import { generalAdminComponentInputs } from 'src/app/types/adminDocs';
+import { widthClass } from 'src/app/types/docProperties';
+
+export interface TableActionsCell {
+  widthClass: widthClass;
+  actions: TableAction[];
+}
+
+export interface TableAction {
+  text: string;
+  altText?: string;
+  colorClass: string;
+  handler: () => void | Promise<void>;
+}
 
 @Component({
   selector: 'app-admin-view',
@@ -48,6 +61,17 @@ export class AdminViewComponent implements OnInit, OnDestroy {
 
   listOfClickedData: boolean[][] = [];
 
+  x: TableActionsCell = {
+    widthClass: 'th-15',
+    actions: [
+      {
+        text: 'hi',
+        colorClass: '',
+        handler: () => {},
+      },
+    ],
+  };
+
   async ngOnInit() {
     this.sendSearchForm();
     this.sendPopulateFunction();
@@ -59,7 +83,10 @@ export class AdminViewComponent implements OnInit, OnDestroy {
     this.paginationService.resetState();
   }
 
-  // send form reference to parent
+  /*----------------
+  | Event emmiters |
+  ----------------*/
+
   sendSearchForm(): void {
     this.searchFormEvent.emit(this.searchFieldForm);
   }
@@ -70,7 +97,11 @@ export class AdminViewComponent implements OnInit, OnDestroy {
     );
   }
 
-  async deleteField(id: string): Promise<void> {
+  /*---------
+  | Actions |
+  ---------*/
+
+  async deleteRecord(id: string): Promise<void> {
     await this.deletionService.onDelete.bind(
       this.deletionService, // original context
       id,
@@ -88,7 +119,9 @@ export class AdminViewComponent implements OnInit, OnDestroy {
     );
   }
 
-  /* search form */
+  /*------------------------
+  | Search form & dropdown |
+  ------------------------*/
 
   searchFieldForm = this.fb.group({
     search: [''],
@@ -128,6 +161,10 @@ export class AdminViewComponent implements OnInit, OnDestroy {
     this.isSearchLiVisible = !this.isSearchLiVisible;
   }
 
+  /*------------------
+  | Table data popup |
+  ------------------*/
+
   toggleTdPopup(outerIndex: number, innerIndex: number) {
     this.listOfClickedData[outerIndex][innerIndex] =
       !this.listOfClickedData[outerIndex][innerIndex];
@@ -142,6 +179,10 @@ export class AdminViewComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+  /*---------
+  | Getters |
+  ---------*/
 
   get docProperty() {
     return Object.entries(listDocProperties[this.componentInputs.adminModule]);

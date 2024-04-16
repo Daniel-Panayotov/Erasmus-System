@@ -22,7 +22,6 @@ export class FieldsOfEducationComponent {
 
   searchForm = {} as FormGroup;
   popupForm = {} as FormGroup;
-
   populateListOfClickedData = () => {};
 
   generalComponentInputs: generalAdminComponentInputs = {

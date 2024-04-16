@@ -188,39 +188,6 @@
   background-color: #cccfe4;
 }
 
-.action-th {
-  width: 15%;
-}
-
-/* dynamically applied classes */
-.th-10 {
-  width: 10%;
-}
-.th-15 {
-  width: 15%;
-}
-.th-20 {
-  width: 20%;
-}
-.th-25 {
-  width: 25%;
-}
-.th-30 {
-  width: 30%;
-}
-.th-35 {
-  width: 35%;
-}
-.th-40 {
-  width: 40%;
-}
-.th-50 {
-  width: 50%;
-}
-.th-60 {
-  width: 60%;
-}
-
 /* Buttons */
 
 .documents-table-buttons {
