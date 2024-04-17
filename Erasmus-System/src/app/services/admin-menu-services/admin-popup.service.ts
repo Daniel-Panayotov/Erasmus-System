@@ -42,7 +42,7 @@ export class AdminPopupService {
   togglePopup(
     isEdit: boolean,
     i: number,
-    popupFieldForm: FormGroup,
+    popupForm: FormGroup,
     adminModule: string
   ): void {
     if (!this.isPopupVisible) {
@@ -53,13 +53,13 @@ export class AdminPopupService {
     }
 
     //clear state
-    popupFieldForm.reset();
+    popupForm.reset();
 
     //set form values if in "Edit" mode
     if (isEdit && !this.isPopupVisible) {
       const values = this.generateValues(i, adminModule);
 
-      popupFieldForm.setValue(values);
+      popupForm.setValue(values);
     }
 
     //clear state

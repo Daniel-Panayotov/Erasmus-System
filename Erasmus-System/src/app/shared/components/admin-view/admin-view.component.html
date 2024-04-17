@@ -13,11 +13,11 @@
     <div class="search-setting">
       <form
         class="search-form"
-        [formGroup]="searchFieldForm"
+        [formGroup]="searchForm"
         (submit)="
           componentInputs.changePage(
             1,
-            searchFieldForm.value.search == '' ? false : true
+            searchForm.value.search == '' ? false : true
           )
         "
       >
@@ -97,6 +97,16 @@
                   : "Edit"
               }}
             </div>
+
+            <!-- @for (button of x.actions; track $index) {
+            <div
+              class="button {{ button.colorClass }}"
+              (click)="button.handler()"
+            >
+              {{ button.text }}
+            </div>
+            } -->
+
             <div
               class="button button-delete"
               (click)="deleteRecord(document._id)"

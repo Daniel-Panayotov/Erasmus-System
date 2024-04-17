@@ -1,4 +1,4 @@
-import { adminActionString, adminSectionString } from './apiEnvironmentTypes';
+import { adminSectionString } from './apiEnvironmentTypes';
 
 export interface adminRecords {
   [key: string]: adminRecordUnion[];

@@ -88,7 +88,7 @@ export class AdminViewComponent implements OnInit, OnDestroy {
   ----------------*/
 
   sendSearchForm(): void {
-    this.searchFormEvent.emit(this.searchFieldForm);
+    this.searchFormEvent.emit(this.searchForm);
   }
 
   sendPopulateFunction(): void {
@@ -122,8 +122,7 @@ export class AdminViewComponent implements OnInit, OnDestroy {
   /*------------------------
   | Search form & dropdown |
   ------------------------*/
-
-  searchFieldForm = this.fb.group({
+  searchForm = this.fb.group({
     search: [''],
     select: ['', Validators.required],
   });
@@ -146,13 +145,13 @@ export class AdminViewComponent implements OnInit, OnDestroy {
   changeSelectValue(value: string, valueName: string): void {
     this.searchSelectName = valueName;
 
-    const { search } = this.searchFieldForm.value;
+    const { search } = this.searchForm.value;
     if (typeof search != 'string') {
       return;
     }
     const values = { search, select: value };
 
-    this.searchFieldForm.setValue(values);
+    this.searchForm.setValue(values);
 
     this.toggleSelectLi();
   }

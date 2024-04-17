@@ -1,4 +1,4 @@
 export interface searchValue {
-  select: string | null;
-  search: string | null;
+  select?: string | null;
+  search?: string | null;
 }
