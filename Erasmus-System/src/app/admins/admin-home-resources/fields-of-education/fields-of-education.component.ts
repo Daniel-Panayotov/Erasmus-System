@@ -1,10 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { GeneralAdminService } from 'src/app/services/admin-menu-services/general-admin.service';
 import { PaginationService } from 'src/app/services/pagination.service';
 import { AdminViewComponent } from 'src/app/shared/components/admin-view/admin-view.component';
 import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
 import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-form/popup-admin-form.component';
 import { generalAdminComponentInputs } from 'src/app/types/adminDocs';
+import {
+  ButtonIdentifier,
+  TableButtonGenerateArguments,
+} from 'src/app/types/adminTableButtons';
 import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
 
 @Component({
@@ -16,6 +21,7 @@ import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
 })
 export class FieldsOfEducationComponent {
   private paginationService = inject(PaginationService);
+  private adminService = inject(GeneralAdminService);
 
   adminModule: adminSectionString = 'fields';
   sectionName: string = 'Fields of Education';

@@ -22,19 +22,6 @@ import { DeletionService } from 'src/app/services/deletion.service';
 import { PaginationService } from 'src/app/services/pagination.service';
 import { listDocProperties } from '../../environments/environment';
 import { generalAdminComponentInputs } from 'src/app/types/adminDocs';
-import { widthClass } from 'src/app/types/docProperties';
-
-export interface TableActionsCell {
-  widthClass: widthClass;
-  actions: TableAction[];
-}
-
-export interface TableAction {
-  text: string;
-  altText?: string;
-  colorClass: string;
-  handler: () => void | Promise<void>;
-}
 
 @Component({
   selector: 'app-admin-view',
@@ -60,17 +47,6 @@ export class AdminViewComponent implements OnInit, OnDestroy {
   isSearchLiVisible: boolean = false;
 
   listOfClickedData: boolean[][] = [];
-
-  x: TableActionsCell = {
-    widthClass: 'th-15',
-    actions: [
-      {
-        text: 'hi',
-        colorClass: '',
-        handler: () => {},
-      },
-    ],
-  };
 
   async ngOnInit() {
     this.sendSearchForm();
