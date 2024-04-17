@@ -102,12 +102,9 @@ export class AdminViewComponent implements OnInit, OnDestroy {
   ---------*/
 
   async deleteRecord(id: string): Promise<void> {
-    await this.deletionService.onDelete.bind(
-      this.deletionService, // original context
-      id,
-      this.componentInputs.adminModule,
-      this.componentInputs.changePage.bind(this, 1, this.isSearchActive)
-    )();
+    await this.deletionService.onDelete(id, this.componentInputs.adminModule);
+
+    await this.componentInputs.changePage(1, this.isSearchActive);
   }
 
   togglePopup(isEdit: boolean, i: number) {

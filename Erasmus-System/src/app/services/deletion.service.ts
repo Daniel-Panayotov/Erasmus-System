@@ -11,11 +11,7 @@ import { adminSectionString } from '../types/apiEnvironmentTypes';
 export class DeletionService {
   private cookieService = inject(CookieService);
 
-  async onDelete(
-    id: string,
-    adminModule: adminSectionString,
-    changePage: () => Promise<void>
-  ): Promise<void> {
+  async onDelete(id: string, adminModule: adminSectionString): Promise<void> {
     const isSure = window.confirm('Would you like to delete this field?');
 
     if (!isSure || !globalRegex.docId.exec(id)) {
@@ -40,9 +36,6 @@ export class DeletionService {
           return res;
         }
       );
-
-      //change page automatically
-      await changePage();
     } catch (err) {}
   }
 }

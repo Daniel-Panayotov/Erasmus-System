@@ -33,13 +33,12 @@ export class FieldsOfEducationComponent {
   };
 
   async changePage(pageNumber: number, searching: boolean): Promise<void> {
-    await this.paginationService.changePage.bind(
-      this.paginationService, // original context
+    await this.paginationService.changePage(
       pageNumber,
       searching,
       this.searchForm.value,
       this.adminModule
-    )();
+    );
 
     this.populateListOfClickedData();
   }
