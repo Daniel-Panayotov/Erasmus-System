@@ -62,7 +62,7 @@
         {{ property[1].name }}
       </th>
       }
-      <th class="th-15">Action</th>
+      <th class="{{ tableButtonsData.widthClass }}">Action</th>
     </thead>
     <tbody class="documents-table-body">
       <tr *ngFor="let document of documents; let i = index">
@@ -90,29 +90,25 @@
         }
         <td>
           <div class="documents-table-buttons">
-            <div class="button button-edit" (click)="togglePopup(true, i)">
-              {{
-                isPopupEdit && isPopupVisible && popupIndex == i
-                  ? "Close"
-                  : "Edit"
-              }}
-            </div>
-
-            <!-- @for (button of x.actions; track $index) {
+            @for (button of tableButtonsData.actions; track $index) {
             <div
               class="button {{ button.colorClass }}"
-              (click)="button.handler()"
+              (click)="
+                button.handler({
+                  adminRecord: document,
+                  index: i,
+                  adminPopupForm: popupForm,
+                  isPopupEdit: true
+                })
+              "
             >
+              @if (button.showAltText(i)) {
+              {{ button.altText }}
+              } @else {
               {{ button.text }}
+              }
             </div>
-            } -->
-
-            <div
-              class="button button-delete"
-              (click)="deleteRecord(document._id)"
-            >
-              Delete
-            </div>
+            }
           </div>
         </td>
       </tr>

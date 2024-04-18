@@ -18,10 +18,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-popup.service';
-import { DeletionService } from 'src/app/services/deletion.service';
 import { PaginationService } from 'src/app/services/pagination.service';
 import { listDocProperties } from '../../environments/environment';
 import { generalAdminComponentInputs } from 'src/app/types/adminDocs';
+import { TableButtonsData } from 'src/app/types/adminTableButtons';
 
 @Component({
   selector: 'app-admin-view',
@@ -32,13 +32,13 @@ import { generalAdminComponentInputs } from 'src/app/types/adminDocs';
 })
 export class AdminViewComponent implements OnInit, OnDestroy {
   private paginationService = inject(PaginationService);
-  private deletionService = inject(DeletionService);
   private popupService = inject(AdminPopupService);
   private fb = inject(FormBuilder);
 
   @Input({ required: true }) popupForm = {} as FormGroup;
   @Input({ required: true }) componentInputs =
     {} as generalAdminComponentInputs;
+  @Input({ required: true }) tableButtonsData = {} as TableButtonsData;
   @Output() searchFormEvent = new EventEmitter<FormGroup>();
   @Output() populateListOfClickedDataEvent = new EventEmitter<() => void>();
 
@@ -76,12 +76,6 @@ export class AdminViewComponent implements OnInit, OnDestroy {
   /*---------
   | Actions |
   ---------*/
-
-  async deleteRecord(id: string): Promise<void> {
-    await this.deletionService.onDelete(id, this.componentInputs.adminModule);
-
-    await this.componentInputs.changePage(1, this.isSearchActive);
-  }
 
   togglePopup(isEdit: boolean, i: number) {
     this.popupService.togglePopup(

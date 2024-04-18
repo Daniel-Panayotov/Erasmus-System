@@ -2,7 +2,6 @@ import { Injectable, inject } from '@angular/core';
 import { DeletionService } from '../deletion.service';
 import { AdminPopupService } from './admin-popup.service';
 import { PaginationService } from '../pagination.service';
-import { widthClass } from 'src/app/types/docProperties';
 import { generalAdminComponentInputs } from 'src/app/types/adminDocs';
 import {
   ButtonBasicDataCollection,
@@ -12,6 +11,7 @@ import {
   TableButtonData,
   TableButtonsData,
 } from 'src/app/types/adminTableButtons';
+import { widthClass } from 'src/app/types/globalTypes';
 
 @Injectable({
   providedIn: 'root',
@@ -25,12 +25,20 @@ export class GeneralAdminService {
     deleteRecord: {
       text: 'Delete',
       altText: null,
-      colorClass: '',
+      showAltText: () => false,
+      colorClass: 'bg-red',
     },
     togglePopup: {
       text: 'Edit',
       altText: 'Close',
-      colorClass: '',
+      showAltText: (i: number) => {
+        return this.popupService.isPopupEdit &&
+          this.popupService.isPopupVisible &&
+          this.popupService.popupIndex == i
+          ? true
+          : false;
+      },
+      colorClass: 'bg-green',
     },
   };
 
@@ -39,7 +47,7 @@ export class GeneralAdminService {
       (componentInputs: generalAdminComponentInputs) =>
       async (data: ButtonHandlerArguments) => {
         await this.deletionService.onDelete(
-          data.id,
+          data.adminRecord._id,
           componentInputs.adminModule
         );
 

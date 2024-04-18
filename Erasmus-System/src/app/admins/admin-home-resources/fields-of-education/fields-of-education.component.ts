@@ -6,10 +6,7 @@ import { AdminViewComponent } from 'src/app/shared/components/admin-view/admin-v
 import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
 import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-form/popup-admin-form.component';
 import { generalAdminComponentInputs } from 'src/app/types/adminDocs';
-import {
-  ButtonIdentifier,
-  TableButtonGenerateArguments,
-} from 'src/app/types/adminTableButtons';
+import { ButtonIdentifier } from 'src/app/types/adminTableButtons';
 import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
 
 @Component({
@@ -37,6 +34,14 @@ export class FieldsOfEducationComponent {
       await this.changePage.bind(this)(pageNumber, searching);
     },
   };
+
+  tableButtonsIdentifiers: ButtonIdentifier[] = ['togglePopup', 'deleteRecord'];
+
+  tableButtonsData = this.adminService.generateTableButtonsData(
+    'th-15',
+    this.generalComponentInputs,
+    this.tableButtonsIdentifiers
+  );
 
   async changePage(pageNumber: number, searching: boolean): Promise<void> {
     await this.paginationService.changePage(

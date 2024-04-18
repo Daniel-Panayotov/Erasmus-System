@@ -4,47 +4,44 @@ export interface adminRecords {
   [key: string]: adminRecordUnion[];
 }
 
+export interface DbDoc {
+  _id: string;
+  __v: number;
+}
+
 export type adminRecordUnion =
   | Faculty
   | Field
   | ForeignContact
   | ReceivingContact;
 
-export interface Faculty {
-  _id: string;
+export interface Faculty extends DbDoc {
   name: string;
   coordinator: string;
-  __v: number;
   [key: string]: string | number;
 }
 
-export interface Field {
-  _id: string;
+export interface Field extends DbDoc {
   code: string;
   name: string;
-  __v: number;
   [key: string]: string | number;
 }
 
-export interface ForeignContact {
-  _id: string;
+export interface ForeignContact extends DbDoc {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
   faculty: string;
-  __v: number;
   [key: string]: string | number;
 }
 
-export interface ReceivingContact {
-  _id: string;
+export interface ReceivingContact extends DbDoc {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
   faculty: Faculty;
-  __v: number;
   [key: string]: string | number | Faculty;
 }
 

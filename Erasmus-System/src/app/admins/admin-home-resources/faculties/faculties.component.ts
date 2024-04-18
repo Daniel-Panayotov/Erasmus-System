@@ -6,6 +6,8 @@ import { AdminViewComponent } from 'src/app/shared/components/admin-view/admin-v
 import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
 import { PaginationService } from 'src/app/services/pagination.service';
 import { generalAdminComponentInputs } from 'src/app/types/adminDocs';
+import { GeneralAdminService } from 'src/app/services/admin-menu-services/general-admin.service';
+import { ButtonIdentifier } from 'src/app/types/adminTableButtons';
 
 @Component({
   selector: 'app-faculties',
@@ -15,7 +17,8 @@ import { generalAdminComponentInputs } from 'src/app/types/adminDocs';
   styleUrl: './faculties.component.css',
 })
 export class FacultiesComponent {
-  paginationService = inject(PaginationService);
+  private paginationService = inject(PaginationService);
+  private adminService = inject(GeneralAdminService);
 
   adminModule: adminSectionString = 'faculties';
   sectionName: string = 'Faculties';
@@ -32,6 +35,14 @@ export class FacultiesComponent {
       await this.changePage.bind(this)(pageNumber, searching);
     },
   };
+
+  tableButtonsIdentifiers: ButtonIdentifier[] = ['togglePopup', 'deleteRecord'];
+
+  tableButtonsData = this.adminService.generateTableButtonsData(
+    'th-15',
+    this.generalComponentInputs,
+    this.tableButtonsIdentifiers
+  );
 
   async changePage(pageNumber: number, searching: boolean): Promise<void> {
     await this.paginationService.changePage.bind(
