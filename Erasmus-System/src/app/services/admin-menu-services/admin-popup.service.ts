@@ -10,7 +10,7 @@ import {
 } from 'src/app/types/popupFormValues';
 import { CookieService } from 'ngx-cookie-service';
 import { FormGroup } from '@angular/forms';
-import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
+import { adminModuleString } from 'src/app/types/apiEnvironmentTypes';
 import { ApiService } from '../general-services/api.service';
 
 @Injectable({
@@ -70,7 +70,7 @@ export class AdminPopupService {
   }
 
   async popupFormAction(
-    adminModule: adminSectionString,
+    adminModule: adminModuleString,
     popupFieldForm: FormGroup
   ): Promise<void> {
     const formValues: popupFormValues = popupFieldForm.value;

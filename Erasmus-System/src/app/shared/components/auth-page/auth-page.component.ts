@@ -14,7 +14,7 @@ import { NavigationComponent } from 'src/app/core/navigation/navigation.componen
 import { FooterComponent } from 'src/app/core/footer/footer.component';
 import {
   authActionString,
-  authSectionString,
+  authModuleString,
 } from 'src/app/types/apiEnvironmentTypes';
 
 @Component({
@@ -31,7 +31,7 @@ import {
   styleUrl: './auth-page.component.css',
 })
 export class AuthPageComponent {
-  @Input({ required: true }) authModule = '' as authSectionString;
+  @Input({ required: true }) authModule = '' as authModuleString;
   @Input({ required: true }) authAction = '' as authActionString;
   @Input({ required: true }) sectionName: string = '';
 

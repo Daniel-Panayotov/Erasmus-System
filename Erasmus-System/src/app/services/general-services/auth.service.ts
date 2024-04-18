@@ -8,7 +8,7 @@ import {
 import { environment } from 'src/app/shared/environments/environment';
 import {
   authActionString,
-  authSectionString,
+  authModuleString,
 } from 'src/app/types/apiEnvironmentTypes';
 
 @Injectable({
@@ -33,7 +33,7 @@ export class AuthService {
   }
 
   async authenticate(
-    authModule: authSectionString,
+    authModule: authModuleString,
     action: authActionString,
     data: {
       email: string;

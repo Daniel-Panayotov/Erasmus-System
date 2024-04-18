@@ -3,7 +3,7 @@ import { globalRegex } from '../shared/environments/validationEnvironment';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../shared/environments/environment';
 import { getRoute } from '../shared/environments/apiEnvironment';
-import { adminSectionString } from '../types/apiEnvironmentTypes';
+import { adminModuleString } from '../types/apiEnvironmentTypes';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,7 @@ import { adminSectionString } from '../types/apiEnvironmentTypes';
 export class DeletionService {
   private cookieService = inject(CookieService);
 
-  async onDelete(id: string, adminModule: adminSectionString): Promise<void> {
+  async onDelete(id: string, adminModule: adminModuleString): Promise<void> {
     const isSure = window.confirm('Would you like to delete this field?');
 
     if (!isSure || !globalRegex.docId.exec(id)) {

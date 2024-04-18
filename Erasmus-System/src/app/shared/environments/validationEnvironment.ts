@@ -1,3 +1,5 @@
+import { adminModuleString } from 'src/app/types/apiEnvironmentTypes';
+
 export const globalRegex = {
   emailRegex:
     /(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
@@ -41,13 +43,13 @@ interface regexEnv {
   select: RegExp;
 }
 
-export function getSelectRegex(adminModule: string): RegExp {
+export function getSelectRegex(adminModule: adminModuleString): RegExp {
   const regexEnv = getRegexEnv(adminModule);
 
   return regexEnv.select;
 }
 
-function getRegexEnv(adminModule: string) {
+function getRegexEnv(adminModule: adminModuleString) {
   let regexEnv = {} as regexEnv;
 
   switch (adminModule) {
@@ -63,6 +65,9 @@ function getRegexEnv(adminModule: string) {
     case 'receivingContacts':
       regexEnv = contactsRegex;
       break;
+    // case 'mobilities':
+    //   regexEnv
+    //   break;
     default:
       break;
   }

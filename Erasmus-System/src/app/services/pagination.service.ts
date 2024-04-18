@@ -4,7 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { getSelectRegex } from '../shared/environments/validationEnvironment';
 import { searchValue } from '../types/searchFormValue';
 import { adminRecordUnion } from '../types/adminDocs';
-import { adminSectionString } from '../types/apiEnvironmentTypes';
+import { adminModuleString } from '../types/apiEnvironmentTypes';
 import { ApiService } from './general-services/api.service';
 
 @Injectable({
@@ -32,7 +32,7 @@ export class PaginationService {
     pageNumber: number,
     searching: boolean,
     searchParams: searchValue,
-    section: adminSectionString
+    section: adminModuleString
   ): Promise<void> {
     //validate pageNumber
 
@@ -48,7 +48,7 @@ export class PaginationService {
   private async getFields(
     searching: boolean,
     searchParams: searchValue,
-    section: adminSectionString
+    section: adminModuleString
   ): Promise<void> {
     const authCookie = this.cookieService.get(environment.authCookieName);
     let data;

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AuthPageComponent } from 'src/app/shared/components/auth-page/auth-page.component';
 import {
   authActionString,
-  authSectionString,
+  authModuleString,
 } from 'src/app/types/apiEnvironmentTypes';
 
 @Component({
@@ -14,7 +14,7 @@ import {
   styleUrl: './admin-login.component.css',
 })
 export class AdminLoginComponent {
-  authModule: authSectionString = 'admins';
+  authModule: authModuleString = 'admins';
   authAction: authActionString = 'login';
   sectionName: string = 'Admin';
 }

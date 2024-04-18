@@ -1,4 +1,4 @@
-import { adminSectionString } from './apiEnvironmentTypes';
+import { adminModuleString } from './apiEnvironmentTypes';
 
 export interface adminRecords {
   [key: string]: adminRecordUnion[];
@@ -46,7 +46,7 @@ export interface ReceivingContact extends DbDoc {
 }
 
 export interface generalAdminComponentInputs {
-  adminModule: adminSectionString;
+  adminModule: adminModuleString;
   sectionName: string;
   changePage: (pageNumber: number, searching: boolean) => Promise<void>;
 }

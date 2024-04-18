@@ -7,7 +7,7 @@ import { PaginationComponent } from 'src/app/shared/components/pagination/pagina
 import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-form/popup-admin-form.component';
 import { generalAdminComponentInputs } from 'src/app/types/adminDocs';
 import { ButtonIdentifier } from 'src/app/types/adminTableButtons';
-import { adminSectionString } from 'src/app/types/apiEnvironmentTypes';
+import { adminModuleString } from 'src/app/types/apiEnvironmentTypes';
 
 @Component({
   selector: 'app-fields-of-education',
@@ -20,7 +20,7 @@ export class FieldsOfEducationComponent {
   private paginationService = inject(PaginationService);
   private adminService = inject(GeneralAdminService);
 
-  adminModule: adminSectionString = 'fields';
+  adminModule: adminModuleString = 'fields';
   sectionName: string = 'Fields of Education';
 
   searchForm = {} as FormGroup;

@@ -1,8 +1,9 @@
-export type adminSectionString =
+export type adminModuleString =
   | 'faculties'
   | 'fields'
   | 'foreignContacts'
-  | 'receivingContacts';
+  | 'receivingContacts'
+  | 'mobilities';
 
 export type adminActionString =
   | 'delete'
@@ -21,7 +22,7 @@ export interface routeEnv {
   getAllUrl: string;
 }
 
-export type authSectionString = 'admins' | 'users';
+export type authModuleString = 'admins' | 'users';
 
 export type authActionString = 'login' | 'register';
 

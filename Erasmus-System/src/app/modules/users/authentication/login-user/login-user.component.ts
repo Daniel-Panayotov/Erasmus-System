@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthPageComponent } from 'src/app/shared/components/auth-page/auth-page.component';
 import {
   authActionString,
-  authSectionString,
+  authModuleString,
 } from 'src/app/types/apiEnvironmentTypes';
 
 @Component({
@@ -13,7 +13,7 @@ import {
   styleUrl: './login-user.component.css',
 })
 export class LoginUserComponent {
-  authModule: authSectionString = 'users';
+  authModule: authModuleString = 'users';
   authAction: authActionString = 'login';
   sectionName: string = 'User';
 }

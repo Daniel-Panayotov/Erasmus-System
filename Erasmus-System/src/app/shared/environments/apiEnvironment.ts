@@ -1,8 +1,8 @@
 import {
   routeEnv,
   authRouteEnv,
-  adminSectionString,
-  authSectionString,
+  adminModuleString,
+  authModuleString,
   authActionString,
   adminActionString,
 } from 'src/app/types/apiEnvironmentTypes';
@@ -68,8 +68,19 @@ const receivingContactsEnvironment: routeEnv = {
   getAllUrl: `${apiReceivingContactsUrl}/getAll`,
 };
 
+const apiMobilitiesUrl = `${apiUrl}/mobilities`;
+
+const mobilitiesEnvironment = {
+  getPageUrl: `${apiMobilitiesUrl}/getPage`,
+  getPageByParamUrl: `${apiMobilitiesUrl}/getPageByParam`,
+  createOneUrl: `${apiMobilitiesUrl}/createOne`,
+  updateOneUrl: `${apiMobilitiesUrl}/updateOne`,
+  deleteOneUrl: `${apiMobilitiesUrl}/deleteOne`,
+  getAllUrl: `${apiMobilitiesUrl}/getAll`,
+};
+
 export function getRoute(
-  adminModule: adminSectionString,
+  adminModule: adminModuleString,
   action: adminActionString
 ): string {
   const environment = getEnvironment(adminModule);
@@ -99,9 +110,9 @@ export function getRoute(
   return url;
 }
 
-function getEnvironment(adminSection: adminSectionString) {
+function getEnvironment(adminModule: adminModuleString) {
   let env;
-  switch (adminSection) {
+  switch (adminModule) {
     case 'fields':
       env = fieldsEnvironment;
       break;
@@ -114,12 +125,15 @@ function getEnvironment(adminSection: adminSectionString) {
     case 'receivingContacts':
       env = receivingContactsEnvironment;
       break;
+    case 'mobilities':
+      env = mobilitiesEnvironment;
+      break;
   }
   return env;
 }
 
 export function getAuthRoute(
-  authModule: authSectionString,
+  authModule: authModuleString,
   action: authActionString
 ): string {
   const environment = getAuthEnvironment(authModule);
@@ -138,9 +152,9 @@ export function getAuthRoute(
   return url;
 }
 
-function getAuthEnvironment(adminSection: authSectionString) {
+function getAuthEnvironment(adminMobile: authModuleString) {
   let env;
-  switch (adminSection) {
+  switch (adminMobile) {
     case 'admins':
       env = adminsEnvironment;
       break;

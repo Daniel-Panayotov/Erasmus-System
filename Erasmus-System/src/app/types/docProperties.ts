@@ -1,4 +1,4 @@
-import { adminSectionString } from './apiEnvironmentTypes';
+import { adminModuleString } from './apiEnvironmentTypes';
 import { widthClass } from './globalTypes';
 
 export interface docsWithProperties {
@@ -18,7 +18,7 @@ export interface docProperty {
 }
 
 export interface refProps {
-  apiSection: adminSectionString;
+  apiSection: adminModuleString;
   properties: { mainProp: string; propsList: string[] };
   assignPropTo: string;
 }
