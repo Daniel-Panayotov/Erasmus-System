@@ -1,6 +1,6 @@
 import { FormGroup } from '@angular/forms';
 import { adminRecordUnion, generalAdminComponentInputs } from './adminDocs';
-import { colorClass, widthClass } from './globalTypes';
+import { bgColorClass, widthClass } from './globalTypes';
 
 export type ButtonIdentifier = 'togglePopup' | 'deleteRecord';
 
@@ -8,7 +8,7 @@ export interface TableButtonBasicData {
   text: string;
   altText: string | null;
   showAltText: (i: number) => boolean;
-  colorClass: colorClass;
+  bgColorClass: bgColorClass;
 }
 
 export type ButtonHandler = (
@@ -17,7 +17,12 @@ export type ButtonHandler = (
 
 export interface TableButtonsData {
   widthClass: widthClass;
-  actions: TableButtonData[];
+  actions: TableButtonsDataActions;
+}
+
+export interface TableButtonsDataActions {
+  editButtonIndex: number;
+  buttons: TableButtonData[];
 }
 
 export interface TableButtonData extends TableButtonBasicData {

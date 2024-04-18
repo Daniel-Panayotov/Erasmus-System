@@ -26,7 +26,7 @@ export class GeneralAdminService {
       text: 'Delete',
       altText: null,
       showAltText: () => false,
-      colorClass: 'bg-red',
+      bgColorClass: 'bg-red',
     },
     togglePopup: {
       text: 'Edit',
@@ -38,7 +38,7 @@ export class GeneralAdminService {
           ? true
           : false;
       },
-      colorClass: 'bg-green',
+      bgColorClass: 'bg-green',
     },
   };
 
@@ -75,11 +75,17 @@ export class GeneralAdminService {
   ): TableButtonsData {
     const tableButtonsData: TableButtonsData = {
       widthClass,
-      actions: [],
+      actions: {
+        editButtonIndex: -1,
+        buttons: [],
+      },
     };
 
     for (let i = 0; i < buttonsIdentifiers.length; i++) {
       const buttonIdentifier = buttonsIdentifiers[i];
+
+      if (buttonIdentifier == 'togglePopup')
+        tableButtonsData.actions.editButtonIndex = i;
 
       const buttonData: TableButtonData = {
         ...this.buttonsBasicDataCollection[buttonIdentifier],
@@ -87,7 +93,7 @@ export class GeneralAdminService {
           this.buttonHandlersCollection[buttonIdentifier](componentInputs),
       };
 
-      tableButtonsData.actions.push(buttonData);
+      tableButtonsData.actions.buttons.push(buttonData);
     }
 
     return tableButtonsData;

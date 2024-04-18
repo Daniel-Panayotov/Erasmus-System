@@ -1,8 +1,22 @@
 <header class="page-header">
   <p>Browse {{ componentInputs.sectionName }}</p>
-  <div class="button-add button" (click)="togglePopup(false, -1)">
+  @if (tableButtonsData.actions.editButtonIndex != -1) {
+  <div
+    class="button-add button"
+    (click)="
+      tableButtonsData.actions.buttons[
+        tableButtonsData.actions.editButtonIndex
+      ].handler({
+        index: -1,
+        isPopupEdit: false,
+        adminPopupForm: popupForm,
+        adminRecord: documents[0]
+      })
+    "
+  >
     {{ isPopupVisible && !isPopupEdit ? "Close Form" : "Add Record" }}
   </div>
+  }
 </header>
 <main class="page-main">
   <div class="settings">
@@ -90,9 +104,9 @@
         }
         <td>
           <div class="documents-table-buttons">
-            @for (button of tableButtonsData.actions; track $index) {
+            @for (button of tableButtonsData.actions.buttons; track $index) {
             <div
-              class="button {{ button.colorClass }}"
+              class="button {{ button.bgColorClass }}"
               (click)="
                 button.handler({
                   adminRecord: document,
@@ -102,11 +116,7 @@
                 })
               "
             >
-              @if (button.showAltText(i)) {
-              {{ button.altText }}
-              } @else {
-              {{ button.text }}
-              }
+              {{ button.showAltText(i) ? button.altText : button.text }}
             </div>
             }
           </div>

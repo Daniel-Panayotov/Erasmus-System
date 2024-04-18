@@ -73,19 +73,6 @@ export class AdminViewComponent implements OnInit, OnDestroy {
     );
   }
 
-  /*---------
-  | Actions |
-  ---------*/
-
-  togglePopup(isEdit: boolean, i: number) {
-    this.popupService.togglePopup(
-      isEdit,
-      i,
-      this.popupForm,
-      this.componentInputs.adminModule
-    );
-  }
-
   /*------------------------
   | Search form & dropdown |
   ------------------------*/

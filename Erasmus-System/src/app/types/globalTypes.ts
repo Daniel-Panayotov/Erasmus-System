@@ -9,4 +9,4 @@ export type widthClass =
   | 'th-50'
   | 'th-60';
 
-export type colorClass = 'bg-green' | 'bg-red' | 'bg-orange';
+export type bgColorClass = 'bg-green' | 'bg-red' | 'bg-orange';
