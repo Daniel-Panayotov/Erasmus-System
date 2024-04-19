@@ -145,7 +145,7 @@ export class AdminPopupService {
       if (docProperties[propertyName].isRef) {
         values[propertyName] =
           document[propertyName][
-            docProperties[propertyName].isRef!.properties.propsList[0]
+            docProperties[propertyName].isRef!.properties.mainProp
           ];
       } else {
         values[propertyName] = document[propertyName];

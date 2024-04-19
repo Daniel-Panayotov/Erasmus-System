@@ -174,14 +174,14 @@ export const listDocProperties: docsWithProperties = {
       name: 'Coordinator',
       error: 'Coordinator names must be 5-40 chars',
       regex: facultiesRegex.personNames,
-      widthClass: 'th-15',
+      widthClass: 'th-10',
       isShown: true,
     },
     address: {
       name: 'Address',
       error: 'Invalid Address',
       regex: globalRegex.normalSentences,
-      widthClass: 'th-10',
+      widthClass: 'th-15',
       isShown: true,
     },
     lectureCount: {

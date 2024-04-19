@@ -32,17 +32,18 @@ export const contactsRegex = {
   select: /^(firstName|lastName|email|phone|faculty)$/,
 };
 
+export const mobilitiesRegex = {
+  code: /^([a-zA-Z0-9\s]{5,20})$/,
+  university: /^([a-zA-Z0-9\s]{5,20})$/,
+  count: /^(?:25[0-4]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
+  select:
+    /^(code|country|validFrom|validUntil|university|address|coordinator)$/,
+};
 export const userDataRegex = {
   studyYears: /^(1[0-2]|[1-9])$/,
   mobilityType: /^(study|traineeship)$/,
   semesterSeason: /^(summer|winter|year)$/,
   studyDegree: /^(Bachelor|Master)$/,
-};
-
-export const mobilitiesRegex = {
-  code: /^([a-zA-Z0-9\s]{5,20})$/,
-  university: /^([a-zA-Z0-9\s]{5,20})$/,
-  count: /^(?:25[0-4]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
 };
 
 interface regexEnv {
@@ -71,9 +72,9 @@ function getRegexEnv(adminModule: adminModuleString) {
     case 'receivingContacts':
       regexEnv = contactsRegex;
       break;
-    // case 'mobilities':
-    //   regexEnv
-    //   break;
+    case 'mobilities':
+      regexEnv = mobilitiesRegex;
+      break;
     default:
       break;
   }

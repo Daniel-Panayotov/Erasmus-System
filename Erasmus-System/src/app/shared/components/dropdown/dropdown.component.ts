@@ -5,12 +5,14 @@ import {
   ElementRef,
   HostListener,
   AfterViewInit,
+  inject,
 } from '@angular/core';
 import { adminRecordUnion } from 'src/app/types/adminDocs';
 import { docProperty, refProps } from 'src/app/types/docProperties';
 import { refDocs } from '../popup-admin-form/popup-admin-form.component';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-popup.service';
 
 @Component({
   selector: 'app-dropdown',
@@ -20,6 +22,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './dropdown.component.css',
 })
 export class DropdownComponent implements AfterViewInit {
+  private adminPopupService = inject(AdminPopupService);
+
   @Input({ required: true }) property = [] as unknown as [string, docProperty];
   @Input({ required: true }) form = {} as FormGroup;
   @Input({ required: true }) refDocs: refDocs = {};
@@ -34,9 +38,27 @@ export class DropdownComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     //set fake input value to mirror form control value
     if (this.isInEditPopupForm) {
-      this.fakeFormInput.nativeElement.value =
-        this.formInput.nativeElement.value;
+      this.fakeFormInput.nativeElement.value = this.generateStartingEditValue(
+        this.formInput.nativeElement.value
+      );
     }
+  }
+  generateStartingEditValue(fakeInputValue: string) {
+    const docs = this.refDocs[this.property[1].isRef!.apiSection];
+    let inputValue = '';
+
+    for (let i = 0; i < docs.length; i++) {
+      if (
+        docs[i][this.property[1].isRef!.properties.mainProp] == fakeInputValue
+      ) {
+        this.property[1].isRef?.properties.propsList.map((v) => {
+          inputValue += docs[i][v] + ' ';
+        });
+      }
+    }
+    inputValue = inputValue.trim();
+
+    return inputValue;
   }
   /*
    */
