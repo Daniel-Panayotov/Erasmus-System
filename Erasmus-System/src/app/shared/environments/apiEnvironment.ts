@@ -70,7 +70,7 @@ const receivingContactsEnvironment: routeEnv = {
 
 const apiMobilitiesUrl = `${apiUrl}/mobilities`;
 
-const mobilitiesEnvironment = {
+const mobilitiesEnvironment: routeEnv = {
   getPageUrl: `${apiMobilitiesUrl}/getPage`,
   getPageByParamUrl: `${apiMobilitiesUrl}/getPageByParam`,
   createOneUrl: `${apiMobilitiesUrl}/createOne`,

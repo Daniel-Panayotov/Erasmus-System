@@ -39,6 +39,12 @@ export const userDataRegex = {
   studyDegree: /^(Bachelor|Master)$/,
 };
 
+export const mobilitiesRegex = {
+  code: /^([a-zA-Z0-9\s]{5,20})$/,
+  university: /^([a-zA-Z0-9\s]{5,20})$/,
+  count: /^(?:25[0-4]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
+};
+
 interface regexEnv {
   select: RegExp;
 }

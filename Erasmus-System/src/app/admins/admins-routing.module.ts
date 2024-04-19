@@ -9,6 +9,7 @@ import { FieldsOfEducationComponent } from './admin-home-resources/fields-of-edu
 import { FacultiesComponent } from './admin-home-resources/faculties/faculties.component';
 import { ForeignContactsComponent } from './admin-home-resources/foreign-contacts/foreign-contacts.component';
 import { ReceivingContactsComponent } from './admin-home-resources/receiving-contacts/receiving-contacts.component';
+import { MobilitiesComponent } from './admin-home-resources/mobilities/mobilities.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: 'faculties', component: FacultiesComponent },
       { path: 'foreign-contacts', component: ForeignContactsComponent },
       { path: 'receiving-contacts', component: ReceivingContactsComponent },
+      { path: 'mobilities', component: MobilitiesComponent },
     ],
     canActivate: [AdminGuard],
   },

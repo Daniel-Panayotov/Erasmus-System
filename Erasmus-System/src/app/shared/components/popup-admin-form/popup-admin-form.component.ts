@@ -123,11 +123,6 @@ export class PopupAdminFormComponent implements OnInit {
     );
   }
 
-  // Allows angular to track the array of items correctly
-  trackByFn(index: any, item: any): any {
-    return index;
-  }
-
   //getters
   get iterableDocProperties() {
     return Object.entries(listDocProperties[this.componentInputs.adminModule]);

@@ -50,12 +50,13 @@
 
           @if (isSearchLiVisible) {
           <ul class="search-form-ul">
-            @for (property of docProperty; track $index) {
+            @for (property of docProperty; track $index) { @if
+            (property[1].isShown) {
 
             <li (click)="changeSelectValue(property[0], property[1].name)">
               {{ property[1].name }}
             </li>
-            }
+            } }
           </ul>
           }
         </div>
@@ -71,16 +72,19 @@
   </div>
   <table class="documents-table">
     <thead>
-      @for (property of docProperty; track $index) {
+      @for (property of docProperty; track $index) { @if (property[1].isShown) {
+
       <th class="{{ property[1].widthClass }}">
         {{ property[1].name }}
       </th>
-      }
+      } }
       <th class="{{ tableButtonsData.widthClass }}">Action</th>
     </thead>
     <tbody class="documents-table-body">
       <tr *ngFor="let document of documents; let i = index">
-        @for (property of docProperty; track $index) {
+        @for (property of docProperty; track $index) { @if (property[1].isShown)
+        {
+
         <td>
           <span
             class="td-content"
@@ -101,7 +105,7 @@
               : document[property[0]]
           }}</span>
         </td>
-        }
+        } }
         <td>
           <div class="documents-table-buttons">
             @for (button of tableButtonsData.actions.buttons; track $index) {

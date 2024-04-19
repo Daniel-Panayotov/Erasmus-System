@@ -8,41 +8,39 @@
   </h2>
   <p class="error-message" *ngIf="popupError">{{ popupError }}</p>
   <form class="field-form" [formGroup]="popupForm" (submit)="popupFormAction()">
-    <div
-      class="input-container"
-      *ngFor="
-        let property of iterableDocProperties;
-        let i = index;
-        trackBy: trackByFn
-      "
-    >
-      <label for="{{ property[0] }}">{{ property[1].name }}</label>
+    <div class="input-fields">
+      @for (property of iterableDocProperties; track $index) {
 
-      @if (!property[1].isRef) {
+      <div class="input-container">
+        <label for="{{ property[0] }}">{{ property[1].name }}</label>
 
-      <input
-        type="text"
-        formControlName="{{ property[0] }}"
-        id="{{ property[0] }}"
-      />
-      } @else {
+        @if (!property[1].isRef) {
 
-      <app-dropdown
-        [form]="popupForm"
-        [refDocs]="refDocs"
-        [property]="property"
-        [isInEditPopupForm]="true"
-      />
+        <input
+          type="text"
+          formControlName="{{ property[0] }}"
+          id="{{ property[0] }}"
+        />
+        } @else {
+
+        <app-dropdown
+          [form]="popupForm"
+          [refDocs]="refDocs"
+          [property]="property"
+          [isInEditPopupForm]="true"
+        />
+        }
+        <p
+          class="error-message"
+          *ngIf="
+            !popupForm.controls[property[0]].valid &&
+            popupForm.controls[property[0]].touched
+          "
+        >
+          {{ property[1].error }}
+        </p>
+      </div>
       }
-      <p
-        class="error-message"
-        *ngIf="
-          !popupForm.controls[property[0]].valid &&
-          popupForm.controls[property[0]].touched
-        "
-      >
-        {{ property[1].error }}
-      </p>
     </div>
 
     <button

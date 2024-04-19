@@ -6,10 +6,11 @@ export const adminRoutes = {
   adminMenu: adminMenuRoute,
   login: `${adminRoute}/login`,
   students: `${adminMenuRoute}/students`,
-  fieldsOfEdu: `${adminMenuRoute}/fields-of-education`,
+  fields: `${adminMenuRoute}/fields-of-education`,
   faculties: `${adminMenuRoute}/faculties`,
   foreignContacts: `${adminMenuRoute}/foreign-contacts`,
   receivingContacts: `${adminMenuRoute}/receiving-contacts`,
+  mobilities: `${adminMenuRoute}/mobilities`,
 };
 
 const userRoute = '/users';

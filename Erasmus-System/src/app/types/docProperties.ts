@@ -14,6 +14,7 @@ export interface docProperty {
   error: string;
   regex: RegExp;
   widthClass: widthClass | null;
+  isShown: boolean;
   isRef?: refProps;
 }
 

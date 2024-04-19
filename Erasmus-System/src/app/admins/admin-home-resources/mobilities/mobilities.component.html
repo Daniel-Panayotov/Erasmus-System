@@ -1,0 +1,22 @@
+<div class="main-page">
+  <div class="page-container page-padding">
+    <app-admin-view
+      class="main-view"
+      [componentInputs]="generalComponentInputs"
+      [tableButtonsData]="tableButtonsData"
+      [popupForm]="popupForm"
+      (searchFormEvent)="receiveSearchForm($event)"
+      (populateListOfClickedDataEvent)="receivePopulateFunction($event)"
+    />
+
+    <app-pagination
+      class="pagination-footer"
+      [componentInputs]="generalComponentInputs"
+    />
+
+    <app-popup-admin-form
+      [componentInputs]="generalComponentInputs"
+      (popupFormEvent)="receivePopumForm($event)"
+    />
+  </div>
+</div>
