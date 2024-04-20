@@ -5,14 +5,12 @@ import {
   ElementRef,
   HostListener,
   AfterViewInit,
-  inject,
 } from '@angular/core';
 import { adminRecordUnion } from 'src/app/types/adminDocs';
 import { docProperty, refProps } from 'src/app/types/docProperties';
 import { refDocs } from '../popup-admin-form/popup-admin-form.component';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-popup.service';
 
 @Component({
   selector: 'app-dropdown',
@@ -22,8 +20,6 @@ import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-po
   styleUrl: './dropdown.component.css',
 })
 export class DropdownComponent implements AfterViewInit {
-  private adminPopupService = inject(AdminPopupService);
-
   @Input({ required: true }) property = [] as unknown as [string, docProperty];
   @Input({ required: true }) form = {} as FormGroup;
   @Input({ required: true }) refDocs: refDocs = {};
@@ -36,13 +32,33 @@ export class DropdownComponent implements AfterViewInit {
   isSearchUlVisible: boolean = false;
 
   ngAfterViewInit(): void {
-    //set fake input value to mirror form control value
+    if (this.refDocs[this.property[0]])
+      this.filterControlValues(this.fakeFormInput, this.property);
+
     if (this.isInEditPopupForm) {
       this.fakeFormInput.nativeElement.value = this.generateStartingEditValue(
         this.formInput.nativeElement.value
       );
     }
   }
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent): void {
+    try {
+      //could throw
+      if (
+        !this.fakeFormInputContainer.nativeElement.contains(event.target) &&
+        this.isSearchUlVisible
+      ) {
+        this.toggleSelectLi();
+      }
+    } catch (err) {}
+  }
+
+  toggleSelectLi(): void {
+    this.isSearchUlVisible = !this.isSearchUlVisible;
+  }
+
   generateStartingEditValue(fakeInputValue: string) {
     const docs = this.refDocs[this.property[1].isRef!.apiSection];
     let inputValue = '';
@@ -59,23 +75,6 @@ export class DropdownComponent implements AfterViewInit {
     inputValue = inputValue.trim();
 
     return inputValue;
-  }
-  /*
-   */
-  @HostListener('document:click', ['$event'])
-  onClick(event: MouseEvent): void {
-    try {
-      if (
-        !this.fakeFormInputContainer.nativeElement.contains(event.target) &&
-        this.isSearchUlVisible
-      ) {
-        this.toggleSelectLi();
-      }
-    } catch (err) {}
-  }
-
-  toggleSelectLi(): void {
-    this.isSearchUlVisible = !this.isSearchUlVisible;
   }
 
   /* When value of input that contains list of referenced values changes

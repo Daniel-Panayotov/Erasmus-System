@@ -190,6 +190,15 @@
             [property]="userDataProperties[0]"
           />
         </div>
+        <!-- Chosen Mobility -->
+        <div class="control-container">
+          <label for="mobilityRef">Mobility *</label>
+          <app-dropdown
+            [form]="applyForm"
+            [refDocs]="{ mobilities }"
+            [property]="userDataProperties[1]"
+          />
+        </div>
         <!-- Contact at sending institution -->
         <div class="control-container">
           <label for="sendingContactRef"
@@ -198,7 +207,7 @@
           <app-dropdown
             [form]="applyForm"
             [refDocs]="{ foreignContacts }"
-            [property]="userDataProperties[1]"
+            [property]="userDataProperties[2]"
           />
         </div>
         <!-- Faculty at sending institution -->
@@ -219,7 +228,7 @@
           <app-dropdown
             [form]="applyForm"
             [refDocs]="{ faculties }"
-            [property]="userDataProperties[2]"
+            [property]="userDataProperties[3]"
           />
         </div>
         <!-- Contact at receiving institution -->
@@ -230,7 +239,7 @@
           <app-dropdown
             [form]="applyForm"
             [refDocs]="{ receivingContacts }"
-            [property]="userDataProperties[3]"
+            [property]="userDataProperties[4]"
           />
         </div>
         <!-- Period of study  -->

@@ -167,14 +167,14 @@ export const listDocProperties: docsWithProperties = {
       name: 'University',
       error: 'University must be 5-20 chars',
       regex: mobilitiesRegex.university,
-      widthClass: 'th-15',
+      widthClass: 'th-10',
       isShown: true,
     },
     coordinator: {
       name: 'Coordinator',
       error: 'Coordinator names must be 5-40 chars',
       regex: facultiesRegex.personNames,
-      widthClass: 'th-10',
+      widthClass: 'th-15',
       isShown: true,
     },
     address: {
@@ -247,6 +247,18 @@ export const listDocProperties: docsWithProperties = {
         apiSection: 'fields',
         assignPropTo: 'fieldOfStudyRef',
         properties: { mainProp: 'code', propsList: ['code', 'name'] },
+      },
+    },
+    mobilityRef: {
+      name: 'Mobility',
+      error: 'Invalid mobility',
+      regex: mobilitiesRegex.code,
+      widthClass: null,
+      isShown: true,
+      isRef: {
+        apiSection: 'mobilities',
+        assignPropTo: 'mobilityRef',
+        properties: { mainProp: 'code', propsList: ['code', 'university'] },
       },
     },
     sendingContactRef: {

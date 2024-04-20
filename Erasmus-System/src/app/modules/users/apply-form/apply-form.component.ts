@@ -16,6 +16,7 @@ import {
   fieldsRegex,
   globalRegex,
   userDataRegex,
+  mobilitiesRegex,
 } from 'src/app/shared/environments/validationEnvironment';
 import { adminRecords } from 'src/app/types/adminDocs';
 
@@ -91,7 +92,10 @@ export class ApplyFormComponent implements OnInit {
       '',
       [Validators.required, Validators.pattern(fieldsRegex.fieldName)],
     ],
-    //
+    mobilityRef: [
+      '',
+      [Validators.required, Validators.pattern(mobilitiesRegex.code)],
+    ],
     sendingContactRef: ['', [Validators.pattern(contactsRegex.personName)]],
     sendingFaculty: [
       '',
@@ -173,5 +177,9 @@ export class ApplyFormComponent implements OnInit {
 
   get faculties() {
     return this.records['faculties'];
+  }
+
+  get mobilities() {
+    return this.records['mobilities'];
   }
 }
