@@ -1,4 +1,4 @@
-import { adminModuleString } from 'src/app/types/apiEnvironmentTypes';
+import { apiModuleString } from 'src/app/types/apiEnvironmentTypes';
 
 export const globalRegex = {
   emailRegex:
@@ -41,6 +41,7 @@ export const mobilitiesRegex = {
 };
 export const userDataRegex = {
   studyYears: /^(1[0-2]|[1-9])$/,
+  priorStudyMonths: /^([1-2][0-9]|[0-9])$/,
   mobilityType: /^(study|traineeship)$/,
   semesterSeason: /^(summer|winter|year)$/,
   studyDegree: /^(Bachelor|Master)$/,
@@ -50,13 +51,13 @@ interface regexEnv {
   select: RegExp;
 }
 
-export function getSelectRegex(adminModule: adminModuleString): RegExp {
+export function getSelectRegex(adminModule: apiModuleString): RegExp {
   const regexEnv = getRegexEnv(adminModule);
 
   return regexEnv.select;
 }
 
-function getRegexEnv(adminModule: adminModuleString) {
+function getRegexEnv(adminModule: apiModuleString) {
   let regexEnv = {} as regexEnv;
 
   switch (adminModule) {

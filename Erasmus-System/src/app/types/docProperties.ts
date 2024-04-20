@@ -1,9 +1,9 @@
-import { adminModuleString } from './apiEnvironmentTypes';
+import { apiModuleString } from './apiEnvironmentTypes';
 import { widthClass } from './globalTypes';
 
-export interface docsWithProperties {
-  [doc: string]: docWithProperties;
-}
+export type docsWithProperties = {
+  [key in apiModuleString]: docWithProperties;
+};
 
 export type docWithProperties = {
   [property: string]: docProperty;
@@ -19,7 +19,7 @@ export interface docProperty {
 }
 
 export interface refProps {
-  apiSection: adminModuleString;
+  apiSection: apiModuleString;
   properties: { mainProp: string; propsList: string[] };
   assignPropTo: string;
 }

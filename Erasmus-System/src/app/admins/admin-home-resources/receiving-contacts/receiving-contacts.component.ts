@@ -7,7 +7,7 @@ import { PaginationComponent } from 'src/app/shared/components/pagination/pagina
 import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-form/popup-admin-form.component';
 import { generalAdminComponentInputs } from 'src/app/types/adminDocs';
 import { ButtonIdentifier } from 'src/app/types/adminTableButtons';
-import { adminModuleString } from 'src/app/types/apiEnvironmentTypes';
+import { apiModuleString } from 'src/app/types/apiEnvironmentTypes';
 
 @Component({
   selector: 'app-receiving-contacts',
@@ -20,7 +20,7 @@ export class ReceivingContactsComponent {
   private paginationService = inject(PaginationService);
   private adminService = inject(GeneralAdminService);
 
-  adminModule: adminModuleString = 'receivingContacts';
+  adminModule: apiModuleString = 'receivingContacts';
   sectionName: string = 'Receiving Contacts';
 
   searchForm = {} as FormGroup;

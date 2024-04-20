@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { getRoute } from 'src/app/shared/environments/apiEnvironment';
 import { environment } from 'src/app/shared/environments/environment';
 import { adminRecords } from 'src/app/types/adminDocs';
-import { adminModuleString } from 'src/app/types/apiEnvironmentTypes';
+import { apiModuleString } from 'src/app/types/apiEnvironmentTypes';
 import { docWithProperties } from 'src/app/types/docProperties';
 import { validatedFormValues } from 'src/app/types/popupFormValues';
 import { searchValue } from 'src/app/types/searchFormValue';
@@ -11,7 +11,7 @@ import { searchValue } from 'src/app/types/searchFormValue';
   providedIn: 'root',
 })
 export class ApiService {
-  async getAllForRecordType(cookie: string, section: adminModuleString) {
+  async getAllForRecordType(cookie: string, section: apiModuleString) {
     const options = {
       method: 'POST',
       headers: {
@@ -57,7 +57,7 @@ export class ApiService {
     cookie: string,
     data: validatedFormValues,
     id: string,
-    adminModule: adminModuleString
+    adminModule: apiModuleString
   ): Promise<Response> {
     const options = {
       method: 'PATCH',
@@ -81,7 +81,7 @@ export class ApiService {
   async createOne(
     cookie: string,
     data: validatedFormValues,
-    adminModule: adminModuleString
+    adminModule: apiModuleString
   ): Promise<Response> {
     const options = {
       method: 'POST',
@@ -102,7 +102,7 @@ export class ApiService {
 
   async getPage(
     cookie: string,
-    section: adminModuleString,
+    section: apiModuleString,
     page: number
   ): Promise<Response> {
     const options = {
@@ -124,7 +124,7 @@ export class ApiService {
 
   async getPageByParam(
     cookie: string,
-    section: adminModuleString,
+    section: apiModuleString,
     page: number,
     searchParams: searchValue
   ): Promise<Response> {

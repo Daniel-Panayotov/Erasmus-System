@@ -4,14 +4,12 @@ import {
   environment,
   listDocProperties,
 } from 'src/app/shared/environments/environment';
-import {
-  popupFormValues,
-  validatedFormValues,
-} from 'src/app/types/popupFormValues';
+import { validatedFormValues } from 'src/app/types/popupFormValues';
 import { CookieService } from 'ngx-cookie-service';
 import { FormGroup } from '@angular/forms';
-import { adminModuleString } from 'src/app/types/apiEnvironmentTypes';
+import { apiModuleString } from 'src/app/types/apiEnvironmentTypes';
 import { ApiService } from '../general-services/api.service';
+import { ValidationService } from '../general-services/validation.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,15 +18,14 @@ export class AdminPopupService {
   private paginationService = inject(PaginationService);
   private cookieService = inject(CookieService);
   private apiService = inject(ApiService);
+  private validationService = inject(ValidationService);
 
   private _errorMessage: string = '';
-  private _popupError: boolean = false;
   private _isPopupVisible: boolean = false;
   private _isPopupEdit: boolean = false;
   private _popupIndex: number = 0;
 
   resetState(): void {
-    this._popupError = false;
     this._errorMessage = '';
     this._isPopupVisible = false;
     this._isPopupEdit = false;
@@ -43,7 +40,7 @@ export class AdminPopupService {
     isEdit: boolean,
     i: number,
     popupForm: FormGroup,
-    adminModule: string
+    adminModule: apiModuleString
   ): void {
     if (!this.isPopupVisible) {
       this._popupIndex = i;
@@ -63,39 +60,20 @@ export class AdminPopupService {
     }
 
     //clear state
-    this._popupError = false;
     this._errorMessage = '';
     this._isPopupEdit = isEdit;
     this._isPopupVisible = !this.isPopupVisible;
   }
 
   async popupFormAction(
-    adminModule: adminModuleString,
-    popupFieldForm: FormGroup
+    adminModule: apiModuleString,
+    popupForm: FormGroup
   ): Promise<void> {
-    const formValues: popupFormValues = popupFieldForm.value;
-    const values: validatedFormValues = {};
-
-    /* Index an object to get value names, to access the form values
-     * Validate form values
-     * Collect the form values if valid in "values"
-     */
-    const docProperties = listDocProperties[adminModule];
-
-    for (let propertyName in docProperties) {
-      if (
-        !docProperties[propertyName].regex.exec(
-          formValues[propertyName] as string
-        )
-      ) {
-        this._popupError = true;
-        break;
-      }
-      values[propertyName] = formValues[propertyName] as string;
-    }
+    const { validatedValues, error } =
+      this.validationService.validateFormValues(popupForm, adminModule);
 
     //check if theres an error
-    if (this._popupError) {
+    if (error) {
       return;
     }
 
@@ -107,7 +85,7 @@ export class AdminPopupService {
         case true:
           await this.apiService.updateOne(
             authCookie,
-            values,
+            validatedValues,
             this.paginationService.documents[this.popupIndex]._id,
             adminModule
           );
@@ -115,7 +93,11 @@ export class AdminPopupService {
           break;
 
         case false:
-          await this.apiService.createOne(authCookie, values, adminModule);
+          await this.apiService.createOne(
+            authCookie,
+            validatedValues,
+            adminModule
+          );
 
           break;
       }
@@ -124,7 +106,7 @@ export class AdminPopupService {
       this.togglePopup(
         this._isPopupEdit,
         this._popupIndex,
-        popupFieldForm,
+        popupForm,
         adminModule
       );
     } catch (err: any) {
@@ -135,7 +117,7 @@ export class AdminPopupService {
 
   /* Generate an object of values from given document
    */
-  private generateValues(i: number, adminModule: string) {
+  private generateValues(i: number, adminModule: apiModuleString) {
     const values: validatedFormValues = {};
     const document = this.paginationService.documents[i];
 

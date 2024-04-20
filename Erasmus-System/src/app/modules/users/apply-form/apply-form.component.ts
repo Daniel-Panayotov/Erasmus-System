@@ -1,15 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FooterComponent } from 'src/app/core/footer/footer.component';
 import { NavigationComponent } from 'src/app/core/navigation/navigation.component';
 import { ApiService } from 'src/app/services/general-services/api.service';
+import { AuthService } from 'src/app/services/general-services/auth.service';
 import { DropdownComponent } from 'src/app/shared/components/dropdown/dropdown.component';
-import {
-  environment,
-  listDocProperties,
-} from 'src/app/shared/environments/environment';
+import { listDocProperties } from 'src/app/shared/environments/environment';
 import {
   contactsRegex,
   facultiesRegex,
@@ -19,6 +22,9 @@ import {
   mobilitiesRegex,
 } from 'src/app/shared/environments/validationEnvironment';
 import { adminRecords } from 'src/app/types/adminDocs';
+import { ValidationService } from 'src/app/services/general-services/validation.service';
+import { apiModuleString } from 'src/app/types/apiEnvironmentTypes';
+import { PDFDocument, PageSizes } from 'pdf-lib';
 
 @Component({
   selector: 'app-apply-form',
@@ -36,12 +42,21 @@ import { adminRecords } from 'src/app/types/adminDocs';
 export class ApplyFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private apiService = inject(ApiService);
-  private cookieService = inject(CookieService);
+  private authService = inject(AuthService);
+  private validationService = inject(ValidationService);
 
+  cookie = '';
   records = {} as adminRecords;
+  apiModule: apiModuleString = 'usersData';
 
   async ngOnInit(): Promise<void> {
     await this.fetchRecords();
+  }
+
+  constructor() {
+    this.authService.authCookieSubject$
+      .pipe(takeUntilDestroyed())
+      .subscribe({ next: (givenCookie) => (this.cookie = givenCookie) });
   }
 
   applyForm = this.fb.group({
@@ -66,8 +81,10 @@ export class ApplyFormComponent implements OnInit {
       '',
       [Validators.required, Validators.pattern(globalRegex.country)],
     ],
-    // add regex
-    address: ['', [Validators.required]],
+    address: [
+      '',
+      [Validators.required, Validators.pattern(globalRegex.normalSentences)],
+    ],
     phone: [
       '',
       [Validators.required, Validators.pattern(globalRegex.phoneNumber)],
@@ -96,7 +113,10 @@ export class ApplyFormComponent implements OnInit {
       '',
       [Validators.required, Validators.pattern(mobilitiesRegex.code)],
     ],
-    sendingContactRef: ['', [Validators.pattern(contactsRegex.personName)]],
+    sendingContactRef: [
+      '',
+      [Validators.required, Validators.pattern(contactsRegex.personName)],
+    ],
     sendingFaculty: [
       '',
       [Validators.required, Validators.pattern(facultiesRegex.facultyName)],
@@ -105,7 +125,10 @@ export class ApplyFormComponent implements OnInit {
       '',
       [Validators.required, Validators.pattern(facultiesRegex.facultyName)],
     ],
-    receivingContactRef: ['', [Validators.pattern(facultiesRegex.facultyName)]],
+    receivingContactRef: [
+      '',
+      [Validators.required, Validators.pattern(facultiesRegex.facultyName)],
+    ],
     studyFrom: [
       '',
       [Validators.required, Validators.pattern(globalRegex.date)],
@@ -143,24 +166,36 @@ export class ApplyFormComponent implements OnInit {
       '',
       [Validators.required, Validators.pattern(globalRegex.yes_no)],
     ],
-    priorStudyMonths: ['', [Validators.required]],
+    priorStudyMonths: [
+      '',
+      [Validators.required, Validators.pattern(userDataRegex.priorStudyMonths)],
+    ],
   });
 
   async onSubmit(): Promise<void> {
     console.log(this.applyForm.value);
+
+    const { error, validatedValues } =
+      this.validationService.validateFormValues(this.applyForm, this.apiModule);
+    if (error) return;
+
+    await this.apiService.createOne(
+      this.cookie,
+      validatedValues,
+      this.apiModule
+    );
   }
 
   /* Fetch All records needed
    */
   async fetchRecords() {
-    const cookie = this.cookieService.get(environment.authCookieName);
-    const userData = listDocProperties['userData'];
+    const userData = listDocProperties[this.apiModule];
 
-    this.records = await this.apiService.fetchRefRecords(cookie, userData);
+    this.records = await this.apiService.fetchRefRecords(this.cookie, userData);
   }
 
   get userDataProperties() {
-    return Object.entries(listDocProperties['userData']);
+    return Object.entries(listDocProperties[this.apiModule]);
   }
 
   get receivingContacts() {

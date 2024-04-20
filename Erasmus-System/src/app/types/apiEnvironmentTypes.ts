@@ -1,11 +1,12 @@
-export type adminModuleString =
+export type apiModuleString =
   | 'faculties'
   | 'fields'
   | 'foreignContacts'
   | 'receivingContacts'
-  | 'mobilities';
+  | 'mobilities'
+  | 'usersData';
 
-export type adminActionString =
+export type apiActionString =
   | 'delete'
   | 'getPage'
   | 'getByParam'

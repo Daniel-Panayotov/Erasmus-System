@@ -16,10 +16,12 @@ export const environment = {
  * name: Desired name we want to display on the template
  * regex: desired regex to validate user input
  * error: message displayed when regex doesnt match
- * class: determine the width in % for the table column
- * isRef: wether the property is a reference in the db.
+ * widthClass: determine the width in % for the table column
+ * isShown: if prop should be showns in admin module
+ * isRef: whether the property is a reference in the db.
+ * - assignPropTo: name of property the value should be assigned to
  * - properties:
- *  - mainProp: property to use for later requests
+ *  - mainProp: property to use for api requests
  *  - propsList: list of properties to visualise in order
  */
 export const listDocProperties: docsWithProperties = {
@@ -235,7 +237,7 @@ export const listDocProperties: docsWithProperties = {
       },
     },
   },
-  userData: {
+  usersData: {
     // make id's?
     fieldOfStudyRef: {
       name: 'Field',

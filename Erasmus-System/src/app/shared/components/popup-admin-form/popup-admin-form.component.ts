@@ -21,7 +21,7 @@ import {
   adminRecordUnion,
   generalAdminComponentInputs,
 } from 'src/app/types/adminDocs';
-import { adminModuleString } from 'src/app/types/apiEnvironmentTypes';
+import { apiModuleString } from 'src/app/types/apiEnvironmentTypes';
 import { ApiService } from 'src/app/services/general-services/api.service';
 import { PaginationService } from 'src/app/services/pagination.service';
 
@@ -64,7 +64,7 @@ export class PopupAdminFormComponent implements OnInit {
     /* check if there are reference type properties
      * if there are, push the routes they must be fetched from to an array
      */
-    const docsToFetch: adminModuleString[] = [];
+    const docsToFetch: apiModuleString[] = [];
     this.iterableDocProperties.map((val) => {
       if (val[1].isRef) {
         docsToFetch.push(val[1].isRef.apiSection);

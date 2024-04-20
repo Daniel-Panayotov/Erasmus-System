@@ -3,436 +3,447 @@
     <div class="main-container">
       <h1 class="form-title">Application Form</h1>
       <form [formGroup]="applyForm" class="apply-form" (submit)="onSubmit()">
-        <!-- First name -->
-        <div class="control-container">
-          <label for="first-name">First Name *</label>
-          <input
-            type="text"
-            id="first-name"
-            placeholder="Peter"
-            formControlName="firstName"
-          />
-        </div>
-        <!-- Last name -->
-        <div class="control-container">
-          <label for="last-name">Last Name *</label>
-          <input
-            type="text"
-            id="last-name"
-            placeholder="Ivanov"
-            formControlName="lastName"
-          />
-        </div>
-        <!-- Birth date -->
-        <div class="control-container">
-          <label for="birth-date">Birth date *</label>
-          <input
-            type="text"
-            id="birth-date"
-            placeholder="08/05/2023"
-            formControlName="birthDate"
-          />
-        </div>
-        <!-- Gender radio -->
-        <div class="control-container">
-          <fieldset>
-            <legend>Gender *</legend>
-            <div class="radio-group">
-              <input
-                type="radio"
-                name="sex"
-                id="gender1"
-                value="male"
-                formControlName="sex"
-              />
-              <label for="gender1">Male</label>
-            </div>
-            <div class="radio-group">
-              <input
-                type="radio"
-                name="sex"
-                id="gender2"
-                value="female"
-                formControlName="sex"
-              />
-              <label for="gender2">Female</label>
-            </div>
-          </fieldset>
-        </div>
-        <!-- Birth place -->
-        <div class="control-container">
-          <label for="birthPlace">Birth place *</label>
-          <input
-            type="text"
-            id="birthPlace"
-            placeholder="Ruse"
-            formControlName="birthPlace"
-          />
-        </div>
-        <!-- Nationality -->
-        <div class="control-container">
-          <label for="nationality">Nationality *</label>
-          <input
-            type="text"
-            id="nationality"
-            placeholder="Bulgaria"
-            formControlName="nationality"
-          />
-        </div>
-        <!-- Address -->
-        <div class="control-container">
-          <label for="address">Address *</label>
-          <input
-            type="text"
-            id="address"
-            placeholder="Ruse, cherry street, 12"
-            formControlName="address"
-          />
-        </div>
-        <!-- Phone Number -->
-        <div class="control-container">
-          <label for="phone">Phone Number *</label>
-          <input
-            type="text"
-            id="phone"
-            placeholder="+892361569"
-            formControlName="phone"
-          />
-        </div>
-        <!-- Academic Year -->
-        <div class="control-container">
-          <p>Academic Year *</p>
-          <div class="control-container-inner">
-            <label for="academicYearFrom">From</label>
+        <div class="form-controls">
+          <!-- First name -->
+          <div class="control-container">
+            <label for="first-name">First Name *</label>
             <input
               type="text"
-              id="academicYearFrom"
-              placeholder="2023"
-              formControlName="academicYearFrom"
+              id="first-name"
+              placeholder="Peter"
+              formControlName="firstName"
             />
-            <label for="academicYearTo">To</label>
+          </div>
+          <!-- Last name -->
+          <div class="control-container">
+            <label for="last-name">Last Name *</label>
             <input
               type="text"
-              id="academicYearTo"
-              placeholder="2024"
-              formControlName="academicYearTo"
+              id="last-name"
+              placeholder="Ivanov"
+              formControlName="lastName"
+            />
+          </div>
+          <!-- Birth date -->
+          <div class="control-container">
+            <label for="birth-date">Birth date *</label>
+            <input
+              type="text"
+              id="birth-date"
+              placeholder="08/05/2023"
+              formControlName="birthDate"
+            />
+          </div>
+          <!-- Gender radio -->
+          <div class="control-container">
+            <fieldset>
+              <legend>Gender *</legend>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  name="sex"
+                  id="gender1"
+                  value="male"
+                  formControlName="sex"
+                />
+                <label for="gender1">Male</label>
+              </div>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  name="sex"
+                  id="gender2"
+                  value="female"
+                  formControlName="sex"
+                />
+                <label for="gender2">Female</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- Birth place -->
+          <div class="control-container">
+            <label for="birthPlace">Birth place *</label>
+            <input
+              type="text"
+              id="birthPlace"
+              placeholder="Ruse"
+              formControlName="birthPlace"
+            />
+          </div>
+          <!-- Nationality -->
+          <div class="control-container">
+            <label for="nationality">Nationality *</label>
+            <input
+              type="text"
+              id="nationality"
+              placeholder="Bulgaria"
+              formControlName="nationality"
+            />
+          </div>
+          <!-- Address -->
+          <div class="control-container">
+            <label for="address">Address *</label>
+            <input
+              type="text"
+              id="address"
+              placeholder="Ruse, cherry street, 12"
+              formControlName="address"
+            />
+          </div>
+          <!-- Phone Number -->
+          <div class="control-container">
+            <label for="phone">Phone Number *</label>
+            <input
+              type="text"
+              id="phone"
+              placeholder="+892361569"
+              formControlName="phone"
+            />
+          </div>
+          <!-- Academic Year -->
+          <div class="control-container">
+            <p>Academic Year *</p>
+            <div class="control-container-inner">
+              <label for="academicYearFrom">From</label>
+              <input
+                type="text"
+                id="academicYearFrom"
+                placeholder="2023"
+                formControlName="academicYearFrom"
+              />
+              <label for="academicYearTo">To</label>
+              <input
+                type="text"
+                id="academicYearTo"
+                placeholder="2024"
+                formControlName="academicYearTo"
+              />
+            </div>
+          </div>
+          <!-- Mobility -->
+          <div class="control-container">
+            <fieldset>
+              <legend>Mobility Type *</legend>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  name="mobilityType"
+                  id="type1"
+                  value="study"
+                  formControlName="mobilityType"
+                />
+                <label for="type1">Study</label>
+              </div>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  name="mobilityType"
+                  id="type2"
+                  value="traineeship"
+                  formControlName="mobilityType"
+                />
+                <label for="type2">Traineeship</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- Semester season  -->
+          <div class="control-container">
+            <fieldset>
+              <legend>Semester season *</legend>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  name="semesterSeason"
+                  id="season1"
+                  value="summer"
+                  formControlName="semesterSeason"
+                />
+                <label for="season1">Summer</label>
+              </div>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  name="semesterSeason"
+                  id="season2"
+                  value="winter"
+                  formControlName="semesterSeason"
+                />
+                <label for="season2">Winter</label>
+              </div>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  name="semesterSeason"
+                  id="season3"
+                  value="year"
+                  formControlName="semesterSeason"
+                />
+                <label for="season3">1 year</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- Field of study -->
+          <div class="control-container">
+            <label for="fieldOfStudyRef">Field of study *</label>
+            <app-dropdown
+              [form]="applyForm"
+              [refDocs]="{ fields }"
+              [property]="userDataProperties[0]"
+            />
+          </div>
+          <!-- Chosen Mobility -->
+          <div class="control-container">
+            <label for="mobilityRef">Mobility *</label>
+            <app-dropdown
+              [form]="applyForm"
+              [refDocs]="{ mobilities }"
+              [property]="userDataProperties[1]"
+            />
+          </div>
+          <!-- Contact at sending institution -->
+          <div class="control-container">
+            <label for="sendingContactRef"
+              >Contact person at sending institution</label
+            >
+            <app-dropdown
+              [form]="applyForm"
+              [refDocs]="{ foreignContacts }"
+              [property]="userDataProperties[2]"
+            />
+          </div>
+          <!-- Faculty at sending institution -->
+          <div class="control-container">
+            <label for="sendingFaculty">Faculty at sending institution *</label>
+            <input
+              type="text"
+              id="sendingFaculty"
+              placeholder="EEA"
+              formControlName="sendingFaculty"
+            />
+          </div>
+          <!-- Faculty at receiving institution -->
+          <div class="control-container">
+            <label for="receivingFacultyRef"
+              >Faculty at receiving institution *</label
+            >
+            <app-dropdown
+              [form]="applyForm"
+              [refDocs]="{ faculties }"
+              [property]="userDataProperties[3]"
+            />
+          </div>
+          <!-- Contact at receiving institution -->
+          <div class="control-container">
+            <label for="receivingContactRef"
+              >Contact person at receiving institution</label
+            >
+            <app-dropdown
+              [form]="applyForm"
+              [refDocs]="{ receivingContacts }"
+              [property]="userDataProperties[4]"
+            />
+          </div>
+          <!-- Period of study  -->
+          <div class="control-container">
+            <p>Period of study/traineeship *</p>
+            <div class="control-container-inner">
+              <label for="studyFrom">From</label>
+              <input
+                type="text"
+                id="studyFrom"
+                placeholder="01/04/2023"
+                formControlName="studyFrom"
+              />
+              <label for="studyTo">To</label>
+              <input
+                type="text"
+                id="studyTo"
+                placeholder="13/10/2024"
+                formControlName="studyTo"
+              />
+            </div>
+          </div>
+          <!-- Wishes for accommodation? -->
+          <div class="control-container">
+            <fieldset>
+              <legend>Do you wish for accommodation in the university?*</legend>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  name="accommodation"
+                  id="accommodation1"
+                  value="yes"
+                  formControlName="accommodation"
+                />
+                <label for="accommodation1">Yes</label>
+              </div>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  name="accommodation"
+                  id="accommodation2"
+                  value="no"
+                  formControlName="accommodation"
+                />
+                <label for="accommodation2">No</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- Period of stay  -->
+          <div class="control-container">
+            <p>Period of stay at the university *</p>
+            <div class="control-container-inner">
+              <label for="stayFrom">From</label>
+              <input
+                type="text"
+                id="stayFrom"
+                placeholder="01/04/2023"
+                formControlName="stayFrom"
+              />
+              <label for="stayTo">To</label>
+              <input
+                type="text"
+                id="stayTo"
+                placeholder="13/10/2024"
+                formControlName="stayTo"
+              />
+            </div>
+          </div>
+          <!-- Attend bulgarian language course? -->
+          <div class="control-container">
+            <fieldset>
+              <legend>
+                Do you wish to attend Bulgarian language course(60 h)?*
+              </legend>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  name="bulgarianCourse"
+                  id="bulgarianCourse1"
+                  value="yes"
+                  formControlName="bulgarianCourse"
+                />
+                <label for="bulgarianCourse1">Yes</label>
+              </div>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  name="bulgarianCourse"
+                  id="bulgarianCourse2"
+                  value="no"
+                  formControlName="bulgarianCourse"
+                />
+                <label for="bulgarianCourse2">No</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- Reason for visiting -->
+          <div class="control-container">
+            <label for="visitReason"
+              >Briefly state the reasons why you wish to study abroad. *</label
+            >
+            <textarea
+              formControlName="visitReason"
+              id="visitReason"
+              placeholder="I want to learn about different cultures."
+            ></textarea>
+          </div>
+          <!-- Language you are born with -->
+          <div class="control-container">
+            <label for="motherLanguage">Mother language *</label>
+            <input
+              type="text"
+              id="motherLanguage"
+              placeholder="Bulgarian"
+              formControlName="motherLanguage"
+            />
+          </div>
+          <!-- Language you are taught -->
+          <div class="control-container">
+            <label for="homeLanguage"
+              >Language of instruction at home institution *</label
+            >
+            <input
+              type="text"
+              id="homeLanguage"
+              placeholder="Serbian"
+              formControlName="homeLanguage"
+            />
+          </div>
+          <!-- Level of studying degree  -->
+          <div class="control-container">
+            <label for="studyDegree">Degree for which you are studying *</label>
+            <input
+              type="text"
+              id="studyDegree"
+              placeholder="Bachelor | Master"
+              formControlName="studyDegree"
+            />
+          </div>
+          <!-- Number of study years  -->
+          <div class="control-container">
+            <label for="studyYears"
+              >Number of higher education study years prior to departure
+              *</label
+            >
+            <input
+              type="text"
+              id="studyYears"
+              placeholder="4"
+              formControlName="studyYears"
+            />
+          </div>
+          <!-- Has studied for erasmus before -->
+          <div class="control-container">
+            <fieldset>
+              <legend>
+                Have you studied by Erasmus during your current degree?*
+              </legend>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  name="priorStudyErasmus"
+                  id="priorStudyErasmus1"
+                  value="yes"
+                  formControlName="priorStudyErasmus"
+                />
+                <label for="bulgarianCourse1">Yes</label>
+              </div>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  name="priorStudyErasmus"
+                  id="priorStudyErasmus2"
+                  value="no"
+                  formControlName="priorStudyErasmus"
+                />
+                <label for="bulgarianCourse2">No</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- Number of months having studied for -->
+          <div class="control-container">
+            <label for="priorStudyMonths"
+              >How many months have you studied during your current degree?
+              *</label
+            >
+            <input
+              type="text"
+              id="priorStudyMonths"
+              placeholder="4"
+              formControlName="priorStudyMonths"
             />
           </div>
         </div>
-        <!-- Mobility -->
-        <div class="control-container">
-          <fieldset>
-            <legend>Mobility Type *</legend>
-            <div class="radio-group">
-              <input
-                type="radio"
-                name="mobilityType"
-                id="type1"
-                value="study"
-                formControlName="mobilityType"
-              />
-              <label for="type1">Study</label>
-            </div>
-            <div class="radio-group">
-              <input
-                type="radio"
-                name="mobilityType"
-                id="type2"
-                value="traineeship"
-                formControlName="mobilityType"
-              />
-              <label for="type2">Traineeship</label>
-            </div>
-          </fieldset>
-        </div>
-        <!-- Semester season  -->
-        <div class="control-container">
-          <fieldset>
-            <legend>Semester season *</legend>
-            <div class="radio-group">
-              <input
-                type="radio"
-                name="semesterSeason"
-                id="season1"
-                value="summer"
-                formControlName="semesterSeason"
-              />
-              <label for="season1">Summer</label>
-            </div>
-            <div class="radio-group">
-              <input
-                type="radio"
-                name="semesterSeason"
-                id="season2"
-                value="winter"
-                formControlName="semesterSeason"
-              />
-              <label for="season2">Winter</label>
-            </div>
-            <div class="radio-group">
-              <input
-                type="radio"
-                name="semesterSeason"
-                id="season3"
-                value="year"
-                formControlName="semesterSeason"
-              />
-              <label for="season3">1 year</label>
-            </div>
-          </fieldset>
-        </div>
-        <!-- Field of study -->
-        <div class="control-container">
-          <label for="fieldOfStudyRef">Field of study *</label>
-          <app-dropdown
-            [form]="applyForm"
-            [refDocs]="{ fields }"
-            [property]="userDataProperties[0]"
-          />
-        </div>
-        <!-- Chosen Mobility -->
-        <div class="control-container">
-          <label for="mobilityRef">Mobility *</label>
-          <app-dropdown
-            [form]="applyForm"
-            [refDocs]="{ mobilities }"
-            [property]="userDataProperties[1]"
-          />
-        </div>
-        <!-- Contact at sending institution -->
-        <div class="control-container">
-          <label for="sendingContactRef"
-            >Contact person at sending institution</label
-          >
-          <app-dropdown
-            [form]="applyForm"
-            [refDocs]="{ foreignContacts }"
-            [property]="userDataProperties[2]"
-          />
-        </div>
-        <!-- Faculty at sending institution -->
-        <div class="control-container">
-          <label for="sendingFaculty">Faculty at sending institution *</label>
-          <input
-            type="text"
-            id="sendingFaculty"
-            placeholder="EEA"
-            formControlName="sendingFaculty"
-          />
-        </div>
-        <!-- Faculty at receiving institution -->
-        <div class="control-container">
-          <label for="receivingFacultyRef"
-            >Faculty at receiving institution *</label
-          >
-          <app-dropdown
-            [form]="applyForm"
-            [refDocs]="{ faculties }"
-            [property]="userDataProperties[3]"
-          />
-        </div>
-        <!-- Contact at receiving institution -->
-        <div class="control-container">
-          <label for="receivingContactRef"
-            >Contact person at receiving institution</label
-          >
-          <app-dropdown
-            [form]="applyForm"
-            [refDocs]="{ receivingContacts }"
-            [property]="userDataProperties[4]"
-          />
-        </div>
-        <!-- Period of study  -->
-        <div class="control-container">
-          <p>Period of study/traineeship *</p>
-          <div class="control-container-inner">
-            <label for="studyFrom">From</label>
-            <input
-              type="text"
-              id="studyFrom"
-              placeholder="01/04/2023"
-              formControlName="studyFrom"
-            />
-            <label for="studyTo">To</label>
-            <input
-              type="text"
-              id="studyTo"
-              placeholder="13/10/2024"
-              formControlName="studyTo"
-            />
-          </div>
-        </div>
-        <!-- Wishes for accommodation? -->
-        <div class="control-container">
-          <fieldset>
-            <legend>Do you wish for accommodation in the university?*</legend>
-            <div class="radio-group">
-              <input
-                type="radio"
-                name="accommodation"
-                id="accommodation1"
-                value="yes"
-                formControlName="accommodation"
-              />
-              <label for="accommodation1">Yes</label>
-            </div>
-            <div class="radio-group">
-              <input
-                type="radio"
-                name="accommodation"
-                id="accommodation2"
-                value="no"
-                formControlName="accommodation"
-              />
-              <label for="accommodation2">No</label>
-            </div>
-          </fieldset>
-        </div>
-        <!-- Period of stay  -->
-        <div class="control-container">
-          <p>Period of stay at the university *</p>
-          <div class="control-container-inner">
-            <label for="stayFrom">From</label>
-            <input
-              type="text"
-              id="stayFrom"
-              placeholder="01/04/2023"
-              formControlName="stayFrom"
-            />
-            <label for="stayTo">To</label>
-            <input
-              type="text"
-              id="stayTo"
-              placeholder="13/10/2024"
-              formControlName="stayTo"
-            />
-          </div>
-        </div>
-        <!-- Attend bulgarian language course? -->
-        <div class="control-container">
-          <fieldset>
-            <legend>
-              Do you wish to attend Bulgarian language course(60 h)?*
-            </legend>
-            <div class="radio-group">
-              <input
-                type="radio"
-                name="bulgarianCourse"
-                id="bulgarianCourse1"
-                value="yes"
-                formControlName="bulgarianCourse"
-              />
-              <label for="bulgarianCourse1">Yes</label>
-            </div>
-            <div class="radio-group">
-              <input
-                type="radio"
-                name="bulgarianCourse"
-                id="bulgarianCourse2"
-                value="no"
-                formControlName="bulgarianCourse"
-              />
-              <label for="bulgarianCourse2">No</label>
-            </div>
-          </fieldset>
-        </div>
-        <!-- Reason for visiting -->
-        <div class="control-container">
-          <label for="visitReason"
-            >Briefly state the reasons why you wish to study abroad. *</label
-          >
-          <textarea
-            formControlName="visitReason"
-            id="visitReason"
-            placeholder="I want to learn about different cultures."
-          ></textarea>
-        </div>
-        <!-- Language you are born with -->
-        <div class="control-container">
-          <label for="motherLanguage">Mother language *</label>
-          <input
-            type="text"
-            id="motherLanguage"
-            placeholder="Bulgarian"
-            formControlName="motherLanguage"
-          />
-        </div>
-        <!-- Language you are taught -->
-        <div class="control-container">
-          <label for="homeLanguage"
-            >Language of instruction at home institution *</label
-          >
-          <input
-            type="text"
-            id="homeLanguage"
-            placeholder="Serbian"
-            formControlName="homeLanguage"
-          />
-        </div>
-        <!-- Level of studying degree  -->
-        <div class="control-container">
-          <label for="studyDegree">Degree for which you are studying *</label>
-          <input
-            type="text"
-            id="studyDegree"
-            placeholder="Bachelor | Master"
-            formControlName="studyDegree"
-          />
-        </div>
-        <!-- Number of study years  -->
-        <div class="control-container">
-          <label for="studyYears"
-            >Number of higher education study years prior to departure *</label
-          >
-          <input
-            type="text"
-            id="studyYears"
-            placeholder="4"
-            formControlName="studyYears"
-          />
-        </div>
-        <!-- Has studied for erasmus before -->
-        <div class="control-container">
-          <fieldset>
-            <legend>
-              Have you studied by Erasmus during your current degree?*
-            </legend>
-            <div class="radio-group">
-              <input
-                type="radio"
-                name="priorStudyErasmus"
-                id="priorStudyErasmus1"
-                value="yes"
-                formControlName="priorStudyErasmus"
-              />
-              <label for="bulgarianCourse1">Yes</label>
-            </div>
-            <div class="radio-group">
-              <input
-                type="radio"
-                name="priorStudyErasmus"
-                id="priorStudyErasmus2"
-                value="no"
-                formControlName="priorStudyErasmus"
-              />
-              <label for="bulgarianCourse2">No</label>
-            </div>
-          </fieldset>
-        </div>
-        <!-- Number of months having studied for -->
-        <div class="control-container">
-          <label for="priorStudyMonths"
-            >How many months have you studied during your current degree?
-            *</label
-          >
-          <input
-            type="text"
-            id="priorStudyMonths"
-            placeholder="4"
-            formControlName="priorStudyMonths"
-          />
-        </div>
-        <!-- <button type="submit" [disabled]="!applyForm.valid">Submit</button> -->
+
+        <!-- <button
+          class="bg-green button"
+          type="submit"
+          [disabled]="!applyForm.valid"
+        >
+          Submit
+        </button> -->
+        <button class="bg-green button" type="submit">Submit</button>
       </form>
     </div>
   </div>

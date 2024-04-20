@@ -1,10 +1,10 @@
 import {
   routeEnv,
   authRouteEnv,
-  adminModuleString,
+  apiModuleString,
   authModuleString,
   authActionString,
-  adminActionString,
+  apiActionString,
 } from 'src/app/types/apiEnvironmentTypes';
 
 const apiUrl = 'http://localhost:5000';
@@ -79,9 +79,20 @@ const mobilitiesEnvironment: routeEnv = {
   getAllUrl: `${apiMobilitiesUrl}/getAll`,
 };
 
+const apiUserDataUrl = `${apiUrl}/usersData`;
+
+const usersDataEnvironemnt: routeEnv = {
+  getPageUrl: `${apiUserDataUrl}/getPage`,
+  getPageByParamUrl: `${apiUserDataUrl}/getPageByParam`,
+  createOneUrl: `${apiUserDataUrl}/createOne`,
+  updateOneUrl: `${apiUserDataUrl}/updateOne`,
+  deleteOneUrl: `${apiUserDataUrl}/deleteOne`,
+  getAllUrl: `${apiUserDataUrl}/getAll`,
+};
+
 export function getRoute(
-  adminModule: adminModuleString,
-  action: adminActionString
+  adminModule: apiModuleString,
+  action: apiActionString
 ): string {
   const environment = getEnvironment(adminModule);
   let url;
@@ -110,7 +121,7 @@ export function getRoute(
   return url;
 }
 
-function getEnvironment(adminModule: adminModuleString) {
+function getEnvironment(adminModule: apiModuleString) {
   let env;
   switch (adminModule) {
     case 'fields':
@@ -127,6 +138,9 @@ function getEnvironment(adminModule: adminModuleString) {
       break;
     case 'mobilities':
       env = mobilitiesEnvironment;
+      break;
+    case 'usersData':
+      env = usersDataEnvironemnt;
       break;
   }
   return env;

@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
 import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-form/popup-admin-form.component';
 import { AdminViewComponent } from 'src/app/shared/components/admin-view/admin-view.component';
-import { adminModuleString } from 'src/app/types/apiEnvironmentTypes';
+import { apiModuleString } from 'src/app/types/apiEnvironmentTypes';
 import { PaginationService } from 'src/app/services/pagination.service';
 import { generalAdminComponentInputs } from 'src/app/types/adminDocs';
 import { GeneralAdminService } from 'src/app/services/admin-menu-services/general-admin.service';
@@ -20,7 +20,7 @@ export class FacultiesComponent {
   private paginationService = inject(PaginationService);
   private adminService = inject(GeneralAdminService);
 
-  adminModule: adminModuleString = 'faculties';
+  adminModule: apiModuleString = 'faculties';
   sectionName: string = 'Faculties';
 
   searchForm = {} as FormGroup;

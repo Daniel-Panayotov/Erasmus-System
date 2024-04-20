@@ -31,6 +31,12 @@
 
 .apply-form {
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-controls {
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1em;
@@ -73,9 +79,18 @@
   padding: 0 3px;
 }
 
-button {
-  background-color: rgb(255, 60, 46);
+.button {
   color: white;
+  border: transparent;
+  align-self: center;
+  padding: 0.25rem 1rem;
+  border-radius: 2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.button:disabled {
+  background-color: rgb(255, 60, 46);
 }
 
 /* Dropdown */

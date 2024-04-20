@@ -8,7 +8,7 @@ import { PaginationComponent } from 'src/app/shared/components/pagination/pagina
 import { PopupAdminFormComponent } from 'src/app/shared/components/popup-admin-form/popup-admin-form.component';
 import { generalAdminComponentInputs } from 'src/app/types/adminDocs';
 import { ButtonIdentifier } from 'src/app/types/adminTableButtons';
-import { adminModuleString } from 'src/app/types/apiEnvironmentTypes';
+import { apiModuleString } from 'src/app/types/apiEnvironmentTypes';
 
 @Component({
   selector: 'app-mobilities',
@@ -26,7 +26,7 @@ export class MobilitiesComponent {
   private paginationService = inject(PaginationService);
   private adminService = inject(GeneralAdminService);
 
-  adminModule: adminModuleString = 'mobilities';
+  adminModule: apiModuleString = 'mobilities';
   sectionName: string = 'Mobilities';
 
   searchForm = {} as FormGroup;

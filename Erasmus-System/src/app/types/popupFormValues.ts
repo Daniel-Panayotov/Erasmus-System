@@ -1,4 +1,4 @@
-export interface popupFormValues {
+export interface FormValues {
   [key: string]: string | null;
 }
 
