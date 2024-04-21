@@ -7,7 +7,7 @@ import {
   apiActionString,
 } from 'src/app/types/apiEnvironmentTypes';
 
-const apiUrl = 'http://localhost:5000';
+export const apiUrl = 'http://localhost:5000';
 const apiUserUrl = `${apiUrl}/users`;
 const apiAdminUrl = `${apiUrl}/admins`;
 

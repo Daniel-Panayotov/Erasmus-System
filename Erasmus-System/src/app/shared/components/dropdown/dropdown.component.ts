@@ -112,12 +112,10 @@ export class DropdownComponent implements AfterViewInit {
    */
   changeSelectValue(record: adminRecordUnion, refProps: refProps): void {
     //get form values
-    const values = this.form.value;
     const intendedValue = record[refProps.properties.mainProp];
 
     //set form values
-    values[refProps.assignPropTo] = intendedValue;
-    this.form.setValue(values);
+    this.form.patchValue({ [refProps.assignPropTo]: intendedValue });
 
     //create string user views
     let selectValue = '';

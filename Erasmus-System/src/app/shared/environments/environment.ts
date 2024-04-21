@@ -242,7 +242,7 @@ export const listDocProperties: docsWithProperties = {
     fieldOfStudyRef: {
       name: 'Field',
       error: 'Invalid field of study',
-      regex: fieldsRegex.fieldName,
+      regex: fieldsRegex.code,
       widthClass: null,
       isShown: true,
       isRef: {
@@ -266,7 +266,7 @@ export const listDocProperties: docsWithProperties = {
     sendingContactRef: {
       name: 'Sending contact',
       error: 'Invalid sending contact',
-      regex: contactsRegex.personName,
+      regex: globalRegex.emailRegex,
       widthClass: null,
       isShown: true,
       isRef: {
@@ -290,7 +290,7 @@ export const listDocProperties: docsWithProperties = {
     receivingContactRef: {
       name: 'Receiving contact',
       error: 'Invalid receiving contact',
-      regex: contactsRegex.personName,
+      regex: globalRegex.emailRegex,
       widthClass: null,
       isShown: true,
       isRef: {

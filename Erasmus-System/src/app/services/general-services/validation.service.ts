@@ -25,6 +25,8 @@ export class ValidationService {
      * Collect the form values if valid in "values"
      */
     for (let propertyName in docProperties) {
+      console.log(propertyName);
+
       if (
         !docProperties[propertyName].regex.exec(
           formValues[propertyName] as string

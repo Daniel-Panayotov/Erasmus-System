@@ -11,6 +11,24 @@ import { searchValue } from 'src/app/types/searchFormValue';
   providedIn: 'root',
 })
 export class ApiService {
+  async getStaticFile(cookie: string, fileName: string) {
+    const options = {
+      method: 'GET',
+      headers: {
+        [environment.authCookieName]: cookie,
+      },
+    };
+
+    const url = 'http://localhost:5000/applications/getImage/' + fileName;
+
+    return fetch(url, options).then((res) => {
+      if (!res.ok) {
+        throw res;
+      }
+      return res;
+    });
+  }
+
   async getAllForRecordType(cookie: string, section: apiModuleString) {
     const options = {
       method: 'POST',

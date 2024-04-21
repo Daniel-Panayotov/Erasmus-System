@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FooterComponent } from 'src/app/core/footer/footer.component';
 import { NavigationComponent } from 'src/app/core/navigation/navigation.component';
@@ -24,7 +19,8 @@ import {
 import { adminRecords } from 'src/app/types/adminDocs';
 import { ValidationService } from 'src/app/services/general-services/validation.service';
 import { apiModuleString } from 'src/app/types/apiEnvironmentTypes';
-import { PDFDocument, PageSizes } from 'pdf-lib';
+import { apiUrl } from 'src/app/shared/environments/apiEnvironment';
+import { ApplicationsService } from 'src/app/services/applications.service';
 
 @Component({
   selector: 'app-apply-form',
@@ -44,6 +40,7 @@ export class ApplyFormComponent implements OnInit {
   private apiService = inject(ApiService);
   private authService = inject(AuthService);
   private validationService = inject(ValidationService);
+  private applicationService = inject(ApplicationsService);
 
   cookie = '';
   records = {} as adminRecords;
@@ -107,7 +104,7 @@ export class ApplyFormComponent implements OnInit {
     ],
     fieldOfStudyRef: [
       '',
-      [Validators.required, Validators.pattern(fieldsRegex.fieldName)],
+      [Validators.required, Validators.pattern(fieldsRegex.code)],
     ],
     mobilityRef: [
       '',
@@ -115,7 +112,7 @@ export class ApplyFormComponent implements OnInit {
     ],
     sendingContactRef: [
       '',
-      [Validators.required, Validators.pattern(contactsRegex.personName)],
+      [Validators.required, Validators.pattern(globalRegex.emailRegex)],
     ],
     sendingFaculty: [
       '',
@@ -127,7 +124,7 @@ export class ApplyFormComponent implements OnInit {
     ],
     receivingContactRef: [
       '',
-      [Validators.required, Validators.pattern(facultiesRegex.facultyName)],
+      [Validators.required, Validators.pattern(globalRegex.emailRegex)],
     ],
     studyFrom: [
       '',
@@ -170,20 +167,71 @@ export class ApplyFormComponent implements OnInit {
       '',
       [Validators.required, Validators.pattern(userDataRegex.priorStudyMonths)],
     ],
+    file: ['', Validators.required],
   });
 
   async onSubmit(): Promise<void> {
-    console.log(this.applyForm.value);
+    this.applyForm.patchValue({
+      firstName: 'Daniel',
+      lastName: 'Panayotov',
+      birthDate: '03/11/2004',
+      sex: 'male',
+      birthPlace: 'Ruse',
+      nationality: 'Bulgaria',
+      address: 'some address',
+      phone: '0894511049',
+      academicYearFrom: '2023',
+      academicYearTo: '2027',
+      mobilityType: 'traineeship',
+      semesterSeason: 'year',
+      fieldOfStudyRef: '001',
+      mobilityRef: 'BG RUSE 01',
+      sendingContactRef: 'ivan@abv.bg',
+      sendingFaculty: 'EEA',
+      receivingFacultyRef: 'Electronics and automation',
+      receivingContactRef: 'alex123@abv.bg',
+      studyFrom: '01/01/2024',
+      studyTo: '01/03/2024',
+      accommodation: 'no',
+      stayFrom: '01/01/2024',
+      stayTo: '01/03/2024',
+      bulgarianCourse: 'no',
+      visitReason: 'I wish to learn.',
+      motherLanguage: 'Bulgarian',
+      homeLanguage: 'Bulgarian',
+      studyDegree: 'Bachelor',
+      studyYears: '1',
+      priorStudyErasmus: 'no',
+      priorStudyMonths: '6',
+    });
 
     const { error, validatedValues } =
       this.validationService.validateFormValues(this.applyForm, this.apiModule);
     if (error) return;
 
-    await this.apiService.createOne(
-      this.cookie,
-      validatedValues,
-      this.apiModule
-    );
+    const { pdfBytes, error: error2 } =
+      await this.applicationService.createPdfFromForm(
+        this.applyForm,
+        this.records
+      );
+
+    if (error2) return;
+
+    const blob = new Blob([pdfBytes as Uint8Array]);
+
+    const formData = new FormData();
+    formData.append('file', blob);
+
+    fetch(apiUrl + '/applications/createOne', {
+      method: 'POST',
+      body: formData,
+    });
+
+    // await this.apiService.createOne(
+    //   this.cookie,
+    //   validatedValues,
+    //   this.apiModule
+    // );
   }
 
   /* Fetch All records needed

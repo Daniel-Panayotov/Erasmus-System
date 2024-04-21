@@ -22,7 +22,7 @@ export const fieldsRegex = {
 };
 
 export const facultiesRegex = {
-  facultyName: /^[a-zA-Z\s]{4,50}(?:\d{1,3})?$/,
+  facultyName: /^[a-zA-Z\s]{1,50}(?:\d{1,3})?$/,
   personNames: /^[a-zA-Z\s]{4,20}$/,
   select: /^(name|coordinator)$/,
 };
