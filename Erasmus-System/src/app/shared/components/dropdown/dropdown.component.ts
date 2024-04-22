@@ -64,10 +64,8 @@ export class DropdownComponent implements AfterViewInit {
     let inputValue = '';
 
     for (let i = 0; i < docs.length; i++) {
-      if (
-        docs[i][this.property[1].isRef!.properties.mainProp] == fakeInputValue
-      ) {
-        this.property[1].isRef?.properties.propsList.map((v) => {
+      if (docs[i][this.property[1].isRef!.mainProp] == fakeInputValue) {
+        this.property[1].isRef?.propsList.map((v) => {
           inputValue += docs[i][v] + ' ';
         });
       }
@@ -92,9 +90,9 @@ export class DropdownComponent implements AfterViewInit {
 
     for (let doc of docs) {
       //check each property if 1+
-      for (let i = 0; i < property[1].isRef!.properties.propsList.length; i++) {
+      for (let i = 0; i < property[1].isRef!.propsList.length; i++) {
         if (
-          (doc[property[1].isRef!.properties.propsList[i]] as string)
+          (doc[property[1].isRef!.propsList[i]] as string)
             .toLowerCase()
             .includes(value.toLocaleLowerCase())
         ) {
@@ -112,7 +110,7 @@ export class DropdownComponent implements AfterViewInit {
    */
   changeSelectValue(record: adminRecordUnion, refProps: refProps): void {
     //get form values
-    const intendedValue = record[refProps.properties.mainProp];
+    const intendedValue = record[refProps.mainProp];
 
     //set form values
     this.form.patchValue({ [refProps.assignPropTo]: intendedValue });
@@ -121,8 +119,8 @@ export class DropdownComponent implements AfterViewInit {
     let selectValue = '';
 
     //concatanate desired values to string
-    for (let i = 0; i < refProps.properties.propsList.length; i++) {
-      selectValue += record[refProps.properties.propsList[i]] + ' ';
+    for (let i = 0; i < refProps.propsList.length; i++) {
+      selectValue += record[refProps.propsList[i]] + ' ';
     }
     this.fakeFormInput.nativeElement.value = selectValue;
 

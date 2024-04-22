@@ -30,7 +30,7 @@
     @for (doc of filteredRefDocs[property[1].isRef.apiSection]; track $index) {
 
     <li (click)="changeSelectValue(doc, property[1].isRef)">
-      @for (propValue of property[1].isRef.properties.propsList; track $index) {
+      @for (propValue of property[1].isRef.propsList; track $index) {
 
       {{ doc[propValue] }}
       }

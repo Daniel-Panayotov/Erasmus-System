@@ -9,20 +9,20 @@
 
         <nav class="admin-nav">
           <ul>
-            <li routerLink="{{ homeRoute }}"><a>Home</a></li>
-            <li routerLink="{{ adminRoutes.receivingContacts }}">
+            <li [routerLink]="homeRoute"><a>Home</a></li>
+            <li [routerLink]="adminRoutes.receivingContacts">
               <a>Receiving Contacts</a>
             </li>
-            <li routerLink="{{ adminRoutes.foreignContacts }}">
+            <li [routerLink]="adminRoutes.foreignContacts">
               <a>Foreign Contacts</a>
             </li>
-            <li routerLink="{{ adminRoutes.faculties }}"><a>Faculties</a></li>
-            <li routerLink="{{ adminRoutes.fields }}">
+            <li [routerLink]="adminRoutes.faculties"><a>Faculties</a></li>
+            <li [routerLink]="adminRoutes.fields">
               <a>Fields of Education</a>
             </li>
-            <li routerLink="{{ adminRoutes.mobilities }}"><a>Mobilities</a></li>
-            <li routerLink="#"><a>Applications</a></li>
-            <li routerLink="{{ adminRoutes.students }}"><a>Students</a></li>
+            <li [routerLink]="adminRoutes.mobilities"><a>Mobilities</a></li>
+            <li [routerLink]="adminRoutes.applications"><a>Applications</a></li>
+            <li [routerLink]="adminRoutes.students"><a>Students</a></li>
           </ul>
         </nav>
         }

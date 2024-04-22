@@ -17,11 +17,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AdminPopupService } from 'src/app/services/admin-menu-services/admin-popup.service';
 import { PaginationService } from 'src/app/services/pagination.service';
 import { listDocProperties } from '../../environments/environment';
 import { generalAdminComponentInputs } from 'src/app/types/adminDocs';
 import { TableButtonsData } from 'src/app/types/adminTableButtons';
+import { AuthService } from 'src/app/services/general-services/auth.service';
+import { Base64 } from 'src/app/types/globalTypes';
 
 @Component({
   selector: 'app-admin-view',
@@ -34,11 +37,13 @@ export class AdminViewComponent implements OnInit, OnDestroy {
   private paginationService = inject(PaginationService);
   private popupService = inject(AdminPopupService);
   private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
 
   @Input({ required: true }) popupForm = {} as FormGroup;
   @Input({ required: true }) componentInputs =
     {} as generalAdminComponentInputs;
   @Input({ required: true }) tableButtonsData = {} as TableButtonsData;
+  @Input({ required: false }) openPdf = (pdf: Base64) => {};
   @Output() searchFormEvent = new EventEmitter<FormGroup>();
   @Output() populateListOfClickedDataEvent = new EventEmitter<() => void>();
 
@@ -47,11 +52,19 @@ export class AdminViewComponent implements OnInit, OnDestroy {
   isSearchLiVisible: boolean = false;
 
   listOfClickedData: boolean[][] = [];
+  cookie = '';
+
+  constructor() {
+    this.authService.authCookieSubject$
+      .pipe(takeUntilDestroyed())
+      .subscribe({ next: (receivedCookie) => (this.cookie = receivedCookie) });
+  }
 
   async ngOnInit() {
     this.sendSearchForm();
     this.sendPopulateFunction();
     await this.componentInputs.changePage(1, false);
+    console.log(this.documents);
   }
 
   ngOnDestroy(): void {

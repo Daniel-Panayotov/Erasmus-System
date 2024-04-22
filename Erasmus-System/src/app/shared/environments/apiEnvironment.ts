@@ -90,6 +90,19 @@ const usersDataEnvironemnt: routeEnv = {
   getAllUrl: `${apiUserDataUrl}/getAll`,
 };
 
+const apiApplicationsUrl = `${apiUrl}/applications`;
+
+const applicationsEnvironemnt: routeEnv = {
+  getPageUrl: `${apiApplicationsUrl}/getPage`,
+  getPageByParamUrl: `${apiApplicationsUrl}/getPageByParam`,
+  createOneUrl: `${apiApplicationsUrl}/createOne`,
+  updateOneUrl: `${apiApplicationsUrl}/updateOne`,
+  deleteOneUrl: `${apiApplicationsUrl}/deleteOne`,
+  getAllUrl: `${apiApplicationsUrl}/getAll`,
+};
+
+export const applicationGetImgUrl = `${apiApplicationsUrl}/getImage/`;
+
 export function getRoute(
   adminModule: apiModuleString,
   action: apiActionString
@@ -141,6 +154,9 @@ function getEnvironment(adminModule: apiModuleString) {
       break;
     case 'usersData':
       env = usersDataEnvironemnt;
+      break;
+    case 'applications':
+      env = applicationsEnvironemnt;
       break;
   }
   return env;

@@ -10,6 +10,7 @@ import { FacultiesComponent } from './admin-home-resources/faculties/faculties.c
 import { ForeignContactsComponent } from './admin-home-resources/foreign-contacts/foreign-contacts.component';
 import { ReceivingContactsComponent } from './admin-home-resources/receiving-contacts/receiving-contacts.component';
 import { MobilitiesComponent } from './admin-home-resources/mobilities/mobilities.component';
+import { ApplicationsComponent } from './admin-home-resources/applications/applications.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       { path: 'foreign-contacts', component: ForeignContactsComponent },
       { path: 'receiving-contacts', component: ReceivingContactsComponent },
       { path: 'mobilities', component: MobilitiesComponent },
+      { path: 'applications', component: ApplicationsComponent },
     ],
     canActivate: [AdminGuard],
   },

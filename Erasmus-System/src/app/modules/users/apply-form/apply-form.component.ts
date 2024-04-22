@@ -7,7 +7,10 @@ import { NavigationComponent } from 'src/app/core/navigation/navigation.componen
 import { ApiService } from 'src/app/services/general-services/api.service';
 import { AuthService } from 'src/app/services/general-services/auth.service';
 import { DropdownComponent } from 'src/app/shared/components/dropdown/dropdown.component';
-import { listDocProperties } from 'src/app/shared/environments/environment';
+import {
+  environment,
+  listDocProperties,
+} from 'src/app/shared/environments/environment';
 import {
   contactsRegex,
   facultiesRegex,
@@ -17,10 +20,10 @@ import {
   mobilitiesRegex,
 } from 'src/app/shared/environments/validationEnvironment';
 import { adminRecords } from 'src/app/types/adminDocs';
-import { ValidationService } from 'src/app/services/general-services/validation.service';
 import { apiModuleString } from 'src/app/types/apiEnvironmentTypes';
 import { apiUrl } from 'src/app/shared/environments/apiEnvironment';
 import { ApplicationsService } from 'src/app/services/applications.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-apply-form',
@@ -39,8 +42,8 @@ export class ApplyFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private apiService = inject(ApiService);
   private authService = inject(AuthService);
-  private validationService = inject(ValidationService);
   private applicationService = inject(ApplicationsService);
+  private router = inject(Router);
 
   cookie = '';
   records = {} as adminRecords;
@@ -171,6 +174,46 @@ export class ApplyFormComponent implements OnInit {
   });
 
   async onSubmit(): Promise<void> {
+    if (this.applyForm.invalid) return;
+
+    const { pdfBytes, error: error2 } =
+      await this.applicationService.createPdfFromForm(
+        this.applyForm,
+        this.records
+      );
+
+    if (error2) return;
+
+    const { academicYearFrom, academicYearTo } = this.applyForm.value;
+
+    const blob = new Blob([pdfBytes as Uint8Array]);
+
+    const formData = new FormData();
+    formData.append('file', blob, 'application.pdf');
+    formData.append('academicYear', `${academicYearFrom} - ${academicYearTo}`);
+
+    try {
+      await fetch(apiUrl + '/applications/createOne', {
+        method: 'POST',
+        headers: {
+          [environment.authCookieName]: this.cookie,
+        },
+        body: formData,
+      });
+
+      await this.router.navigate(['/home']);
+    } catch (err: any) {
+      console.log(await err.json());
+    }
+
+    // await this.apiService.createOne(
+    //   this.cookie,
+    //   validatedValues,
+    //   this.apiModule
+    // );
+  }
+
+  populateForm() {
     this.applyForm.patchValue({
       firstName: 'Daniel',
       lastName: 'Panayotov',
@@ -204,34 +247,6 @@ export class ApplyFormComponent implements OnInit {
       priorStudyErasmus: 'no',
       priorStudyMonths: '6',
     });
-
-    const { error, validatedValues } =
-      this.validationService.validateFormValues(this.applyForm, this.apiModule);
-    if (error) return;
-
-    const { pdfBytes, error: error2 } =
-      await this.applicationService.createPdfFromForm(
-        this.applyForm,
-        this.records
-      );
-
-    if (error2) return;
-
-    const blob = new Blob([pdfBytes as Uint8Array]);
-
-    const formData = new FormData();
-    formData.append('file', blob);
-
-    fetch(apiUrl + '/applications/createOne', {
-      method: 'POST',
-      body: formData,
-    });
-
-    // await this.apiService.createOne(
-    //   this.cookie,
-    //   validatedValues,
-    //   this.apiModule
-    // );
   }
 
   /* Fetch All records needed

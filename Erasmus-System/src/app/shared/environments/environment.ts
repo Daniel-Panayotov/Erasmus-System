@@ -1,5 +1,6 @@
 import { docsWithProperties } from 'src/app/types/docProperties';
 import {
+  applicationsRegex,
   contactsRegex,
   facultiesRegex,
   fieldsRegex,
@@ -131,8 +132,9 @@ export const listDocProperties: docsWithProperties = {
       isShown: true,
       isRef: {
         apiSection: 'faculties',
-        properties: { mainProp: 'name', propsList: ['name'] },
         assignPropTo: 'faculty',
+        propsList: ['name'],
+        mainProp: 'name',
       },
     },
   },
@@ -209,7 +211,8 @@ export const listDocProperties: docsWithProperties = {
       isRef: {
         apiSection: 'fields',
         assignPropTo: 'subjectCodeRef',
-        properties: { mainProp: 'code', propsList: ['code', 'name'] },
+        propsList: ['code', 'name'],
+        mainProp: 'code',
       },
     },
     sendingContactRef: {
@@ -221,7 +224,8 @@ export const listDocProperties: docsWithProperties = {
       isRef: {
         apiSection: 'foreignContacts',
         assignPropTo: 'sendingContactRef',
-        properties: { mainProp: 'email', propsList: ['firstName', 'lastName'] },
+        propsList: ['firstName', 'lastName'],
+        mainProp: 'email',
       },
     },
     receivingContactRef: {
@@ -233,7 +237,8 @@ export const listDocProperties: docsWithProperties = {
       isRef: {
         apiSection: 'receivingContacts',
         assignPropTo: 'receivingContactRef',
-        properties: { mainProp: 'email', propsList: ['firstName', 'lastName'] },
+        propsList: ['firstName', 'lastName'],
+        mainProp: 'email',
       },
     },
   },
@@ -248,7 +253,8 @@ export const listDocProperties: docsWithProperties = {
       isRef: {
         apiSection: 'fields',
         assignPropTo: 'fieldOfStudyRef',
-        properties: { mainProp: 'code', propsList: ['code', 'name'] },
+        propsList: ['code', 'name'],
+        mainProp: 'code',
       },
     },
     mobilityRef: {
@@ -260,7 +266,8 @@ export const listDocProperties: docsWithProperties = {
       isRef: {
         apiSection: 'mobilities',
         assignPropTo: 'mobilityRef',
-        properties: { mainProp: 'code', propsList: ['code', 'university'] },
+        propsList: ['code', 'university'],
+        mainProp: 'code',
       },
     },
     sendingContactRef: {
@@ -272,7 +279,8 @@ export const listDocProperties: docsWithProperties = {
       isRef: {
         apiSection: 'foreignContacts',
         assignPropTo: 'sendingContactRef',
-        properties: { mainProp: 'email', propsList: ['firstName', 'lastName'] },
+        propsList: ['firstName', 'lastName'],
+        mainProp: 'email',
       },
     },
     receivingFacultyRef: {
@@ -284,7 +292,8 @@ export const listDocProperties: docsWithProperties = {
       isRef: {
         apiSection: 'faculties',
         assignPropTo: 'receivingFacultyRef',
-        properties: { mainProp: 'name', propsList: ['name'] },
+        propsList: ['name'],
+        mainProp: 'name',
       },
     },
     receivingContactRef: {
@@ -296,8 +305,47 @@ export const listDocProperties: docsWithProperties = {
       isRef: {
         apiSection: 'receivingContacts',
         assignPropTo: 'receivingContactRef',
-        properties: { mainProp: 'email', propsList: ['firstName', 'lastName'] },
+        propsList: ['firstName', 'lastName'],
+        mainProp: 'email',
       },
+    },
+  },
+  applications: {
+    userRef: {
+      name: 'User',
+      isShown: true,
+      error: 'Invalid user',
+      widthClass: 'th-25',
+      regex: / /,
+      isRef: {
+        apiSection: 'applications',
+        assignPropTo: 'userRef',
+        propsList: ['email'],
+        // only this matters
+        mainProp: 'email',
+      },
+    },
+    academicYear: {
+      name: 'Academic year',
+      isShown: true,
+      error: 'Invalid year',
+      widthClass: 'th-20',
+      regex: applicationsRegex.academicYear,
+    },
+    form: {
+      name: 'Form',
+      isPdf: true,
+      widthClass: 'th-15',
+      isShown: true,
+      error: 'Invalid form',
+      regex: / /,
+    },
+    status: {
+      name: 'Status',
+      isShown: true,
+      error: 'Invalid status',
+      widthClass: 'th-15',
+      regex: applicationsRegex.status,
     },
   },
 };

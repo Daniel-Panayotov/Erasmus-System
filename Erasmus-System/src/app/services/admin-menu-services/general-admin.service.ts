@@ -12,14 +12,16 @@ import {
   TableButtonsData,
 } from 'src/app/types/adminTableButtons';
 import { widthClass } from 'src/app/types/globalTypes';
+import { ApiService } from '../general-services/api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GeneralAdminService {
-  deletionService = inject(DeletionService);
-  popupService = inject(AdminPopupService);
-  paginationService = inject(PaginationService);
+  private deletionService = inject(DeletionService);
+  private popupService = inject(AdminPopupService);
+  private paginationService = inject(PaginationService);
+  private apiService = inject(ApiService);
 
   buttonsBasicDataCollection: ButtonBasicDataCollection = {
     deleteRecord: {
@@ -39,6 +41,18 @@ export class GeneralAdminService {
           : false;
       },
       bgColorClass: 'bg-green',
+    },
+    approveApplication: {
+      text: 'Approve',
+      altText: null,
+      showAltText: () => false,
+      bgColorClass: 'bg-green',
+    },
+    rejectApplication: {
+      text: 'Reject',
+      altText: null,
+      showAltText: () => false,
+      bgColorClass: 'bg-red',
     },
   };
 
@@ -64,6 +78,36 @@ export class GeneralAdminService {
           data.index,
           data.adminPopupForm,
           componentInputs.adminModule
+        );
+      },
+    approveApplication:
+      (componentInputs: generalAdminComponentInputs) =>
+      async (data: ButtonHandlerArguments) => {
+        await this.apiService.updateOne(
+          data.cookie,
+          { status: 'approved' },
+          data.adminRecord._id,
+          componentInputs.adminModule
+        );
+
+        await componentInputs.changePage(
+          1,
+          this.paginationService.isSearchActive
+        );
+      },
+    rejectApplication:
+      (componentInputs: generalAdminComponentInputs) =>
+      async (data: ButtonHandlerArguments) => {
+        await this.apiService.updateOne(
+          data.cookie,
+          { status: 'rejected' },
+          data.adminRecord._id,
+          componentInputs.adminModule
+        );
+
+        await componentInputs.changePage(
+          1,
+          this.paginationService.isSearchActive
         );
       },
   };

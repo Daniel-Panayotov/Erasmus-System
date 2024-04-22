@@ -11,6 +11,7 @@ export const adminRoutes = {
   foreignContacts: `${adminMenuRoute}/foreign-contacts`,
   receivingContacts: `${adminMenuRoute}/receiving-contacts`,
   mobilities: `${adminMenuRoute}/mobilities`,
+  applications: `${adminMenuRoute}/applications`,
 };
 
 const userRoute = '/users';

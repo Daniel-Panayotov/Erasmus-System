@@ -4,7 +4,8 @@ export type apiModuleString =
   | 'foreignContacts'
   | 'receivingContacts'
   | 'mobilities'
-  | 'usersData';
+  | 'usersData'
+  | 'applications';
 
 export type apiActionString =
   | 'delete'

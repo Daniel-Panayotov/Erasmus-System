@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { getRoute } from 'src/app/shared/environments/apiEnvironment';
+import {
+  applicationGetImgUrl,
+  getRoute,
+} from 'src/app/shared/environments/apiEnvironment';
 import { environment } from 'src/app/shared/environments/environment';
 import { adminRecords } from 'src/app/types/adminDocs';
 import { apiModuleString } from 'src/app/types/apiEnvironmentTypes';
@@ -19,7 +22,7 @@ export class ApiService {
       },
     };
 
-    const url = 'http://localhost:5000/applications/getImage/' + fileName;
+    const url = applicationGetImgUrl + fileName;
 
     return fetch(url, options).then((res) => {
       if (!res.ok) {

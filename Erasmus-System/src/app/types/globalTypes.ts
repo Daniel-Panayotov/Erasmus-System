@@ -10,3 +10,5 @@ export type widthClass =
   | 'th-60';
 
 export type bgColorClass = 'bg-green' | 'bg-red' | 'bg-orange';
+
+export type Base64 = string;

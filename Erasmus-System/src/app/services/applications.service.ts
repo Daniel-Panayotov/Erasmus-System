@@ -94,6 +94,7 @@ export class ApplicationsService {
       for (let i = 0; i < section.sectionData.length; i++) {
         const sectionField = section.sectionData[i];
         let value = sectionField.text ? `${sectionField.text}: ` : '';
+        let valFile = {} as File;
 
         if (pageHeight <= 15) {
           page = pdf.addPage(PageSizes.A4);
@@ -110,7 +111,10 @@ export class ApplicationsService {
             sectionField.properties.list[0]
           );
 
-          value = x.files[0];
+          valFile = x.files[0];
+
+          if (valFile.type != 'image/jpeg' && valFile.type != 'image/png')
+            return { error: true };
         } else if (sectionField.properties.isRef) {
           const refSection = sectionField.properties.isRef;
           const unfilteredDocs = documents[refSection.apiModule];
@@ -129,37 +133,30 @@ export class ApplicationsService {
             .map((v) => formValues[v])
             .join(sectionField.properties.separator);
 
-        switch (typeof value) {
-          case 'object':
-            const image = new Uint8Array(await (value as File).arrayBuffer());
-            /*
-            
-            
-            */
-            const pdfImg = await pdf.embedJpg(image);
-            /*
-            
-            
-            */
-            const { width, height } = pdfImg.scaleToFit(100, 100);
+        if (sectionField.properties.isImg) {
+          const image = new Uint8Array(await valFile.arrayBuffer());
+          let pdfImg;
 
-            recHeight = height + textBoxPadding * 2;
+          if (valFile.type == 'image/jpeg') pdfImg = await pdf.embedJpg(image);
+          else pdfImg = await pdf.embedPng(image);
 
-            page.drawImage(pdfImg, {
-              x: pagePadding + textBoxPadding,
-              y: pageHeight - recHeight / 2,
-              height,
-              width,
-            });
+          const { width, height } = pdfImg.scaleToFit(100, 100);
 
-            pageHeight -= recHeight / 2 + 10;
-            break;
-          case 'string':
-            page.drawText(value, {
-              x: pagePadding + textBoxPadding,
-              y: pageHeight + textBoxPadding * 2,
-            });
-            break;
+          recHeight = height + textBoxPadding * 2;
+
+          page.drawImage(pdfImg, {
+            x: pagePadding + textBoxPadding,
+            y: pageHeight - recHeight / 2,
+            height,
+            width,
+          });
+
+          pageHeight -= recHeight / 2 + 10;
+        } else {
+          page.drawText(value, {
+            x: pagePadding + textBoxPadding,
+            y: pageHeight + textBoxPadding * 2,
+          });
         }
 
         page.drawRectangle({

@@ -1,5 +1,6 @@
 <div class="apply-page">
   <div class="form-main">
+    <button (click)="populateForm()">Populate form</button>
     <div class="main-container">
       <h1 class="form-title">Application Form</h1>
       <form [formGroup]="applyForm" class="apply-form" (submit)="onSubmit()">
@@ -103,7 +104,12 @@
           <!-- Image -->
           <div class="control-container">
             <label for="file">Choose personal image *</label>
-            <input type="file" formControlName="file" accept="" id="file" />
+            <input
+              type="file"
+              formControlName="file"
+              accept="image/jpeg image/png"
+              id="file"
+            />
           </div>
           <!-- Academic Year -->
           <div class="control-container">
@@ -441,14 +447,13 @@
           </div>
         </div>
 
-        <!-- <button
+        <button
           class="bg-green button"
           type="submit"
           [disabled]="!applyForm.valid"
         >
           Submit
-        </button> -->
-        <button class="bg-green button" type="submit">Submit</button>
+        </button>
       </form>
     </div>
   </div>

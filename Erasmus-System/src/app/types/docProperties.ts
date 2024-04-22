@@ -15,11 +15,13 @@ export interface docProperty {
   regex: RegExp;
   widthClass: widthClass | null;
   isShown: boolean;
+  isPdf?: boolean;
   isRef?: refProps;
 }
 
 export interface refProps {
   apiSection: apiModuleString;
-  properties: { mainProp: string; propsList: string[] };
+  propsList: string[];
   assignPropTo: string;
+  mainProp: string;
 }

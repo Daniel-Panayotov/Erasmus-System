@@ -10,7 +10,8 @@
         index: -1,
         isPopupEdit: false,
         adminPopupForm: popupForm,
-        adminRecord: documents[0]
+        adminRecord: documents[0],
+        cookie,
       })
     "
   >
@@ -91,19 +92,24 @@
             [attr.data-clicked]="listOfClickedData[i][$index]"
             (click)="toggleTdPopup(i, $index)"
           >
-            {{
-              property[1].isRef
-                ? document[property[0]][
-                    property[1].isRef.properties.propsList[0]
-                  ]
-                : document[property[0]]
-            }}
+            @if (property[1].isPdf) {
+            <span (click)="openPdf(document.form)">Form</span> } @else if
+            (property[1].isRef) {
+            {{ document[property[0]][property[1].isRef.propsList[0]] }}
+            } @else if (document[property[0]]) {
+            {{ document[property[0]] }}
+            } @else { --- }
           </span>
-          <span class="td-popup">{{
-            property[1].isRef
-              ? document[property[0]][property[1].isRef.properties.propsList[0]]
-              : document[property[0]]
-          }}</span>
+
+          @if (!property[1].isPdf) {
+          <span class="td-popup">
+            @if (property[1].isRef) {
+            {{ document[property[0]][property[1].isRef.propsList[0]] }}
+            } @else if (document[property[0]]) {
+            {{ document[property[0]] }}
+            } @else { --- }
+          </span>
+          }
         </td>
         } }
         <td>
@@ -116,7 +122,8 @@
                   adminRecord: document,
                   index: i,
                   adminPopupForm: popupForm,
-                  isPopupEdit: true
+                  isPopupEdit: true,
+                  cookie,
                 })
               "
             >

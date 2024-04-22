@@ -47,6 +47,11 @@ export const userDataRegex = {
   studyDegree: /^(Bachelor|Master)$/,
 };
 
+export const applicationsRegex = {
+  status: /^(approved|rejected|pending)$/,
+  academicYear: /^(([0-9]{4}) - ([0-9]{4}))$/,
+};
+
 interface regexEnv {
   select: RegExp;
 }
@@ -75,8 +80,6 @@ function getRegexEnv(adminModule: apiModuleString) {
       break;
     case 'mobilities':
       regexEnv = mobilitiesRegex;
-      break;
-    default:
       break;
   }
   return regexEnv;
