@@ -1,0 +1,7 @@
+.submit-btn {
+  background-color: green;
+}
+
+.submit-btn:disabled {
+  background-color: red;
+}

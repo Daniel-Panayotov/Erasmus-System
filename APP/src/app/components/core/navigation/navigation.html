@@ -4,12 +4,17 @@
   </a>
 
   <div class="nav-links">
-    <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
-    <a class="nav-link" routerLink="/features" routerLinkActive="active">Features</a>
-    <a class="nav-link" routerLink="/docs" routerLinkActive="active">Docs</a>
+    <a class="nav-link" routerLink="/home">Home</a>
+    <a class="nav-link" routerLink="/features">Features</a>
+    <a class="nav-link" routerLink="/docs">Docs</a>
   </div>
 
   <div class="nav-right">
-    <button class="nav-btn-ghost">Sign in</button>
+    @if (true) {
+      <a class="nav-btn-ghost" routerLink="/login">Login</a>
+      <a class="nav-btn-ghost" routerLink="/register">Register</a>
+    } @else {
+      <a class="nav-btn-ghost" routerLink="/apply">Apply</a>
+    }
   </div>
 </nav>
