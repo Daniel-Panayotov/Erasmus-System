@@ -1,9 +1,10 @@
 import { Component, input, signal } from '@angular/core';
 import { email, form, required, FormRoot, FormField, minLength, maxLength } from '@angular/forms/signals';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-authentication-form',
-  imports: [FormRoot, FormField],
+  imports: [FormRoot, FormField, RouterLink],
   templateUrl: './authentication-form.html',
   styleUrl: './authentication-form.css',
 })

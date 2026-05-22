@@ -64,7 +64,7 @@
           </button>
           <p class="text-sm font-light">
             {{ isLogin() ?  "Don’t have an account yet?" : "Have an account?"}}            
-            <a [href]="isLogin() ? '/register' : '/login'" class="font-medium text-primary-600 hover:underline">
+            <a [routerLink]="isLogin() ? '/register' : '/login'" class="font-medium text-primary-600 hover:underline">
                 {{ isLogin() ?  "Register" : "Login"}}
             </a>
           </p>
