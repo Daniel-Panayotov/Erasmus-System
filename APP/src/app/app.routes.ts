@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { Home } from './components/core/home/home';
-import { NotFound } from './components/core/not-found/not-found';
-import { ApplicationForm } from './components/forms/application-form/application-form';
-import { LoginForm } from './components/forms/login-form/login-form';
-import { RegisterForm } from './components/forms/register-form/register-form';
+import { Home } from './layout/home/home';
+import { NotFound } from './layout/not-found/not-found';
+import { ApplicationForm } from './features/users/components/application-form/application-form';
+import { LoginForm } from './features/authentication/components/login-form/login-form';
+import { RegisterForm } from './features/authentication/components/register-form/register-form';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
