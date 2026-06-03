@@ -1,5 +1,13 @@
 import { Component, input, signal } from '@angular/core';
-import { email, form, required, FormRoot, FormField, minLength, maxLength } from '@angular/forms/signals';
+import {
+  email,
+  form,
+  required,
+  FormRoot,
+  FormField,
+  minLength,
+  maxLength,
+} from '@angular/forms/signals';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -9,7 +17,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './authentication-form.css',
 })
 export class AuthenticationForm {
-  isLogin = input.required<boolean>()
+  isLogin = input.required<boolean>();
 
   formModel = signal({
     email: '',
@@ -19,17 +27,20 @@ export class AuthenticationForm {
   authForm = form(
     this.formModel,
     (schemaPath) => {
-      required(schemaPath.email, { message: 'Email is required.' }),
-      email(schemaPath.email, { message: 'Invalid email address.' }),
-
-      required(schemaPath.password, { message: 'Password is required.' }),      
-      minLength(schemaPath.password, 10),
-      maxLength(schemaPath.password, 30)
+      (required(schemaPath.email, { message: 'Email is required.' }),
+        email(schemaPath.email, { message: 'Invalid email address.' }),
+        required(schemaPath.password, { message: 'Password is required.' }),
+        minLength(schemaPath.password, 10),
+        maxLength(schemaPath.password, 30));
     },
-    { submission: { action: async (field) => {
-      if (this.authForm().invalid()) return;
+    {
+      submission: {
+        action: async (field) => {
+          if (this.authForm().invalid()) return;
 
-      //Send req
-     } } },
+          //Send req
+        },
+      },
+    },
   );
 }

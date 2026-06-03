@@ -1,16 +1,9 @@
 export interface ProfileFormModel {
   firstname: string;
   lastname: string;
-  birthday: Date;
-  gender: Gender;
+  birthday: Date | null;
+  gender: string;
   nationality: string;
-  currentAddress: string;
-  permanentAddress: string;
+  address: string;
   phone: string;
-}
-
-export enum Gender {
-  Male,
-  Female,
-  Other,
 }

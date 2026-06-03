@@ -1,1 +1,70 @@
-<p>profile-form works!</p>
+<div class="main-container">
+  <h1 class="form-title">Profile Form</h1>
+  <form [formRoot]="profileForm" class="apply-form">
+    <div class="form-controls">
+      <!-- First name -->
+      <div class="control-container">
+        <label for="first-name">First Name *</label>
+        <input
+          type="text"
+          id="first-name"
+          placeholder="Peter"
+          [formField]="profileForm.firstname"
+        />
+      </div>
+      <!-- Last name -->
+      <div class="control-container">
+        <label for="last-name">Last Name *</label>
+        <input type="text" id="last-name" placeholder="Ivanov" [formField]="profileForm.lastname" />
+      </div>
+      <!-- Birth date -->
+      <div class="control-container">
+        <label for="birth-date">Birth date *</label>
+        <input type="date" id="birth-date" [formField]="profileForm.birthday" />
+      </div>
+      <!-- Gender radio -->
+      <div class="control-container">
+        <fieldset>
+          <legend>Gender *</legend>
+          <div class="radio-group">
+            <input type="radio" id="gender1" value="male" [formField]="profileForm.gender" />
+            <label for="gender1">Male</label>
+          </div>
+          <div class="radio-group">
+            <input type="radio" id="gender2" value="female" [formField]="profileForm.gender" />
+            <label for="gender2">Female</label>
+          </div>
+        </fieldset>
+      </div>
+      <!-- Nationality -->
+      <div class="control-container">
+        <label for="nationality">Nationality *</label>
+        <input
+          type="text"
+          id="nationality"
+          placeholder="Bulgaria"
+          [formField]="profileForm.nationality"
+        />
+      </div>
+      <!-- Address -->
+      <div class="control-container">
+        <label for="address">Address *</label>
+        <input
+          type="text"
+          id="address"
+          placeholder="Ruse, cherry street, 12"
+          [formField]="profileForm.address"
+        />
+      </div>
+      <!-- Phone Number -->
+      <div class="control-container">
+        <label for="phone">Phone Number *</label>
+        <input type="text" id="phone" placeholder="+892361569" [formField]="profileForm.phone" />
+      </div>
+    </div>
+
+    <button class="bg-green button" type="submit" [disabled]="profileForm().invalid()">
+      Submit
+    </button>
+  </form>
+</div>
