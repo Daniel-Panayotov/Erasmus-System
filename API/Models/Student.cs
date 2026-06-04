@@ -17,13 +17,13 @@ public partial class Student
 
     public string Nationality { get; set; } = null!;
 
-    public string CurrentAddress { get; set; } = null!;
-
-    public string PermanentAddress { get; set; } = null!;
+    public string Address { get; set; } = null!;
 
     public string PhoneNumber { get; set; } = null!;
 
     public int UserId { get; set; }
+
+    public virtual Gender GenderEnum => Enum.Parse<Gender>(this.Gender);
 
     public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
 
@@ -31,3 +31,5 @@ public partial class Student
 
     public virtual User User { get; set; } = null!;
 }
+
+public enum Gender { Male, Female }

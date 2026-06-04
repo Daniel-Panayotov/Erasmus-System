@@ -1,8 +1,7 @@
-﻿using API.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace API;
+namespace API.Models;
 
 public partial class ApplicationDocument
 {
@@ -14,5 +13,9 @@ public partial class ApplicationDocument
 
     public int ApplicationId { get; set; }
 
+    public virtual Status StatusEnum => Enum.Parse<Status>(this.Status);
+
     public virtual Application ApplicationNavigation { get; set; } = null!;
 }
+
+public enum Status { Pending, Approved, Rejected }

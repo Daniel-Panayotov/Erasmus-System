@@ -3,13 +3,15 @@ using System.Collections.Generic;
 
 namespace API.Models;
 
-public partial class InstitutionFaculty
+public partial class Faculty
 {
-    public int InstitutionFacultyId { get; set; }
+    public int FacultyId { get; set; }
 
     public string Name { get; set; } = null!;
 
     public int InstitutionId { get; set; }
+
+    public virtual ICollection<Discipline> Disciplines { get; set; } = new List<Discipline>();
 
     public virtual Institution Institution { get; set; } = null!;
 

@@ -13,13 +13,11 @@ public partial class Institution
 
     public string Address { get; set; } = null!;
 
-    public virtual ICollection<Application> ApplicationReceivingInstitutions { get; set; } = new List<Application>();
+    public virtual ICollection<Application> ApplicationReceivingInstitutionNavigations { get; set; } = new List<Application>();
 
-    public virtual ICollection<Application> ApplicationSendingInstitutions { get; set; } = new List<Application>();
+    public virtual ICollection<Application> ApplicationSendingInstitutionNavigations { get; set; } = new List<Application>();
 
-    public virtual ICollection<InstitutionContact> InstitutionContacts { get; set; } = new List<InstitutionContact>();
+    public virtual ICollection<Contact> Contacts { get; set; } = new List<Contact>();
 
-    public virtual ICollection<InstitutionFaculty> InstitutionFaculties { get; set; } = new List<InstitutionFaculty>();
-
-    public virtual ICollection<StudyForInstitution> StudyForInstitutions { get; set; } = new List<StudyForInstitution>();
+    public virtual ICollection<Faculty> Faculties { get; set; } = new List<Faculty>();
 }

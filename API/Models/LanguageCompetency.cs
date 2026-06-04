@@ -9,8 +9,6 @@ public partial class LanguageCompetency
 
     public string Language { get; set; } = null!;
 
-    public string Studying { get; set; } = null!;
-
     public bool CanFollowLectures { get; set; }
 
     public bool CanFollowLecturesWithLessons { get; set; }

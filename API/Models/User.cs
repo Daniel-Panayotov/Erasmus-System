@@ -11,5 +11,5 @@ public partial class User
 
     public string Password { get; set; } = null!;
 
-    public virtual ICollection<Student> Students { get; set; } = new List<Student>();
+    public virtual Student? Student { get; set; }
 }

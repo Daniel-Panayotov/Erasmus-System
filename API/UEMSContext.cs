@@ -15,17 +15,23 @@ public partial class UEMSContext : DbContext
 
     public virtual DbSet<ApplicationDocument> ApplicationDocuments { get; set; }
 
+    public virtual DbSet<Contact> Contacts { get; set; }
+
+    public virtual DbSet<Discipline> Disciplines { get; set; }
+
+    public virtual DbSet<Faculty> Faculties { get; set; }
+
     public virtual DbSet<Institution> Institutions { get; set; }
-
-    public virtual DbSet<InstitutionContact> InstitutionContacts { get; set; }
-
-    public virtual DbSet<InstitutionFaculty> InstitutionFaculties { get; set; }
 
     public virtual DbSet<LanguageCompetency> LanguageCompetencies { get; set; }
 
-    public virtual DbSet<Student> Students { get; set; }
+    public virtual DbSet<RelDisciplineSubject> RelDisciplineSubjects { get; set; }
 
-    public virtual DbSet<StudyForInstitution> StudyForInstitutions { get; set; }
+    public virtual DbSet<RelInstitutionApplication> RelInstitutionApplications { get; set; }
+
+    public virtual DbSet<RelInstitutionApplicationSubject> RelInstitutionApplicationSubjects { get; set; }
+
+    public virtual DbSet<Student> Students { get; set; }
 
     public virtual DbSet<Subject> Subjects { get; set; }
 
@@ -37,31 +43,28 @@ public partial class UEMSContext : DbContext
     {
         modelBuilder.Entity<Admin>(entity =>
         {
-            entity.HasKey(e => e.AdminId).HasName("PK__Admins__719FE4E84FCBC04A");
-
             entity.Property(e => e.AdminId).HasColumnName("AdminID");
             entity.Property(e => e.Password).HasMaxLength(255);
         });
 
         modelBuilder.Entity<Application>(entity =>
         {
-            entity.HasKey(e => e.ApplicationId).HasName("PK__Applicat__C93A4F7962057B62");
-
             entity.Property(e => e.ApplicationId).HasColumnName("ApplicationID");
-            entity.Property(e => e.Degree).HasMaxLength(100);
-            entity.Property(e => e.MobilityType).HasMaxLength(100);
-            entity.Property(e => e.ReceivingInstitutionId).HasColumnName("ReceivingInstitutionID");
-            entity.Property(e => e.SendingInstitutionId).HasColumnName("SendingInstitutionID");
+            entity.Property(e => e.Degree).HasMaxLength(50);
+            entity.Property(e => e.MobilityType).HasMaxLength(50);
+            entity.Property(e => e.MotivationText).HasMaxLength(500);
             entity.Property(e => e.StudentId).HasColumnName("StudentID");
-            entity.Property(e => e.StudyFieldCode).HasMaxLength(100);
 
-            entity.HasOne(d => d.ReceivingInstitution).WithMany(p => p.ApplicationReceivingInstitutions)
-                .HasForeignKey(d => d.ReceivingInstitutionId)
+            entity.Ignore(e => e.DegreeEnum);
+            entity.Ignore(e => e.MobilityTypeEnum);
+
+            entity.HasOne(d => d.ReceivingInstitutionNavigation).WithMany(p => p.ApplicationReceivingInstitutionNavigations)
+                .HasForeignKey(d => d.ReceivingInstitution)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Applications_ReceivingInstitution");
 
-            entity.HasOne(d => d.SendingInstitution).WithMany(p => p.ApplicationSendingInstitutions)
-                .HasForeignKey(d => d.SendingInstitutionId)
+            entity.HasOne(d => d.SendingInstitutionNavigation).WithMany(p => p.ApplicationSendingInstitutionNavigations)
+                .HasForeignKey(d => d.SendingInstitution)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Applications_SendingInstitution");
 
@@ -73,124 +76,188 @@ public partial class UEMSContext : DbContext
 
         modelBuilder.Entity<ApplicationDocument>(entity =>
         {
-            entity.HasKey(e => e.ApplicationDocumentId).HasName("PK__Applicat__9A4B1C0F376129BD");
+            entity.HasIndex(e => e.ApplicationId, "UQ_ApplicationDocuments_ApplicationID").IsUnique();
 
             entity.Property(e => e.ApplicationDocumentId).HasColumnName("ApplicationDocumentID");
             entity.Property(e => e.ApplicationId).HasColumnName("ApplicationID");
-            entity.Property(e => e.Status).HasMaxLength(100);
+            entity.Property(e => e.Status).HasMaxLength(50);
 
-            entity.HasOne(d => d.ApplicationNavigation).WithMany(p => p.ApplicationDocuments)
-                .HasForeignKey(d => d.ApplicationId)
+            entity.Ignore(e => e.StatusEnum);
+
+            entity.HasOne(d => d.ApplicationNavigation).WithOne(p => p.ApplicationDocument)
+                .HasForeignKey<ApplicationDocument>(d => d.ApplicationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ApplicationDocuments_Applications");
+        });
+
+        modelBuilder.Entity<Contact>(entity =>
+        {
+            entity.Property(e => e.ContactId).HasColumnName("ContactID");
+            entity.Property(e => e.Email).HasMaxLength(255);
+            entity.Property(e => e.FirstName).HasMaxLength(50);
+            entity.Property(e => e.InstitutionId).HasColumnName("InstitutionID");
+            entity.Property(e => e.LastName).HasMaxLength(50);
+            entity.Property(e => e.Phone).HasMaxLength(50);
+
+            entity.HasOne(d => d.Institution).WithMany(p => p.Contacts)
+                .HasForeignKey(d => d.InstitutionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Contacts_Institutions");
+        });
+
+        modelBuilder.Entity<Discipline>(entity =>
+        {
+            entity.Property(e => e.DisciplineId).HasColumnName("DisciplineID");
+            entity.Property(e => e.Code).HasMaxLength(50);
+            entity.Property(e => e.FacultyId).HasColumnName("FacultyID");
+            entity.Property(e => e.Name).HasMaxLength(200);
+
+            entity.HasOne(d => d.Faculty).WithMany(p => p.Disciplines)
+                .HasForeignKey(d => d.FacultyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Disciplines_Faculties");
+        });
+
+        modelBuilder.Entity<Faculty>(entity =>
+        {
+            entity.Property(e => e.FacultyId).HasColumnName("FacultyID");
+            entity.Property(e => e.InstitutionId).HasColumnName("InstitutionID");
+            entity.Property(e => e.Name).HasMaxLength(200);
+
+            entity.HasOne(d => d.Institution).WithMany(p => p.Faculties)
+                .HasForeignKey(d => d.InstitutionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Faculties_Institutions");
         });
 
         modelBuilder.Entity<Institution>(entity =>
         {
-            entity.HasKey(e => e.InstitutionId).HasName("PK__Institut__8DF6B94D0C66B969");
+            entity.HasIndex(e => e.Code, "UQ_Institutions_Code").IsUnique();
 
             entity.Property(e => e.InstitutionId).HasColumnName("InstitutionID");
-            entity.Property(e => e.Address).HasMaxLength(500);
-            entity.Property(e => e.Code).HasMaxLength(100);
-            entity.Property(e => e.Name).HasMaxLength(255);
-        });
-
-        modelBuilder.Entity<InstitutionContact>(entity =>
-        {
-            entity.HasKey(e => e.ContactId).HasName("PK__Institut__5C6625BB879A5E2C");
-
-            entity.Property(e => e.ContactId).HasColumnName("ContactID");
-            entity.Property(e => e.Email).HasMaxLength(255);
-            entity.Property(e => e.FirstName).HasMaxLength(100);
-            entity.Property(e => e.InstitutionId).HasColumnName("InstitutionID");
-            entity.Property(e => e.LastName).HasMaxLength(100);
-            entity.Property(e => e.Phone).HasMaxLength(20);
-
-            entity.HasOne(d => d.Institution).WithMany(p => p.InstitutionContacts)
-                .HasForeignKey(d => d.InstitutionId)
-                .HasConstraintName("FK_InstitutionContacts_Institutions");
-        });
-
-        modelBuilder.Entity<InstitutionFaculty>(entity =>
-        {
-            entity.HasKey(e => e.InstitutionFacultyId).HasName("PK__Institut__2CB4202FF4631EEE");
-
-            entity.Property(e => e.InstitutionFacultyId).HasColumnName("InstitutionFacultyID");
-            entity.Property(e => e.InstitutionId).HasColumnName("InstitutionID");
-            entity.Property(e => e.Name).HasMaxLength(255);
-
-            entity.HasOne(d => d.Institution).WithMany(p => p.InstitutionFaculties)
-                .HasForeignKey(d => d.InstitutionId)
-                .HasConstraintName("FK_InstitutionFaculties_Institutions");
+            entity.Property(e => e.Address).HasMaxLength(300);
+            entity.Property(e => e.Code).HasMaxLength(50);
+            entity.Property(e => e.Name).HasMaxLength(200);
         });
 
         modelBuilder.Entity<LanguageCompetency>(entity =>
         {
-            entity.HasKey(e => e.LanguageCompetencyId).HasName("PK__Language__A7D1AB93C7D2A083");
-
             entity.Property(e => e.LanguageCompetencyId).HasColumnName("LanguageCompetencyID");
             entity.Property(e => e.Language).HasMaxLength(100);
             entity.Property(e => e.StudentId).HasColumnName("StudentID");
-            entity.Property(e => e.Studying).HasMaxLength(100);
 
             entity.HasOne(d => d.Student).WithMany(p => p.LanguageCompetencies)
                 .HasForeignKey(d => d.StudentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_LanguageCompetencies_Students");
+        });
+
+        modelBuilder.Entity<RelDisciplineSubject>(entity =>
+        {
+            entity.HasKey(e => e.DisciplineSubjectsId);
+
+            entity.ToTable("relDisciplineSubjects");
+
+            entity.Property(e => e.DisciplineSubjectsId).HasColumnName("DisciplineSubjectsID");
+            entity.Property(e => e.DisciplineId).HasColumnName("DisciplineID");
+            entity.Property(e => e.SubjectId).HasColumnName("SubjectID");
+
+            entity.HasOne(d => d.Discipline).WithMany(p => p.RelDisciplineSubjects)
+                .HasForeignKey(d => d.DisciplineId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_relDiscSubj_Disciplines");
+
+            entity.HasOne(d => d.Subject).WithMany(p => p.RelDisciplineSubjects)
+                .HasForeignKey(d => d.SubjectId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_relDiscSubj_Subjects");
+        });
+
+        modelBuilder.Entity<RelInstitutionApplication>(entity =>
+        {
+            entity.HasKey(e => e.InstitutionApplicationId);
+
+            entity.ToTable("relInstitutionApplications");
+
+            entity.Property(e => e.InstitutionApplicationId).HasColumnName("InstitutionApplicationID");
+            entity.Property(e => e.ApplicationId).HasColumnName("ApplicationID");
+            entity.Property(e => e.ContactId).HasColumnName("ContactID");
+            entity.Property(e => e.DisciplineId).HasColumnName("DisciplineID");
+
+            entity.HasOne(d => d.Application).WithMany(p => p.RelInstitutionApplications)
+                .HasForeignKey(d => d.ApplicationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_relInstApp_Applications");
+
+            entity.HasOne(d => d.Contact).WithMany(p => p.RelInstitutionApplications)
+                .HasForeignKey(d => d.ContactId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_relInstApp_Contacts");
+
+            entity.HasOne(d => d.Discipline).WithMany(p => p.RelInstitutionApplications)
+                .HasForeignKey(d => d.DisciplineId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_relInstApp_Disciplines");
+        });
+
+        modelBuilder.Entity<RelInstitutionApplicationSubject>(entity =>
+        {
+            entity.HasKey(e => e.InstitutionApplicationSubjectId);
+
+            entity.ToTable("relInstitutionApplicationSubjects");
+
+            entity.Property(e => e.InstitutionApplicationSubjectId).HasColumnName("InstitutionApplicationSubjectID");
+            entity.Property(e => e.InstitutionApplicationId).HasColumnName("InstitutionApplicationID");
+            entity.Property(e => e.SubjectId).HasColumnName("SubjectID");
+
+            entity.HasOne(d => d.InstitutionApplication).WithMany(p => p.RelInstitutionApplicationSubjects)
+                .HasForeignKey(d => d.InstitutionApplicationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_relInstAppSubj_relInstApp");
+
+            entity.HasOne(d => d.Subject).WithMany(p => p.RelInstitutionApplicationSubjects)
+                .HasForeignKey(d => d.SubjectId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_relInstAppSubj_Subjects");
         });
 
         modelBuilder.Entity<Student>(entity =>
         {
-            entity.HasKey(e => e.StudentId).HasName("PK__Students__32C52A797CDB10E3");
+            entity.HasIndex(e => e.UserId, "UQ_Students_UserID").IsUnique();
 
             entity.Property(e => e.StudentId).HasColumnName("StudentID");
-            entity.Property(e => e.CurrentAddress).HasMaxLength(500);
-            entity.Property(e => e.FirstName).HasMaxLength(100);
-            entity.Property(e => e.Gender).HasMaxLength(10);
-            entity.Property(e => e.LastName).HasMaxLength(100);
+            entity.Property(e => e.Address).HasMaxLength(300);
+            entity.Property(e => e.FirstName).HasMaxLength(50);
+            entity.Property(e => e.Gender).HasMaxLength(20);
+            entity.Property(e => e.LastName).HasMaxLength(50);
             entity.Property(e => e.Nationality).HasMaxLength(100);
-            entity.Property(e => e.PermanentAddress).HasMaxLength(500);
-            entity.Property(e => e.PhoneNumber).HasMaxLength(20);
+            entity.Property(e => e.PhoneNumber).HasMaxLength(50);
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Students)
-                .HasForeignKey(d => d.UserId)
+            entity.Ignore(e => e.GenderEnum);
+
+            entity.HasOne(d => d.User).WithOne(p => p.Student)
+                .HasForeignKey<Student>(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Students_Users");
-        });
-
-        modelBuilder.Entity<StudyForInstitution>(entity =>
-        {
-            entity.HasKey(e => e.StudyForInstitutionId).HasName("PK__StudyFor__3CF55E82E1D56A95");
-
-            entity.Property(e => e.StudyForInstitutionId).HasColumnName("StudyForInstitutionID");
-            entity.Property(e => e.ApplicationId).HasColumnName("ApplicationID");
-            entity.Property(e => e.InstitutionId).HasColumnName("InstitutionID");
-
-            entity.HasOne(d => d.Application).WithMany(p => p.StudyForInstitutions)
-                .HasForeignKey(d => d.ApplicationId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_StudyForInstitutions_Applications");
-
-            entity.HasOne(d => d.Institution).WithMany(p => p.StudyForInstitutions)
-                .HasForeignKey(d => d.InstitutionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_StudyForInstitutions_Institutions");
         });
 
         modelBuilder.Entity<Subject>(entity =>
         {
-            entity.HasKey(e => e.SubjectId).HasName("PK__Subjects__AC1BA388CD005AA4");
-
             entity.Property(e => e.SubjectId).HasColumnName("SubjectID");
+            entity.Property(e => e.Code).HasMaxLength(50);
             entity.Property(e => e.InstitutionFacultyId).HasColumnName("InstitutionFacultyID");
-            entity.Property(e => e.Name).HasMaxLength(255);
+            entity.Property(e => e.Name).HasMaxLength(200);
 
             entity.HasOne(d => d.InstitutionFaculty).WithMany(p => p.Subjects)
                 .HasForeignKey(d => d.InstitutionFacultyId)
-                .HasConstraintName("FK_Subjects_InstitutionFaculties");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Subjects_Faculties");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCAC2DEAA197");
+            entity.HasIndex(e => e.Email, "UQ_Users_Email").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.Email).HasMaxLength(255);
@@ -199,16 +266,15 @@ public partial class UEMSContext : DbContext
 
         modelBuilder.Entity<WorkExperience>(entity =>
         {
-            entity.HasKey(e => e.WorkExperienceId).HasName("PK__WorkExpe__55A2B8A9C125D1F8");
-
             entity.Property(e => e.WorkExperienceId).HasColumnName("WorkExperienceID");
             entity.Property(e => e.ApplicationId).HasColumnName("ApplicationID");
             entity.Property(e => e.Country).HasMaxLength(100);
             entity.Property(e => e.ExperienceType).HasMaxLength(100);
-            entity.Property(e => e.Organisation).HasMaxLength(255);
+            entity.Property(e => e.Organisation).HasMaxLength(200);
 
             entity.HasOne(d => d.Application).WithMany(p => p.WorkExperiences)
                 .HasForeignKey(d => d.ApplicationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_WorkExperiences_Applications");
         });
 

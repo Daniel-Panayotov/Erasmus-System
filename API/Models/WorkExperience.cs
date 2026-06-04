@@ -1,8 +1,7 @@
-﻿using API.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace API;
+namespace API.Models;
 
 public partial class WorkExperience
 {

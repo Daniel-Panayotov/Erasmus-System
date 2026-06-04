@@ -24,7 +24,7 @@
 
 /* form layout */
 
-.apply-form {
+.profile-form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
