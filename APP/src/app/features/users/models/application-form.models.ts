@@ -1,4 +1,6 @@
 export interface ApplicationFormModel {
+  photo: File | null;
+
   mobilityType: string;
 
   studyFrom: Date | null;

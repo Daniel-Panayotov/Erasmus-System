@@ -74,7 +74,7 @@ export class ProfileForm {
     {
       submission: {
         action: async (detail) => {
-          if (this.profileForm().invalid()) return;
+          if (detail().invalid()) return;
         },
       },
     },

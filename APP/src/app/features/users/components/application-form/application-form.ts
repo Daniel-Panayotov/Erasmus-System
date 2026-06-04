@@ -12,6 +12,8 @@ import { ApplicationPatterns } from '../../../../shared/utils/patterns';
 export class ApplicationForm {
   constructor() {}
   formModel = signal<ApplicationFormModel>({
+    photo: null,
+
     mobilityType: '',
 
     studyFrom: null,
@@ -33,6 +35,8 @@ export class ApplicationForm {
   applicationForm = form(
     this.formModel,
     (schemaPath) => {
+      required(schemaPath.photo, { message: 'Photo is required.' });
+
       required(schemaPath.mobilityType, { message: 'Mobility type is required.' });
       pattern(schemaPath.mobilityType, ApplicationPatterns.mobilityType, {
         message: 'Invalid Mobility type.',
@@ -58,7 +62,15 @@ export class ApplicationForm {
       required(schemaPath.priorStudyAbroad, { message: '' });
     },
     {
-      submission: { action: async (detail) => {} },
+      submission: {
+        action: async (detail) => {
+          if (detail().invalid()) return;
+        },
+      },
     },
   );
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+  }
 }
