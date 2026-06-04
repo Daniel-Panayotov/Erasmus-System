@@ -1,28 +1,18 @@
 export interface ApplicationFormModel {
-  mobilityType: MobilityType;
+  mobilityType: string;
 
-  studyFrom: Date;
-  studyTo: Date;
+  studyFrom: Date | null;
+  studyTo: Date | null;
 
   accommodation: boolean;
   accommodationFrom: Date | null;
   accommodationTo: Date | null;
 
   bulgarianCourse: boolean;
-  motivationText: string | null;
+  motivationText: string;
 
-  degree: Degree;
+  degree: string;
 
   priorStudyAbroad: boolean;
   priorStudyDurationMonths: number | null;
-}
-
-export enum Degree {
-  Bachelor,
-  Master,
-}
-
-export enum MobilityType {
-  study,
-  traineeship,
 }

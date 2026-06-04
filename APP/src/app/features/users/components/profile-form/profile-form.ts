@@ -38,7 +38,7 @@ export class ProfileForm {
       maxLength(schemaPath.firstname, 20, {
         message: 'First name has a maximum length of 20 characters.',
       });
-      pattern(schemaPath.firstname, Patterns.textMedium, {
+      pattern(schemaPath.firstname, Patterns.textShort, {
         message: 'First name should only contain normal characters.',
       });
 
@@ -49,7 +49,7 @@ export class ProfileForm {
       maxLength(schemaPath.lastname, 20, {
         message: 'Last name has a maximum length of 20 characters.',
       });
-      pattern(schemaPath.lastname, Patterns.textMedium, {
+      pattern(schemaPath.lastname, Patterns.textShort, {
         message: 'Last name should only contain normal characters.',
       });
 
@@ -59,7 +59,7 @@ export class ProfileForm {
       pattern(schemaPath.gender, Patterns.gender, { message: 'Invalid gender.' });
 
       required(schemaPath.nationality, { message: 'Nationality is required.' });
-      pattern(schemaPath.nationality, Patterns.textMedium, {
+      pattern(schemaPath.nationality, Patterns.textShort, {
         message: 'Nationality should only contain normal characters.',
       });
 

@@ -1,1 +1,148 @@
-<p>application-form works!</p>
+<div class="main-container">
+  <h1 class="form-title">Application Form</h1>
+  <form [formRoot]="applicationForm">
+    <div class="form-controls">
+      <!-- Image -->
+      <div class="control-container">
+        <label for="file">Choose personal image *</label>
+        <input type="file" formControlName="file" accept="image/jpeg image/png" id="file" />
+      </div>
+      <!-- Mobility -->
+      <div class="control-container">
+        <fieldset>
+          <legend>Mobility Type *</legend>
+          <div class="radio-group">
+            <input
+              type="radio"
+              id="type1"
+              value="Study"
+              [formField]="applicationForm.mobilityType"
+            />
+            <label for="type1">Study</label>
+          </div>
+          <div class="radio-group">
+            <input
+              type="radio"
+              id="type2"
+              value="Traineeship"
+              [formField]="applicationForm.mobilityType"
+            />
+            <label for="type2">Traineeship</label>
+          </div>
+        </fieldset>
+      </div>
+      <!-- Academic Year -->
+      <div class="control-container">
+        <p>Academic Year *</p>
+        <div class="control-container-inner">
+          <label for="studyFrom">From</label>
+          <input type="date" id="studyFrom" [formField]="applicationForm.studyFrom" />
+          <label for="studyTo">To</label>
+          <input type="date" id="studyTo" [formField]="applicationForm.studyTo" />
+        </div>
+      </div>
+      <!-- Level of studying degree  -->
+      <div class="control-container">
+        <fieldset>
+          <legend>Degree for which you are studying *</legend>
+          <div class="radio-group">
+            <input
+              type="radio"
+              id="studyDegree1"
+              value="Bachelor"
+              [formField]="applicationForm.degree"
+            />
+            <label for="studyDegree1">Bachelor</label>
+          </div>
+          <div class="radio-group">
+            <input
+              type="radio"
+              id="studyDegree2"
+              value="Master"
+              [formField]="applicationForm.degree"
+            />
+            <label for="studyDegree2">Master</label>
+          </div>
+        </fieldset>
+      </div>
+      <!-- Wishes for accommodation? -->
+      <div class="control-container">
+        <div class="control-container-inner">
+          <label for="accommodation">Do you wish for accommodation in the university? *</label>
+          <input type="checkbox" id="accommodation" [formField]="applicationForm.accommodation" />
+        </div>
+      </div>
+      <!-- Period for accommodation  -->
+      @if (applicationForm.accommodation().controlValue()) {
+        <div class="control-container">
+          <p>Period of accommodation at the university</p>
+          <div class="control-container-inner">
+            <label for="accommodationFrom">From</label>
+            <input
+              type="date"
+              id="accommodationFrom"
+              [formField]="applicationForm.accommodationFrom"
+            />
+            <label for="accommodationTo">To</label>
+            <input type="date" id="accommodationTo" [formField]="applicationForm.accommodationTo" />
+          </div>
+        </div>
+      }
+      <!-- Has studied for erasmus before -->
+      <div class="control-container">
+        <div class="control-container-inner">
+          <label for="priorStudyAbroad"
+            >Have you studied by Erasmus during your current degree?*</label
+          >
+          <input
+            type="checkbox"
+            id="priorStudyAbroad"
+            [formField]="applicationForm.priorStudyAbroad"
+          />
+        </div>
+      </div>
+      <!-- Number of months having studied for -->
+      @if (applicationForm.priorStudyAbroad().controlValue()) {
+        <div class="control-container">
+          <label for="priorStudyDurationMonths"
+            >How many months have you studied during your current degree? *</label
+          >
+          <input
+            type="number"
+            id="priorStudyDurationMonths"
+            placeholder="4"
+            [formField]="applicationForm.priorStudyDurationMonths"
+          />
+        </div>
+      }
+      <!-- Attend bulgarian language course? -->
+      <div class="control-container">
+        <div class="control-container-inner">
+          <label for="bulgarianCourse"
+            >Do you wish to attend Bulgarian language course(60 h)?*</label
+          >
+          <input
+            type="checkbox"
+            id="bulgarianCourse"
+            [formField]="applicationForm.bulgarianCourse"
+          />
+        </div>
+      </div>
+      <!-- Motivation text -->
+      <div class="control-container">
+        <label for="motivationText"
+          >Briefly state the reasons why you wish to study abroad. *</label
+        >
+        <textarea
+          id="motivationText"
+          placeholder="I want to learn about different cultures."
+          [formField]="applicationForm.motivationText"
+        ></textarea>
+      </div>
+    </div>
+
+    <button class="bg-green button" type="submit" [disabled]="applicationForm().invalid()">
+      Submit
+    </button>
+  </form>
+</div>

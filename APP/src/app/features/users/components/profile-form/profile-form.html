@@ -1,6 +1,6 @@
 <div class="main-container">
   <h1 class="form-title">Profile Form</h1>
-  <form [formRoot]="profileForm" class="profile-form">
+  <form [formRoot]="profileForm">
     <div class="form-controls">
       <!-- First name -->
       <div class="control-container">
@@ -27,11 +27,11 @@
         <fieldset>
           <legend>Gender *</legend>
           <div class="radio-group">
-            <input type="radio" id="gender1" value="male" [formField]="profileForm.gender" />
+            <input type="radio" id="gender1" value="Male" [formField]="profileForm.gender" />
             <label for="gender1">Male</label>
           </div>
           <div class="radio-group">
-            <input type="radio" id="gender2" value="female" [formField]="profileForm.gender" />
+            <input type="radio" id="gender2" value="Female" [formField]="profileForm.gender" />
             <label for="gender2">Female</label>
           </div>
         </fieldset>
