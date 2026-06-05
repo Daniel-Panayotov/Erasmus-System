@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   form,
   FormField,
@@ -10,6 +10,7 @@ import {
 } from '@angular/forms/signals';
 import { ProfileFormModel } from '../../models/profile-form.models';
 import { Patterns } from '../../../../shared/utils/patterns';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile-form',

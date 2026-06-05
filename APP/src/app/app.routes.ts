@@ -11,7 +11,12 @@ export const routes: Routes = [
   { path: 'home', component: Home, title: 'Home page' },
   { path: 'login', component: LoginForm, title: 'Sign in' },
   { path: 'register', component: RegisterForm, title: 'Register' },
-  { path: 'apply', component: ApplicationForm, title: 'Erasmus apply' },
-  { path: 'profile', component: ProfileForm, title: 'Erasmus apply' },
+  {
+    path: 'users',
+    children: [
+      { path: 'apply', component: ApplicationForm, title: 'Application form' },
+      { path: 'profile', component: ProfileForm, title: 'Profile form' },
+    ],
+  },
   { path: '**', component: NotFound, title: 'Not found' },
 ];

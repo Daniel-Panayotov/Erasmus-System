@@ -1,5 +1,13 @@
 import { Component, signal } from '@angular/core';
-import { form, FormField, FormRoot, maxLength, pattern, required } from '@angular/forms/signals';
+import {
+  disabled,
+  form,
+  FormField,
+  FormRoot,
+  maxLength,
+  pattern,
+  required,
+} from '@angular/forms/signals';
 import { ApplicationFormModel } from '../../models/application-form.models';
 import { ApplicationPatterns } from '../../../../shared/utils/patterns';
 
@@ -10,7 +18,6 @@ import { ApplicationPatterns } from '../../../../shared/utils/patterns';
   styleUrl: './application-form.css',
 })
 export class ApplicationForm {
-  constructor() {}
   formModel = signal<ApplicationFormModel>({
     photo: null,
 
@@ -50,6 +57,14 @@ export class ApplicationForm {
 
       required(schemaPath.accommodation, { message: 'Accommodation choice is required.' });
 
+      disabled(
+        schemaPath.accommodationFrom,
+        ({ valueOf }) => valueOf(schemaPath.accommodation) == false,
+      );
+      disabled(
+        schemaPath.accommodationTo,
+        ({ valueOf }) => valueOf(schemaPath.accommodation) == false,
+      );
       required(schemaPath.bulgarianCourse, { message: 'Bulgarian course choice is required.' });
 
       maxLength(schemaPath.motivationText, 500, {
@@ -59,7 +74,11 @@ export class ApplicationForm {
         message: 'Invalid characters used.',
       });
 
-      required(schemaPath.priorStudyAbroad, { message: '' });
+      required(schemaPath.priorStudyAbroad, { message: 'Prior study abroad choice is required.' });
+      disabled(
+        schemaPath.priorStudyDurationMonths,
+        ({ valueOf }) => valueOf(schemaPath.priorStudyAbroad) == false,
+      );
     },
     {
       submission: {
@@ -72,5 +91,9 @@ export class ApplicationForm {
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
+
+    const file = input.files?.[0] ?? null;
+
+    this.applicationForm.photo().value.set(file);
   }
 }
