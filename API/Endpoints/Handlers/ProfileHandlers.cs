@@ -4,7 +4,7 @@ public class ProfileHandlers
 {
     public static async Task<IResult> UpdateHandler()
     {
-        return null;
+        return Results.Ok();
     }
 
 }

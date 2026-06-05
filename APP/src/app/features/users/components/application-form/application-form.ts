@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   disabled,
   form,
@@ -10,6 +10,7 @@ import {
 } from '@angular/forms/signals';
 import { ApplicationFormModel } from '../../models/application-form.models';
 import { ApplicationPatterns } from '../../../../shared/utils/patterns';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-application-form',

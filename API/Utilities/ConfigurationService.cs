@@ -1,7 +1,27 @@
-﻿namespace API.Utilities;
+﻿using API.DTOs;
+using Microsoft.EntityFrameworkCore;
+
+namespace API.Utilities;
 
 public class ConfigurationService
 {
-    public static void SetupConfiguration(WebApplicationBuilder builder) { }
+    public static void SetupConfiguration(WebApplicationBuilder builder) 
+    {
+        builder.Configuration
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
+        builder.Services.Configure<AppSettingsConfig>(builder.Configuration);
+
+        builder.Services.AddDbContext<UEMSContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+        builder.Services.AddCors(options => options.AddDefaultPolicy(policy => {
+            var origins = builder.Configuration.GetSection("CORS:Origins").Get<string[]>();
+            policy.WithOrigins(origins)
+                .WithHeaders("Content-Type", "Authorization")
+                .AllowAnyMethod()
+                .AllowCredentials();
+        }));
+    }
     public static void SetupServices(WebApplicationBuilder builder) { }
 }

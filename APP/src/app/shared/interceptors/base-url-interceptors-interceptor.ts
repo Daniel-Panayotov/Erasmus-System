@@ -5,5 +5,9 @@ import { BASE_URL } from '../../app.config';
 export const baseUrlInterceptorsInterceptor: HttpInterceptorFn = (req, next) => {
   const baseUrl = inject(BASE_URL);
 
-  return next(req.clone({ url: `${baseUrl}/${req.url}` }));
+  return next(
+    req.clone({
+      url: `${baseUrl}/${req.url}`,
+    }),
+  );
 };
