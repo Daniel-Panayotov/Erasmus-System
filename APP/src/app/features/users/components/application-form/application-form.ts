@@ -57,14 +57,12 @@ export class ApplicationForm {
 
       required(schemaPath.accommodation, { message: 'Accommodation choice is required.' });
 
-      disabled(
-        schemaPath.accommodationFrom,
-        ({ valueOf }) => valueOf(schemaPath.accommodation) == false,
-      );
-      disabled(
-        schemaPath.accommodationTo,
-        ({ valueOf }) => valueOf(schemaPath.accommodation) == false,
-      );
+      disabled(schemaPath.accommodationFrom, {
+        when: ({ valueOf }) => valueOf(schemaPath.accommodation) == false,
+      });
+      disabled(schemaPath.accommodationTo, {
+        when: ({ valueOf }) => valueOf(schemaPath.accommodation) == false,
+      });
       required(schemaPath.bulgarianCourse, { message: 'Bulgarian course choice is required.' });
 
       maxLength(schemaPath.motivationText, 500, {
@@ -75,10 +73,9 @@ export class ApplicationForm {
       });
 
       required(schemaPath.priorStudyAbroad, { message: 'Prior study abroad choice is required.' });
-      disabled(
-        schemaPath.priorStudyDurationMonths,
-        ({ valueOf }) => valueOf(schemaPath.priorStudyAbroad) == false,
-      );
+      disabled(schemaPath.priorStudyDurationMonths, {
+        when: ({ valueOf }) => valueOf(schemaPath.priorStudyAbroad) == false,
+      });
     },
     {
       submission: {
