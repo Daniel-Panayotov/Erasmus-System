@@ -13,6 +13,7 @@ import { Patterns } from '../../../../shared/utils/patterns';
 import { HttpClient } from '@angular/common/http';
 import { STUDENT_FORM_STATE } from '../../student.form.state.token';
 import { Router } from '@angular/router';
+import { StudentApiService } from '../../services/student.api.service';
 
 @Component({
   selector: 'app-student-form',
@@ -21,62 +22,62 @@ import { Router } from '@angular/router';
   styleUrl: './student.form.css',
 })
 export class StudentForm {
-  private http = inject(HttpClient);
-  private router = inject(Router);
+  private studentApi = inject(StudentApiService);
   private formState = inject(STUDENT_FORM_STATE);
+  private router = inject(Router);
 
   formModel = signal<StudentFormModel>({
-    firstname: '',
-    lastname: '',
-    birthday: null,
-    gender: '',
-    nationality: '',
-    address: '',
-    phone: '',
+    FirstName: '',
+    LastName: '',
+    BirthDate: null,
+    Gender: '',
+    Nationality: '',
+    Address: '',
+    PhoneNumber: '',
   });
 
   studentForm = form(
     this.formModel,
     (schemaPath) => {
-      required(schemaPath.firstname, { message: 'First name is required.' });
-      minLength(schemaPath.firstname, 3, {
+      required(schemaPath.FirstName, { message: 'First name is required.' });
+      minLength(schemaPath.FirstName, 3, {
         message: 'First name has a minimum length of 3 characters.',
       });
-      maxLength(schemaPath.firstname, 20, {
+      maxLength(schemaPath.FirstName, 20, {
         message: 'First name has a maximum length of 20 characters.',
       });
-      pattern(schemaPath.firstname, Patterns.textShort, {
+      pattern(schemaPath.FirstName, Patterns.textShort, {
         message: 'First name should only contain normal characters.',
       });
 
-      required(schemaPath.lastname, { message: 'Last name is required.' });
-      minLength(schemaPath.lastname, 3, {
+      required(schemaPath.LastName, { message: 'Last name is required.' });
+      minLength(schemaPath.LastName, 3, {
         message: 'Last name has a minimum length of 3 characters.',
       });
-      maxLength(schemaPath.lastname, 20, {
+      maxLength(schemaPath.LastName, 20, {
         message: 'Last name has a maximum length of 20 characters.',
       });
-      pattern(schemaPath.lastname, Patterns.textShort, {
+      pattern(schemaPath.LastName, Patterns.textShort, {
         message: 'Last name should only contain normal characters.',
       });
 
-      required(schemaPath.birthday, { message: 'Birthday is required.' });
+      required(schemaPath.BirthDate, { message: 'Birthday is required.' });
 
-      required(schemaPath.gender, { message: 'Gender is required.' });
-      pattern(schemaPath.gender, Patterns.gender, { message: 'Invalid gender.' });
+      required(schemaPath.Gender, { message: 'Gender is required.' });
+      pattern(schemaPath.Gender, Patterns.gender, { message: 'Invalid gender.' });
 
-      required(schemaPath.nationality, { message: 'Nationality is required.' });
-      pattern(schemaPath.nationality, Patterns.textShort, {
+      required(schemaPath.Nationality, { message: 'Nationality is required.' });
+      pattern(schemaPath.Nationality, Patterns.textShort, {
         message: 'Nationality should only contain normal characters.',
       });
 
-      required(schemaPath.address, { message: 'Address is required.' });
-      pattern(schemaPath.address, Patterns.address, {
+      required(schemaPath.Address, { message: 'Address is required.' });
+      pattern(schemaPath.Address, Patterns.address, {
         message: 'Current Address is invalid.',
       });
 
-      required(schemaPath.phone, { message: 'Phone number is required.' });
-      pattern(schemaPath.phone, Patterns.phoneNumber, { message: 'Invalid phone number.' });
+      required(schemaPath.PhoneNumber, { message: 'Phone number is required.' });
+      pattern(schemaPath.PhoneNumber, Patterns.phoneNumber, { message: 'Invalid phone number.' });
     },
     {
       submission: {
@@ -88,6 +89,8 @@ export class StudentForm {
   );
 
   ngOnInit() {
-    // this.formModel.
+    if (!this.formState.isUpdate) return;
+
+    this.studentApi.GetStudent(1).subscribe((s) => console.log(s));
   }
 }

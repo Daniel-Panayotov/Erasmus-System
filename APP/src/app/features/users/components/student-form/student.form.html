@@ -9,29 +9,29 @@
           type="text"
           id="first-name"
           placeholder="Peter"
-          [formField]="studentForm.firstname"
+          [formField]="studentForm.FirstName"
         />
       </div>
       <!-- Last name -->
       <div class="control-container">
         <label for="last-name">Last Name *</label>
-        <input type="text" id="last-name" placeholder="Ivanov" [formField]="studentForm.lastname" />
+        <input type="text" id="last-name" placeholder="Ivanov" [formField]="studentForm.LastName" />
       </div>
       <!-- Birth date -->
       <div class="control-container">
         <label for="birth-date">Birth date *</label>
-        <input type="date" id="birth-date" [formField]="studentForm.birthday" />
+        <input type="date" id="birth-date" [formField]="studentForm.BirthDate" />
       </div>
       <!-- Gender radio -->
       <div class="control-container">
         <fieldset>
           <legend>Gender *</legend>
           <div class="radio-group">
-            <input type="radio" id="gender1" value="Male" [formField]="studentForm.gender" />
+            <input type="radio" id="gender1" value="Male" [formField]="studentForm.Gender" />
             <label for="gender1">Male</label>
           </div>
           <div class="radio-group">
-            <input type="radio" id="gender2" value="Female" [formField]="studentForm.gender" />
+            <input type="radio" id="gender2" value="Female" [formField]="studentForm.Gender" />
             <label for="gender2">Female</label>
           </div>
         </fieldset>
@@ -43,7 +43,7 @@
           type="text"
           id="nationality"
           placeholder="Bulgaria"
-          [formField]="studentForm.nationality"
+          [formField]="studentForm.Nationality"
         />
       </div>
       <!-- Address -->
@@ -53,13 +53,18 @@
           type="text"
           id="address"
           placeholder="Ruse, cherry street, 12"
-          [formField]="studentForm.address"
+          [formField]="studentForm.Address"
         />
       </div>
       <!-- Phone Number -->
       <div class="control-container">
         <label for="phone">Phone Number *</label>
-        <input type="text" id="phone" placeholder="+892361569" [formField]="studentForm.phone" />
+        <input
+          type="text"
+          id="phone"
+          placeholder="+892361569"
+          [formField]="studentForm.PhoneNumber"
+        />
       </div>
     </div>
 

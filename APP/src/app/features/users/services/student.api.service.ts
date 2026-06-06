@@ -1,18 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
-import { Router } from '@angular/router';
+import { Student } from '../models/student.form.models';
 
 @Service()
 export class StudentApiService {
   private http = inject(HttpClient);
-  private router = inject(Router);
 
   public GetStudent(studentID: number) {
-    const url: string = this.router
-      .createUrlTree(['students', 'get'], { queryParams: { studentID: studentID } })
-      .toString();
+    const url = `students/get?studentID=${studentID}`;
 
-    return this.http.get(url);
+    return this.http.get<Student>(url);
   }
 
   x(body: any) {
