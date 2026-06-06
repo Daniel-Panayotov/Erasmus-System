@@ -4,19 +4,19 @@ namespace API.Endpoints.Handlers;
 
 public class AuthenticationHandlers
 {
-    public static async Task<IResult> LoginHandler()
+    public static async Task<IResult> Login()
     {
 
         return Results.Ok();
     }
 
-    public static async Task<IResult> RegisterHandler()
+    public static async Task<IResult> Register()
     {
 
         return Results.Ok();
     }
 
-    public static async Task<IResult> RefreshHandler()
+    public static async Task<IResult> Refresh()
     {
         
         return Results.Ok();
