@@ -1,22 +1,28 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { userModel } from '../models/userModel';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private http = inject(HttpClient)
+  private http = inject(HttpClient);
 
+  private _authState = signal<userModel | null>(null);
 
-  public async login() {
-  }
-  
-  public async register() {
-    
-  }
-  
+  public async login() {}
+
+  public async register() {}
+
   public async refresh() {
-    this.http.get("", {})
-    
+    this.http.get('', {});
+  }
+
+  get authState() {
+    return this._authState.asReadonly();
+  }
+
+  get isAuthenticated() {
+    return computed(() => !!this.authState);
   }
 }
