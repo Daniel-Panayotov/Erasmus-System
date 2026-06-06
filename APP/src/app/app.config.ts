@@ -6,8 +6,8 @@ import {
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { baseUrlInterceptorsInterceptor } from './shared/interceptors/base-url-interceptors-interceptor';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { baseUrlInterceptorsInterceptor } from './core/interceptors/base-url-interceptors-interceptor';
 import { environment } from '../environments/environment';
 
 export const BASE_URL = new InjectionToken<string>('BaseUrl');
@@ -17,6 +17,6 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     { provide: BASE_URL, useValue: environment.apiUrl },
-    provideHttpClient(withFetch(), withInterceptors([baseUrlInterceptorsInterceptor])),
+    provideHttpClient(withInterceptors([baseUrlInterceptorsInterceptor])),
   ],
 };
