@@ -1,4 +1,4 @@
-export interface ProfileFormModel {
+export interface StudentFormModel {
   firstname: string;
   lastname: string;
   birthday: Date | null;

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import {
   disabled,
   form,
@@ -8,15 +8,14 @@ import {
   pattern,
   required,
 } from '@angular/forms/signals';
-import { ApplicationFormModel } from '../../models/application-form.models';
+import { ApplicationFormModel } from '../../models/application.form.models';
 import { ApplicationPatterns } from '../../../../shared/utils/patterns';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-application-form',
   imports: [FormRoot, FormField],
-  templateUrl: './application-form.html',
-  styleUrl: './application-form.css',
+  templateUrl: './application.form.html',
+  styleUrl: './application.form.css',
 })
 export class ApplicationForm {
   formModel = signal<ApplicationFormModel>({

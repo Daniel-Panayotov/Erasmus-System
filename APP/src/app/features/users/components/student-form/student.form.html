@@ -1,6 +1,6 @@
 <div class="main-container">
-  <h1 class="form-title">Profile Form</h1>
-  <form [formRoot]="profileForm">
+  <h1 class="form-title">Student Form</h1>
+  <form [formRoot]="studentForm">
     <div class="form-controls">
       <!-- First name -->
       <div class="control-container">
@@ -9,29 +9,29 @@
           type="text"
           id="first-name"
           placeholder="Peter"
-          [formField]="profileForm.firstname"
+          [formField]="studentForm.firstname"
         />
       </div>
       <!-- Last name -->
       <div class="control-container">
         <label for="last-name">Last Name *</label>
-        <input type="text" id="last-name" placeholder="Ivanov" [formField]="profileForm.lastname" />
+        <input type="text" id="last-name" placeholder="Ivanov" [formField]="studentForm.lastname" />
       </div>
       <!-- Birth date -->
       <div class="control-container">
         <label for="birth-date">Birth date *</label>
-        <input type="date" id="birth-date" [formField]="profileForm.birthday" />
+        <input type="date" id="birth-date" [formField]="studentForm.birthday" />
       </div>
       <!-- Gender radio -->
       <div class="control-container">
         <fieldset>
           <legend>Gender *</legend>
           <div class="radio-group">
-            <input type="radio" id="gender1" value="Male" [formField]="profileForm.gender" />
+            <input type="radio" id="gender1" value="Male" [formField]="studentForm.gender" />
             <label for="gender1">Male</label>
           </div>
           <div class="radio-group">
-            <input type="radio" id="gender2" value="Female" [formField]="profileForm.gender" />
+            <input type="radio" id="gender2" value="Female" [formField]="studentForm.gender" />
             <label for="gender2">Female</label>
           </div>
         </fieldset>
@@ -43,7 +43,7 @@
           type="text"
           id="nationality"
           placeholder="Bulgaria"
-          [formField]="profileForm.nationality"
+          [formField]="studentForm.nationality"
         />
       </div>
       <!-- Address -->
@@ -53,17 +53,17 @@
           type="text"
           id="address"
           placeholder="Ruse, cherry street, 12"
-          [formField]="profileForm.address"
+          [formField]="studentForm.address"
         />
       </div>
       <!-- Phone Number -->
       <div class="control-container">
         <label for="phone">Phone Number *</label>
-        <input type="text" id="phone" placeholder="+892361569" [formField]="profileForm.phone" />
+        <input type="text" id="phone" placeholder="+892361569" [formField]="studentForm.phone" />
       </div>
     </div>
 
-    <button class="bg-green button" type="submit" [disabled]="profileForm().invalid()">
+    <button class="bg-green button" type="submit" [disabled]="studentForm().invalid()">
       Submit
     </button>
   </form>

@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '../../core/guards/auth-guard-guard';
-import { ApplicationForm } from '../users/components/application-form/application-form';
-import { PROFILE_FORM_STATE, PROFILE_FORM_STATE_MODEL } from '../users/profile-form.state.token';
-import { ProfileForm } from '../users/components/profile-form/profile-form';
+import { ApplicationForm } from './components/application-form/application.form';
+import { STUDENT_FORM_STATE, STUDENT_FORM_STATE_MODEL } from './student.form.state.token';
+import { StudentForm } from './components/student-form/student.form';
 
 export const USERS_ROUTES: Routes = [
   {
@@ -15,23 +15,23 @@ export const USERS_ROUTES: Routes = [
         children: [
           {
             path: 'update',
-            component: ProfileForm,
+            component: StudentForm,
             title: 'Profile form',
             providers: [
               {
-                provide: PROFILE_FORM_STATE,
-                useValue: { isUpdate: true } as PROFILE_FORM_STATE_MODEL,
+                provide: STUDENT_FORM_STATE,
+                useValue: { isUpdate: true } as STUDENT_FORM_STATE_MODEL,
               },
             ],
           },
           {
             path: 'create',
-            component: ProfileForm,
+            component: StudentForm,
             title: 'Profile form',
             providers: [
               {
-                provide: PROFILE_FORM_STATE,
-                useValue: { isUpdate: false } as PROFILE_FORM_STATE_MODEL,
+                provide: STUDENT_FORM_STATE,
+                useValue: { isUpdate: false } as STUDENT_FORM_STATE_MODEL,
               },
             ],
           },

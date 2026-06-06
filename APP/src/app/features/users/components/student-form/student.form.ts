@@ -8,26 +8,24 @@ import {
   pattern,
   required,
 } from '@angular/forms/signals';
-import { ProfileFormModel } from '../../models/profile-form.models';
+import { StudentFormModel } from '../../models/student.form.models';
 import { Patterns } from '../../../../shared/utils/patterns';
 import { HttpClient } from '@angular/common/http';
-import { PROFILE_FORM_STATE } from '../../profile-form.state.token';
+import { STUDENT_FORM_STATE } from '../../student.form.state.token';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-profile-form',
+  selector: 'app-student-form',
   imports: [FormRoot, FormField],
-  templateUrl: './profile-form.html',
-  styleUrl: './profile-form.css',
+  templateUrl: './student.form.html',
+  styleUrl: './student.form.css',
 })
-export class ProfileForm {
+export class StudentForm {
   private http = inject(HttpClient);
   private router = inject(Router);
-  private formState = inject(PROFILE_FORM_STATE);
+  private formState = inject(STUDENT_FORM_STATE);
 
-  ngOnInit() {}
-
-  formModel = signal<ProfileFormModel>({
+  formModel = signal<StudentFormModel>({
     firstname: '',
     lastname: '',
     birthday: null,
@@ -37,7 +35,7 @@ export class ProfileForm {
     phone: '',
   });
 
-  profileForm = form(
+  studentForm = form(
     this.formModel,
     (schemaPath) => {
       required(schemaPath.firstname, { message: 'First name is required.' });
@@ -88,4 +86,8 @@ export class ProfileForm {
       },
     },
   );
+
+  ngOnInit() {
+    // this.formModel.
+  }
 }
