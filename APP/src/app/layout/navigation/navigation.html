@@ -1,20 +1,20 @@
 <nav class="navbar">
   <a class="nav-logo" routerLink="/">
-    <div class="nav-logo-mark"><!-- logo svg --></div>
+    <div class="nav-logo-mark"><h1>Home</h1></div>
   </a>
 
   <div class="nav-links">
-    <a class="nav-link" routerLink="/home">Home</a>
-    <a class="nav-link" routerLink="/features">Features</a>
-    <a class="nav-link" routerLink="/docs">Docs</a>
+    <a class="nav-link" routerLink="/users/profile/update">Profile update</a>
+    <a class="nav-link" routerLink="/users/profile/create">Profile create</a>
+    <a class="nav-link" routerLink="/users/apply">Apply</a>
   </div>
 
   <div class="nav-right">
     @if (true) {
-      <a class="nav-btn-ghost" routerLink="/login">Login</a>
-      <a class="nav-btn-ghost" routerLink="/register">Register</a>
+      <a class="nav-btn-ghost" routerLink="/auth/login">Login</a>
+      <a class="nav-btn-ghost" routerLink="/auth/register">Register</a>
     } @else {
-      <a class="nav-btn-ghost" routerLink="/apply">Apply</a>
+      <a class="nav-btn-ghost" routerLink="/users/apply">Apply</a>
     }
   </div>
 </nav>

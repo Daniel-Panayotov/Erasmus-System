@@ -11,6 +11,8 @@ import {
 import { ProfileFormModel } from '../../models/profile-form.models';
 import { Patterns } from '../../../../shared/utils/patterns';
 import { HttpClient } from '@angular/common/http';
+import { PROFILE_FORM_STATE } from '../../profile-form.state.token';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-form',
@@ -19,6 +21,12 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './profile-form.css',
 })
 export class ProfileForm {
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private formState = inject(PROFILE_FORM_STATE);
+
+  ngOnInit() {}
+
   formModel = signal<ProfileFormModel>({
     firstname: '',
     lastname: '',

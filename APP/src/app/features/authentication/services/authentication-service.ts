@@ -14,15 +14,13 @@ export class AuthenticationService {
 
   public async register() {}
 
-  public async refresh() {
-    this.http.get('', {});
-  }
+  public async refresh() {}
 
   get authState() {
     return this._authState.asReadonly();
   }
 
   get isAuthenticated() {
-    return computed(() => !!this.authState);
+    return computed(() => !!this._authState());
   }
 }
