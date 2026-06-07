@@ -1,5 +1,6 @@
 ﻿using API.DTOs;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace API.Utilities;
 
@@ -23,5 +24,16 @@ public class ConfigurationService
                 .AllowCredentials();
         }));
     }
-    public static void SetupServices(WebApplicationBuilder builder) { }
+    public static void SetupServices(WebApplicationBuilder builder) 
+    {
+        builder.Services.ConfigureHttpJsonOptions(options =>
+        {
+            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
+
+        builder.Services.ConfigureHttpJsonOptions(options =>
+        {
+            options.SerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+        });
+    }
 }
