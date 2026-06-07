@@ -1,10 +1,21 @@
-﻿using API.Models;
+﻿using API.Interfaces;
+using API.Models;
 
 namespace API.DTOs;
 
-public record StudentBaseDTO : DTO
+public interface IStudentDTO
 {
-    public int StudentID { get; init; }
+    public string FirstName { get; }
+    public string LastName { get; }
+    public Gender Gender { get; }
+    public DateOnly BirthDate { get; }
+    public string Nationality { get; }
+    public string Address { get; }
+    public string PhoneNumber { get; }
+}
+
+public record StudentDataDTO : IStudentDTO
+{
     public string FirstName { get; init; }
     public string LastName { get; init; }
     public Gender Gender { get; init; }
@@ -12,6 +23,30 @@ public record StudentBaseDTO : DTO
     public string Nationality { get; init; }
     public string Address { get; init; }
     public string PhoneNumber { get; init; }
+
+    public StudentDataDTO(
+        string firstname,
+        string lastname,
+        Gender gender,
+        DateOnly birthDate,
+        string nationality,
+        string address,
+        string phonenumber
+    )
+    {
+        FirstName = firstname;
+        LastName = lastname;
+        Gender = gender;
+        BirthDate = birthDate;
+        Nationality = nationality;
+        Address = address;
+        PhoneNumber = phonenumber;
+    }
+}
+
+public record StudentBaseDTO : StudentDataDTO, IDTO
+{
+    public int StudentID { get; init; }
 
     public StudentBaseDTO(
         int studentID, 
@@ -21,20 +56,17 @@ public record StudentBaseDTO : DTO
         DateOnly birthDate, 
         string nationality, 
         string address, 
-        string phonenumber
-    ) 
-    { 
-        StudentID = studentID;
-        FirstName = firstname;
-        LastName = lastname;
-        Gender = gender;
-        BirthDate = birthDate;
-        Nationality = nationality;
-        Address = address;
-        PhoneNumber = phonenumber;
-    }
+        string phonenumber) : base(
+            firstname,
+            lastname,
+            gender,
+            birthDate,
+            nationality,
+            address,
+            phonenumber)
+    { StudentID = studentID; }
 
-    public override int GetID() => StudentID;
+    public int GetID() => StudentID;
 }
 
 public record StudentDTO : StudentBaseDTO

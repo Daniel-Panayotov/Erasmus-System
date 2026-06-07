@@ -8,12 +8,11 @@ import {
   pattern,
   required,
 } from '@angular/forms/signals';
-import { StudentFormModel } from '../../models/student.form.models';
+import { StudentBase, StudentData, StudentFormModel } from '../../models/student.form.models';
 import { Patterns } from '../../../../shared/utils/patterns';
-import { HttpClient } from '@angular/common/http';
-import { STUDENT_FORM_STATE } from '../../student.form.state.token';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StudentApiService } from '../../services/student.api.service';
+import { catchError, EMPTY } from 'rxjs';
 
 @Component({
   selector: 'app-student-form',
@@ -23,8 +22,10 @@ import { StudentApiService } from '../../services/student.api.service';
 })
 export class StudentForm {
   private studentApi = inject(StudentApiService);
-  private formState = inject(STUDENT_FORM_STATE);
+  private route = inject(ActivatedRoute);
   private router = inject(Router);
+
+  studentID = this.route.snapshot.params['ID'] ?? null;
 
   formModel = signal<StudentFormModel>({
     FirstName: '',
@@ -83,14 +84,50 @@ export class StudentForm {
       submission: {
         action: async (detail) => {
           if (detail().invalid()) return;
+
+          const formData = detail().value() as StudentData;
+
+          let subscription;
+
+          if (this.studentID)
+            subscription = this.studentApi.UpdateStudent(this.studentID, formData);
+          else subscription = this.studentApi.CreateStudent(formData);
+
+          // TODO: Finish form submission
+          subscription.subscribe((r) => console.log(r));
         },
       },
     },
   );
 
   ngOnInit() {
-    if (!this.formState.isUpdate) return;
+    if (!this.studentID) return;
 
-    this.studentApi.GetStudent(1).subscribe((s) => console.log(s));
+    this.studentApi
+      .GetStudent(this.studentID)
+      .pipe(
+        catchError((err) => {
+          this.router.navigateByUrl('');
+          return EMPTY;
+        }),
+      )
+      .subscribe((s) => {
+        const student = s.body as StudentBase;
+
+        const studentdata: StudentFormModel = { ...student };
+        // TODO: Check form updating
+        console.log(studentdata);
+      });
+  }
+
+  onPhoneInput(event: InputEvent) {
+    const target: any = event.target;
+
+    // removes white spaces from the input value
+    const cleaned = target.value.replace(/\s+/g, '');
+
+    // updates the input and form field with the cleaned value
+    target.value = cleaned;
+    this.studentForm.PhoneNumber().controlValue.set(cleaned);
   }
 }

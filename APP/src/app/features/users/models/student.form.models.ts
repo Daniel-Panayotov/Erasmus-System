@@ -1,5 +1,4 @@
-export interface Student {
-  StudentID: number;
+export interface StudentData {
   FirstName: string;
   LastName: string;
   Gender: string;
@@ -9,6 +8,10 @@ export interface Student {
   PhoneNumber: string;
 }
 
-export type StudentFormModel = Omit<Student, 'StudentID' | 'BirthDate'> & {
+export interface StudentBase extends StudentData {
+  StudentID: number;
+}
+
+export type StudentFormModel = Omit<StudentBase, 'StudentID' | 'BirthDate'> & {
   BirthDate: Date | null;
 };

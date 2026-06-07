@@ -7,6 +7,7 @@ public static class StudentEndpoints
     public static void MapStudentEndpoints(RouteGroupBuilder group)
     {
         group.MapGet("/get", StudentHandlers.Get);
+        group.MapPost("/create", StudentHandlers.Create);
         group.MapPost("/update", StudentHandlers.Update);
     }
 }

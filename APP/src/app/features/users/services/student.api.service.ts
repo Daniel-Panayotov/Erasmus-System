@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
-import { Student } from '../models/student.form.models';
+import { StudentBase, StudentData } from '../models/student.form.models';
 
 @Service()
 export class StudentApiService {
@@ -9,10 +9,18 @@ export class StudentApiService {
   public GetStudent(studentID: number) {
     const url = `students/get?studentID=${studentID}`;
 
-    return this.http.get<Student>(url);
+    return this.http.get<StudentBase>(url, { observe: 'response' });
   }
 
-  x(body: any) {
-    return this.http.post('', body);
+  public CreateStudent(body: StudentData) {
+    const url = `students/create`;
+
+    return this.http.post(url, body, { observe: 'response' });
+  }
+
+  public UpdateStudent(studentID: number, body: StudentData) {
+    const url = `students/update?studentID=${studentID}`;
+
+    return this.http.post(url, body, { observe: 'response' });
   }
 }

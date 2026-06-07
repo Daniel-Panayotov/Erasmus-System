@@ -64,11 +64,12 @@
           id="phone"
           placeholder="+892361569"
           [formField]="studentForm.PhoneNumber"
+          (input)="onPhoneInput($event)"
         />
       </div>
     </div>
 
-    <button class="bg-green button" type="submit" [disabled]="studentForm().invalid()">
+    <button class="bg-green-500 button" type="submit" [disabled]="studentForm().invalid()">
       Submit
     </button>
   </form>
