@@ -1,4 +1,5 @@
 ﻿using API.DTOs;
+using API.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -35,5 +36,9 @@ public class ConfigurationService
         {
             options.SerializerOptions.Converters.Add(new DateOnlyJsonConverter());
         });
+
+        builder.Services.AddHostedService<CleanupService>();
+
+        builder.Services.AddSingleton<IConfigStore, ConfigStoreService>();
     }
 }
