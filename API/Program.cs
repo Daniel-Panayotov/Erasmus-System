@@ -3,8 +3,8 @@ using API.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
-ConfigurationService.SetupConfiguration(builder);
-ConfigurationService.SetupServices(builder);
+ConfigurationUtils.SetupConfiguration(builder);
+ConfigurationUtils.SetupServices(builder);
 
 var app = builder.Build();
 

@@ -1,6 +1,4 @@
-﻿using API.Interfaces;
-
-namespace API.DTOs;
+﻿namespace API.DTOs;
 
 public interface IUserDTO
 {

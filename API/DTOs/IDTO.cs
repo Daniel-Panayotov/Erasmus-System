@@ -1,4 +1,4 @@
-﻿namespace API.Interfaces;
+﻿namespace API.DTOs;
 
 public interface IDTO
 {

@@ -16,7 +16,7 @@ public sealed class ConfigStoreService : IConfigStore
 {
     private AppSettingsConfig _appSettings;
     public JWTConfig JwtConfig => _appSettings.JWT;
-    public string ApplicationUrl => _appSettings.ApplicationUrl;
+    public string ApplicationUrl => _appSettings.Urls.ApplicationUrl;
 
     public ConfigStoreService(IOptionsMonitor<AppSettingsConfig> appsettingsMonitor)
     {
