@@ -9,8 +9,6 @@ public partial class UEMSContext : DbContext
 
     public UEMSContext(DbContextOptions<UEMSContext> options) : base(options) { }
 
-    public virtual DbSet<Admin> Admins { get; set; }
-
     public virtual DbSet<Application> Applications { get; set; }
 
     public virtual DbSet<ApplicationDocument> ApplicationDocuments { get; set; }
@@ -20,6 +18,8 @@ public partial class UEMSContext : DbContext
     public virtual DbSet<Discipline> Disciplines { get; set; }
 
     public virtual DbSet<Faculty> Faculties { get; set; }
+
+    public virtual DbSet<HashedRefreshToken> HashedRefreshTokens { get; set; }
 
     public virtual DbSet<Institution> Institutions { get; set; }
 
@@ -41,12 +41,6 @@ public partial class UEMSContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Admin>(entity =>
-        {
-            entity.Property(e => e.AdminId).HasColumnName("AdminID");
-            entity.Property(e => e.Password).HasMaxLength(255);
-        });
-
         modelBuilder.Entity<Application>(entity =>
         {
             entity.Property(e => e.ApplicationId).HasColumnName("ApplicationID");
@@ -55,8 +49,8 @@ public partial class UEMSContext : DbContext
             entity.Property(e => e.MotivationText).HasMaxLength(500);
             entity.Property(e => e.StudentId).HasColumnName("StudentID");
 
-            entity.Ignore(e => e.DegreeEnum);
             entity.Ignore(e => e.MobilityTypeEnum);
+            entity.Ignore(e => e.DegreeEnum);
 
             entity.HasOne(d => d.ReceivingInstitutionNavigation).WithMany(p => p.ApplicationReceivingInstitutionNavigations)
                 .HasForeignKey(d => d.ReceivingInstitution)
@@ -128,6 +122,19 @@ public partial class UEMSContext : DbContext
                 .HasForeignKey(d => d.InstitutionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Faculties_Institutions");
+        });
+
+        modelBuilder.Entity<HashedRefreshToken>(entity =>
+        {
+            entity.Property(e => e.HashedRefreshTokenId).HasColumnName("HashedRefreshTokenID");
+            entity.Property(e => e.ExpiresAt).HasColumnType("datetime");
+            entity.Property(e => e.HashedToken).HasMaxLength(255);
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.User).WithMany(p => p.HashedRefreshTokens)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_HashedRefreshTokens_Users");
         });
 
         modelBuilder.Entity<Institution>(entity =>
