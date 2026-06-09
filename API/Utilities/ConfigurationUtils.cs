@@ -50,7 +50,5 @@ public class ConfigurationUtils
         builder.Services.AddSingleton<ICryptographicService, CryptographicService>();
 
         builder.Services.AddSingleton<JWTService>();
-
-
     }
 }
