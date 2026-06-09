@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterLink } from "@angular/router";
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { AuthenticationService } from '../../features/authentication/services/authentication-service';
 
 @Component({
   selector: 'app-navigation',
@@ -8,4 +9,15 @@ import { RouterLink } from "@angular/router";
   styleUrl: './navigation.css',
 })
 export class Navigation {
+  private auth = inject(AuthenticationService);
+  private router = inject(Router);
+
+  public async logout() {
+    this.auth.logout().subscribe();
+    await this.router.navigateByUrl('/');
+  }
+
+  get authenticated() {
+    return this.auth.authenticated;
+  }
 }

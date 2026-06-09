@@ -70,13 +70,14 @@ public class JWTService(IConfigStore configStore, ICryptographicService crypto, 
         return signedToken;
     }
 
-    public async Task<bool> ValidateRefreshTokenAgainstHash(string userID, string token)
+    public async Task<bool> ValidateRefreshTokenAgainstHash(int userID, string token)
     {
         using var scope = _provider.CreateScope();
         var ctx = scope.ServiceProvider.GetRequiredService<UEMSContext>();
 
-        var query = ctx.HashedRefreshTokens.Where(t => t.UserId.Equals(userID));
-        if (await query.AnyAsync() == false) return false;
+        var query = ctx.HashedRefreshTokens.Where(t => t.UserId == userID);
+
+        if (!await query.AnyAsync()) return false;
 
         var tokenEntries = await query.ToListAsync();
 

@@ -1,7 +1,8 @@
-.submit-btn {
-  background-color: green;
+.error {
+  color: red;
+  font-weight: 500;
 }
 
-.submit-btn:disabled {
+.button:disabled {
   background-color: red;
 }

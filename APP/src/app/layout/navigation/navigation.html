@@ -10,11 +10,11 @@
   </div>
 
   <div class="nav-right">
-    @if (true) {
+    @if (!authenticated()) {
       <a class="nav-btn-ghost" routerLink="/auth/login">Login</a>
       <a class="nav-btn-ghost" routerLink="/auth/register">Register</a>
     } @else {
-      <a class="nav-btn-ghost" routerLink="/users/apply">Apply</a>
+      <button class="cursor-pointer" (click)="logout()">Logout</button>
     }
   </div>
 </nav>

@@ -9,18 +9,18 @@ export class StudentApiService {
   public GetStudent(studentID: number) {
     const url = `students/get?studentID=${studentID}`;
 
-    return this.http.get<StudentBase>(url, { observe: 'response' });
+    return this.http.get<StudentBase>(url, { observe: 'response', credentials: 'include' });
   }
 
   public CreateStudent(body: StudentData) {
     const url = `students/create`;
 
-    return this.http.post(url, body, { observe: 'response' });
+    return this.http.post(url, body, { observe: 'response', credentials: 'include' });
   }
 
   public UpdateStudent(studentID: number, body: StudentData) {
     const url = `students/update?studentID=${studentID}`;
 
-    return this.http.post(url, body, { observe: 'response' });
+    return this.http.post(url, body, { observe: 'response', credentials: 'include' });
   }
 }

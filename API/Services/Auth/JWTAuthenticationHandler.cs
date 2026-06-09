@@ -47,16 +47,20 @@ public class JWTAuthenticationHandler(
                 ValidateIssuer = true,
                 ValidIssuer = _configStore.ApplicationUrl,
                 ValidateAudience = true,
-                ValidAudience = jwtType.TokenType == TokenType.Access ? jwtConfig.AccessTokenKey : jwtConfig.RefreshTokenKey,
+                ValidAudience = jwtType.TokenType == TokenType.Access ? jwtConfig.AudienceAccess : jwtConfig.AudienceRefresh,
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var principal = tokenHandler.ValidateToken(token, parameters, out var validatedToken);
 
-            string authID = principal.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            bool isTokenValid = await jwtService.ValidateRefreshTokenAgainstHash(authID, token);
+            if (jwtType.TokenType == TokenType.Refresh)
+            {
+                string userIdentifier = principal.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+                if (!Int32.TryParse(userIdentifier, out var userID)) return AuthenticateResult.Fail("Invalid identity.");
 
-            if (!isTokenValid) return AuthenticateResult.Fail("Invalid token.");
+                bool isRefreshTokenValid = await jwtService.ValidateRefreshTokenAgainstHash(userID, token);
+                if (!isRefreshTokenValid) return AuthenticateResult.Fail("Invalid token.");
+            }
 
             var ticket = new AuthenticationTicket(principal, Scheme.Name);
             return AuthenticateResult.Success(ticket);

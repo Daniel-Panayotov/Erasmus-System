@@ -9,7 +9,7 @@ public static class AuthenticationEndpoints
     {
         group.MapPost("/login", AuthenticationHandlers.Login).RequireAuthorization(AuthorizationPolicies.No_Token);
         group.MapPost("/register", AuthenticationHandlers.Register).RequireAuthorization(AuthorizationPolicies.No_Token);
-        group.MapPost("/logout", AuthenticationHandlers.Logout).RequireAuthorization(AuthorizationPolicies.IDC_Token);
+        group.MapPost("/logout", AuthenticationHandlers.Logout).RequireAuthorization(AuthorizationPolicies.Yes_Token).WithMetadata(new JWTTypeAttribute(TokenType.Refresh));
         group.MapPost("/refresh", AuthenticationHandlers.Refresh).RequireAuthorization(AuthorizationPolicies.Yes_Token).WithMetadata(new JWTTypeAttribute(TokenType.Refresh));
     }
 }

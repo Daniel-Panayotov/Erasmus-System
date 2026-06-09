@@ -12,8 +12,8 @@ public class AuthenticationHandlers
 {
     public static async Task<IResult> Login(
         [FromBody] UserDataDTO userDTO, 
-        [FromServices] HttpContext http, [FromServices] UEMSContext ctx, [FromServices] JWTService jwtService, 
-        [FromServices] CryptographicService crypto, [FromServices] IConfigStore config)
+        HttpContext http, [FromServices] UEMSContext ctx, [FromServices] JWTService jwtService, 
+        [FromServices] ICryptographicService crypto, [FromServices] IConfigStore config)
     {
         var query = ctx.Users.Where(u => u.Email.CompareTo(userDTO.Email) == 0)
                              .Select(UserExpressions.Base);
@@ -23,9 +23,22 @@ public class AuthenticationHandlers
         var user = await query.FirstAsync();
 
         string passHash = crypto.ComputeHash(userDTO.Password);
-        if (user.Password.CompareTo(passHash) != 0) return Results.BadRequest("Invalid password.");
+        if (!user.Password.Equals(passHash)) return Results.BadRequest("Invalid password.");
 
         string token = jwtService.GenerateRefreshToken(user.UserID.ToString());
+
+        string tokenHash = crypto.ComputeHash(token);
+
+        HashedRefreshToken hashedToken = new HashedRefreshToken { UserId = user.UserID, HashedToken = tokenHash, ExpiresAt = DateTime.Now.AddDays(config.JwtConfig.RefreshTokenExpireDays) };
+        ctx.HashedRefreshTokens.Add(hashedToken);
+
+        try {
+            var entries = await ctx.SaveChangesAsync();
+            if (entries == 0) return Results.BadRequest("Couldn't login.");
+        } 
+        catch (DbUpdateException) {
+            return Results.BadRequest("Database update failed.");
+        }
 
         var jwtConfig = config.JwtConfig;
         http.Response.Cookies.Append(jwtConfig.RefreshTokenKey, token, new CookieOptions
@@ -42,8 +55,8 @@ public class AuthenticationHandlers
 
     public static async Task<IResult> Register(
         [FromBody] UserDataDTO userDTO,
-        [FromServices] HttpContext http, [FromServices] UEMSContext ctx, [FromServices] JWTService jwtService,
-        [FromServices] CryptographicService crypto, [FromServices] IConfigStore config)
+        HttpContext http, [FromServices] UEMSContext ctx, [FromServices] JWTService jwtService,
+        [FromServices] ICryptographicService crypto, [FromServices] IConfigStore config)
     {
         var query = ctx.Users.Where(u => u.Email.CompareTo(userDTO.Email) == 0);
 
@@ -53,8 +66,7 @@ public class AuthenticationHandlers
         User user = new User { Email = userDTO.Email, Password = passHash };
         ctx.Users.Add(user);
 
-        try
-        {
+        try {
             var entries = await ctx.SaveChangesAsync();
             if (entries == 0) return Results.BadRequest("Couldn't register.");
         }
@@ -65,6 +77,19 @@ public class AuthenticationHandlers
         var registeredUser = await query.FirstAsync();
 
         string token = jwtService.GenerateRefreshToken(registeredUser.UserId.ToString());
+        string tokenHash = crypto.ComputeHash(token);
+
+        HashedRefreshToken hashedToken = new HashedRefreshToken { User = registeredUser, HashedToken = token, ExpiresAt = DateTime.Now.AddDays(config.JwtConfig.RefreshTokenExpireDays) };
+        ctx.HashedRefreshTokens.Add(hashedToken);
+        try
+        {
+            var entries = await ctx.SaveChangesAsync();
+            if (entries == 0) return Results.BadRequest("Couldn't register.");
+        }
+        catch (DbUpdateException)
+        {
+            return Results.BadRequest("Database update failed.");
+        }
 
         var jwtConfig = config.JwtConfig;
         http.Response.Cookies.Append(jwtConfig.RefreshTokenKey, token, new CookieOptions
@@ -89,6 +114,10 @@ public class AuthenticationHandlers
         var query = ctx.Users.Where(u => u.UserId == userID);
         if (!await query.AnyAsync()) return Results.BadRequest("User could not be found.");
 
+        var user = await query.FirstAsync();
+
+        var userToken = new UserToken(user.UserId, user.Email);
+
         string token = jwtService.GenerateAccessToken(userIdentifier, []);
 
         var jwtConfig = config.JwtConfig;
@@ -101,14 +130,21 @@ public class AuthenticationHandlers
             Path = "/",
         });
 
-        // TODO: Return info DTO
-        return Results.Ok();
+        return Results.Ok(userToken);
     }
 
-    public static async Task<IResult> Logout(HttpContext http, IConfigStore config)
+    public static async Task<IResult> Logout(HttpContext http, UEMSContext ctx, IConfigStore config)
     {
+        string? userIdentifier = http.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+        if (userIdentifier == null) return Results.BadRequest("Missing user identity.");
+        if (!Int32.TryParse(userIdentifier, out var userID)) return Results.BadRequest("Invalid user identity.");
+
+        await ctx.HashedRefreshTokens.Where(t => t.UserId == userID).ExecuteDeleteAsync();
+
         http.Response.Cookies.Delete(config.JwtConfig.RefreshTokenKey);
         http.Response.Cookies.Delete(config.JwtConfig.AccessTokenKey);
+
         return Results.Ok();
     }
 }

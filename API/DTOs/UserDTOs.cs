@@ -29,3 +29,15 @@ public record UserBaseDTO : UserDataDTO, IDTO
 
     public int GetID() => UserID;
 }
+
+public record UserToken
+{
+    public int UserID { get; init; }
+    public string Email { get; init; }
+
+    public UserToken (int userID, string email)
+    {
+        UserID = userID;
+        Email = email;
+    }
+}
