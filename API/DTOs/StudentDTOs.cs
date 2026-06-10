@@ -17,8 +17,8 @@ public record StudentDataDTO : IStudentDTO
 {
     public string FirstName { get; init; }
     public string LastName { get; init; }
-    public Gender Gender { get; init; }
     public DateOnly BirthDate { get; init; }
+    public Gender Gender { get; init; }
     public string Nationality { get; init; }
     public string Address { get; init; }
     public string PhoneNumber { get; init; }
@@ -26,8 +26,8 @@ public record StudentDataDTO : IStudentDTO
     public StudentDataDTO(
         string firstname,
         string lastname,
-        Gender gender,
         DateOnly birthdate,
+        Gender gender,
         string nationality,
         string address,
         string phonenumber
@@ -35,8 +35,8 @@ public record StudentDataDTO : IStudentDTO
     {
         FirstName = firstname;
         LastName = lastname;
-        Gender = gender;
         BirthDate = birthdate;
+        Gender = gender;
         Nationality = nationality;
         Address = address;
         PhoneNumber = phonenumber;
@@ -51,15 +51,15 @@ public record StudentBaseDTO : StudentDataDTO, IDTO
         int studentID, 
         string firstname, 
         string lastname,
-        Gender gender, 
         DateOnly birthdate, 
+        Gender gender, 
         string nationality, 
         string address, 
         string phonenumber) : base(
             firstname,
             lastname,
-            gender,
             birthdate,
+            gender,
             nationality,
             address,
             phonenumber)
@@ -78,8 +78,8 @@ public record StudentDTO : StudentBaseDTO
         int studentID,
         string firstname,
         string lastname,
+        DateOnly birthdate,
         Gender gender,
-        DateOnly birthDate,
         string nationality,
         string address,
         string phonenumber,
@@ -89,8 +89,8 @@ public record StudentDTO : StudentBaseDTO
             studentID, 
             firstname, 
             lastname, 
+            birthdate, 
             gender, 
-            birthDate, 
             nationality,        
             address,        
             phonenumber) 

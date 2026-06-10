@@ -11,8 +11,8 @@ public class StudentExpressions
             studentID: s.StudentId,
             firstname: s.FirstName,
             lastname: s.LastName,
-            gender: s.GenderEnum,
             birthdate: s.BirthDate,
+            gender: s.GenderEnum,
             nationality: s.Nationality,
             address: s.Address,
             phonenumber: s.PhoneNumber

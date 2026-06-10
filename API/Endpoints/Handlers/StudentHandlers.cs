@@ -52,9 +52,25 @@ public class StudentHandlers
         return Results.Ok();
     }
 
-    public static async Task<IResult> Update()
+    public static async Task<IResult> Update(int studentID, StudentDataDTO data, UEMSContext ctx)
     {
+        var query = ctx.Students.Where(s => s.StudentId == studentID);
+
+        if (!await query.AnyAsync()) return Results.BadRequest("Student could not be found.");
+
+        var student = await query.FirstAsync();
+
+        student.FirstName = data.FirstName;
+        student.LastName = data.LastName;
+        student.BirthDate = data.BirthDate;
+        student.Gender = data.Gender.ToString();
+        student.Nationality = data.Nationality;
+        student.Address = data.Address;
+        student.PhoneNumber = data.PhoneNumber;
+
+        int entries = await ctx.SaveChangesAsync();
+        if (entries == 0) return Results.BadRequest("Couldn't save changes.");
+
         return Results.Ok();
     }
-
 }
