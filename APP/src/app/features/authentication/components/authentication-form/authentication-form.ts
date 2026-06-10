@@ -27,8 +27,8 @@ export class AuthenticationForm {
   isLogin = input.required<boolean>();
 
   formModel = signal<UserData>({
-    Email: '',
-    Password: '',
+    email: '',
+    password: '',
   });
 
   // TODO: Add form input field identification for server error.
@@ -36,11 +36,11 @@ export class AuthenticationForm {
   authForm = form(
     this.formModel,
     (schemaPath) => {
-      (required(schemaPath.Email, { message: 'Email is required.' }),
-        email(schemaPath.Email, { message: 'Invalid email address.' }),
-        required(schemaPath.Password, { message: 'Password is required.' }),
-        minLength(schemaPath.Password, 10, { message: 'Minimum length is 10 characters.' }),
-        maxLength(schemaPath.Password, 255, { message: 'Maxium length is 255 characters.' }));
+      (required(schemaPath.email, { message: 'Email is required.' }),
+        email(schemaPath.email, { message: 'Invalid email address.' }),
+        required(schemaPath.password, { message: 'Password is required.' }),
+        minLength(schemaPath.password, 10, { message: 'Minimum length is 10 characters.' }),
+        maxLength(schemaPath.password, 255, { message: 'Maxium length is 255 characters.' }));
     },
     {
       submission: {

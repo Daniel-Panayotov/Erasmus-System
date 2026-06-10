@@ -1,17 +1,17 @@
 export interface StudentData {
-  FirstName: string;
-  LastName: string;
-  Gender: string;
-  BirthDate: Date;
-  Nationality: string;
-  Address: string;
-  PhoneNumber: string;
+  firstName: string;
+  lastName: string;
+  birthDate: Date;
+  gender: string;
+  nationality: string;
+  address: string;
+  phoneNumber: string;
 }
 
 export interface StudentBase extends StudentData {
-  StudentID: number;
+  studentID: number;
 }
 
-export type StudentFormModel = Omit<StudentBase, 'StudentID' | 'BirthDate'> & {
-  BirthDate: Date | null;
+export type StudentFormModel = Omit<StudentBase, 'studentID' | 'birthDate'> & {
+  birthDate: Date | null;
 };

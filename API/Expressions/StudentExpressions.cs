@@ -12,7 +12,7 @@ public class StudentExpressions
             firstname: s.FirstName,
             lastname: s.LastName,
             gender: s.GenderEnum,
-            birthDate: s.BirthDate,
+            birthdate: s.BirthDate,
             nationality: s.Nationality,
             address: s.Address,
             phonenumber: s.PhoneNumber

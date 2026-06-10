@@ -13,10 +13,10 @@
               id="email"
               class="border rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               placeholder="name@company.com"
-              [formField]="authForm.Email"
+              [formField]="authForm.email"
             />
-            @if (authForm.Email().touched() && authForm.Email().invalid()) {
-              <p class="error">{{ authForm.Email().errors()[0].message }}</p>
+            @if (authForm.email().touched() && authForm.email().invalid()) {
+              <p class="error">{{ authForm.email().errors()[0].message }}</p>
             }
           </div>
           <div>
@@ -26,11 +26,11 @@
               id="password"
               placeholder="••••••••"
               class="border rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-              [formField]="authForm.Password"
+              [formField]="authForm.password"
             />
-            @if (authForm.Password().touched() && authForm.Password().invalid()) {
+            @if (authForm.password().touched() && authForm.password().invalid()) {
               <p class="error text-fg-danger-strong">
-                {{ authForm.Password().errors()[0].message }}
+                {{ authForm.password().errors()[0].message }}
               </p>
             }
           </div>

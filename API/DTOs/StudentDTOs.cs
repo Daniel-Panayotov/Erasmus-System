@@ -27,7 +27,7 @@ public record StudentDataDTO : IStudentDTO
         string firstname,
         string lastname,
         Gender gender,
-        DateOnly birthDate,
+        DateOnly birthdate,
         string nationality,
         string address,
         string phonenumber
@@ -36,7 +36,7 @@ public record StudentDataDTO : IStudentDTO
         FirstName = firstname;
         LastName = lastname;
         Gender = gender;
-        BirthDate = birthDate;
+        BirthDate = birthdate;
         Nationality = nationality;
         Address = address;
         PhoneNumber = phonenumber;
@@ -52,14 +52,14 @@ public record StudentBaseDTO : StudentDataDTO, IDTO
         string firstname, 
         string lastname,
         Gender gender, 
-        DateOnly birthDate, 
+        DateOnly birthdate, 
         string nationality, 
         string address, 
         string phonenumber) : base(
             firstname,
             lastname,
             gender,
-            birthDate,
+            birthdate,
             nationality,
             address,
             phonenumber)

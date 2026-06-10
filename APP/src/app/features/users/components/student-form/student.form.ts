@@ -7,12 +7,14 @@ import {
   minLength,
   pattern,
   required,
+  TreeValidationResult,
 } from '@angular/forms/signals';
 import { StudentBase, StudentData, StudentFormModel } from '../../models/student.form.models';
 import { Patterns } from '../../../../shared/utils/patterns';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StudentApiService } from '../../services/student.api.service';
 import { catchError, EMPTY } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-student-form',
@@ -28,57 +30,59 @@ export class StudentForm {
   studentID = this.route.snapshot.params['ID'] ?? null;
 
   formModel = signal<StudentFormModel>({
-    FirstName: '',
-    LastName: '',
-    BirthDate: null,
-    Gender: '',
-    Nationality: '',
-    Address: '',
-    PhoneNumber: '',
+    firstName: '',
+    lastName: '',
+    gender: '',
+    birthDate: null,
+    nationality: '',
+    address: '',
+    phoneNumber: '',
   });
 
+  // TODO: Add form input field identification for server error.
+  // If a users password is wrong, then the field state must be manually set
   studentForm = form(
     this.formModel,
     (schemaPath) => {
-      required(schemaPath.FirstName, { message: 'First name is required.' });
-      minLength(schemaPath.FirstName, 3, {
+      required(schemaPath.firstName, { message: 'First name is required.' });
+      minLength(schemaPath.firstName, 3, {
         message: 'First name has a minimum length of 3 characters.',
       });
-      maxLength(schemaPath.FirstName, 20, {
+      maxLength(schemaPath.firstName, 20, {
         message: 'First name has a maximum length of 20 characters.',
       });
-      pattern(schemaPath.FirstName, Patterns.textShort, {
+      pattern(schemaPath.firstName, Patterns.textShort, {
         message: 'First name should only contain normal characters.',
       });
 
-      required(schemaPath.LastName, { message: 'Last name is required.' });
-      minLength(schemaPath.LastName, 3, {
+      required(schemaPath.lastName, { message: 'Last name is required.' });
+      minLength(schemaPath.lastName, 3, {
         message: 'Last name has a minimum length of 3 characters.',
       });
-      maxLength(schemaPath.LastName, 20, {
+      maxLength(schemaPath.lastName, 20, {
         message: 'Last name has a maximum length of 20 characters.',
       });
-      pattern(schemaPath.LastName, Patterns.textShort, {
+      pattern(schemaPath.lastName, Patterns.textShort, {
         message: 'Last name should only contain normal characters.',
       });
 
-      required(schemaPath.BirthDate, { message: 'Birthday is required.' });
+      required(schemaPath.birthDate, { message: 'Birthday is required.' });
 
-      required(schemaPath.Gender, { message: 'Gender is required.' });
-      pattern(schemaPath.Gender, Patterns.gender, { message: 'Invalid gender.' });
+      required(schemaPath.gender, { message: 'Gender is required.' });
+      pattern(schemaPath.gender, Patterns.gender, { message: 'Invalid gender.' });
 
-      required(schemaPath.Nationality, { message: 'Nationality is required.' });
-      pattern(schemaPath.Nationality, Patterns.textShort, {
+      required(schemaPath.nationality, { message: 'Nationality is required.' });
+      pattern(schemaPath.nationality, Patterns.textShort, {
         message: 'Nationality should only contain normal characters.',
       });
 
-      required(schemaPath.Address, { message: 'Address is required.' });
-      pattern(schemaPath.Address, Patterns.address, {
+      required(schemaPath.address, { message: 'Address is required.' });
+      pattern(schemaPath.address, Patterns.address, {
         message: 'Current Address is invalid.',
       });
 
-      required(schemaPath.PhoneNumber, { message: 'Phone number is required.' });
-      pattern(schemaPath.PhoneNumber, Patterns.phoneNumber, { message: 'Invalid phone number.' });
+      required(schemaPath.phoneNumber, { message: 'Phone number is required.' });
+      pattern(schemaPath.phoneNumber, Patterns.phoneNumber, { message: 'Invalid phone number.' });
     },
     {
       submission: {
@@ -87,14 +91,24 @@ export class StudentForm {
 
           const formData = detail().value() as StudentData;
 
-          let subscription;
+          let result: TreeValidationResult | null = null;
 
           if (this.studentID)
-            subscription = this.studentApi.UpdateStudent(this.studentID, formData);
-          else subscription = this.studentApi.CreateStudent(formData);
+            this.studentApi.UpdateStudent(this.studentID, formData).subscribe({
+              error(err: HttpErrorResponse) {
+                result = { kind: 'serverError', message: err.error };
+              },
+            });
+          else
+            this.studentApi.CreateStudent(formData).subscribe({
+              error(err: HttpErrorResponse) {
+                result = { kind: 'serverError', message: err.error };
+              },
+            });
 
-          // TODO: Finish form submission
-          subscription.subscribe((r) => console.log(r));
+          if (result != null) return result;
+
+          await this.router.navigateByUrl('/');
         },
       },
     },
@@ -115,8 +129,8 @@ export class StudentForm {
         const student = s.body as StudentBase;
 
         const studentdata: StudentFormModel = { ...student };
-        // TODO: Check form updating
-        console.log(studentdata);
+
+        this.studentForm().controlValue.set(studentdata);
       });
   }
 
@@ -128,6 +142,6 @@ export class StudentForm {
 
     // updates the input and form field with the cleaned value
     target.value = cleaned;
-    this.studentForm.PhoneNumber().controlValue.set(cleaned);
+    this.studentForm.phoneNumber().controlValue.set(cleaned);
   }
 }

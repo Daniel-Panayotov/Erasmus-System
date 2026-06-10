@@ -1,10 +1,10 @@
 export interface UserData {
-  Email: string;
-  Password: string;
+  email: string;
+  password: string;
 }
 
 export interface UserBase extends UserData {
-  UserID: string;
+  userID: string;
 }
 
-export type UserToken = Omit<UserBase, 'Password'>;
+export type UserToken = Omit<UserBase, 'password'>;

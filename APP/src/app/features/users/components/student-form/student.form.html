@@ -9,32 +9,44 @@
           type="text"
           id="first-name"
           placeholder="Peter"
-          [formField]="studentForm.FirstName"
+          [formField]="studentForm.firstName"
         />
+        @if (studentForm.firstName().touched() && studentForm.firstName().invalid()) {
+          <p class="error">{{ studentForm.firstName().errors()[0].message }}</p>
+        }
       </div>
       <!-- Last name -->
       <div class="control-container">
         <label for="last-name">Last Name *</label>
-        <input type="text" id="last-name" placeholder="Ivanov" [formField]="studentForm.LastName" />
+        <input type="text" id="last-name" placeholder="Ivanov" [formField]="studentForm.lastName" />
+        @if (studentForm.lastName().touched() && studentForm.lastName().invalid()) {
+          <p class="error">{{ studentForm.lastName().errors()[0].message }}</p>
+        }
       </div>
       <!-- Birth date -->
       <div class="control-container">
         <label for="birth-date">Birth date *</label>
-        <input type="date" id="birth-date" [formField]="studentForm.BirthDate" />
+        <input type="date" id="birth-date" [formField]="studentForm.birthDate" />
+        @if (studentForm.birthDate().touched() && studentForm.birthDate().invalid()) {
+          <p class="error">{{ studentForm.birthDate().errors()[0].message }}</p>
+        }
       </div>
       <!-- Gender radio -->
       <div class="control-container">
         <fieldset>
           <legend>Gender *</legend>
           <div class="radio-group">
-            <input type="radio" id="gender1" value="Male" [formField]="studentForm.Gender" />
+            <input type="radio" id="gender1" value="Male" [formField]="studentForm.gender" />
             <label for="gender1">Male</label>
           </div>
           <div class="radio-group">
-            <input type="radio" id="gender2" value="Female" [formField]="studentForm.Gender" />
+            <input type="radio" id="gender2" value="Female" [formField]="studentForm.gender" />
             <label for="gender2">Female</label>
           </div>
         </fieldset>
+        @if (studentForm.gender().touched() && studentForm.gender().invalid()) {
+          <p class="error">{{ studentForm.gender().errors()[0].message }}</p>
+        }
       </div>
       <!-- Nationality -->
       <div class="control-container">
@@ -43,8 +55,11 @@
           type="text"
           id="nationality"
           placeholder="Bulgaria"
-          [formField]="studentForm.Nationality"
+          [formField]="studentForm.nationality"
         />
+        @if (studentForm.nationality().touched() && studentForm.nationality().invalid()) {
+          <p class="error">{{ studentForm.nationality().errors()[0].message }}</p>
+        }
       </div>
       <!-- Address -->
       <div class="control-container">
@@ -53,8 +68,11 @@
           type="text"
           id="address"
           placeholder="Ruse, cherry street, 12"
-          [formField]="studentForm.Address"
+          [formField]="studentForm.address"
         />
+        @if (studentForm.address().touched() && studentForm.address().invalid()) {
+          <p class="error">{{ studentForm.address().errors()[0].message }}</p>
+        }
       </div>
       <!-- Phone Number -->
       <div class="control-container">
@@ -63,9 +81,12 @@
           type="text"
           id="phone"
           placeholder="+892361569"
-          [formField]="studentForm.PhoneNumber"
+          [formField]="studentForm.phoneNumber"
           (input)="onPhoneInput($event)"
         />
+        @if (studentForm.phoneNumber().touched() && studentForm.phoneNumber().invalid()) {
+          <p class="error">{{ studentForm.phoneNumber().errors()[0].message }}</p>
+        }
       </div>
     </div>
 
