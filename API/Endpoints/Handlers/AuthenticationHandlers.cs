@@ -114,9 +114,9 @@ public class AuthenticationHandlers
         var query = ctx.Users.Where(u => u.UserId == userID);
         if (!await query.AnyAsync()) return Results.BadRequest("User could not be found.");
 
-        var user = await query.FirstAsync();
+        var user = await query.Select(UserExpressions.DTO).FirstAsync();
 
-        var userToken = new UserToken(user.UserId, user.Email);
+        var userToken = new UserToken(user.UserID, user.Email, user.Student);
 
         string token = jwtService.GenerateAccessToken(userIdentifier, []);
 

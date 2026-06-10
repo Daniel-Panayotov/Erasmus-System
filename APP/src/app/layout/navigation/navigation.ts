@@ -20,4 +20,8 @@ export class Navigation {
   get authenticated() {
     return this.auth.authenticated;
   }
+
+  get studentID() {
+    return this.auth.state()?.student.studentID;
+  }
 }

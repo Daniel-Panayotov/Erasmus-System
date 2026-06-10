@@ -30,14 +30,26 @@ public record UserBaseDTO : UserDataDTO, IDTO
     public int GetID() => UserID;
 }
 
+public record UserDTO : UserBaseDTO
+{
+    public StudentBaseDTO Student { get; init; }
+
+    public UserDTO(int userID, string email, string password, StudentBaseDTO student) : base(userID, email, password)
+    {
+        Student = student;
+    }
+}
+
 public record UserToken
 {
     public int UserID { get; init; }
     public string Email { get; init; }
+    public StudentBaseDTO Student { get; init; } 
 
-    public UserToken (int userID, string email)
+    public UserToken (int userID, string email, StudentBaseDTO student)
     {
         UserID = userID;
         Email = email;
+        Student = student;
     }
 }

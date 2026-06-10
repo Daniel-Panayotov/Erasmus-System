@@ -3,11 +3,13 @@
     <div class="nav-logo-mark"><h1>Home</h1></div>
   </a>
 
-  <div class="nav-links">
-    <a class="nav-link" routerLink="/users/profile/update/1">Profile update</a>
-    <a class="nav-link" routerLink="/users/profile/create">Profile create</a>
-    <a class="nav-link" routerLink="/users/apply">Apply</a>
-  </div>
+  @if (authenticated()) {
+    <div class="nav-links">
+      <a class="nav-link" [routerLink]="'/users/profile/update/' + studentID">Profile update</a>
+      <a class="nav-link" routerLink="/users/profile/create">Profile create</a>
+      <a class="nav-link" routerLink="/users/apply">Apply</a>
+    </div>
+  }
 
   <div class="nav-right">
     @if (!authenticated()) {
