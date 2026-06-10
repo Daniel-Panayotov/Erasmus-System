@@ -35,7 +35,7 @@ public class JWTAuthenticationHandler(
             if (!Request.Cookies.TryGetValue(jwtType.TokenType == TokenType.Access ?
                 jwtConfig.AccessTokenKey :
                 jwtConfig.RefreshTokenKey,
-            out var token)) throw new Exception("Required cookie not included.");
+            out var token)) return AuthenticateResult.Fail("Required token was not included.");
 
             // setup validation parameters
             TokenValidationParameters parameters = new()

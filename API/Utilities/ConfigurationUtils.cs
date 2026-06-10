@@ -23,7 +23,7 @@ public class ConfigurationUtils
         builder.Services.AddCors(options => options.AddDefaultPolicy(policy => {
             var origins = builder.Configuration.GetSection("Urls:Origins").Get<string[]>();
             policy.WithOrigins(origins)
-                .WithHeaders("Content-Type", "Authorization")
+                .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
         }));

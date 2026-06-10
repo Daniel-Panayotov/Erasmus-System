@@ -79,7 +79,7 @@ public class AuthenticationHandlers
         string token = jwtService.GenerateRefreshToken(registeredUser.UserId.ToString());
         string tokenHash = crypto.ComputeHash(token);
 
-        HashedRefreshToken hashedToken = new HashedRefreshToken { User = registeredUser, HashedToken = token, ExpiresAt = DateTime.Now.AddDays(config.JwtConfig.RefreshTokenExpireDays) };
+        HashedRefreshToken hashedToken = new HashedRefreshToken { User = registeredUser, HashedToken = tokenHash, ExpiresAt = DateTime.Now.AddDays(config.JwtConfig.RefreshTokenExpireDays) };
         ctx.HashedRefreshTokens.Add(hashedToken);
         try
         {

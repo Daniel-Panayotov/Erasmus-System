@@ -2,6 +2,7 @@
 using API.Expressions;
 using API.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace API.Endpoints.Handlers;
 
@@ -19,10 +20,12 @@ public class StudentHandlers
         return Results.Ok(student);
     }
 
-    public static async Task<IResult> Create(StudentDataDTO data, UEMSContext ctx)
+    public static async Task<IResult> Create(StudentDataDTO data, HttpContext http, UEMSContext ctx)
     {
-        // TODO: Update this for an actual authenticated userID
-        int userID = 1;
+        string? userIdentifier = http.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+        if (userIdentifier == null) return Results.BadRequest("Missing user identity.");
+        if (!Int32.TryParse(userIdentifier, out var userID)) return Results.BadRequest("Invalid user identity.");
 
         Student student = new Student 
         {
