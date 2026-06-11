@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   disabled,
   form,
@@ -8,8 +8,10 @@ import {
   pattern,
   required,
 } from '@angular/forms/signals';
-import { ApplicationFormModel } from '../../models/application.form.models';
+import { ApplicationData, ApplicationFormModel } from '../../models/application.form.models';
 import { ApplicationPatterns } from '../../../../shared/utils/patterns';
+import { ApplicationAPI } from '../../services/application.api.service';
+import { AuthenticationService } from '../../../authentication/services/authentication-service';
 
 @Component({
   selector: 'app-application-form',
@@ -18,25 +20,22 @@ import { ApplicationPatterns } from '../../../../shared/utils/patterns';
   styleUrl: './application.form.css',
 })
 export class ApplicationForm {
+  private applicationAPI = inject(ApplicationAPI);
+  private auth = inject(AuthenticationService);
+
   formModel = signal<ApplicationFormModel>({
     photo: null,
-
     mobilityType: '',
-
     studyFrom: null,
     studyTo: null,
-
     accommodation: false,
     accommodationFrom: null,
     accommodationTo: null,
-
     bulgarianCourse: false,
     motivationText: '',
-
     degree: '',
-
     priorStudyAbroad: false,
-    priorStudyDurationMonths: null,
+    priorStudyDuration: null,
   });
 
   applicationForm = form(
@@ -55,15 +54,18 @@ export class ApplicationForm {
       required(schemaPath.studyFrom, { message: 'Study start is required' });
       required(schemaPath.studyTo, { message: 'Study end is required.' });
 
-      required(schemaPath.accommodation, { message: 'Accommodation choice is required.' });
-
       disabled(schemaPath.accommodationFrom, {
-        when: ({ valueOf }) => valueOf(schemaPath.accommodation) == false,
+        when: ({ valueOf }) => !valueOf(schemaPath.accommodation),
+      });
+      required(schemaPath.accommodationFrom, {
+        when: ({ valueOf }) => valueOf(schemaPath.accommodation),
       });
       disabled(schemaPath.accommodationTo, {
-        when: ({ valueOf }) => valueOf(schemaPath.accommodation) == false,
+        when: ({ valueOf }) => !valueOf(schemaPath.accommodation),
       });
-      required(schemaPath.bulgarianCourse, { message: 'Bulgarian course choice is required.' });
+      required(schemaPath.accommodationTo, {
+        when: ({ valueOf }) => valueOf(schemaPath.accommodation),
+      });
 
       maxLength(schemaPath.motivationText, 500, {
         message: 'Motivation text character limit of 500.',
@@ -72,15 +74,23 @@ export class ApplicationForm {
         message: 'Invalid characters used.',
       });
 
-      required(schemaPath.priorStudyAbroad, { message: 'Prior study abroad choice is required.' });
-      disabled(schemaPath.priorStudyDurationMonths, {
-        when: ({ valueOf }) => valueOf(schemaPath.priorStudyAbroad) == false,
+      disabled(schemaPath.priorStudyDuration, {
+        when: ({ valueOf }) => !valueOf(schemaPath.priorStudyAbroad),
+      });
+      required(schemaPath.priorStudyDuration, {
+        when: ({ valueOf }) => valueOf(schemaPath.priorStudyAbroad),
       });
     },
     {
       submission: {
         action: async (detail) => {
           if (detail().invalid()) return;
+
+          const data = detail().value() as ApplicationData;
+
+          console.log(data);
+
+          this.applicationAPI.CreateApplication(data).subscribe((x) => console.log(x));
         },
       },
     },

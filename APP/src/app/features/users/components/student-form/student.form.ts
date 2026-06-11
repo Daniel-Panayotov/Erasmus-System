@@ -12,7 +12,7 @@ import {
 import { StudentBase, StudentData, StudentFormModel } from '../../models/student.form.models';
 import { Patterns } from '../../../../shared/utils/patterns';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StudentApiService } from '../../services/student.api.service';
+import { StudentAPI } from '../../services/student.api.service';
 import { catchError, EMPTY } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -23,7 +23,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './student.form.css',
 })
 export class StudentForm {
-  private studentApi = inject(StudentApiService);
+  private studentApi = inject(StudentAPI);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 

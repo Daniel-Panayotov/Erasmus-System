@@ -6,5 +6,6 @@ public static class Endpoints
     {
         AuthenticationEndpoints.MapAuthenticationEndpoints(app.MapGroup("/auth"));
         StudentEndpoints.MapStudentEndpoints(app.MapGroup("/students"));
+        ApplicationEndpoints.MapApplicationEndpoints(app.MapGroup("/applications"));
     }
 }

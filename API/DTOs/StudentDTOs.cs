@@ -67,11 +67,11 @@ public record StudentBaseDTO : StudentDataDTO, IDTO
 
     public int GetID() => StudentID;
 }
-
+// TODO: Replace competency int with dtos
 public record StudentDTO : StudentBaseDTO
 {
-    public int User { get; init; }
-    public IEnumerable<int> Applications { get; init; }
+    public SafeUserDTO User { get; init; }
+    public IEnumerable<ApplicationBaseDTO> Applications { get; init; }
     public IEnumerable<int> LanguageCompetencies { get; init; }
 
     public StudentDTO(
@@ -83,8 +83,8 @@ public record StudentDTO : StudentBaseDTO
         string nationality,
         string address,
         string phonenumber,
-        int user,
-        IEnumerable<int> applications,
+        SafeUserDTO user,
+        IEnumerable<ApplicationBaseDTO> applications,
         IEnumerable<int> languageCompetencies) : base(
             studentID, 
             firstname, 

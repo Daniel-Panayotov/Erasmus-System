@@ -116,7 +116,7 @@
             type="number"
             id="priorStudyDurationMonths"
             placeholder="4"
-            [formField]="applicationForm.priorStudyDurationMonths"
+            [formField]="applicationForm.priorStudyDuration"
           />
         </div>
       }
@@ -146,7 +146,7 @@
       </div>
     </div>
 
-    <button class="bg-green button" type="submit" [disabled]="applicationForm().invalid()">
+    <button class="bg-green-500 button" type="submit" [disabled]="applicationForm().invalid()">
       Submit
     </button>
   </form>

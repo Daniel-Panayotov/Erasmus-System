@@ -3,7 +3,7 @@ import { inject, Service } from '@angular/core';
 import { StudentBase, StudentData } from '../models/student.form.models';
 
 @Service()
-export class StudentApiService {
+export class StudentAPI {
   private http = inject(HttpClient);
 
   public GetStudent(studentID: number) {

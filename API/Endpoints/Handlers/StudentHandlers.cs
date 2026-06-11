@@ -42,7 +42,6 @@ public class StudentHandlers
 
         try {
             var entries = await ctx.SaveChangesAsync();
-
             if (entries == 0) return Results.BadRequest("No changes were saved.");
         }
         catch (DbUpdateException) { 
