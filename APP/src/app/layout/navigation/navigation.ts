@@ -22,6 +22,6 @@ export class Navigation {
   }
 
   get studentID() {
-    return this.auth.state()?.student.studentID;
+    return this.auth.state()?.student?.studentID;
   }
 }

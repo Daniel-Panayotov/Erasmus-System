@@ -1,5 +1,6 @@
 ﻿using API.DTOs;
 using API.Models;
+using LinqKit;
 using System.Linq.Expressions;
 
 namespace API.Expressions;
@@ -13,11 +14,13 @@ public class UserExpressions
         s.Password
     );
 
-    public readonly static Expression<Func<User, UserDTO>> DTO =
+    private readonly static Expression<Func<User, UserDTO>> DTOne =
     s => new UserDTO(
         s.UserId,
         s.Email,
         s.Password,
-        new StudentBaseDTO(s.Student.StudentId, s.Student.FirstName, s.Student.LastName, s.Student.BirthDate, s.Student.GenderEnum, s.Student.Nationality, s.Student.Address, s.Student.PhoneNumber)
+        student: s.Student == null ? null : StudentExpressions.Base.Invoke(s.Student)
     );
+
+    public static readonly Expression<Func<User, UserDTO>> DTO = DTOne.Expand();
 }

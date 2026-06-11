@@ -10,5 +10,5 @@ export interface UserBase extends UserData {
 }
 
 export type UserToken = Omit<UserBase, 'password'> & {
-  student: StudentBase;
+  student?: StudentBase;
 };
