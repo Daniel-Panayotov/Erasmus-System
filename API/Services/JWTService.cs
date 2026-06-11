@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using API.Utilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -70,10 +71,13 @@ public class JWTService(IConfigStore configStore, ICryptographicService crypto, 
         return signedToken;
     }
 
-    public async Task<bool> ValidateRefreshTokenAgainstHash(int userID, string token)
+    public async Task<bool> ValidateRefreshTokenAgainstHash(ClaimsPrincipal principal, string token)
     {
         using var scope = _provider.CreateScope();
         var ctx = scope.ServiceProvider.GetRequiredService<UEMSContext>();
+
+        var userID = principal.TryGetUserID();
+        if (userID == null) return false;
 
         var query = ctx.HashedRefreshTokens.Where(t => t.UserId == userID);
 
@@ -86,5 +90,19 @@ public class JWTService(IConfigStore configStore, ICryptographicService crypto, 
         bool isTokenValid = tokenEntries.Where(t => t.HashedToken.Equals(tokenHash)).Any();
 
         return isTokenValid;
+    }
+
+    public async Task<bool> ValidateTokenIdentity(ClaimsPrincipal principal) 
+    {
+        using var scope = _provider.CreateScope();
+        var ctx = scope.ServiceProvider.GetRequiredService<UEMSContext>();
+
+        var userID = principal.TryGetUserID();
+        if (userID == null) return false;
+
+        var query = ctx.Users.Where(u => u.UserId == userID);
+        if (!await query.AnyAsync()) return false;
+
+        return true;
     }
 }

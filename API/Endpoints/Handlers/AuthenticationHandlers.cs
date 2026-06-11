@@ -2,9 +2,10 @@
 using API.Expressions;
 using API.Models;
 using API.Services;
+using API.Utilities;
+using LinqKit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace API.Endpoints.Handlers;
 
@@ -106,19 +107,15 @@ public class AuthenticationHandlers
 
     public static async Task<IResult> Refresh(HttpContext http, UEMSContext ctx, JWTService jwtService, IConfigStore config)
     {
-        string? userIdentifier = http.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-
-        if (userIdentifier == null) return Results.BadRequest("Missing user identity.");
-        if (!Int32.TryParse(userIdentifier, out var userID)) return Results.BadRequest("Invalid user identity.");
+        var userID = http.User.TryGetUserID();
+        if (userID == null) return Results.BadRequest("Invalid user identity.");
 
         var query = ctx.Users.Where(u => u.UserId == userID);
-        if (!await query.AnyAsync()) return Results.BadRequest("User could not be found.");
+        var user = await query.Select(UserExpressions.DTO.Expand()).FirstAsync();
 
-        var user = await query.Select(UserExpressions.DTO).FirstAsync();
+        var userToken = new SafeUserDTO(user.UserID, user.Email, user.Student);
 
-        var userToken = new UserToken(user.UserID, user.Email, user.Student);
-
-        string token = jwtService.GenerateAccessToken(userIdentifier, []);
+        string token = jwtService.GenerateAccessToken(userID.ToString(), []);
 
         var jwtConfig = config.JwtConfig;
         http.Response.Cookies.Append(jwtConfig.AccessTokenKey, token, new CookieOptions
@@ -135,10 +132,8 @@ public class AuthenticationHandlers
 
     public static async Task<IResult> Logout(HttpContext http, UEMSContext ctx, IConfigStore config)
     {
-        string? userIdentifier = http.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-
-        if (userIdentifier == null) return Results.BadRequest("Missing user identity.");
-        if (!Int32.TryParse(userIdentifier, out var userID)) return Results.BadRequest("Invalid user identity.");
+        var userID = http.User.TryGetUserID();
+        if (userID == null) return Results.BadRequest("Invalid user identity.");
 
         await ctx.HashedRefreshTokens.Where(t => t.UserId == userID).ExecuteDeleteAsync();
 

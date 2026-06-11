@@ -9,6 +9,6 @@ export interface UserBase extends UserData {
   userID: string;
 }
 
-export type UserToken = Omit<UserBase, 'password'> & {
+export type SafeUser = Omit<UserBase, 'password'> & {
   student?: StudentBase;
 };

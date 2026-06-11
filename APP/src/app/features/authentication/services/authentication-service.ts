@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { UserData, UserToken } from '../models/userModel';
+import { UserData, SafeUser } from '../models/userModel';
 import { catchError, switchMap, tap, throwError } from 'rxjs';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { catchError, switchMap, tap, throwError } from 'rxjs';
 export class AuthenticationService {
   private http = inject(HttpClient);
 
-  private _state = signal<UserToken | null>(null);
+  private _state = signal<SafeUser | null>(null);
 
   public login(data: UserData) {
     const url = 'auth/login';
@@ -41,7 +41,7 @@ export class AuthenticationService {
     const url = 'auth/refresh';
 
     return this.http
-      .post<UserToken>(url, null, { observe: 'response', credentials: 'include' })
+      .post<SafeUser>(url, null, { observe: 'response', credentials: 'include' })
       .pipe(
         tap((v) => {
           this._state.update(() => v.body);

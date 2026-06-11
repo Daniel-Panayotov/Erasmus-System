@@ -40,13 +40,13 @@ public record UserDTO : UserBaseDTO
     }
 }
 
-public record UserToken
+public record SafeUserDTO
 {
     public int UserID { get; init; }
     public string Email { get; init; }
     public StudentBaseDTO? Student { get; init; } 
 
-    public UserToken (int userID, string email, StudentBaseDTO? student)
+    public SafeUserDTO (int userID, string email, StudentBaseDTO? student)
     {
         UserID = userID;
         Email = email;
