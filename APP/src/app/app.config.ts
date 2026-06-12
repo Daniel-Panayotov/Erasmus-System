@@ -19,11 +19,14 @@ import { TimeoutInterceptor } from './core/interceptors/timeout-interceptor';
 import { AuthenticationService } from './features/authentication/services/authentication-service';
 import { catchError, EMPTY } from 'rxjs';
 import { AuthInterceptor } from './core/interceptors/auth-interceptor';
+import { provideIcons } from '@ng-icons/core';
+import { requiredIcons } from './shared/utils/iconProvider';
 
 export const BASE_URL = new InjectionToken<string>('BaseUrl');
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideIcons(requiredIcons),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     { provide: BASE_URL, useValue: environment.apiUrl },

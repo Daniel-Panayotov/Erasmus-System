@@ -1,0 +1,12 @@
+<div class="horizontal-nav">
+  @for (navIcon of icons(); track navIcon) {
+    <div
+      [class]="'icon-container ' + (navIcon.float == 'left' ? 'float-left' : 'float-right')"
+      [routerLink]="navIcon.route"
+      (click)="navIcon.callback?.()"
+    >
+      <ng-icon [name]="navIcon.iconName" />
+      <span>{{ navIcon.name }}</span>
+    </div>
+  }
+</div>

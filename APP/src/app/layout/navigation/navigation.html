@@ -1,22 +1,29 @@
-<nav class="navbar">
-  <a class="nav-logo" routerLink="/">
-    <div class="nav-logo-mark"><h1>Home</h1></div>
-  </a>
+<div class="navigation-container">
+  <nav class="navbar">
+    <div>
+      <a class="nav-logo" routerLink="/">Home</a>
+    </div>
 
-  @if (authenticated()) {
-    <div class="nav-links">
-      <a class="nav-link" [routerLink]="'/users/profile/update/' + studentID">Profile update</a>
-      <a class="nav-link" routerLink="/users/profile/create">Profile create</a>
-      <a class="nav-link" routerLink="/users/apply">Apply</a>
+    <div class="nav-right">
+      @if (!authenticated()) {
+        <a class="nav-btn-ghost" routerLink="/auth/login">Login</a>
+        <a class="nav-btn-ghost" routerLink="/auth/register">Register</a>
+      } @else {
+        <img
+          (click)="profileClicked.update((v) => !v)"
+          class="img-button"
+          alt="Tailwind CSS Navbar component"
+          src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+        />
+      }
+    </div>
+  </nav>
+  @if (profileClicked() && authenticated()) {
+    <div class="horizontal-navigation-container">
+      <app-horizontal-navigation
+        [icons]="profileNavIcons()"
+        (shownChange)="handleShowChange($event)"
+      />
     </div>
   }
-
-  <div class="nav-right">
-    @if (!authenticated()) {
-      <a class="nav-btn-ghost" routerLink="/auth/login">Login</a>
-      <a class="nav-btn-ghost" routerLink="/auth/register">Register</a>
-    } @else {
-      <button class="cursor-pointer" (click)="logout()">Logout</button>
-    }
-  </div>
-</nav>
+</div>
