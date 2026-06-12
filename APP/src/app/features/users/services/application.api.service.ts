@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { ApplicationData } from '../models/application.form.models';
+import { take } from 'rxjs';
 
 @Service()
 export class ApplicationAPI {
@@ -9,7 +10,7 @@ export class ApplicationAPI {
   public GetApplications(studentID: number) {
     const url = `applications/get-all?studentID=${studentID}`;
 
-    return this.http.get(url, { observe: 'response', credentials: 'include' });
+    return this.http.get(url, { observe: 'response', credentials: 'include' }).pipe(take(1));
   }
 
   public CreateApplication(data: ApplicationData) {
@@ -30,6 +31,8 @@ export class ApplicationAPI {
     formData.append('priorStudyAbroad', `${data.priorStudyAbroad}`);
     formData.append('priorStudyDuration', `${data.priorStudyDuration ?? 0}`);
 
-    return this.http.post(url, formData, { observe: 'response', credentials: 'include' });
+    return this.http
+      .post(url, formData, { observe: 'response', credentials: 'include' })
+      .pipe(take(1));
   }
 }
