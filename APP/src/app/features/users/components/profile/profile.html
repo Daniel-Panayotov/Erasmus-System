@@ -1,0 +1,14 @@
+<div class="page-container">
+  <div class="profile">
+    @if (student(); as s) {
+      <span>{{ s.studentID }}</span>
+      <span>{{ s.firstName }}</span>
+      <span>{{ s.lastName }}</span>
+      <span>{{ s.birthDate }}</span>
+      <span>{{ s.gender }}</span>
+      <span>{{ s.nationality }}</span>
+      <span>{{ s.address }}</span>
+      <span>{{ s.phoneNumber }}</span>
+    }
+  </div>
+</div>

@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from '../../core/guards/auth-guard-guard';
 import { ApplicationForm } from './components/application-form/application.form';
 import { StudentForm } from './components/student-form/student.form';
+import { Profile } from './components/profile/profile';
 
 export const USERS_ROUTES: Routes = [
   {
@@ -12,6 +13,11 @@ export const USERS_ROUTES: Routes = [
       {
         path: 'profile',
         children: [
+          {
+            path: 'view/:ID',
+            component: Profile,
+            title: 'Profile view',
+          },
           {
             path: 'create',
             component: StudentForm,

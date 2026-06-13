@@ -30,6 +30,12 @@ export class Navigation {
       name: 'Apply',
       float: 'left',
     },
+    {
+      iconName: providedIcons.heroClipboard,
+      route: '/users/profile/view/' + this.auth.state()?.student?.studentID,
+      name: 'Profile',
+      float: 'right',
+    },
   ]);
 
   private notStudentNavIcons: NavIcon[] = [
