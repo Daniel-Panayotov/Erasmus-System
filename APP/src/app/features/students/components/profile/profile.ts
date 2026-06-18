@@ -15,10 +15,10 @@ export class Profile {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  userID: number = this.route.snapshot.params['userID'];
+  studentID: number = this.route.snapshot.params['studentID'];
 
   private _student = toSignal(
-    this.studentAPI.GetStudent(this.userID).pipe(
+    this.studentAPI.GetStudent(this.studentID).pipe(
       take(1),
       catchError((err) => {
         this.router.navigateByUrl('/');

@@ -1,0 +1,55 @@
+<div class="main-container">
+  <h1 class="form-title">Student Form</h1>
+  <form [formRoot]="competencyForm">
+    <div class="form-controls">
+      <!-- Language -->
+      <div class="control-container">
+        <label for="language">Language *</label>
+        <input
+          type="text"
+          id="language"
+          placeholder="Bulgarian"
+          [formField]="competencyForm.language"
+        />
+        @if (competencyForm.language().touched() && competencyForm.language().invalid()) {
+          <p class="error">{{ competencyForm.language().errors()[0].message }}</p>
+        }
+      </div>
+
+      <div class="control-container">
+        <div class="control-container-inner">
+          <label for="canFollowLectures">Can you follow Lectures? *</label>
+          <input
+            type="checkbox"
+            id="canFollowLectures"
+            [formField]="competencyForm.canFollowLectures"
+          />
+        </div>
+      </div>
+      @if (
+        competencyForm.canFollowLectures().touched() && competencyForm.canFollowLectures().invalid()
+      ) {
+        <p class="error">{{ competencyForm.canFollowLectures().errors()[0].message }}</p>
+      }
+      <div class="control-container">
+        <div class="control-container-inner">
+          <label for="canFollowLecturesWithLessons">Can you follow Lectures with lessons? *</label>
+          <input
+            type="checkbox"
+            id="canFollowLecturesWithLessons"
+            [formField]="competencyForm.canFollowLecturesWithLessons"
+          />
+        </div>
+      </div>
+    </div>
+    @if (
+      competencyForm.canFollowLecturesWithLessons().touched() &&
+      competencyForm.canFollowLecturesWithLessons().invalid()
+    ) {
+      <p class="error">{{ competencyForm.canFollowLecturesWithLessons().errors()[0].message }}</p>
+    }
+    <button class="bg-green-500 button" type="submit" [disabled]="competencyForm().invalid()">
+      Submit
+    </button>
+  </form>
+</div>

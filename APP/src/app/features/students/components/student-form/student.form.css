@@ -1,0 +1,11 @@
+@import url(../../../../../styles/forms.css);
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.error {
+  color: red;
+  font-weight: 500;
+}

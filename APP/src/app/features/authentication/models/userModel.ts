@@ -1,4 +1,4 @@
-import { StudentBase } from '../../users/models/student.form.models';
+import { StudentBase } from '../../students/models/student.form.models';
 
 export interface UserData {
   email: string;

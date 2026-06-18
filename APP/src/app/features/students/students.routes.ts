@@ -3,10 +3,11 @@ import { authGuard } from '../../core/guards/auth-guard-guard';
 import { ApplicationForm } from './components/application-form/application.form';
 import { StudentForm } from './components/student-form/student.form';
 import { Profile } from './components/profile/profile';
+import { LanguageCompetencyForm } from './components/language-competency.form/language-competency.form';
 
-export const USERS_ROUTES: Routes = [
+export const STUDENTS_ROUTES: Routes = [
   {
-    path: ':userID',
+    path: ':studentID',
     canActivateChild: [authGuard],
     children: [
       { path: 'apply', component: ApplicationForm, title: 'Application form' },
@@ -27,6 +28,13 @@ export const USERS_ROUTES: Routes = [
             path: 'update',
             component: StudentForm,
             title: 'Profile form',
+          },
+          {
+            path: 'language-competencies',
+            children: [
+              { path: 'create', component: LanguageCompetencyForm },
+              { path: 'update/:competencyID', component: LanguageCompetencyForm },
+            ],
           },
         ],
       },

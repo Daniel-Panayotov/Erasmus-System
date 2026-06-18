@@ -7,8 +7,8 @@ import { take } from 'rxjs';
 export class StudentAPI {
   private http = inject(HttpClient);
 
-  public GetStudent(userID: number) {
-    const url = `students/get?userID=${userID}`;
+  public GetStudent(studentID: number) {
+    const url = `students/get?studentID=${studentID}`;
 
     return this.http
       .get<StudentBase>(url, { observe: 'response', credentials: 'include' })
