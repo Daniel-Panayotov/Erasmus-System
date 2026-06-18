@@ -1,9 +1,9 @@
 import { Component, computed, inject, Signal, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthenticationService } from '../../features/authentication/services/authentication-service';
-import { HorizontalNavigation } from '../horizontal-navigation/horizontal-navigation';
 import { providedIcons } from '../../shared/utils/iconProvider';
-import { NavIcon } from '../horizontal-navigation/horizontal-navigation.models';
+import { HorizontalNavigation } from '../../shared/components/horizontal-navigation/horizontal-navigation';
+import { NavIcon } from '../../shared/models/horizontal-navigation.models';
 
 @Component({
   selector: 'app-navigation',

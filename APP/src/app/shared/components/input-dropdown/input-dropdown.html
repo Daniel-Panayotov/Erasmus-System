@@ -1,0 +1,18 @@
+<div class="form-input">
+  <label [for]="'input-' + label()">{{ label() }}</label>
+
+  <div class="input-content">
+    <input type="text" [id]="'input-' + label()" />
+    <div class="custom-select-group">
+      <div class="select-group-holder">
+        @if (showDropdown()) {
+          @for (item of items; track item) {
+            <div class="custom-select-option">
+              <span>{{ getItemName()() }}</span>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  </div>
+</div>
