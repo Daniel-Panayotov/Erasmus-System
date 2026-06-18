@@ -7,25 +7,25 @@ import { LanguageCompetencyForm } from './components/language-competency.form/la
 
 export const STUDENTS_ROUTES: Routes = [
   {
-    path: ':studentID',
+    path: '',
     canActivateChild: [authGuard],
     children: [
-      { path: 'apply', component: ApplicationForm, title: 'Application form' },
+      { path: 'apply/:studentID', component: ApplicationForm, title: 'Application form' },
       {
         path: 'profile',
         children: [
           {
-            path: 'view',
+            path: 'view/:studentID',
             component: Profile,
             title: 'Profile view',
           },
           {
-            path: 'create',
+            path: 'create/:ID',
             component: StudentForm,
             title: 'Profile form',
           },
           {
-            path: 'update',
+            path: 'update/:ID',
             component: StudentForm,
             title: 'Profile form',
           },
