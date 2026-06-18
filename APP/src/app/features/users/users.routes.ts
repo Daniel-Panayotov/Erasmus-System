@@ -6,7 +6,7 @@ import { Profile } from './components/profile/profile';
 
 export const USERS_ROUTES: Routes = [
   {
-    path: '',
+    path: ':userID',
     canActivateChild: [authGuard],
     children: [
       { path: 'apply', component: ApplicationForm, title: 'Application form' },
@@ -14,7 +14,7 @@ export const USERS_ROUTES: Routes = [
         path: 'profile',
         children: [
           {
-            path: 'view/:ID',
+            path: 'view',
             component: Profile,
             title: 'Profile view',
           },
@@ -24,7 +24,7 @@ export const USERS_ROUTES: Routes = [
             title: 'Profile form',
           },
           {
-            path: 'update/:ID',
+            path: 'update',
             component: StudentForm,
             title: 'Profile form',
           },

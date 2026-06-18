@@ -1,16 +1,16 @@
 ﻿using API.DTOs;
 using API.Expressions;
 using API.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace API.Endpoints.Handlers;
 
 public class StudentHandlers
 {
-    public static async Task<IResult> Get(int studentID, UEMSContext ctx)
+    public static async Task<IResult> Get(int userID, UEMSContext ctx)
     {
-        var query = ctx.Students.Where(s => s.StudentId == studentID)
+        var query = ctx.Students.Where(s => s.UserId == userID)
                                 .Select(StudentExpressions.Base);
 
         if (!await query.AnyAsync()) return Results.BadRequest("Student could not be found.");
@@ -20,12 +20,11 @@ public class StudentHandlers
         return Results.Ok(student);
     }
 
-    public static async Task<IResult> Create(StudentDataDTO data, HttpContext http, UEMSContext ctx)
+    public static async Task<IResult> Create([FromQuery] int userID, [FromBody] StudentDataDTO data, HttpContext http, UEMSContext ctx)
     {
-        string? userIdentifier = http.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        var query = ctx.Students.Where(s => s.UserId == userID);
 
-        if (userIdentifier == null) return Results.BadRequest("Missing user identity.");
-        if (!Int32.TryParse(userIdentifier, out var userID)) return Results.BadRequest("Invalid user identity.");
+        if (await query.AnyAsync()) return Results.BadRequest("User already has an account.");
 
         Student student = new Student 
         {

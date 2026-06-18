@@ -7,16 +7,16 @@ import { take } from 'rxjs';
 export class StudentAPI {
   private http = inject(HttpClient);
 
-  public GetStudent(studentID: number) {
-    const url = `students/get?studentID=${studentID}`;
+  public GetStudent(userID: number) {
+    const url = `students/get?userID=${userID}`;
 
     return this.http
       .get<StudentBase>(url, { observe: 'response', credentials: 'include' })
       .pipe(take(1));
   }
 
-  public CreateStudent(body: StudentData) {
-    const url = `students/create`;
+  public CreateStudent(userID: number, body: StudentData) {
+    const url = `students/create?userID=${userID}`;
 
     return this.http.post(url, body, { observe: 'response', credentials: 'include' }).pipe(take(1));
   }

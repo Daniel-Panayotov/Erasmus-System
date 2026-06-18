@@ -20,19 +20,19 @@ export class Navigation {
   private studentNavIcons: Signal<NavIcon[]> = computed(() => [
     {
       iconName: providedIcons.heroUser,
-      route: '/users/profile/update/' + this.auth.state()?.student?.studentID,
+      route: `/users/${this.auth.state()?.userID}/profile/update/`,
       name: 'Update profile',
       float: 'left',
     },
     {
       iconName: providedIcons.heroClipboard,
-      route: '/users/apply',
+      route: `/users/${this.auth.state()?.userID}/apply`,
       name: 'Apply',
       float: 'left',
     },
     {
       iconName: providedIcons.heroClipboard,
-      route: '/users/profile/view/' + this.auth.state()?.student?.studentID,
+      route: `/users/${this.auth.state()?.userID}/profile/view/`,
       name: 'Profile',
       float: 'right',
     },
@@ -41,7 +41,7 @@ export class Navigation {
   private notStudentNavIcons: NavIcon[] = [
     {
       iconName: providedIcons.heroUser,
-      route: '/users/profile/create',
+      route: `/users/${this.auth.state()?.userID}/profile/create`,
       name: 'Create profile',
       float: 'left',
     },
