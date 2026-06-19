@@ -1,0 +1,54 @@
+import { Component, inject, input, signal } from '@angular/core';
+import { TreeValidationResult } from '@angular/forms/signals';
+import { LanguageCompetencyAPI } from '../../../services/language-competency.api.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
+import {
+  LanguageCompetencyBase,
+  LanguageCompetencyData,
+} from '../../../models/language-competency.form.model';
+import { LanguageCompetencyForm } from '../language-competency-form/language-competency.form';
+import { HttpErrorResponse } from '@angular/common/http';
+
+@Component({
+  selector: 'app-update-competency-page',
+  imports: [LanguageCompetencyForm],
+  templateUrl: './update-competency-page.html',
+  styleUrl: './update-competency-page.css',
+})
+export class UpdateCompetencyPage {
+  private languageAPI = inject(LanguageCompetencyAPI);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  studentID = input.required<number>();
+  competencyID = input.required<number>();
+
+  serverErrors = signal<TreeValidationResult | null>(null);
+
+  competencyResource = rxResource({
+    params: () => ({ studentID: this.studentID(), competencyID: this.competencyID() }),
+    stream: ({ params }) =>
+      this.languageAPI.GetAll(params.studentID).pipe(
+        map((res) => {
+          const competencies = res.body as LanguageCompetencyBase[];
+
+          const filteredCompetencies = competencies.filter(
+            (v) => v.languageCompetencyID == params.competencyID,
+          );
+
+          if (filteredCompetencies.length == 0) return;
+
+          return filteredCompetencies[0];
+        }),
+      ),
+  });
+
+  updateCompetency(data: LanguageCompetencyData) {
+    this.languageAPI.Update(this.competencyID(), data).subscribe({
+      next: () => this.router.navigate(['../..'], { relativeTo: this.route }),
+      error(err: HttpErrorResponse) {},
+    });
+  }
+}

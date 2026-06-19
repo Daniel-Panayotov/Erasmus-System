@@ -1,0 +1,10 @@
+@if (competencyResource.isLoading()) {
+  <span>Loading...</span>
+} @else if (competencyResource.error(); as err) {
+} @else if (competencyResource.hasValue()) {
+  <app-language-competency-form
+    [competency]="competencyResource.value()"
+    (save)="updateCompetency($event)"
+    [serverErrors]="serverErrors()"
+  />
+}

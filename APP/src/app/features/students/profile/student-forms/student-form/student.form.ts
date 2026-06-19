@@ -11,11 +11,10 @@ import {
 } from '@angular/forms/signals';
 import { StudentBase, StudentData, StudentFormModel } from '../../../models/student.form.models';
 import { Patterns } from '../../../../../shared/utils/patterns';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-student-form',
-  imports: [FormRoot, FormField, RouterLink],
+  imports: [FormRoot, FormField],
   templateUrl: './student.form.html',
   styleUrl: './student.form.css',
 })

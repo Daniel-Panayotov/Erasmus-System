@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LanguageCompetencyForm } from './language-competency.form';
+import { UpdateCompetencyPage } from './update-competency-page';
 
-describe('LanguageCompetencyForm', () => {
-  let component: LanguageCompetencyForm;
-  let fixture: ComponentFixture<LanguageCompetencyForm>;
+describe('UpdateCompetencyPage', () => {
+  let component: UpdateCompetencyPage;
+  let fixture: ComponentFixture<UpdateCompetencyPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LanguageCompetencyForm],
+      imports: [UpdateCompetencyPage],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LanguageCompetencyForm);
+    fixture = TestBed.createComponent(UpdateCompetencyPage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
