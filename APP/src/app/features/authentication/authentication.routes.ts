@@ -5,7 +5,7 @@ import { notLoggedGuardGuard } from '../../core/guards/not-logged-guard-guard';
 
 export const AUTHENTICATION_ROUTES: Routes = [
   {
-    path: '',
+    path: 'auth',
     canActivateChild: [notLoggedGuardGuard],
     children: [
       { path: 'login', component: LoginForm, title: 'Sign in' },

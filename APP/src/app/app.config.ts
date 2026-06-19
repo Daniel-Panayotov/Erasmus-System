@@ -5,7 +5,7 @@ import {
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withRouterConfig } from '@angular/router';
 import { routes } from './app.routes';
 import {
   HTTP_INTERCEPTORS,
@@ -28,7 +28,11 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideIcons(requiredIcons),
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withRouterConfig({ paramsInheritanceStrategy: 'always' }),
+      withComponentInputBinding(),
+    ),
     { provide: BASE_URL, useValue: environment.apiUrl },
     provideHttpClient(withInterceptors([baseUrlInterceptor]), withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true },

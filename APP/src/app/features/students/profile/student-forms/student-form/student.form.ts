@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import {
   form,
   FormField,
@@ -9,14 +9,9 @@ import {
   required,
   TreeValidationResult,
 } from '@angular/forms/signals';
-import { StudentBase, StudentData, StudentFormModel } from '../../models/student.form.models';
-import { Patterns } from '../../../../shared/utils/patterns';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { StudentAPI } from '../../services/student.api.service';
-import { catchError, EMPTY } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
-import { LanguageCompetencyAPI } from '../../services/language-competency.api.service';
-import { LanguageCompetencyBase } from '../../models/language-competency.form.model';
+import { StudentBase, StudentData, StudentFormModel } from '../../../models/student.form.models';
+import { Patterns } from '../../../../../shared/utils/patterns';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-student-form',
@@ -25,16 +20,9 @@ import { LanguageCompetencyBase } from '../../models/language-competency.form.mo
   styleUrl: './student.form.css',
 })
 export class StudentForm {
-  private studentAPI = inject(StudentAPI);
-  private languageAPI = inject(LanguageCompetencyAPI);
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-
-  competencies = signal<LanguageCompetencyBase[]>([]);
-
-  studentID: number | null = this.route.snapshot.params['studentID'] ?? null;
-  userID: number | null = this.route.snapshot.params['userID'] ?? null;
-  isUpdate = this.route.snapshot.url[0].path == 'update';
+  student = input<StudentBase>();
+  serverErrors = input<TreeValidationResult | null>();
+  save = output<StudentData>();
 
   formModel = signal<StudentFormModel>({
     firstName: '',
@@ -98,58 +86,18 @@ export class StudentForm {
 
           const formData = detail().value() as StudentData;
 
-          let result: TreeValidationResult | null = null;
-
-          if (this.isUpdate)
-            this.studentAPI.UpdateStudent(this.studentID!, formData).subscribe({
-              error(err: HttpErrorResponse) {
-                result = { kind: 'serverError', message: err.error };
-              },
-            });
-          else
-            this.studentAPI.CreateStudent(this.userID!, formData).subscribe({
-              error(err: HttpErrorResponse) {
-                result = { kind: 'serverError', message: err.error };
-              },
-            });
-
-          if (result != null) return result;
-
-          await this.router.navigateByUrl('/');
+          this.save.emit(formData);
         },
       },
     },
   );
 
   ngOnInit() {
-    if (!this.isUpdate || this.studentID == null) return;
+    if (!this.student()) return;
 
-    this.studentAPI
-      .GetStudent(this.studentID)
-      .pipe(
-        catchError((err) => {
-          this.router.navigateByUrl('');
-          return EMPTY;
-        }),
-      )
-      .subscribe((s) => {
-        const student = s.body as StudentBase;
+    const studentdata: StudentFormModel = { ...(this.student() as StudentBase) };
 
-        const studentdata: StudentFormModel = { ...student };
-
-        this.studentForm().controlValue.set(studentdata);
-      });
-
-    this.languageAPI
-      .GetAll(this.studentID)
-      .pipe(
-        catchError((err) => {
-          return EMPTY;
-        }),
-      )
-      .subscribe((res) => {
-        this.competencies.set(res.body as LanguageCompetencyBase[]);
-      });
+    this.studentForm().controlValue.set(studentdata);
   }
 
   onPhoneInput(event: InputEvent) {

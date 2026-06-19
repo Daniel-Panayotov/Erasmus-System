@@ -1,46 +1,20 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '../../core/guards/auth-guard-guard';
 import { ApplicationForm } from './application-form/application.form';
-import { StudentForm } from './profile/student-form/student.form';
-import { Profile } from './profile/profile-view/profile';
-import { LanguageCompetencyForm } from './profile/language-competency.form/language-competency.form';
+import { PROFILE_ROUTES } from './profile/profile.routes';
+import { CreateStudentPage } from './profile/student-forms/create-student-page/create-student-page';
 
 export const STUDENTS_ROUTES: Routes = [
   {
-    path: '',
+    path: 'students',
     canActivateChild: [authGuard],
     children: [
-      {
-        path: 'new/:userID/profile',
-        component: StudentForm,
-        title: 'Profile form',
-      },
+      { path: 'new/:userID/profile', component: CreateStudentPage, title: 'Profile form' },
       {
         path: ':studentID',
         children: [
           { path: 'apply', component: ApplicationForm, title: 'Application form' },
-          {
-            path: 'profile',
-            children: [
-              {
-                path: 'view',
-                component: Profile,
-                title: 'Profile view',
-              },
-              {
-                path: 'update',
-                component: StudentForm,
-                title: 'Profile form',
-              },
-            ],
-          },
-          {
-            path: 'language-competencies',
-            children: [
-              { path: 'create', component: LanguageCompetencyForm },
-              { path: 'update/:competencyID', component: LanguageCompetencyForm },
-            ],
-          },
+          { path: 'profile', children: PROFILE_ROUTES },
         ],
       },
     ],

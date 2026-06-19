@@ -6,12 +6,12 @@ export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: Home, title: 'Home page' },
   {
-    path: 'students',
+    path: '',
     loadChildren: () =>
       import('./features/students/students.routes').then((m) => m.STUDENTS_ROUTES),
   },
   {
-    path: 'auth',
+    path: '',
     loadChildren: () =>
       import('./features/authentication/authentication.routes').then(
         (m) => m.AUTHENTICATION_ROUTES,

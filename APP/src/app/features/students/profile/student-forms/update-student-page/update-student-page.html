@@ -1,0 +1,10 @@
+@if (studentResource.isLoading()) {
+  <span>Loading...</span>
+} @else if (studentResource.error(); as err) {
+} @else if (studentResource.hasValue()) {
+  <app-student-form
+    [student]="studentResource.value()"
+    (save)="updateStudent($event)"
+    [serverErrors]="serverErrors()"
+  />
+}
