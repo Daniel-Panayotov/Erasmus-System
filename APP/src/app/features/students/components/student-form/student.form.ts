@@ -27,7 +27,8 @@ export class StudentForm {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
-  ID = this.route.snapshot.params['ID'];
+  studentID = this.route.snapshot.params['studentID'] ?? null;
+  userID = this.route.snapshot.params['userID'] ?? null;
   isUpdate = this.route.snapshot.url[0].path == 'update';
 
   formModel = signal<StudentFormModel>({
@@ -95,13 +96,13 @@ export class StudentForm {
           let result: TreeValidationResult | null = null;
 
           if (this.isUpdate)
-            this.studentApi.UpdateStudent(this.ID, formData).subscribe({
+            this.studentApi.UpdateStudent(this.studentID, formData).subscribe({
               error(err: HttpErrorResponse) {
                 result = { kind: 'serverError', message: err.error };
               },
             });
           else
-            this.studentApi.CreateStudent(this.ID, formData).subscribe({
+            this.studentApi.CreateStudent(this.userID, formData).subscribe({
               error(err: HttpErrorResponse) {
                 result = { kind: 'serverError', message: err.error };
               },
@@ -119,7 +120,7 @@ export class StudentForm {
     if (!this.isUpdate) return;
 
     this.studentApi
-      .GetStudent(this.ID)
+      .GetStudent(this.studentID)
       .pipe(
         catchError((err) => {
           this.router.navigateByUrl('');

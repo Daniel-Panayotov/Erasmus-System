@@ -10,30 +10,35 @@ export const STUDENTS_ROUTES: Routes = [
     path: '',
     canActivateChild: [authGuard],
     children: [
-      { path: 'apply/:studentID', component: ApplicationForm, title: 'Application form' },
       {
-        path: 'profile',
+        path: 'new/:userID/profile',
+        component: StudentForm,
+        title: 'Profile form',
+      },
+      {
+        path: ':studentID',
         children: [
+          { path: 'apply', component: ApplicationForm, title: 'Application form' },
           {
-            path: 'view/:studentID',
-            component: Profile,
-            title: 'Profile view',
-          },
-          {
-            path: 'create/:ID',
-            component: StudentForm,
-            title: 'Profile form',
-          },
-          {
-            path: 'update/:ID',
-            component: StudentForm,
-            title: 'Profile form',
-          },
-          {
-            path: 'language-competencies',
+            path: 'profile',
             children: [
-              { path: 'create', component: LanguageCompetencyForm },
-              { path: 'update/:competencyID', component: LanguageCompetencyForm },
+              {
+                path: 'view',
+                component: Profile,
+                title: 'Profile view',
+              },
+              {
+                path: 'update',
+                component: StudentForm,
+                title: 'Profile form',
+              },
+              {
+                path: 'language-competencies',
+                children: [
+                  { path: 'create', component: LanguageCompetencyForm },
+                  { path: 'update/:competencyID', component: LanguageCompetencyForm },
+                ],
+              },
             ],
           },
         ],
