@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '../../core/guards/auth-guard-guard';
-import { ApplicationForm } from './components/application-form/application.form';
-import { StudentForm } from './components/student-form/student.form';
-import { Profile } from './components/profile/profile';
-import { LanguageCompetencyForm } from './components/language-competency.form/language-competency.form';
+import { ApplicationForm } from './application-form/application.form';
+import { StudentForm } from './profile/student-form/student.form';
+import { Profile } from './profile/profile-view/profile';
+import { LanguageCompetencyForm } from './profile/language-competency.form/language-competency.form';
 
 export const STUDENTS_ROUTES: Routes = [
   {
