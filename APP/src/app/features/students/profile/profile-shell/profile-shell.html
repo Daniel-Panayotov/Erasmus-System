@@ -1,1 +1,16 @@
-<router-outlet />
+<div class="page-container">
+  <mat-tab-group
+    fitInkBarToContent
+    mat-stretch-tabs="false"
+    mat-align-tabs="start"
+    (selectedIndexChange)="navigate($event)"
+  >
+    <mat-tab label="Profile" />
+    <mat-tab label="Language competencies" />
+    <mat-tab label="Profile update" />
+  </mat-tab-group>
+
+  <div class="outlet-container">
+    <router-outlet />
+  </div>
+</div>
