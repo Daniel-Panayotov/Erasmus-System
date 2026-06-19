@@ -88,6 +88,28 @@
           <p class="error">{{ studentForm.phoneNumber().errors()[0].message }}</p>
         }
       </div>
+
+      @if (studentID) {
+        <!-- Language competencies -->
+        <div class="control-container list-container">
+          <label>Competencies</label>
+          <ul class="element-list">
+            @for (competency of competencies(); track competency) {
+              <li>
+                <span>{{ competency.language }} / {{ competency.canFollowLectures }}</span>
+                <button
+                  [routerLink]="`/students/${studentID}/language-competencies/update/${competency.languageCompetencyID}`"
+                >
+                  Edit
+                </button>
+              </li>
+            }
+          </ul>
+          <button [routerLink]="`/students/${studentID}/language-competencies/create`">
+            Add competency
+          </button>
+        </div>
+      }
     </div>
 
     <button class="bg-green-500 button" type="submit" [disabled]="studentForm().invalid()">

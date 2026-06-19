@@ -14,7 +14,7 @@ public class LanguageCompetencyHandlers
             .Where(l => l.StudentId == studentID)
             .Select(LanguageCompetencyExpressions.Base);
 
-        if (!await query.AnyAsync()) return Results.BadRequest("Invalid student.");
+        if (!await query.AnyAsync()) return Results.BadRequest("Invalid student or no competencies.");
 
         var competencies = await query.ToListAsync();
 

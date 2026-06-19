@@ -11,24 +11,29 @@ import {
 } from '@angular/forms/signals';
 import { StudentBase, StudentData, StudentFormModel } from '../../models/student.form.models';
 import { Patterns } from '../../../../shared/utils/patterns';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { StudentAPI } from '../../services/student.api.service';
 import { catchError, EMPTY } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { LanguageCompetencyAPI } from '../../services/language-competency.api.service';
+import { LanguageCompetencyBase } from '../../models/language-competency.form.model';
 
 @Component({
   selector: 'app-student-form',
-  imports: [FormRoot, FormField],
+  imports: [FormRoot, FormField, RouterLink],
   templateUrl: './student.form.html',
   styleUrl: './student.form.css',
 })
 export class StudentForm {
-  private studentApi = inject(StudentAPI);
+  private studentAPI = inject(StudentAPI);
+  private languageAPI = inject(LanguageCompetencyAPI);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
-  studentID = this.route.snapshot.params['studentID'] ?? null;
-  userID = this.route.snapshot.params['userID'] ?? null;
+  competencies = signal<LanguageCompetencyBase[]>([]);
+
+  studentID: number | null = this.route.snapshot.params['studentID'] ?? null;
+  userID: number | null = this.route.snapshot.params['userID'] ?? null;
   isUpdate = this.route.snapshot.url[0].path == 'update';
 
   formModel = signal<StudentFormModel>({
@@ -96,13 +101,13 @@ export class StudentForm {
           let result: TreeValidationResult | null = null;
 
           if (this.isUpdate)
-            this.studentApi.UpdateStudent(this.studentID, formData).subscribe({
+            this.studentAPI.UpdateStudent(this.studentID!, formData).subscribe({
               error(err: HttpErrorResponse) {
                 result = { kind: 'serverError', message: err.error };
               },
             });
           else
-            this.studentApi.CreateStudent(this.userID, formData).subscribe({
+            this.studentAPI.CreateStudent(this.userID!, formData).subscribe({
               error(err: HttpErrorResponse) {
                 result = { kind: 'serverError', message: err.error };
               },
@@ -117,9 +122,9 @@ export class StudentForm {
   );
 
   ngOnInit() {
-    if (!this.isUpdate) return;
+    if (!this.isUpdate || this.studentID == null) return;
 
-    this.studentApi
+    this.studentAPI
       .GetStudent(this.studentID)
       .pipe(
         catchError((err) => {
@@ -133,6 +138,17 @@ export class StudentForm {
         const studentdata: StudentFormModel = { ...student };
 
         this.studentForm().controlValue.set(studentdata);
+      });
+
+    this.languageAPI
+      .GetAll(this.studentID)
+      .pipe(
+        catchError((err) => {
+          return EMPTY;
+        }),
+      )
+      .subscribe((res) => {
+        this.competencies.set(res.body as LanguageCompetencyBase[]);
       });
   }
 

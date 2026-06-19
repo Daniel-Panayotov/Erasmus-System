@@ -9,3 +9,18 @@
   color: red;
   font-weight: 500;
 }
+
+.list-container {
+  gap: 0.25rem;
+}
+
+.list-container button {
+  background-color: gray;
+  cursor: pointer;
+}
+
+.element-list li {
+  display: flex;
+  width: fit-content;
+  gap: 1rem;
+}

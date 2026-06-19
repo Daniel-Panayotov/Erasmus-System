@@ -32,13 +32,13 @@ export const STUDENTS_ROUTES: Routes = [
                 component: StudentForm,
                 title: 'Profile form',
               },
-              {
-                path: 'language-competencies',
-                children: [
-                  { path: 'create', component: LanguageCompetencyForm },
-                  { path: 'update/:competencyID', component: LanguageCompetencyForm },
-                ],
-              },
+            ],
+          },
+          {
+            path: 'language-competencies',
+            children: [
+              { path: 'create', component: LanguageCompetencyForm },
+              { path: 'update/:competencyID', component: LanguageCompetencyForm },
             ],
           },
         ],
