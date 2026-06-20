@@ -1,7 +1,9 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
-import { Router, RouterOutlet } from '@angular/router';
+import { EventType, Router, RouterOutlet } from '@angular/router';
 import { studentsPaths } from '../../students.paths';
+import { filter, map } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-profile-shell',
@@ -14,9 +16,30 @@ export class ProfileShell {
 
   studentID = input.required<string>();
 
+  tabIndex = toSignal(
+    this.router.events.pipe(
+      filter((v) => v.type == EventType.NavigationEnd),
+      map((v: any) => {
+        const url: string = v.urlAfterRedirects;
+        const urls = this.urls();
+
+        const value = urls.find((v) => url == v.join('/'));
+
+        if (!value) return 3;
+
+        return urls.findIndex((v) => v == value);
+      }),
+    ),
+  );
+
+  urls = computed(() => [
+    studentsPaths.profileView(this.studentID()),
+    studentsPaths.languageCompetencies(this.studentID()),
+    studentsPaths.profileUpdate(this.studentID()),
+  ]);
+
   navigate(index: number) {
-    if (index == 0) this.router.navigate(studentsPaths.profileView(this.studentID()));
-    else if (index == 1) this.router.navigate(studentsPaths.languageCompetencies(this.studentID()));
-    else this.router.navigate(studentsPaths.profileUpdate(this.studentID()));
+    if (index > this.urls().length - 1) return;
+    this.router.navigate(this.urls()[index]);
   }
 }

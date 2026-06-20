@@ -1,5 +1,5 @@
 export const studentsPaths = {
-  apply: (userID: string) => ['/students', 'apply', userID],
+  apply: (userID: string) => ['/students', userID, 'apply'],
   newProfile: (userID: string) => ['/students', 'new', userID, 'profile'],
   profile: (studentID: string) => ['/students', studentID, 'profile'],
   profileView: (studentID: string) => ['/students', studentID, 'profile', 'view'],
@@ -9,6 +9,13 @@ export const studentsPaths = {
     studentID,
     'profile',
     'language-competencies',
+  ],
+  languageCompetenciesCreate: (studentID: string) => [
+    '/students',
+    studentID,
+    'profile',
+    'language-competencies',
+    'create',
   ],
   languageCompetencyUpdate: (studentID: string, competencyID: string) => [
     '/students',

@@ -21,11 +21,13 @@ import { catchError, EMPTY } from 'rxjs';
 import { AuthInterceptor } from './core/interceptors/auth-interceptor';
 import { provideIcons } from '@ng-icons/core';
 import { requiredIcons } from './shared/utils/iconProvider';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const BASE_URL = new InjectionToken<string>('BaseUrl');
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAnimationsAsync(),
     provideIcons(requiredIcons),
     provideBrowserGlobalErrorListeners(),
     provideRouter(

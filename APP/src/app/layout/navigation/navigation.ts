@@ -21,12 +21,6 @@ export class Navigation {
 
   private studentNavIcons: Signal<NavIcon[]> = computed(() => [
     {
-      iconName: providedIcons.heroUser,
-      route: studentsPaths.profileUpdate(this.studentID!.toString()),
-      name: 'Update profile',
-      float: 'left',
-    },
-    {
       iconName: providedIcons.heroClipboard,
       route: studentsPaths.apply(this.studentID!.toString()),
       name: 'Apply',

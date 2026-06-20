@@ -3,11 +3,13 @@
     fitInkBarToContent
     mat-stretch-tabs="false"
     mat-align-tabs="start"
+    [selectedIndex]="tabIndex()"
     (selectedIndexChange)="navigate($event)"
   >
     <mat-tab label="Profile" />
     <mat-tab label="Language competencies" />
     <mat-tab label="Profile update" />
+    <mat-tab labelClass="phantom-tab" [disabled]="true" />
   </mat-tab-group>
 
   <div class="outlet-container">
