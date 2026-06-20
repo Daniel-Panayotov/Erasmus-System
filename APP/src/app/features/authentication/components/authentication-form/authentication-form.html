@@ -65,7 +65,7 @@
           <p class="text-sm font-light">
             {{ isLogin() ? 'Don’t have an account yet?' : 'Have an account?' }}
             <a
-              [routerLink]="isLogin() ? '/auth/register' : '/auth/login'"
+              [routerLink]="isLogin() ? authPaths.register() : authPaths.login()"
               class="font-medium text-primary-600 hover:underline"
             >
               {{ isLogin() ? 'Register' : 'Login' }}

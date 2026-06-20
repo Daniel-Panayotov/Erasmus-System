@@ -3,7 +3,7 @@ import { StudentForm } from '../student-form/student.form';
 import { StudentAPI } from '../../../services/student.api.service';
 import { StudentData } from '../../../models/student.form.models';
 import { TreeValidationResult } from '@angular/forms/signals';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -15,7 +15,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class CreateStudentPage {
   private studentAPI = inject(StudentAPI);
   private router = inject(Router);
-  private route = inject(ActivatedRoute);
 
   userID = input.required<number>();
 
@@ -23,7 +22,7 @@ export class CreateStudentPage {
 
   createStudent(data: StudentData) {
     this.studentAPI.CreateStudent(this.userID(), data).subscribe({
-      next: () => this.router.navigate(['..'], { relativeTo: this.route }),
+      next: () => this.router.navigate(['/']),
       error(err: HttpErrorResponse) {},
     });
   }

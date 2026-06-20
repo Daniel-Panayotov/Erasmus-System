@@ -4,6 +4,8 @@ import { AuthenticationService } from '../../features/authentication/services/au
 import { providedIcons } from '../../shared/utils/iconProvider';
 import { HorizontalNavigation } from '../../shared/components/horizontal-navigation/horizontal-navigation';
 import { NavIcon } from '../../shared/models/horizontal-navigation.models';
+import { studentsPaths } from '../../features/students/students.paths';
+import { authPaths } from '../../features/authentication/authentication.paths';
 
 @Component({
   selector: 'app-navigation',
@@ -20,19 +22,19 @@ export class Navigation {
   private studentNavIcons: Signal<NavIcon[]> = computed(() => [
     {
       iconName: providedIcons.heroUser,
-      route: `/students/${this.auth.state()?.student?.studentID}/profile/update`,
+      route: studentsPaths.profileUpdate(this.studentID!.toString()),
       name: 'Update profile',
       float: 'left',
     },
     {
       iconName: providedIcons.heroClipboard,
-      route: `/students/${this.auth.state()?.student?.studentID}/apply`,
+      route: studentsPaths.apply(this.studentID!.toString()),
       name: 'Apply',
       float: 'left',
     },
     {
       iconName: providedIcons.heroClipboard,
-      route: `/students/${this.auth.state()?.student?.studentID}/profile/view`,
+      route: studentsPaths.profileView(this.studentID!.toString()),
       name: 'Profile',
       float: 'right',
     },
@@ -41,7 +43,7 @@ export class Navigation {
   private notStudentNavIcons: NavIcon[] = [
     {
       iconName: providedIcons.heroUser,
-      route: `/students/new/${this.auth.state()?.userID}/profile`,
+      route: studentsPaths.newProfile(this.auth.state()?.userID!),
       name: 'Create profile',
       float: 'left',
     },
@@ -51,7 +53,7 @@ export class Navigation {
     const items: NavIcon[] = [
       {
         iconName: providedIcons.heroLockClosed,
-        route: '',
+        route: [],
         name: 'Logout',
         float: 'right',
         callback: this.logout.bind(this),
@@ -70,11 +72,19 @@ export class Navigation {
 
   public async logout() {
     this.auth.logout().subscribe((x) => {
-      this.router.navigateByUrl('/');
+      this.router.navigate(authPaths.login());
     });
   }
 
   get authenticated() {
     return this.auth.authenticated;
+  }
+
+  get studentID() {
+    return this.auth.state()?.student?.studentID;
+  }
+
+  get authPaths() {
+    return authPaths;
   }
 }

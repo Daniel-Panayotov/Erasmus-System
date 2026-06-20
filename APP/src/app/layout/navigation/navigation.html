@@ -6,8 +6,8 @@
 
     <div class="nav-right">
       @if (!authenticated()) {
-        <a class="nav-btn-ghost" routerLink="/auth/login">Login</a>
-        <a class="nav-btn-ghost" routerLink="/auth/register">Register</a>
+        <a class="nav-btn-ghost" [routerLink]="authPaths.login()">Login</a>
+        <a class="nav-btn-ghost" [routerLink]="authPaths.register()">Register</a>
       } @else {
         <img
           (click)="profileClicked.update((v) => !v)"
