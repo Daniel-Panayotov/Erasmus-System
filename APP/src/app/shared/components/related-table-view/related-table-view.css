@@ -1,0 +1,44 @@
+.table-page-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.table-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* fills whatever parent gives it */
+}
+
+.scroll-area {
+  flex: 1 1 auto; /* takes the remaining space */
+  overflow: auto; /* scrolls if rows exceed available space */
+  min-height: 0; /* important in flex columns — prevents the child from refusing to shrink */
+  position: relative;
+}
+
+table {
+  width: 100%;
+}
+
+td,
+th {
+  width: 25%;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  cursor: pointer;
+}
+
+.row-clicked {
+  background-color: rgb(236, 232, 232);
+}
+
+.button-row {
+  position: absolute;
+  bottom: 1rem;
+  width: 100%;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}

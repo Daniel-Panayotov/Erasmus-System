@@ -42,4 +42,15 @@ export class LanguageCompetencyAPI {
       })
       .pipe(take(1));
   }
+
+  public Delete(competencyID: number) {
+    const url = `language-competencies/delete?competencyID=${competencyID}`;
+
+    return this.http
+      .delete(url, {
+        observe: 'response',
+        credentials: 'include',
+      })
+      .pipe(take(1));
+  }
 }

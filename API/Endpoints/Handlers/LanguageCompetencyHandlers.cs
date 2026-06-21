@@ -74,4 +74,13 @@ public class LanguageCompetencyHandlers
         return Results.Ok();
     }
 
+    public static async Task<IResult> Delete([FromQuery] int competencyID, UEMSContext ctx)
+    {
+        Console.WriteLine("\n\n\n" + competencyID + "\n\n\n");
+        var entries = await ctx.LanguageCompetencies.Where(l => l.LanguageCompetencyId == competencyID).ExecuteDeleteAsync();
+        Console.WriteLine("\n\n\n" + entries + "\n\n\n");
+        if (entries == 0) return Results.BadRequest("Couldn't delete anthing.");
+
+        return Results.Ok(); 
+    }
 }
