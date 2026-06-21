@@ -1,16 +1,26 @@
-import { Component, effect, inject, input, signal, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  effect,
+  input,
+  signal,
+  ViewChild,
+  WritableSignal,
+} from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { LanguageCompetencyBase } from '../../../features/students/models/language-competency.form.model';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { LanguageCompetencyAPI } from '../../../features/students/services/language-competency.api.service';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { catchError, EMPTY, map } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
-import { studentsPaths } from '../../../features/students/students.paths';
 import { RouterLink } from '@angular/router';
+
+export interface Column {
+  label: string;
+  field: string;
+}
 
 @Component({
   selector: 'app-related-table-view',
@@ -26,37 +36,22 @@ import { RouterLink } from '@angular/router';
   templateUrl: './related-table-view.html',
   styleUrl: './related-table-view.css',
 })
-export class RelatedTableView {
-  private competenciesAPI = inject(LanguageCompetencyAPI);
-
-  studentID = input.required<string>();
-  competenciesResource = rxResource({
-    params: () => ({ studentID: this.studentID() }),
-    stream: ({ params }) =>
-      this.competenciesAPI
-        .GetAll(parseInt(params.studentID))
-        .pipe(map((v) => v.body as LanguageCompetencyBase[])),
-  });
-
-  columnsToDisplay = [
-    'languageCompetencyID',
-    'language',
-    'canFollowLectures',
-    'canFollowLecturesWithLessons',
-  ];
-  dataSource = new MatTableDataSource<LanguageCompetencyBase>([]);
-
-  clickedRow = signal<LanguageCompetencyBase | null>(null);
-
+export class RelatedTableView implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  dataSignal = input.required<any[]>();
+  columns = input.required<Column[]>();
+
+  urls = input.required<{ create: () => string[]; update: (row: any) => string[] }>();
+  deleteHandler = input.required<(clickedRow: WritableSignal<any | null>) => void>();
+
+  headerDefs = computed(() => this.columns().map((col) => col.field));
+  dataSource = new MatTableDataSource<LanguageCompetencyBase>([]);
+  clickedRow = signal<LanguageCompetencyBase | null>(null);
+
   constructor() {
-    effect(() => {
-      if (this.competenciesResource.hasValue()) {
-        this.dataSource.data = this.competenciesResource.value();
-      } else this.dataSource.data = [];
-    });
+    effect(() => (this.dataSource.data = this.dataSignal()));
   }
 
   ngAfterViewInit() {
@@ -71,24 +66,8 @@ export class RelatedTableView {
     if (this.dataSource.paginator) this.dataSource.paginator.firstPage();
   }
 
-  selectRow(row: LanguageCompetencyBase) {
+  selectRow(row: any) {
     if (this.clickedRow() == row) this.clickedRow.set(null);
     else this.clickedRow.set(row);
-  }
-
-  deleteCompetency() {
-    if (!this.clickedRow()) return;
-
-    this.competenciesAPI
-      .Delete(this.clickedRow()?.languageCompetencyID!)
-      .pipe(catchError((err) => EMPTY))
-      .subscribe((res) => {
-        this.competenciesResource.reload();
-        this.clickedRow.set(null);
-      });
-  }
-
-  get studentsPaths() {
-    return studentsPaths;
   }
 }
