@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, effect, input, OnInit, output, signal } from '@angular/core';
 import {
   form,
   FormField,
@@ -9,7 +9,7 @@ import {
   required,
   TreeValidationResult,
 } from '@angular/forms/signals';
-import { StudentBase, StudentData, StudentFormModel } from '../../models/student.model';
+import { StudentData, StudentFormModel } from '../../models/student.model';
 import { Patterns } from '../../../../shared/utils/patterns';
 
 @Component({
@@ -18,10 +18,11 @@ import { Patterns } from '../../../../shared/utils/patterns';
   templateUrl: './student.form.html',
   styleUrl: './student.form.css',
 })
-export class StudentForm {
-  student = input<StudentBase>();
+export class StudentForm implements OnInit {
+  student = input.required<StudentFormModel | null>();
   serverErrors = input<TreeValidationResult | null>();
   save = output<StudentData>();
+  valueChange = output<StudentFormModel>();
 
   formModel = signal<StudentFormModel>({
     firstName: '',
@@ -91,10 +92,16 @@ export class StudentForm {
     },
   );
 
+  constructor() {
+    effect(() => {
+      this.valueChange.emit(this.studentForm().controlValue());
+    });
+  }
+
   ngOnInit() {
     if (!this.student()) return;
 
-    const studentdata: StudentFormModel = { ...(this.student() as StudentBase) };
+    const studentdata: StudentFormModel = { ...(this.student() as StudentData) };
 
     this.studentForm().controlValue.set(studentdata);
   }
@@ -107,6 +114,7 @@ export class StudentForm {
 
     // updates the input and form field with the cleaned value
     target.value = cleaned;
+
     this.studentForm.phoneNumber().controlValue.set(cleaned);
   }
 }

@@ -3,8 +3,8 @@ import { ProfileShell } from './profile-shell/profile-shell';
 import { Profile } from './profile-view/profile';
 import { UpdateStudentPage } from './update-student/update-student.page';
 import { CreateCompetencyPage } from './language-competencies/create-competency/create-competency.page';
-import { UpdateCompetencyPage } from './language-competencies/update-competency/update-competency.page';
 import { LanguageCompetencyTable } from './language-competencies/language-competency-table/language-competency-table';
+import { UpdateCompetencyPage } from './language-competencies/update-competency/update-competency.page';
 
 export const PROFILE_ROUTES: Routes = [
   {

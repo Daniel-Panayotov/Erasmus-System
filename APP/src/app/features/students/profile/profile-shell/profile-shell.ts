@@ -25,7 +25,7 @@ export class ProfileShell {
 
         const value = urls.find((v) => url == v.join('/'));
 
-        if (!value) return 3;
+        if (!value) return urls.length;
 
         return urls.findIndex((v) => v == value);
       }),

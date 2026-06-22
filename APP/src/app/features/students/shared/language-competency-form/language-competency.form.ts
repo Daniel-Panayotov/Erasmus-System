@@ -20,7 +20,7 @@ import {
   styleUrl: './language-competency.form.css',
 })
 export class LanguageCompetencyForm {
-  competency = input<LanguageCompetencyBase>();
+  competency = input<LanguageCompetencyData>();
   serverErrors = input<TreeValidationResult | null>();
   save = output<LanguageCompetencyData>();
 

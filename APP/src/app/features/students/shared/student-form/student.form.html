@@ -24,13 +24,15 @@
         }
       </div>
       <!-- Birth date -->
-      <div class="control-container">
-        <label for="birth-date">Birth date *</label>
-        <input type="date" id="birth-date" [formField]="studentForm.birthDate" />
-        @if (studentForm.birthDate().touched() && studentForm.birthDate().invalid()) {
-          <p class="error">{{ studentForm.birthDate().errors()[0].message }}</p>
-        }
-      </div>
+      @if (studentForm.birthDate()) {
+        <div class="control-container">
+          <label for="birth-date">Birth date *</label>
+          <input type="date" id="birth-date" [formField]="studentForm.birthDate" />
+          @if (studentForm.birthDate().touched() && studentForm.birthDate().invalid()) {
+            <p class="error">{{ studentForm.birthDate().errors()[0].message }}</p>
+          }
+        </div>
+      }
       <!-- Gender radio -->
       <div class="control-container">
         <fieldset>

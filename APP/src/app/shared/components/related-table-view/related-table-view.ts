@@ -51,7 +51,9 @@ export class RelatedTableView implements AfterViewInit {
   clickedRow = signal<LanguageCompetencyBase | null>(null);
 
   constructor() {
-    effect(() => (this.dataSource.data = this.dataSignal()));
+    effect(() => {
+      this.dataSource.data = this.dataSignal();
+    });
   }
 
   ngAfterViewInit() {
