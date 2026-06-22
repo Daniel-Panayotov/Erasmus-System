@@ -33,9 +33,9 @@ export class ProfileShell {
   );
 
   urls = computed(() => [
-    studentsPaths.profileView(this.studentID()),
-    studentsPaths.languageCompetencies(this.studentID()),
-    studentsPaths.profileUpdate(this.studentID()),
+    studentsPaths.profiles(this.studentID()).view,
+    studentsPaths.profiles(this.studentID()).competencies_table,
+    studentsPaths.profiles(this.studentID()).update,
   ]);
 
   navigate(index: number) {

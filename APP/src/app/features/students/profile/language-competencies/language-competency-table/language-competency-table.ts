@@ -38,9 +38,11 @@ export class LanguageCompetencyTable {
   ];
 
   urls = {
-    create: () => studentsPaths.languageCompetenciesCreate(this.studentID()),
+    create: () => studentsPaths.profiles(this.studentID()).competencies_create,
     update: (row: LanguageCompetencyBase) =>
-      studentsPaths.languageCompetencyUpdate(this.studentID(), row.languageCompetencyID.toString()),
+      studentsPaths
+        .profiles(this.studentID())
+        .competencies_update(row.languageCompetencyID.toString()),
   };
 
   constructor() {

@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
+import { ApplicationForm } from '../shared/application-form/application.form';
 
 export const APPLICATIONS_ROUTES: Routes = [
   {
     path: '',
+    children: [{ path: 'create', component: ApplicationForm }],
   },
 ];
 
