@@ -20,7 +20,7 @@ public class StudentHandlers
         return Results.Ok(student);
     }
 
-    public static async Task<IResult> Create([FromQuery] int userID, [FromBody] StudentDataDTO data, HttpContext http, UEMSContext ctx)
+    public static async Task<IResult> Create([FromQuery] int userID, [FromBody] NewStudentDTO data, HttpContext http, UEMSContext ctx)
     {
         var query = ctx.Students.Where(s => s.UserId == userID);
 
@@ -37,6 +37,17 @@ public class StudentHandlers
             Address = data.Address,
             PhoneNumber = data.PhoneNumber,
         };
+
+        foreach (var comp in data.LanguageCompetencies) {
+            ctx.LanguageCompetencies.Add(new LanguageCompetency
+            {
+                Student = student,
+                Language = comp.Language,
+                CanFollowLectures = comp.CanFollowLectures,
+                CanFollowLecturesWithLessons = comp.CanFollowLecturesWithLessons
+            });
+        }
+
         ctx.Students.Add(student);
 
         try {

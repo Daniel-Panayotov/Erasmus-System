@@ -43,6 +43,28 @@ public record StudentDataDTO : IStudentDTO
     }
 }
 
+public record NewStudentDTO : StudentDataDTO
+{
+    public IEnumerable<LanguageCompetencyDataDTO> LanguageCompetencies { get; init; }
+    public NewStudentDTO(
+        string firstname,
+        string lastname,
+        DateOnly birthdate,
+        Gender gender,
+        string nationality,
+        string address,
+        string phonenumber,
+        IEnumerable<LanguageCompetencyDataDTO> languageCompetencies) : base(
+            firstname,
+            lastname,
+            birthdate,
+            gender,
+            nationality,
+            address,
+            phonenumber)
+    { LanguageCompetencies = languageCompetencies; }
+}
+
 public record StudentBaseDTO : StudentDataDTO, IDTO
 {
     public int StudentID { get; init; }

@@ -1,1 +1,6 @@
-<app-student-form (save)="createStudent($event)" [serverErrors]="serverErrors()" />
+<app-student-form
+  [student]="student()"
+  (save)="createStudent($event)"
+  (valueChange)="valueChange($event)"
+  [serverErrors]="serverErrors()"
+/>
