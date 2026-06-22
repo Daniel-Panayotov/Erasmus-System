@@ -3,7 +3,7 @@ import {
   LanguageCompetencyBase,
   LanguageCompetencyData,
   LanguageCompetencyFormModel,
-} from '../../../models/language-competency.model';
+} from '../../models/language-competency.model';
 import {
   form,
   FormField,

@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
 import { ProfileShell } from './profile-shell/profile-shell';
 import { Profile } from './profile-view/profile';
-import { UpdateStudentPage } from './student-forms/update-student-page/update-student.page';
-import { CreateCompetencyPage } from './language-competency-forms/create-competency-page/create-competency.page';
-import { UpdateCompetencyPage } from './language-competency-forms/update-competency-page/update-competency.page';
-import { LanguageCompetencyTable } from './language-competency-table/language-competency-table';
+import { UpdateStudentPage } from './update-student/update-student.page';
+import { CreateCompetencyPage } from './language-competencies/create-competency/create-competency.page';
+import { UpdateCompetencyPage } from './language-competencies/update-competency/update-competency.page';
+import { LanguageCompetencyTable } from './language-competencies/language-competency-table/language-competency-table';
 
 export const PROFILE_ROUTES: Routes = [
   {

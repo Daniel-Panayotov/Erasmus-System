@@ -8,10 +8,10 @@ import {
   pattern,
   required,
 } from '@angular/forms/signals';
-import { ApplicationData, ApplicationFormModel } from '../models/application.model';
-import { ApplicationPatterns } from '../../../shared/utils/patterns';
-import { ApplicationService } from '../services/application.service';
-import { AuthenticationService } from '../../authentication/services/authentication.service';
+import { ApplicationData, ApplicationFormModel } from '../../models/application.model';
+import { ApplicationPatterns } from '../../../../shared/utils/patterns';
+import { ApplicationService } from '../../services/application.service';
+import { AuthenticationService } from '../../../authentication/services/authentication.service';
 
 @Component({
   selector: 'app-application-form',

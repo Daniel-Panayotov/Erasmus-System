@@ -2,12 +2,12 @@ import { Component, effect, inject, input, signal, WritableSignal } from '@angul
 import {
   Column,
   RelatedTableView,
-} from '../../../../shared/components/related-table-view/related-table-view';
-import { LanguageCompetencyService } from '../../services/language-competency.service';
+} from '../../../../../shared/components/related-table-view/related-table-view';
+import { LanguageCompetencyService } from '../../../services/language-competency.service';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { LanguageCompetencyBase } from '../../models/language-competency.model';
+import { LanguageCompetencyBase } from '../../../models/language-competency.model';
 import { catchError, EMPTY, map } from 'rxjs';
-import { studentsPaths } from '../../students.paths';
+import { studentsPaths } from '../../../students.paths';
 
 @Component({
   selector: 'app-language-competency-table',

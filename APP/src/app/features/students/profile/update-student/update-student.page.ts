@@ -1,12 +1,12 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { StudentForm } from '../student-form/student.form';
-import { StudentService } from '../../../services/student.service';
+import { StudentService } from '../../services/student.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { StudentBase, StudentData } from '../../../models/student.model';
+import { StudentBase, StudentData } from '../../models/student.model';
 import { TreeValidationResult } from '@angular/forms/signals';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StudentForm } from '../../shared/student-form/student.form';
 
 @Component({
   selector: 'app-update-student-page',

@@ -8,8 +8,8 @@ import {
   LanguageCompetencyBase,
   LanguageCompetencyData,
 } from '../../../models/language-competency.model';
-import { LanguageCompetencyForm } from '../language-competency-form/language-competency.form';
 import { HttpErrorResponse } from '@angular/common/http';
+import { LanguageCompetencyForm } from '../../../shared/language-competency-form/language-competency.form';
 
 @Component({
   selector: 'app-update-competency-page',

@@ -9,8 +9,8 @@ import {
   required,
   TreeValidationResult,
 } from '@angular/forms/signals';
-import { StudentBase, StudentData, StudentFormModel } from '../../../models/student.model';
-import { Patterns } from '../../../../../shared/utils/patterns';
+import { StudentBase, StudentData, StudentFormModel } from '../../models/student.model';
+import { Patterns } from '../../../../shared/utils/patterns';
 
 @Component({
   selector: 'app-student-form',

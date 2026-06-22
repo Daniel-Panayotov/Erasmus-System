@@ -1,10 +1,10 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { StudentForm } from '../student-form/student.form';
-import { StudentService } from '../../../services/student.service';
-import { StudentData } from '../../../models/student.model';
+import { StudentService } from '../../services/student.service';
+import { StudentData } from '../../models/student.model';
 import { TreeValidationResult } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { StudentForm } from '../../shared/student-form/student.form';
 
 @Component({
   selector: 'app-create-student-page',
