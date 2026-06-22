@@ -1,0 +1,14 @@
+import { Routes } from '@angular/router';
+
+export const APPLICATIONS_ROUTES: Routes = [
+  {
+    path: '',
+  },
+];
+
+// students/:studentID/applications/create
+// students/:studentID/applications/:applicationID/view
+// students/:studentID/applications/:applicationID/update
+// students/:studentID/applications/:applicationID/experiences
+// students/:studentID/applications/:applicationID/experiences/create
+// students/:studentID/applications/:applicationID/experiences/update/:experienceID

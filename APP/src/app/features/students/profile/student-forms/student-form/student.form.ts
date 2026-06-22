@@ -9,7 +9,7 @@ import {
   required,
   TreeValidationResult,
 } from '@angular/forms/signals';
-import { StudentBase, StudentData, StudentFormModel } from '../../../models/student.form.models';
+import { StudentBase, StudentData, StudentFormModel } from '../../../models/student.model';
 import { Patterns } from '../../../../../shared/utils/patterns';
 
 @Component({

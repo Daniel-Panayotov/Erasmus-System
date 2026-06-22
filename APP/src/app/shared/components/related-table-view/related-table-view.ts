@@ -9,7 +9,7 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { LanguageCompetencyBase } from '../../../features/students/models/language-competency.form.model';
+import { LanguageCompetencyBase } from '../../../features/students/models/language-competency.model';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';

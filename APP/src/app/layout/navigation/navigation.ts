@@ -1,9 +1,9 @@
 import { Component, computed, inject, Signal, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AuthenticationService } from '../../features/authentication/services/authentication-service';
-import { providedIcons } from '../../shared/utils/iconProvider';
+import { AuthenticationService } from '../../features/authentication/services/authentication.service';
+import { providedIcons } from '../../shared/utils/icon.provider';
 import { HorizontalNavigation } from '../../shared/components/horizontal-navigation/horizontal-navigation';
-import { NavIcon } from '../../shared/models/horizontal-navigation.models';
+import { NavIcon } from '../../shared/models/horizontal-navigation.model';
 import { studentsPaths } from '../../features/students/students.paths';
 import { authPaths } from '../../features/authentication/authentication.paths';
 

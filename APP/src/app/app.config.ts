@@ -13,14 +13,14 @@ import {
   withInterceptors,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { baseUrlInterceptor } from './core/interceptors/baseUrl-interceptor';
+import { baseUrlInterceptor } from './core/interceptors/baseUrl.interceptor';
 import { environment } from '../environments/environment';
-import { TimeoutInterceptor } from './core/interceptors/timeout-interceptor';
-import { AuthenticationService } from './features/authentication/services/authentication-service';
+import { TimeoutInterceptor } from './core/interceptors/timeout.interceptor';
+import { AuthenticationService } from './features/authentication/services/authentication.service';
 import { catchError, EMPTY } from 'rxjs';
-import { AuthInterceptor } from './core/interceptors/auth-interceptor';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { provideIcons } from '@ng-icons/core';
-import { requiredIcons } from './shared/utils/iconProvider';
+import { requiredIcons } from './shared/utils/icon.provider';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const BASE_URL = new InjectionToken<string>('BaseUrl');

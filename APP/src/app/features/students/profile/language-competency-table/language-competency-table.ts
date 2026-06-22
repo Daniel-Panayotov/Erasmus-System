@@ -3,9 +3,9 @@ import {
   Column,
   RelatedTableView,
 } from '../../../../shared/components/related-table-view/related-table-view';
-import { LanguageCompetencyAPI } from '../../services/language-competency.api.service';
+import { LanguageCompetencyService } from '../../services/language-competency.service';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { LanguageCompetencyBase } from '../../models/language-competency.form.model';
+import { LanguageCompetencyBase } from '../../models/language-competency.model';
 import { catchError, EMPTY, map } from 'rxjs';
 import { studentsPaths } from '../../students.paths';
 
@@ -16,7 +16,7 @@ import { studentsPaths } from '../../students.paths';
   styleUrl: './language-competency-table.css',
 })
 export class LanguageCompetencyTable {
-  private competenciesAPI = inject(LanguageCompetencyAPI);
+  private competenciesAPI = inject(LanguageCompetencyService);
 
   studentID = input.required<string>();
 

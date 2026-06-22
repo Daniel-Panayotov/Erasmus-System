@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StudentAPI } from '../../services/student.api.service';
+import { StudentService } from '../../services/student.service';
 import { catchError, EMPTY, map, take } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -11,7 +11,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
   styleUrl: './profile.css',
 })
 export class Profile {
-  private studentAPI = inject(StudentAPI);
+  private studentAPI = inject(StudentService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 

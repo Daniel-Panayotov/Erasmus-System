@@ -1,6 +1,6 @@
 import { Component, inject, input, output } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
-import { NavIcon } from '../../models/horizontal-navigation.models';
+import { NavIcon } from '../../models/horizontal-navigation.model';
 import { EventType, Router, RouterLink } from '@angular/router';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
