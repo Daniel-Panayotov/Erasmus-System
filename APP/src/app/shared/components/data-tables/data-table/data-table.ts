@@ -6,7 +6,6 @@ import {
   input,
   signal,
   ViewChild,
-  WritableSignal,
 } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { LanguageCompetencyBase } from '../../../../features/students/models/language-competency.model';
@@ -16,17 +15,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
+import { Button } from '../../../models/data-table.model';
 
 export interface Column {
   label: string;
   field: string;
-}
-
-export interface Button {
-  label: string;
-  url?: (row?: any | null) => string[];
-  handler?: (row: WritableSignal<any | null>) => void;
-  disable: boolean;
 }
 
 @Component({
@@ -49,8 +42,7 @@ export class DataTable implements AfterViewInit {
 
   dataSignal = input.required<any[]>();
   columns = input.required<Column[]>();
-
-  buttons = input.required<Button[]>();
+  buttons = input.required<Button<any>[]>();
 
   headerDefs = computed(() => this.columns().map((col) => col.field));
   dataSource = new MatTableDataSource<LanguageCompetencyBase>([]);

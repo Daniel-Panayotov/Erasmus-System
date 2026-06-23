@@ -1,12 +1,17 @@
-import { Component, inject, input, WritableSignal } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import {
-  Button,
   Column,
   DataTable,
 } from '../../../../../shared/components/data-tables/data-table/data-table';
 import { LanguageCompetencyBase } from '../../../models/language-competency.model';
 import { studentsPaths } from '../../../students.paths';
 import { ProfileDraftStore } from '../../profile-draft.store';
+import {
+  createButton,
+  deleteButton,
+  updateButton,
+} from '../../../../../shared/utils/table-buttons';
+import { Button } from '../../../../../shared/models/data-table.model';
 
 @Component({
   selector: 'app-draft-language-competency-table',
@@ -26,43 +31,30 @@ export class DraftCompetencyTable {
     { label: 'Can Follow Lectures With Lessons', field: 'canFollowLecturesWithLessons' },
   ];
 
-  buttons: Button[] = [
-    {
-      label: 'Create',
-      disable: false,
-      url: () => studentsPaths.newProfile(this.userID()).competencies_create,
-    },
-    {
-      label: 'Update',
-      disable: true,
-      url: (row: LanguageCompetencyBase | null) =>
-        row
-          ? studentsPaths.newProfile(this.userID()).competencies_update(
-              this.draftStore
-                .competenciesDraft()
-                .findIndex((v) => v == row)
-                .toString(),
-            )
-          : [''],
-    },
-    {
-      label: 'Delete',
-      disable: true,
-      handler: (row: WritableSignal<LanguageCompetencyBase | null>) => {
-        const rowValue = row();
-        if (!rowValue) return;
+  buttons: Button<LanguageCompetencyBase>[] = [
+    createButton(() => studentsPaths.newProfile(this.userID()).competencies_create),
+    updateButton((row) =>
+      studentsPaths.newProfile(this.userID()).competencies_update(
+        this.draftStore
+          .competenciesDraft()
+          .findIndex((v) => v == row)
+          .toString(),
+      ),
+    ),
+    deleteButton<LanguageCompetencyBase | null>((row) => {
+      const rowValue = row();
+      if (!rowValue) return;
 
-        const draft = this.draftStore.competenciesDraft();
+      const draft = this.draftStore.competenciesDraft();
 
-        const index = draft.findIndex((v) => v == rowValue);
-        if (index == -1) return;
+      const index = draft.findIndex((v) => v == rowValue);
+      if (index == -1) return;
 
-        draft.splice(index, 1);
-        this.draftStore.competenciesDraft.set([...draft]);
+      draft.splice(index, 1);
+      this.draftStore.competenciesDraft.set([...draft]);
 
-        row.set(null);
-      },
-    },
+      row.set(null);
+    }),
   ];
 
   get competenciesSignal() {

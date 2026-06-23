@@ -31,9 +31,9 @@
         @for (button of buttons(); track $index) {
           <button
             matButton="outlined"
-            [disabled]="button.disable == true ? !clickedRow() : false"
-            [routerLink]="button.url == null ? null : button.url(clickedRow())"
-            (click)="button.handler == null ? null : button.handler(clickedRow)"
+            [disabled]="button.disabled?.(clickedRow) ?? false"
+            [routerLink]="button.url?.(clickedRow()) ?? null"
+            (click)="button.handler?.(clickedRow) ?? null"
           >
             {{ button.label }}
           </button>
