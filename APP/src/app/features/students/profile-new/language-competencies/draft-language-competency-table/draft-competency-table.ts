@@ -2,15 +2,15 @@ import { Component, inject, input, WritableSignal } from '@angular/core';
 import {
   Button,
   Column,
-  DataTableView,
-} from '../../../../../shared/components/data-tables/data-table-view/data-table-view';
+  DataTable,
+} from '../../../../../shared/components/data-tables/data-table/data-table';
 import { LanguageCompetencyBase } from '../../../models/language-competency.model';
 import { studentsPaths } from '../../../students.paths';
 import { ProfileDraftStore } from '../../profile-draft.store';
 
 @Component({
   selector: 'app-draft-language-competency-table',
-  imports: [DataTableView],
+  imports: [DataTable],
   templateUrl: './draft-competency-table.html',
   styleUrl: './draft-competency-table.css',
 })

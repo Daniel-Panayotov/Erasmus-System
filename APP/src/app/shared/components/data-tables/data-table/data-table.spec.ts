@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DataTableView } from './data-table-view';
+import { DataTable } from './data-table';
 
-describe('DataTableView', () => {
-  let component: DataTableView;
-  let fixture: ComponentFixture<DataTableView>;
+describe('DataTable', () => {
+  let component: DataTable;
+  let fixture: ComponentFixture<DataTable>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DataTableView],
+      imports: [DataTable],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DataTableView);
+    fixture = TestBed.createComponent(DataTable);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -30,7 +30,7 @@ export interface Button {
 }
 
 @Component({
-  selector: 'app-data-table-view',
+  selector: 'app-data-table',
   imports: [
     MatFormFieldModule,
     MatInputModule,
@@ -40,10 +40,10 @@ export interface Button {
     MatButtonModule,
     RouterLink,
   ],
-  templateUrl: './data-table-view.html',
-  styleUrl: './data-table-view.css',
+  templateUrl: './data-table.html',
+  styleUrl: './data-table.css',
 })
-export class DataTableView implements AfterViewInit {
+export class DataTable implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
