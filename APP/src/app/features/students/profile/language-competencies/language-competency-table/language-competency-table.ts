@@ -1,8 +1,8 @@
 import { Component, effect, inject, input, signal, WritableSignal } from '@angular/core';
 import {
   Column,
-  RelatedTableView,
-} from '../../../../../shared/components/related-table-view/related-table-view';
+  DataTableView,
+} from '../../../../../shared/components/data-table-view/data-table-view';
 import { LanguageCompetencyService } from '../../../services/language-competency.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { LanguageCompetencyBase } from '../../../models/language-competency.model';
@@ -11,7 +11,7 @@ import { studentsPaths } from '../../../students.paths';
 
 @Component({
   selector: 'app-language-competency-table',
-  imports: [RelatedTableView],
+  imports: [DataTableView],
   templateUrl: './language-competency-table.html',
   styleUrl: './language-competency-table.css',
 })

@@ -1,8 +1,8 @@
 import { Component, inject, input, WritableSignal } from '@angular/core';
 import {
   Column,
-  RelatedTableView,
-} from '../../../../../shared/components/related-table-view/related-table-view';
+  DataTableView,
+} from '../../../../../shared/components/data-table-view/data-table-view';
 import {
   LanguageCompetencyBase,
   LanguageCompetencyData,
@@ -12,7 +12,7 @@ import { ProfileDraftStore } from '../../profile-draft.store';
 
 @Component({
   selector: 'app-draft-language-competency-table',
-  imports: [RelatedTableView],
+  imports: [DataTableView],
   templateUrl: './draft-competency-table.html',
   styleUrl: './draft-competency-table.css',
 })

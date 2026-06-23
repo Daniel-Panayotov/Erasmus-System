@@ -23,7 +23,7 @@ export interface Column {
 }
 
 @Component({
-  selector: 'app-related-table-view',
+  selector: 'app-data-table-view',
   imports: [
     MatFormFieldModule,
     MatInputModule,
@@ -33,10 +33,10 @@ export interface Column {
     MatButtonModule,
     RouterLink,
   ],
-  templateUrl: './related-table-view.html',
-  styleUrl: './related-table-view.css',
+  templateUrl: './data-table-view.html',
+  styleUrl: './data-table-view.css',
 })
-export class RelatedTableView implements AfterViewInit {
+export class DataTableView implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
