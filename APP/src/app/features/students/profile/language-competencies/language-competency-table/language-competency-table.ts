@@ -1,8 +1,9 @@
 import { Component, effect, inject, input, signal, WritableSignal } from '@angular/core';
 import {
+  Button,
   Column,
   DataTableView,
-} from '../../../../../shared/components/data-table-view/data-table-view';
+} from '../../../../../shared/components/data-tables/data-table-view/data-table-view';
 import { LanguageCompetencyService } from '../../../services/language-competency.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { LanguageCompetencyBase } from '../../../models/language-competency.model';
@@ -37,13 +38,38 @@ export class LanguageCompetencyTable {
     { label: 'Can Follow Lectures With Lessons', field: 'canFollowLecturesWithLessons' },
   ];
 
-  urls = {
-    create: () => studentsPaths.profiles(this.studentID()).competencies_create,
-    update: (row: LanguageCompetencyBase) =>
-      studentsPaths
-        .profiles(this.studentID())
-        .competencies_update(row.languageCompetencyID.toString()),
-  };
+  buttons: Button[] = [
+    {
+      label: 'Create',
+      disable: false,
+      url: () => studentsPaths.profiles(this.studentID()).competencies_create,
+    },
+    {
+      label: 'Update',
+      disable: true,
+      url: (row: LanguageCompetencyBase | null) =>
+        row
+          ? studentsPaths
+              .profiles(this.studentID())
+              .competencies_update(row.languageCompetencyID.toString())
+          : [''],
+    },
+    {
+      label: 'Delete',
+      disable: true,
+      handler: (row: WritableSignal<LanguageCompetencyBase | null>) => {
+        if (!row()) return;
+
+        this.competenciesAPI
+          .Delete(row()?.languageCompetencyID!)
+          .pipe(catchError((err) => EMPTY))
+          .subscribe((res) => {
+            this.competenciesResource.reload();
+            row.set(null);
+          });
+      },
+    },
+  ];
 
   constructor() {
     effect(() => {
@@ -51,17 +77,5 @@ export class LanguageCompetencyTable {
         this.competenciesSignal.set(this.competenciesResource.value());
       } else this.competenciesSignal.set([]);
     });
-  }
-
-  deleteCompetency(clickedRow: WritableSignal<LanguageCompetencyBase | null>) {
-    if (!clickedRow()) return;
-
-    this.competenciesAPI
-      .Delete(clickedRow()?.languageCompetencyID!)
-      .pipe(catchError((err) => EMPTY))
-      .subscribe((res) => {
-        this.competenciesResource.reload();
-        clickedRow.set(null);
-      });
   }
 }

@@ -9,7 +9,7 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { LanguageCompetencyBase } from '../../../features/students/models/language-competency.model';
+import { LanguageCompetencyBase } from '../../../../features/students/models/language-competency.model';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,6 +20,13 @@ import { RouterLink } from '@angular/router';
 export interface Column {
   label: string;
   field: string;
+}
+
+export interface Button {
+  label: string;
+  url?: (row?: any | null) => string[];
+  handler?: (row: WritableSignal<any | null>) => void;
+  disable: boolean;
 }
 
 @Component({
@@ -43,8 +50,7 @@ export class DataTableView implements AfterViewInit {
   dataSignal = input.required<any[]>();
   columns = input.required<Column[]>();
 
-  urls = input.required<{ create: () => string[]; update: (row: any) => string[] }>();
-  deleteHandler = input.required<(clickedRow: WritableSignal<any | null>) => void>();
+  buttons = input.required<Button[]>();
 
   headerDefs = computed(() => this.columns().map((col) => col.field));
   dataSource = new MatTableDataSource<LanguageCompetencyBase>([]);

@@ -28,21 +28,16 @@
         </tr>
       </table>
       <div class="button-row">
-        <button matButton="outlined" [routerLink]="urls().create()">Create</button>
-        <button
-          matButton="outlined"
-          [disabled]="!clickedRow()"
-          [routerLink]="clickedRow() == null ? '' : urls().update(clickedRow())"
-        >
-          Update
-        </button>
-        <button
-          matButton="outlined"
-          [disabled]="!clickedRow()"
-          (click)="deleteHandler()(clickedRow)"
-        >
-          Delete
-        </button>
+        @for (button of buttons(); track $index) {
+          <button
+            matButton="outlined"
+            [disabled]="button.disable == true ? !clickedRow() : false"
+            [routerLink]="button.url == null ? null : button.url(clickedRow())"
+            (click)="button.handler == null ? null : button.handler(clickedRow)"
+          >
+            {{ button.label }}
+          </button>
+        }
       </div>
     </div>
     <mat-paginator [pageSizeOptions]="[5, 10]" />
