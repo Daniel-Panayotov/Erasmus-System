@@ -7,7 +7,7 @@ import { LanguageCompetencyService } from '../../../services/language-competency
 import { rxResource } from '@angular/core/rxjs-interop';
 import { LanguageCompetencyBase } from '../../../models/language-competency.model';
 import { catchError, EMPTY, map } from 'rxjs';
-import { studentsPaths } from '../../../students.paths';
+import { studentPaths } from '../../../student.paths';
 import { Button } from '../../../../../shared/models/data-table.model';
 import {
   createButton,
@@ -44,11 +44,11 @@ export class LanguageCompetencyTable {
   ];
 
   buttons: Button<LanguageCompetencyBase | null>[] = [
-    createButton(() => studentsPaths.profiles(this.studentID()).competencies_create),
+    createButton(() => studentPaths.profiles(this.studentID()).competencies_create),
     updateButton((row) =>
       row == null
         ? ['']
-        : studentsPaths
+        : studentPaths
             .profiles(this.studentID())
             .competencies_update(row.languageCompetencyID.toString()),
     ),

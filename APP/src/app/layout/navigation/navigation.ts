@@ -4,7 +4,7 @@ import { AuthenticationService } from '../../features/authentication/services/au
 import { providedIcons } from '../../shared/utils/icon.provider';
 import { HorizontalNavigation } from '../../shared/components/horizontal-navigation/horizontal-navigation';
 import { NavIcon } from '../../shared/models/horizontal-navigation.model';
-import { studentsPaths } from '../../features/students/students.paths';
+import { studentPaths } from '../../features/students/student.paths';
 import { authPaths } from '../../features/authentication/authentication.paths';
 
 @Component({
@@ -22,13 +22,13 @@ export class Navigation {
   private studentNavIcons: Signal<NavIcon[]> = computed(() => [
     {
       iconName: providedIcons.heroClipboard,
-      route: studentsPaths.applications(this.studentID!.toString()).create,
+      route: studentPaths.applications(this.studentID!.toString()).create,
       name: 'Apply',
       float: 'left',
     },
     {
       iconName: providedIcons.heroClipboard,
-      route: studentsPaths.profiles(this.studentID!.toString()).view,
+      route: studentPaths.profiles(this.studentID!.toString()).view,
       name: 'Profile',
       float: 'right',
     },
@@ -37,7 +37,7 @@ export class Navigation {
   private notStudentNavIcons: NavIcon[] = [
     {
       iconName: providedIcons.heroUser,
-      route: studentsPaths.newProfile(this.auth.state()?.userID!).profile,
+      route: studentPaths.newProfile(this.auth.state()?.userID!).profile,
       name: 'Create profile',
       float: 'left',
     },

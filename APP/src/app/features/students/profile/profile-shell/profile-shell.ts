@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { EventType, Router, RouterOutlet } from '@angular/router';
-import { studentsPaths } from '../../students.paths';
+import { studentPaths } from '../../student.paths';
 import { filter, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -33,9 +33,9 @@ export class ProfileShell {
   );
 
   urls = computed(() => [
-    studentsPaths.profiles(this.studentID()).view,
-    studentsPaths.profiles(this.studentID()).competencies_table,
-    studentsPaths.profiles(this.studentID()).update,
+    studentPaths.profiles(this.studentID()).view,
+    studentPaths.profiles(this.studentID()).competencies_table,
+    studentPaths.profiles(this.studentID()).update,
   ]);
 
   navigate(index: number) {

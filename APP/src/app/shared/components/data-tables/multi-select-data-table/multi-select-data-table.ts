@@ -12,7 +12,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { catchError, EMPTY, map } from 'rxjs';
 import { LanguageCompetencyBase } from '../../../../features/students/models/language-competency.model';
 import { createButton, deleteButton, updateButton } from '../../../utils/table-buttons';
-import { studentsPaths } from '../../../../features/students/students.paths';
+import { studentPaths } from '../../../../features/students/student.paths';
 
 @Component({
   selector: 'app-multi-select-data-table',
@@ -47,11 +47,11 @@ export class MultiSelectDataTable {
   ];
 
   buttons: Button<LanguageCompetencyBase | null>[] = [
-    createButton(() => studentsPaths.profiles(this.studentID()).competencies_create),
+    createButton(() => studentPaths.profiles(this.studentID()).competencies_create),
     updateButton((row) =>
       row == null
         ? ['']
-        : studentsPaths
+        : studentPaths
             .profiles(this.studentID())
             .competencies_update(row.languageCompetencyID.toString()),
     ),

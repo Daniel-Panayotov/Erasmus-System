@@ -4,7 +4,7 @@ import {
   DataTable,
 } from '../../../../../shared/components/data-tables/data-table/data-table';
 import { LanguageCompetencyBase } from '../../../models/language-competency.model';
-import { studentsPaths } from '../../../students.paths';
+import { studentPaths } from '../../../student.paths';
 import { ProfileDraftStore } from '../../profile-draft.store';
 import {
   createButton,
@@ -32,9 +32,9 @@ export class DraftCompetencyTable {
   ];
 
   buttons: Button<LanguageCompetencyBase>[] = [
-    createButton(() => studentsPaths.newProfile(this.userID()).competencies_create),
+    createButton(() => studentPaths.newProfile(this.userID()).competencies_create),
     updateButton((row) =>
-      studentsPaths.newProfile(this.userID()).competencies_update(
+      studentPaths.newProfile(this.userID()).competencies_update(
         this.draftStore
           .competenciesDraft()
           .findIndex((v) => v == row)

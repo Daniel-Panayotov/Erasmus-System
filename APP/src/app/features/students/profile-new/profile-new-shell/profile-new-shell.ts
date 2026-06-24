@@ -3,7 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { EventType, Router, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs';
-import { studentsPaths } from '../../students.paths';
+import { studentPaths } from '../../student.paths';
 import { ProfileDraftStore } from '../profile-draft.store';
 
 @Component({
@@ -35,8 +35,8 @@ export class ProfileNewShell {
   );
 
   urls = computed(() => [
-    studentsPaths.newProfile(this.userID()).profile,
-    studentsPaths.newProfile(this.userID()).competencies_table,
+    studentPaths.newProfile(this.userID()).profile,
+    studentPaths.newProfile(this.userID()).competencies_table,
   ]);
 
   navigate(index: number) {
