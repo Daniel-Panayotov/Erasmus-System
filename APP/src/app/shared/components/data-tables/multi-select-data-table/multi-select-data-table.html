@@ -1,0 +1,20 @@
+<div cdkDropListGroup class="table-page-container">
+  <app-data-table
+    [dataSignal]="selectedCompSignal()"
+    [columns]="columns"
+    [buttons]="buttons"
+    (onDrop)="out($event)"
+  />
+  <app-data-table
+    [dataSignal]="filteredCompSignal()"
+    [columns]="columns"
+    [buttons]="buttons"
+    (onDrop)="out($event)"
+  />
+  <app-data-table
+    [dataSignal]="competenciesSignal()"
+    [columns]="columns"
+    [buttons]="buttons"
+    (onDrop)="out($event)"
+  />
+</div>

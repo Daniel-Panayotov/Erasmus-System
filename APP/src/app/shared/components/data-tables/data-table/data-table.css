@@ -7,18 +7,13 @@
 .table-shell {
   display: flex;
   flex-direction: column;
-  height: 100%; /* fills whatever parent gives it */
+  flex: 1 0 30vh;
 }
 
 .scroll-area {
   flex: 1 1 auto; /* takes the remaining space */
   overflow: auto; /* scrolls if rows exceed available space */
   min-height: 0; /* important in flex columns — prevents the child from refusing to shrink */
-  position: relative;
-}
-
-table {
-  width: 100%;
 }
 
 td,
@@ -26,12 +21,31 @@ th {
   width: 25%;
 }
 
+.mat-mdc-row,
+.mat-mdc-header-row {
+  align-items: stretch;
+}
+
 .mat-mdc-row .mat-mdc-cell {
   cursor: pointer;
 }
 
+.mat-mdc-cell,
+.mat-mdc-header-cell,
+tr {
+  display: flex;
+  align-items: center;
+}
+
 .row-clicked {
   background-color: rgb(236, 232, 232);
+}
+
+/* BUTTONS */
+
+.button-container {
+  height: 80px;
+  position: relative;
 }
 
 .button-row {

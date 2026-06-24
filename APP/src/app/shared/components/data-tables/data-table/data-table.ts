@@ -4,16 +4,17 @@ import {
   computed,
   effect,
   input,
+  output,
   signal,
   ViewChild,
 } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { LanguageCompetencyBase } from '../../../../features/students/models/language-competency.model';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { RouterLink } from '@angular/router';
 import { Button } from '../../../models/data-table.model';
 
@@ -32,6 +33,8 @@ export interface Column {
     MatSortModule,
     MatButtonModule,
     RouterLink,
+    CdkDropList,
+    CdkDrag,
   ],
   templateUrl: './data-table.html',
   styleUrl: './data-table.css',
@@ -42,28 +45,36 @@ export class DataTable implements AfterViewInit {
 
   dataSignal = input.required<any[]>();
   columns = input.required<Column[]>();
-  buttons = input.required<Button<any>[]>();
+  buttons = input<Button<any>[]>();
+  onDrop = output<CdkDragDrop<string[]>>();
+
+  tableSource = new MatTableDataSource<any>([]);
+  dropListSource: any[] = [];
 
   headerDefs = computed(() => this.columns().map((col) => col.field));
-  dataSource = new MatTableDataSource<LanguageCompetencyBase>([]);
-  clickedRow = signal<LanguageCompetencyBase | null>(null);
+  clickedRow = signal<any | null>(null);
 
   constructor() {
     effect(() => {
-      this.dataSource.data = this.dataSignal();
+      this.tableSource.data = this.dataSignal();
+      this.dropListSource = this.dataSignal();
     });
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.tableSource.paginator = this.paginator;
+    this.tableSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.tableSource.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSource.paginator) this.dataSource.paginator.firstPage();
+    if (this.tableSource.paginator) this.tableSource.paginator.firstPage();
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    this.onDrop.emit(event);
   }
 
   selectRow(row: any) {

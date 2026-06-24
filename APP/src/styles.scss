@@ -3,6 +3,8 @@
 
 @use 'tailwindcss';
 
+@use './styles/drag-drop.css';
+
 html {
   @include mat.theme(
     (

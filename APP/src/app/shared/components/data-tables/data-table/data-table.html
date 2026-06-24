@@ -6,7 +6,14 @@
 
   <div class="table-shell">
     <div class="scroll-area">
-      <table mat-table [dataSource]="dataSource" matSort>
+      <table
+        mat-table
+        [dataSource]="tableSource"
+        matSort
+        cdkDropList
+        [cdkDropListData]="dropListSource"
+        (cdkDropListDropped)="drop($event)"
+      >
         @for (col of columns(); track $index) {
           <ng-container [matColumnDef]="col.field">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ col.label }}</th>
@@ -14,19 +21,22 @@
           </ng-container>
         }
 
-        <tr mat-header-row *matHeaderRowDef="headerDefs()"></tr>
-        <tr
-          mat-row
+        <mat-header-row *matHeaderRowDef="headerDefs()"></mat-header-row>
+        <mat-row
           *matRowDef="let row; columns: headerDefs()"
+          cdkDrag
+          cdkDragData="row"
           (click)="selectRow(row)"
           [class.row-clicked]="clickedRow() == row"
-        ></tr>
+        ></mat-row>
 
         <!-- Row shown when there is no matching data. -->
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
         </tr>
       </table>
+    </div>
+    <div class="button-container">
       <div class="button-row">
         @for (button of buttons(); track $index) {
           <button
@@ -40,6 +50,6 @@
         }
       </div>
     </div>
-    <mat-paginator [pageSizeOptions]="[5, 10]" />
   </div>
+  <mat-paginator [pageSizeOptions]="[5, 10]" />
 </div>

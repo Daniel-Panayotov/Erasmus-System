@@ -1,0 +1,9 @@
+.table-page-container {
+  height: 100%;
+  overflow: auto;
+}
+
+.table-page-container > * {
+  max-height: 50vh;
+  display: block;
+}
