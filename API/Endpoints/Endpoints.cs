@@ -8,5 +8,6 @@ public static class Endpoints
         StudentEndpoints.MapStudentEndpoints(app.MapGroup("/students"));
         ApplicationEndpoints.MapApplicationEndpoints(app.MapGroup("/applications"));
         LanguageCompetencyEndpoints.MapLanguageCompetencyEndpoints(app.MapGroup("/language-competencies"));
+        ContactEndpoints.MapContactEndpoints(app.MapGroup("/contacts"));
     }
 }

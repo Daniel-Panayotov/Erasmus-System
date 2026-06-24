@@ -83,3 +83,8 @@ input {
 .button:disabled {
   background-color: rgb(255, 60, 46);
 }
+
+.error {
+  color: red;
+  font-weight: 500;
+}

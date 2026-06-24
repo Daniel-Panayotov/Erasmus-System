@@ -1,0 +1,6 @@
+<app-contact-form
+  [contact]="contact()"
+  (save)="createContact($event)"
+  (valueChange)="valueChange($event)"
+  [serverErrors]="serverErrors()"
+/>

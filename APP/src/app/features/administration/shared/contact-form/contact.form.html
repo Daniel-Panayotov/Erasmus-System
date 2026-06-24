@@ -1,1 +1,50 @@
-<p>contact-form works!</p>
+<div class="main-container">
+  <h1 class="form-title">Contact Form</h1>
+  <form [formRoot]="contactForm">
+    <div class="form-controls">
+      <!-- First name -->
+      <div class="control-container">
+        <label for="language">First name *</label>
+        <input type="text" id="language" placeholder="Ivan" [formField]="contactForm.firstName" />
+        @if (contactForm.firstName().touched() && contactForm.firstName().invalid()) {
+          <p class="error">{{ contactForm.firstName().errors()[0].message }}</p>
+        }
+      </div>
+
+      <!-- Last name -->
+      <div class="control-container">
+        <label for="language">Last name *</label>
+        <input type="text" id="language" placeholder="Petkov" [formField]="contactForm.lastName" />
+        @if (contactForm.lastName().touched() && contactForm.lastName().invalid()) {
+          <p class="error">{{ contactForm.lastName().errors()[0].message }}</p>
+        }
+      </div>
+
+      <!-- Phone name -->
+      <div class="control-container">
+        <label for="language">Phone *</label>
+        <input type="text" id="language" placeholder="+359....." [formField]="contactForm.phone" />
+        @if (contactForm.phone().touched() && contactForm.phone().invalid()) {
+          <p class="error">{{ contactForm.phone().errors()[0].message }}</p>
+        }
+      </div>
+
+      <!-- Email name -->
+      <div class="control-container">
+        <label for="language">Email *</label>
+        <input
+          type="text"
+          id="language"
+          placeholder="example@gmail.com"
+          [formField]="contactForm.email"
+        />
+        @if (contactForm.email().touched() && contactForm.email().invalid()) {
+          <p class="error">{{ contactForm.email().errors()[0].message }}</p>
+        }
+      </div>
+    </div>
+    <button class="bg-green-500 button" type="submit" [disabled]="contactForm().invalid()">
+      Submit
+    </button>
+  </form>
+</div>

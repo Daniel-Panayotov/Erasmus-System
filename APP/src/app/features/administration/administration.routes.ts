@@ -1,11 +1,16 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '../../core/guards/auth.guard';
+import { CONTACT_ROUTES } from './contacts/contact.routes';
+import { CONTACT_NEW_ROUTES } from './contacts-new/contact-new.routes';
 
 export const ADMINISTRATION_ROUTES: Routes = [
   {
-    path: 'institutions',
+    path: 'administration',
     canActivateChild: [authGuard],
-    children: [],
+    children: [
+      { path: 'new/contacts', children: CONTACT_NEW_ROUTES },
+      { path: 'contacts', children: CONTACT_ROUTES },
+    ],
   },
 ];
 

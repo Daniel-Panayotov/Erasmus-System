@@ -1,6 +1,5 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, OnInit, output, signal } from '@angular/core';
 import {
-  LanguageCompetencyBase,
   LanguageCompetencyData,
   LanguageCompetencyFormModel,
 } from '../../models/language-competency.model';
@@ -19,7 +18,7 @@ import {
   templateUrl: './language-competency.form.html',
   styleUrl: './language-competency.form.css',
 })
-export class LanguageCompetencyForm {
+export class LanguageCompetencyForm implements OnInit {
   competency = input<LanguageCompetencyData>();
   serverErrors = input<TreeValidationResult | null>();
   save = output<LanguageCompetencyData>();
@@ -55,7 +54,7 @@ export class LanguageCompetencyForm {
     if (!this.competency()) return;
 
     const competencyData: LanguageCompetencyFormModel = {
-      ...(this.competency() as LanguageCompetencyBase),
+      ...(this.competency() as LanguageCompetencyData),
     };
 
     this.competencyForm().controlValue.set(competencyData);
