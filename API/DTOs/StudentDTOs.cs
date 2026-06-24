@@ -65,7 +65,7 @@ public record NewStudentDTO : StudentDataDTO
     { LanguageCompetencies = languageCompetencies; }
 }
 
-public record StudentBaseDTO : StudentDataDTO, IDTO
+public record StudentBaseDTO : StudentDataDTO
 {
     public int StudentID { get; init; }
 
@@ -86,8 +86,6 @@ public record StudentBaseDTO : StudentDataDTO, IDTO
             address,
             phonenumber)
     { StudentID = studentID; }
-
-    public int GetID() => StudentID;
 }
 // TODO: Replace competency int with dtos
 public record StudentDTO : StudentBaseDTO

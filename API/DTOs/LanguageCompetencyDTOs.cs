@@ -25,7 +25,7 @@ public record LanguageCompetencyDataDTO : ILanguageCompetencyDTO
     }
 }
 
-public record LanguageCompetencyBaseDTO : LanguageCompetencyDataDTO, IDTO
+public record LanguageCompetencyBaseDTO : LanguageCompetencyDataDTO
 {
     public int LanguageCompetencyID { get; init; }
 
@@ -38,6 +38,4 @@ public record LanguageCompetencyBaseDTO : LanguageCompetencyDataDTO, IDTO
     {
         LanguageCompetencyID = languageCompetencyID;
     }
-
-    public int GetID() => LanguageCompetencyID;
 }

@@ -18,7 +18,7 @@ public record UserDataDTO : IUserDTO
     }
 }
 
-public record UserBaseDTO : UserDataDTO, IDTO
+public record UserBaseDTO : UserDataDTO
 {
     public int UserID { get; init; }
 
@@ -26,8 +26,6 @@ public record UserBaseDTO : UserDataDTO, IDTO
     {
         UserID = userID;
     }
-
-    public int GetID() => UserID;
 }
 
 public record UserDTO : UserBaseDTO

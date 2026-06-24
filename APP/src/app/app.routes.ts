@@ -13,7 +13,9 @@ export const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('./features/institutions/institutions.routes').then((m) => m.INSTITUTION_ROUTES),
+      import('./features/administration/administration.routes').then(
+        (m) => m.ADMINISTRATION_ROUTES,
+      ),
   },
   {
     path: '',

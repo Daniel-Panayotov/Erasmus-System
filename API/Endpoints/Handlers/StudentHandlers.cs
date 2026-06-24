@@ -20,7 +20,7 @@ public class StudentHandlers
         return Results.Ok(student);
     }
 
-    public static async Task<IResult> Create([FromQuery] int userID, [FromBody] NewStudentDTO data, HttpContext http, UEMSContext ctx)
+    public static async Task<IResult> Create([FromQuery] int userID, [FromBody] NewStudentDTO data, UEMSContext ctx)
     {
         var query = ctx.Students.Where(s => s.UserId == userID);
 

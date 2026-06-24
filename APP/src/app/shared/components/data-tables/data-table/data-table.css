@@ -16,9 +16,8 @@
   min-height: 0; /* important in flex columns — prevents the child from refusing to shrink */
 }
 
-td,
-th {
-  width: 25%;
+table {
+  width: 100%;
 }
 
 .mat-mdc-row,
@@ -26,13 +25,19 @@ th {
   align-items: stretch;
 }
 
+/* For id column */
+.mat-mdc-row > td:first-child,
+.mat-mdc-header-row > th:first-child {
+  flex: 0 1 5%;
+}
+
 .mat-mdc-row .mat-mdc-cell {
   cursor: pointer;
 }
 
 .mat-mdc-cell,
-.mat-mdc-header-cell,
-tr {
+.mat-mdc-header-cell {
+  flex: 1;
   display: flex;
   align-items: center;
 }

@@ -100,7 +100,7 @@ public record ApplicationExtendedDataDTO : ApplicationDataDTO
     }
 }
 
-public record ApplicationBaseDTO : ApplicationDataDTO, IDTO
+public record ApplicationBaseDTO : ApplicationDataDTO
 {
     public int ApplicationID { get; init; }
 
@@ -131,8 +131,6 @@ public record ApplicationBaseDTO : ApplicationDataDTO, IDTO
             priorStudyAbroad,
             priorStudyDuration)
     { ApplicationID = applicationID; }
-
-    public int GetID() => ApplicationID;
 }
 
 public record NewApplicationDTO (
