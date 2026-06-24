@@ -5,7 +5,6 @@ import { UpdateStudentPage } from './update-student/update-student.page';
 import { CreateCompetencyPage } from './language-competencies/create-competency/create-competency.page';
 import { LanguageCompetencyTable } from './language-competencies/language-competency-table/language-competency-table';
 import { UpdateCompetencyPage } from './language-competencies/update-competency/update-competency.page';
-import { MultiSelectDataTable } from '../../../shared/components/data-tables/multi-select-data-table/multi-select-data-table';
 
 export const PROFILE_ROUTES: Routes = [
   {
@@ -19,7 +18,6 @@ export const PROFILE_ROUTES: Routes = [
         path: 'language-competencies',
         children: [
           { path: '', component: LanguageCompetencyTable },
-          { path: 'x', component: MultiSelectDataTable },
           { path: 'create', component: CreateCompetencyPage },
           { path: 'update/:competencyID', component: UpdateCompetencyPage },
         ],

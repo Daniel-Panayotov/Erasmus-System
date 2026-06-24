@@ -13,6 +13,11 @@ export const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
+      import('./features/institutions/institutions.routes').then((m) => m.INSTITUTION_ROUTES),
+  },
+  {
+    path: '',
+    loadChildren: () =>
       import('./features/authentication/authentication.routes').then(
         (m) => m.AUTHENTICATION_ROUTES,
       ),
