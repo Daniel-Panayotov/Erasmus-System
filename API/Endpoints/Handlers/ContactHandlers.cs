@@ -25,7 +25,7 @@ public class ContactHandlers
         return Results.Ok(contacts);
     }
 
-    public static async Task<IResult> Create([FromBody] NewContactDTO data, UEMSContext ctx)
+    public static async Task<IResult> Create([FromBody] SaveContactDTO data, UEMSContext ctx)
     {
         Contact contact = new Contact
         {
@@ -84,8 +84,15 @@ public class ContactHandlers
 
     public static async Task<IResult> Delete([FromQuery] int contactID, UEMSContext ctx)
     {
-        var entries = await ctx.Contacts.Where(c => c.ContactId == contactID).ExecuteDeleteAsync();
-        if (entries == 0) return Results.BadRequest("Couldn't delete anthing.");
+        try
+        {
+            var entries = await ctx.Contacts.Where(c => c.ContactId == contactID).ExecuteDeleteAsync();
+            if (entries == 0) return Results.BadRequest("Couldn't delete anthing.");
+        }
+        catch (DbUpdateException)
+        {
+            return Results.BadRequest("Database update failed.");
+        }
 
         return Results.Ok();
     }

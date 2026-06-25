@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { take } from 'rxjs';
-import { ContactBase, ContactData, NewContact } from '../models/contact.model';
+import { ContactBase, ContactData, SaveContact } from '../models/contact.model';
 
 @Service()
 export class ContactService {
@@ -23,7 +23,7 @@ export class ContactService {
       .pipe(take(1));
   }
 
-  public Create(body: NewContact) {
+  public Create(body: SaveContact) {
     const url = `contacts/create`;
 
     return this.http.post(url, body, { observe: 'response', credentials: 'include' }).pipe(take(1));

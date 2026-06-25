@@ -21,6 +21,19 @@ public record InstitutionDataDTO : IInstitutionDTO
     }
 }
 
+public record SaveInstitutionDTO : InstitutionDataDTO 
+{
+    public IEnumerable<int> ContactIDs { get; init; }
+    public IEnumerable<int> FacultyIDs { get; init; }
+
+    public SaveInstitutionDTO(string code, string name, string address, IEnumerable<int> contactIDs, IEnumerable<int> facultyIDs) 
+        : base(code, name, address) 
+    {
+        ContactIDs = contactIDs;
+        FacultyIDs = facultyIDs;
+    }
+}
+
 public record InstitutionBaseDTO : InstitutionDataDTO
 {
     public int InstitutionID { get; init; }

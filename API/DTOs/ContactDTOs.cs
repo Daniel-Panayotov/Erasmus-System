@@ -24,11 +24,11 @@ public record ContactDataDTO
     }
 }
 
-public record NewContactDTO : ContactDataDTO
+public record SaveContactDTO : ContactDataDTO
 {
     public int? InstitutionID { get; init; }
 
-    public NewContactDTO(
+    public SaveContactDTO(
         string firstName,
         string lastName,
         string phone,

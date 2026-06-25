@@ -7,3 +7,8 @@ export interface InstitutionData {
 export interface InstitutionBase extends InstitutionData {
   institutionID: number;
 }
+
+export interface SaveInstitution extends InstitutionData {
+  contactIDs: number[];
+  facultyIDs: number[];
+}

@@ -11,6 +11,6 @@ export interface ContactBase extends ContactData {
 
 export interface ContactFormModel extends ContactData {}
 
-export interface NewContact extends ContactData {
+export interface SaveContact extends ContactData {
   institutionID: number | null;
 }
