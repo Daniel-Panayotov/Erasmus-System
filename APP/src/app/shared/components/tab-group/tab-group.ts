@@ -7,6 +7,7 @@ import { filter, map } from 'rxjs';
 export interface Tab {
   label: string;
   url: string[];
+  disabled?: boolean;
 }
 
 @Component({

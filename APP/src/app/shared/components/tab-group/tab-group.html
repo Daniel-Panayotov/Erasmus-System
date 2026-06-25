@@ -6,7 +6,7 @@
   (selectedIndexChange)="navigate($event)"
 >
   @for (tab of tabs(); track $index) {
-    <mat-tab [label]="tab.label" />
+    <mat-tab [label]="tab.label" [disabled]="tab.disabled ?? false" />
   }
   <mat-tab labelClass="phantom-tab" [disabled]="true" />
 </mat-tab-group>
