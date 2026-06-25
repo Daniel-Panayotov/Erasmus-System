@@ -10,7 +10,7 @@ import { Button } from '../../../../shared/models/data-table.model';
 })
 export class CompetencyTable {
   competencies = input.required<LanguageCompetencyData[]>();
-  buttons = input.required<Button<any | null>[]>();
+  buttons = input.required<Button<any>[]>();
 
   columns: Column[] = [
     { label: 'ID', field: 'languageCompetencyID' },

@@ -12,7 +12,6 @@ import { HttpErrorResponse } from '@angular/common/http';
   selector: 'app-update-contact-page',
   imports: [ContactForm],
   templateUrl: './update-contact.page.html',
-  styleUrl: './update-contact.page.css',
 })
 export class UpdateContactPage {
   private contactAPI = inject(ContactService);

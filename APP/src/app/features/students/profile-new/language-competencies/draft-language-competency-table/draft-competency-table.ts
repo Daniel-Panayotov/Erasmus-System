@@ -23,7 +23,7 @@ export class DraftCompetencyTable {
 
   userID = input.required<string>();
 
-  buttons: Button<LanguageCompetencyData | null>[] = [
+  buttons: Button<LanguageCompetencyData>[] = [
     createButton(() => studentPaths.newProfile(this.userID()).competencies_create),
     updateButton((row) =>
       studentPaths.newProfile(this.userID()).competencies_update(

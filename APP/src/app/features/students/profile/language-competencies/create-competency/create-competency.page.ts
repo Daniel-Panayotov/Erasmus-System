@@ -10,7 +10,6 @@ import { LanguageCompetencyForm } from '../../../shared/language-competency-form
   selector: 'app-create-competency-page',
   imports: [LanguageCompetencyForm],
   templateUrl: './create-competency.page.html',
-  styleUrl: './create-competency.page.css',
 })
 export class CreateCompetencyPage {
   private languageAPI = inject(LanguageCompetencyService);

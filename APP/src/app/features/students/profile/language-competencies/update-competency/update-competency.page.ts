@@ -15,7 +15,6 @@ import { LanguageCompetencyForm } from '../../../shared/language-competency-form
   selector: 'app-update-competency-page',
   imports: [LanguageCompetencyForm],
   templateUrl: './update-competency.page.html',
-  styleUrl: './update-competency.page.css',
 })
 export class UpdateCompetencyPage {
   private languageAPI = inject(LanguageCompetencyService);

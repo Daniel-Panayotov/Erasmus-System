@@ -11,7 +11,6 @@ import { ContactDraftStore } from '../contact-draft.store';
   selector: 'app-create-contact-page',
   imports: [ContactForm],
   templateUrl: './create-contact.page.html',
-  styleUrl: './create-contact.page.css',
 })
 export class CreateContactPage {
   private contactAPI = inject(ContactService);

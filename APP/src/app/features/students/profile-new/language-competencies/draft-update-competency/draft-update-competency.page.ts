@@ -9,7 +9,6 @@ import { ProfileDraftStore } from '../../profile-draft.store';
   selector: 'app-draft-update-competency-page',
   imports: [LanguageCompetencyForm],
   templateUrl: './draft-update-competency.page.html',
-  styleUrl: './draft-update-competency.page.css',
 })
 export class DraftUpdateCompetencyPage implements OnInit {
   private draftStore = inject(ProfileDraftStore);

@@ -5,6 +5,5 @@ import { AuthenticationForm } from '../authentication-form/authentication.form';
   selector: 'app-register-form',
   imports: [AuthenticationForm],
   templateUrl: './register.form.html',
-  styleUrl: './register.form.css',
 })
 export class RegisterForm {}

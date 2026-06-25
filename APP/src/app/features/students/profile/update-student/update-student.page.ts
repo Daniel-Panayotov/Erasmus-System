@@ -12,7 +12,6 @@ import { StudentForm } from '../../shared/student-form/student.form';
   selector: 'app-update-student-page',
   imports: [StudentForm],
   templateUrl: './update-student.page.html',
-  styleUrl: './update-student.page.css',
 })
 export class UpdateStudentPage {
   private studentAPI = inject(StudentService);

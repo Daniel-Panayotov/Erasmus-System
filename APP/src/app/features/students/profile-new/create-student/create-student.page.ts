@@ -12,7 +12,6 @@ import { studentPaths } from '../../student.paths';
   selector: 'app-create-student-page',
   imports: [StudentForm],
   templateUrl: './create-student.page.html',
-  styleUrl: './create-student.page.css',
 })
 export class CreateStudentPage {
   private studentAPI = inject(StudentService);

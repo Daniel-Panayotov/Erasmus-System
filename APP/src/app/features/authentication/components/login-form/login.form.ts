@@ -5,6 +5,5 @@ import { AuthenticationForm } from '../authentication-form/authentication.form';
   selector: 'app-login-form',
   imports: [AuthenticationForm],
   templateUrl: './login.form.html',
-  styleUrl: './login.form.css',
 })
 export class LoginForm {}

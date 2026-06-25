@@ -32,7 +32,7 @@ export class LanguageCompetencyTable {
 
   competenciesSignal = signal<LanguageCompetencyBase[]>([]);
 
-  buttons: Button<LanguageCompetencyBase | null>[] = [
+  buttons: Button<LanguageCompetencyBase>[] = [
     createButton(() => studentPaths.profiles(this.studentID()).competencies_create),
     updateButton((row) =>
       row == null

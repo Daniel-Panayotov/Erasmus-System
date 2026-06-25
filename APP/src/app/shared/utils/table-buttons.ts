@@ -6,13 +6,13 @@ export const createButton = <T>(url: () => string[]): Button<T> => ({
   url,
 });
 
-export const updateButton = <T>(url: (row: T) => string[]): Button<T> => ({
+export const updateButton = <T>(url: (row: T | null) => string[]): Button<T> => ({
   label: 'Update',
   url,
   disabled: (row) => !row(),
 });
 
-export const deleteButton = <T>(handler: (row: WritableSignal<T>) => void): Button<T> => ({
+export const deleteButton = <T>(handler: (row: WritableSignal<T | null>) => void): Button<T> => ({
   label: 'Delete',
   handler,
   disabled: (row) => !row(),
