@@ -32,7 +32,7 @@ export class CreateContactPage {
     const body: NewContact = { ...data, institutionID };
 
     this.contactAPI.Create(body).subscribe({
-      next: (v) => this.router.navigate(administrationPaths.contacts().view),
+      next: (v) => this.router.navigate(administrationPaths.contacts.view),
       error(err) {},
     });
   }

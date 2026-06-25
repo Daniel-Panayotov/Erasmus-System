@@ -1,8 +1,4 @@
 import { Component, effect, inject, input, signal } from '@angular/core';
-import {
-  Column,
-  DataTable,
-} from '../../../../../shared/components/data-tables/data-table/data-table';
 import { LanguageCompetencyService } from '../../../services/language-competency.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { LanguageCompetencyBase } from '../../../models/language-competency.model';
@@ -14,12 +10,12 @@ import {
   deleteButton,
   updateButton,
 } from '../../../../../shared/utils/table-buttons';
+import { CompetencyTable } from '../../../shared/competency-table/competency-table';
 
 @Component({
   selector: 'app-language-competency-table',
-  imports: [DataTable],
+  imports: [CompetencyTable],
   templateUrl: './language-competency-table.html',
-  styleUrl: './language-competency-table.css',
 })
 export class LanguageCompetencyTable {
   private competenciesAPI = inject(LanguageCompetencyService);
@@ -35,13 +31,6 @@ export class LanguageCompetencyTable {
   });
 
   competenciesSignal = signal<LanguageCompetencyBase[]>([]);
-
-  columns: Column[] = [
-    { label: 'ID', field: 'languageCompetencyID' },
-    { label: 'Language', field: 'language' },
-    { label: 'Can Follow Lectures', field: 'canFollowLectures' },
-    { label: 'Can Follow Lectures With Lessons', field: 'canFollowLecturesWithLessons' },
-  ];
 
   buttons: Button<LanguageCompetencyBase | null>[] = [
     createButton(() => studentPaths.profiles(this.studentID()).competencies_create),

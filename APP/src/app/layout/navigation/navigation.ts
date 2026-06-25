@@ -6,6 +6,7 @@ import { HorizontalNavigation } from '../../shared/components/horizontal-navigat
 import { NavIcon } from '../../shared/models/horizontal-navigation.model';
 import { studentPaths } from '../../features/students/student.paths';
 import { authPaths } from '../../features/authentication/authentication.paths';
+import { administrationPaths } from '../../features/administration/administration.paths';
 
 @Component({
   selector: 'app-navigation',
@@ -45,6 +46,18 @@ export class Navigation {
 
   public profileNavIcons: Signal<NavIcon[]> = computed(() => {
     const items: NavIcon[] = [
+      {
+        iconName: providedIcons.heroClipboard,
+        route: administrationPaths.contacts_new.create,
+        name: 'Create contact',
+        float: 'left',
+      },
+      {
+        iconName: providedIcons.heroClipboard,
+        route: administrationPaths.contacts.view,
+        name: 'Contacts',
+        float: 'left',
+      },
       {
         iconName: providedIcons.heroLockClosed,
         route: [],

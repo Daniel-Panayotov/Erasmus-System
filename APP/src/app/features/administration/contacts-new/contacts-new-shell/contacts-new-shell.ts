@@ -33,8 +33,8 @@ export class ContactsNewShell {
   );
 
   urls = computed(() => [
-    administrationPaths.contacts_new().create,
-    administrationPaths.contacts_new().institutions,
+    administrationPaths.contacts_new.create,
+    administrationPaths.contacts_new.institutions,
   ]);
 
   navigate(index: number) {
