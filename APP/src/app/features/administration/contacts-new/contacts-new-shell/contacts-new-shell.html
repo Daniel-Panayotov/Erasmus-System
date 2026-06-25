@@ -1,17 +1,7 @@
-<div class="shell-container">
-  <mat-tab-group
-    fitInkBarToContent
-    mat-stretch-tabs="false"
-    mat-align-tabs="start"
-    [selectedIndex]="tabIndex()"
-    (selectedIndexChange)="navigate($event)"
-  >
-    <mat-tab label="Create contact" />
-    <mat-tab label="Institution" />
-    <mat-tab labelClass="phantom-tab" [disabled]="true" />
-  </mat-tab-group>
+<div style="height: 100%">
+  <app-tab-group [tabs]="tabs" />
 
-  <div class="outlet-container">
+  <div class="outlet-container" style="height: calc(100% - 5vh)">
     <router-outlet />
   </div>
 </div>

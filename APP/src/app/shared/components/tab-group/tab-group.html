@@ -1,0 +1,12 @@
+<mat-tab-group
+  fitInkBarToContent
+  mat-stretch-tabs="false"
+  mat-align-tabs="start"
+  [selectedIndex]="tabIndex()"
+  (selectedIndexChange)="navigate($event)"
+>
+  @for (tab of tabs(); track $index) {
+    <mat-tab [label]="tab.label" />
+  }
+  <mat-tab labelClass="phantom-tab" [disabled]="true" />
+</mat-tab-group>

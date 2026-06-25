@@ -1,13 +1,5 @@
-.shell-container {
-  height: 100%;
-}
-
 mat-tab-group {
   height: 5vh;
-}
-
-.shell-container .outlet-container {
-  height: calc(100% - 5vh);
 }
 
 ::ng-deep .phantom-tab {
