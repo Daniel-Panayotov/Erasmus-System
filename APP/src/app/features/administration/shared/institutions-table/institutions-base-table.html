@@ -1,0 +1,6 @@
+<app-data-table
+  [dataSignal]="institutionsSignal()"
+  [columns]="columns"
+  [buttons]="buttons()"
+  (clickedOut)="clickRow($event)"
+/>

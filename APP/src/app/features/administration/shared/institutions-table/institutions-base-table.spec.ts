@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InstitutionsTable } from './institutions-table';
+import { InstitutionsBaseTable } from './institutions-base-table';
 
-describe('InstitutionsTable', () => {
-  let component: InstitutionsTable;
-  let fixture: ComponentFixture<InstitutionsTable>;
+describe('InstitutionsBaseTable', () => {
+  let component: InstitutionsBaseTable;
+  let fixture: ComponentFixture<InstitutionsBaseTable>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InstitutionsTable],
+      imports: [InstitutionsBaseTable],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(InstitutionsTable);
+    fixture = TestBed.createComponent(InstitutionsBaseTable);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

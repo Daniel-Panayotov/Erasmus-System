@@ -21,7 +21,7 @@ public class InstitutionHandlers
 
     public static async Task<IResult> GetAll(UEMSContext ctx)
     {
-        var contacts = await ctx.Institutions.ToListAsync();
+        var contacts = await ctx.Institutions.Select(InstitutionExpressions.Base).ToListAsync();
 
         return Results.Ok(contacts);
     }
