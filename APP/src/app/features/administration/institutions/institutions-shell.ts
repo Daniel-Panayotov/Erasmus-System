@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { administrationPaths } from '../administration.paths';
 import { PageShell } from '../../../shared/components/page-shell/page-shell';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -23,15 +23,15 @@ export class InstitutionsShell {
     ),
   );
 
-  tabs = computed(() =>
-    this.currentUrl()?.includes('create')
+  tabs = computed(() => [
+    { label: 'Institutions', url: administrationPaths.institutions.view },
+    ...(this.currentUrl()?.includes('create')
       ? [
           { label: 'Create institution', url: administrationPaths.institutions.create },
           { label: 'Add Contacts', url: administrationPaths.institutions.create_contacts },
           { label: 'Add Faculties', url: administrationPaths.institutions.create_faculties },
         ]
       : [
-          { label: 'Institutions', url: administrationPaths.institutions.view },
           {
             label: 'Contacts',
             disabled: this.selectedInstitutionID() == null ? true : false,
@@ -42,6 +42,6 @@ export class InstitutionsShell {
             disabled: this.selectedInstitutionID() == null ? true : false,
             url: administrationPaths.institutions.faculties(this.selectedInstitutionID() ?? ''),
           },
-        ],
-  );
+        ]),
+  ]);
 }

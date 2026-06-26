@@ -24,14 +24,14 @@ export class ContactsShell {
     ),
   );
 
-  tabs = computed(() =>
-    this.currentUrl()?.includes('create')
+  tabs = computed(() => [
+    { label: 'Contacts', url: administrationPaths.contacts.view },
+    ...(this.currentUrl()?.includes('create')
       ? [
           { label: 'Create contact', url: administrationPaths.contacts.create },
           { label: 'Add institutions', url: administrationPaths.contacts.create_institutions },
         ]
       : [
-          { label: 'Contacts', url: administrationPaths.contacts.view },
           {
             label: 'Institutions',
             disabled: this.draftStore.selectedContactID() == null ? true : false,
@@ -39,6 +39,6 @@ export class ContactsShell {
               this.draftStore.selectedContactID()?.toString() ?? '',
             ),
           },
-        ],
-  );
+        ]),
+  ]);
 }
