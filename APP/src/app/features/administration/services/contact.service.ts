@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { take } from 'rxjs';
-import { ContactBase, ContactData, SaveContact } from '../models/contact.model';
+import { Contact, ContactBase, SaveContact } from '../models/contact.model';
 
 @Service()
 export class ContactService {
@@ -11,7 +11,7 @@ export class ContactService {
     const url = `contacts/get-one?contactID=${contactID}`;
 
     return this.http
-      .get<ContactBase>(url, { observe: 'response', credentials: 'include' })
+      .get<Contact>(url, { observe: 'response', credentials: 'include' })
       .pipe(take(1));
   }
 
@@ -29,8 +29,7 @@ export class ContactService {
     return this.http.post(url, body, { observe: 'response', credentials: 'include' }).pipe(take(1));
   }
 
-  //TODO: Make this savecontact
-  public Update(contactID: number, body: ContactData) {
+  public Update(contactID: number, body: SaveContact) {
     const url = `contacts/update?contactID=${contactID}`;
 
     return this.http.post(url, body, { observe: 'response', credentials: 'include' }).pipe(take(1));

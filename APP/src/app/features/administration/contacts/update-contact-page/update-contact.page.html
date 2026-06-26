@@ -2,7 +2,7 @@
 } @else if (contactResource.error(); as err) {
 } @else if (contactResource.hasValue()) {
   <app-contact-form
-    [contact]="contactResource.value()"
+    [contact]="contactSignal()"
     (save)="updateContact($event)"
     [serverErrors]="serverErrors()"
   />

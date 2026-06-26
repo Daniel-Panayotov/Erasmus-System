@@ -51,3 +51,18 @@ public record ContactBaseDTO : ContactDataDTO
         : base(firstName, lastName, phone, email) 
     { ContactID = contactID; }
 }
+
+public record ContactDTO : ContactBaseDTO
+{
+    public InstitutionBaseDTO Institution { get; init; }
+
+    public ContactDTO(
+        int contactID,
+        string firstName,
+        string lastName,
+        string phone,
+        string email,
+        InstitutionBaseDTO institution)
+        : base(contactID, firstName, lastName, phone, email)
+    { Institution = institution; }
+}

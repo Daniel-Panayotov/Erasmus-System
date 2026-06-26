@@ -14,10 +14,11 @@ public class ContactHandlers
 
         if (!await query.AnyAsync()) return Results.BadRequest("Invalid contact.");
             
-        var contact = await query.Select(ContactExpressions.Base).ToListAsync();
+        var contact = await query.Select(ContactExpressions.DTO).FirstAsync();
 
         return Results.Ok(contact);
     }
+
     public static async Task<IResult> GetAll(UEMSContext ctx)
     {
         var contacts = await ctx.Contacts.Select(ContactExpressions.Base).ToListAsync();
@@ -56,7 +57,7 @@ public class ContactHandlers
         return Results.Ok();
     }
 
-    public static async Task<IResult> Update([FromQuery] int contactID, [FromBody] ContactDataDTO data, HttpContext http, UEMSContext ctx)
+    public static async Task<IResult> Update([FromQuery] int contactID, [FromBody] SaveContactDTO data, UEMSContext ctx)
     {
         var query = ctx.Contacts.Where(c => c.ContactId == contactID);
 
@@ -68,6 +69,14 @@ public class ContactHandlers
         contact.LastName = data.LastName;
         contact.Email = data.Email;
         contact.Phone = data.Phone;
+
+        if (data.InstitutionID != null)
+        {
+            if (!await ctx.Institutions.Where(i => i.InstitutionId == data.InstitutionID).AnyAsync()) 
+                return Results.BadRequest("Invalid institution.");
+
+            contact.InstitutionId = (int)data.InstitutionID;
+        }
 
         try
         {
