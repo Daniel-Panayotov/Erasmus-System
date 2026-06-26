@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { CreateStudentPage } from './create-student/create-student.page';
-import { ProfileNewShell } from './profile-new-shell/profile-new-shell';
+import { ProfileNewShell } from './profile-new-shell';
 import { DraftCompetencyTable } from './language-competencies/draft-language-competency-table/draft-competency-table';
 import { DraftCreateCompetencyPage } from './language-competencies/draft-create-competency/draft-create-competency.page';
 import { DraftUpdateCompetencyPage } from './language-competencies/draft-update-competency/draft-update-competency.page';

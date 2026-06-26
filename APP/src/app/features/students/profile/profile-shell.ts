@@ -1,12 +1,11 @@
 import { Component, computed, input } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { studentPaths } from '../../student.paths';
-import { TabGroup } from '../../../../shared/components/tab-group/tab-group';
+import { studentPaths } from '../student.paths';
+import { PageShell } from '../../../shared/components/page-shell/page-shell';
 
 @Component({
   selector: 'app-profile-shell',
-  imports: [RouterOutlet, TabGroup],
-  templateUrl: './profile-shell.html',
+  imports: [PageShell],
+  template: '<app-page-shell [tabs]=tabs() />',
 })
 export class ProfileShell {
   studentID = input.required<string>();

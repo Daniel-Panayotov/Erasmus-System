@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { TabGroup } from '../../../../shared/components/tab-group/tab-group';
-import { administrationPaths } from '../../administration.paths';
+import { administrationPaths } from '../administration.paths';
+import { PageShell } from '../../../shared/components/page-shell/page-shell';
 
 @Component({
   selector: 'app-institutions-new-shell',
-  imports: [RouterOutlet, TabGroup],
-  templateUrl: './institutions-new-shell.html',
+  imports: [PageShell],
+  template: '<app-page-shell [tabs]="tabs" />',
 })
 export class InstitutionsNewShell {
   tabs = [

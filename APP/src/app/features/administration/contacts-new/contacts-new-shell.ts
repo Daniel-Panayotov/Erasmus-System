@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { ContactDraftStore } from '../contact-draft.store';
-import { administrationPaths } from '../../administration.paths';
-import { TabGroup } from '../../../../shared/components/tab-group/tab-group';
+import { ContactDraftStore } from './contact-draft.store';
+import { administrationPaths } from '../administration.paths';
+import { PageShell } from '../../../shared/components/page-shell/page-shell';
 
 @Component({
   selector: 'app-contacts-new-shell',
-  imports: [RouterOutlet, TabGroup],
-  templateUrl: './contacts-new-shell.html',
+  imports: [PageShell],
   providers: [ContactDraftStore],
+  template: '<app-page-shell [tabs]="tabs" />',
 })
 export class ContactsNewShell {
   tabs = [

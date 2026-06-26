@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { InstitutionsNewShell } from './institutions-new-shell/institutions-new-shell';
+import { InstitutionsNewShell } from './institutions-new-shell';
 import { CreateInstitutionPage } from './create-institution-page/create-institution.page';
 
 export const INSTITUTIONS_NEW_ROUTES: Routes = [

@@ -1,14 +1,13 @@
 import { Component, computed, input } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { studentPaths } from '../../student.paths';
-import { ProfileDraftStore } from '../profile-draft.store';
-import { TabGroup } from '../../../../shared/components/tab-group/tab-group';
+import { studentPaths } from '../student.paths';
+import { ProfileDraftStore } from './profile-draft.store';
+import { PageShell } from '../../../shared/components/page-shell/page-shell';
 
 @Component({
   selector: 'app-profile-new-shell',
-  imports: [RouterOutlet, TabGroup],
+  imports: [PageShell],
   providers: [ProfileDraftStore],
-  templateUrl: './profile-new-shell.html',
+  template: '<app-page-shell [tabs]="tabs()" />',
 })
 export class ProfileNewShell {
   userID = input.required<string>();

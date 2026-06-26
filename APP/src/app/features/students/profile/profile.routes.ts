@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { ProfileShell } from './profile-shell/profile-shell';
+import { ProfileShell } from './profile-shell';
 import { Profile } from './profile-view/profile';
 import { UpdateStudentPage } from './update-student/update-student.page';
 import { CreateCompetencyPage } from './language-competencies/create-competency/create-competency.page';
