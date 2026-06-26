@@ -1,24 +1,44 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { administrationPaths } from '../administration.paths';
 import { PageShell } from '../../../shared/components/page-shell/page-shell';
+import { ContactStore } from './contact.store';
+import { EventType, Router } from '@angular/router';
+import { filter, map, startWith } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-contacts-shell',
   imports: [PageShell],
+  providers: [ContactStore],
   template: '<app-page-shell [tabs]="tabs()" />',
 })
 export class ContactsShell {
-  selectedContactID = signal<string | null>(null);
+  private draftStore = inject(ContactStore);
+  private router = inject(Router);
 
-  tabs = computed(() => [
-    {
-      label: 'Contacts',
-      url: administrationPaths.contacts.view,
-    },
-    {
-      label: 'Institutions',
-      disabled: this.selectedContactID() == null ? true : false,
-      url: administrationPaths.contacts.institutions(this.selectedContactID() ?? ''),
-    },
-  ]);
+  currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((e) => e.type == EventType.NavigationEnd),
+      map(() => this.router.url),
+      startWith(this.router.url), // emits current url immediately on subscribe
+    ),
+  );
+
+  tabs = computed(() =>
+    this.currentUrl()?.includes('create')
+      ? [
+          { label: 'Create contact', url: administrationPaths.contacts.create },
+          { label: 'Add institutions', url: administrationPaths.contacts.create_institutions },
+        ]
+      : [
+          { label: 'Contacts', url: administrationPaths.contacts.view },
+          {
+            label: 'Institutions',
+            disabled: this.draftStore.selectedContactID() == null ? true : false,
+            url: administrationPaths.contacts.update_institutions(
+              this.draftStore.selectedContactID()?.toString() ?? '',
+            ),
+          },
+        ],
+  );
 }

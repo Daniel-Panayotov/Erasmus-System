@@ -48,7 +48,7 @@ export class Navigation {
     const items: NavIcon[] = [
       {
         iconName: providedIcons.heroClipboard,
-        route: administrationPaths.contacts_new.create,
+        route: administrationPaths.contacts.create,
         name: 'Create contact',
         float: 'left',
       },

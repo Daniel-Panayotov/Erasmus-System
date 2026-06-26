@@ -47,6 +47,7 @@ export class DataTable implements AfterViewInit {
   columns = input.required<Column[]>();
   buttons = input<Button<any>[]>();
   onDrop = output<CdkDragDrop<string[]>>();
+  clickedOut = output<any | null>();
 
   tableSource = new MatTableDataSource<any>([]);
   dropListSource: any[] = [];
@@ -80,5 +81,7 @@ export class DataTable implements AfterViewInit {
   selectRow(row: any) {
     if (this.clickedRow() == row) this.clickedRow.set(null);
     else this.clickedRow.set(row);
+
+    this.clickedOut.emit(this.clickedRow());
   }
 }

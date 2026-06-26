@@ -1,11 +1,11 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { ContactForm } from '../../shared/contact-form/contact.form';
+import { ContactForm } from '../contact-form/contact.form';
 import { ContactService } from '../../services/contact.service';
 import { Router } from '@angular/router';
 import { TreeValidationResult } from '@angular/forms/signals';
 import { ContactData, ContactFormModel, SaveContact } from '../../models/contact.model';
 import { administrationPaths } from '../../administration.paths';
-import { ContactDraftStore } from '../contact-draft.store';
+import { ContactStore } from '../contact.store';
 
 @Component({
   selector: 'app-create-contact-page',
@@ -14,7 +14,7 @@ import { ContactDraftStore } from '../contact-draft.store';
 })
 export class CreateContactPage {
   private contactAPI = inject(ContactService);
-  private draftStore = inject(ContactDraftStore);
+  private draftStore = inject(ContactStore);
   private router = inject(Router);
 
   serverErrors = signal<TreeValidationResult | null>(null);
@@ -31,7 +31,10 @@ export class CreateContactPage {
     const body: SaveContact = { ...data, institutionID };
 
     this.contactAPI.Create(body).subscribe({
-      next: (v) => this.router.navigate(administrationPaths.contacts.view),
+      next: (v) => {
+        this.draftStore.resetDrafts();
+        this.router.navigate(administrationPaths.contacts.view);
+      },
       error(err) {},
     });
   }

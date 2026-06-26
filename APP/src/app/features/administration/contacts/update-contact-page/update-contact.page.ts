@@ -1,5 +1,5 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { ContactForm } from '../../shared/contact-form/contact.form';
+import { ContactForm } from '../contact-form/contact.form';
 import { ContactService } from '../../services/contact.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TreeValidationResult } from '@angular/forms/signals';

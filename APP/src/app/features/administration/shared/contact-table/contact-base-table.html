@@ -1,0 +1,6 @@
+<app-data-table
+  [dataSignal]="contactsSignal()"
+  [columns]="columns"
+  [buttons]="buttons()"
+  (clickedOut)="clickRow($event)"
+/>
