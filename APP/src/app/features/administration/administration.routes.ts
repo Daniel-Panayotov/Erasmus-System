@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { authGuard } from '../../core/guards/auth.guard';
 import { CONTACT_ROUTES } from './contacts/contact.routes';
 import { INSTITUTIONS_ROUTES } from './institutions/institutions.routes';
-import { INSTITUTIONS_NEW_ROUTES } from './institutions-new/institutions-new.routes';
 
 export const ADMINISTRATION_ROUTES: Routes = [
   {
@@ -11,7 +10,6 @@ export const ADMINISTRATION_ROUTES: Routes = [
     children: [
       { path: 'contacts', children: CONTACT_ROUTES },
       { path: 'institutions', children: INSTITUTIONS_ROUTES },
-      { path: 'new/institutions', children: INSTITUTIONS_NEW_ROUTES },
     ],
   },
 ];
@@ -59,13 +57,11 @@ export const ADMINISTRATION_ROUTES: Routes = [
 //
 //  INSTITUTIONS
 //
-// administration/new/institutions - shell, redirect to /create
-// administration/new/institutions/create - form
-// administration/new/institutions/contacts  - data table - multi
-// administration/new/institutions/faculties - data table - multi
-//
-// administration/institutions - shell - redirect to /view
-// administration/institutions/view - data table
+// administration/institutions
+// administration/institutions/view
+// administration/institutions/create
+// administration/institutions/create/contacts
+// administration/institutions/create/faculties
 // administration/institutions/:institutionID/update - form
 // administration/institutions/:institutionID/contacts - data table - multi
 // administration/institutions/:institutionID/faculties - data table - multi

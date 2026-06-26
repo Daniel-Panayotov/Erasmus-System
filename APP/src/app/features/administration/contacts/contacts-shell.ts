@@ -20,7 +20,7 @@ export class ContactsShell {
     this.router.events.pipe(
       filter((e) => e.type == EventType.NavigationEnd),
       map(() => this.router.url),
-      startWith(this.router.url), // emits current url immediately on subscribe
+      startWith(this.router.url),
     ),
   );
 

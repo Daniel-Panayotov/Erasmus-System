@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { InstitutionForm } from '../../shared/institution-form/institution.form';
+import { InstitutionForm } from '../institution-form/institution.form';
 import { InstitutionService } from '../../services/institution.service';
 import { Router } from '@angular/router';
 import { TreeValidationResult } from '@angular/forms/signals';

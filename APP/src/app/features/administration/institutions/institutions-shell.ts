@@ -1,6 +1,9 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { administrationPaths } from '../administration.paths';
 import { PageShell } from '../../../shared/components/page-shell/page-shell';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { EventType, Router } from '@angular/router';
+import { filter, map, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-institutions-shell',
@@ -8,22 +11,37 @@ import { PageShell } from '../../../shared/components/page-shell/page-shell';
   template: '<app-page-shell [tabs]="tabs()" />',
 })
 export class InstitutionsShell {
+  private router = inject(Router);
+
   selectedInstitutionID = signal<string | null>(null);
 
-  tabs = computed(() => [
-    {
-      label: 'Institutions',
-      url: administrationPaths.institutions.view,
-    },
-    {
-      label: 'Contacts',
-      disabled: this.selectedInstitutionID() == null ? true : false,
-      url: administrationPaths.institutions.contacts(this.selectedInstitutionID() ?? ''),
-    },
-    {
-      label: 'Faculties',
-      disabled: this.selectedInstitutionID() == null ? true : false,
-      url: administrationPaths.institutions.faculties(this.selectedInstitutionID() ?? ''),
-    },
-  ]);
+  currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((e) => e.type == EventType.NavigationEnd),
+      map(() => this.router.url),
+      startWith(this.router.url),
+    ),
+  );
+
+  tabs = computed(() =>
+    this.currentUrl()?.includes('create')
+      ? [
+          { label: 'Create institution', url: administrationPaths.institutions.create },
+          { label: 'Add Contacts', url: administrationPaths.institutions.create_contacts },
+          { label: 'Add Faculties', url: administrationPaths.institutions.create_faculties },
+        ]
+      : [
+          { label: 'Institutions', url: administrationPaths.institutions.view },
+          {
+            label: 'Contacts',
+            disabled: this.selectedInstitutionID() == null ? true : false,
+            url: administrationPaths.institutions.contacts(this.selectedInstitutionID() ?? ''),
+          },
+          {
+            label: 'Faculties',
+            disabled: this.selectedInstitutionID() == null ? true : false,
+            url: administrationPaths.institutions.faculties(this.selectedInstitutionID() ?? ''),
+          },
+        ],
+  );
 }

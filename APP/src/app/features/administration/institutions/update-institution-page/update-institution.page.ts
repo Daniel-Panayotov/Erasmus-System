@@ -1,5 +1,5 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { InstitutionForm } from '../../shared/institution-form/institution.form';
+import { InstitutionForm } from '../institution-form/institution.form';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { InstitutionService } from '../../services/institution.service';
 import { ActivatedRoute, Router } from '@angular/router';
