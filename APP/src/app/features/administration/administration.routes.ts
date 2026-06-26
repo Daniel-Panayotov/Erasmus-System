@@ -2,14 +2,18 @@ import { Routes } from '@angular/router';
 import { authGuard } from '../../core/guards/auth.guard';
 import { CONTACT_ROUTES } from './contacts/contact.routes';
 import { CONTACT_NEW_ROUTES } from './contacts-new/contact-new.routes';
+import { INSTITUTIONS_ROUTES } from './institutions/institutions.routes';
+import { INSTITUTIONS_NEW_ROUTES } from './institutions-new/institutions-new.routes';
 
 export const ADMINISTRATION_ROUTES: Routes = [
   {
     path: 'administration',
     canActivateChild: [authGuard],
     children: [
-      { path: 'new/contacts', children: CONTACT_NEW_ROUTES },
       { path: 'contacts', children: CONTACT_ROUTES },
+      { path: 'new/contacts', children: CONTACT_NEW_ROUTES },
+      { path: 'institutions', children: INSTITUTIONS_ROUTES },
+      { path: 'new/institutions', children: INSTITUTIONS_NEW_ROUTES },
     ],
   },
 ];

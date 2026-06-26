@@ -29,6 +29,7 @@ export class ContactService {
     return this.http.post(url, body, { observe: 'response', credentials: 'include' }).pipe(take(1));
   }
 
+  //TODO: Make this savecontact
   public Update(contactID: number, body: ContactData) {
     const url = `contacts/update?contactID=${contactID}`;
 

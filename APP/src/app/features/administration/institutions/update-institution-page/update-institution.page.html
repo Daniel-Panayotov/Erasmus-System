@@ -1,0 +1,9 @@
+@if (institutionResource.isLoading()) {
+} @else if (institutionResource.error(); as err) {
+} @else if (institutionResource.hasValue()) {
+  <app-institution-form
+    [institution]="institutionResource.value()"
+    (save)="updateInstitution($event)"
+    [serverErrors]="serverErrors()"
+  />
+}

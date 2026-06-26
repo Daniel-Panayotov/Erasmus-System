@@ -4,6 +4,8 @@ export interface InstitutionData {
   address: string;
 }
 
+export interface InstitutionFormModel extends InstitutionData {}
+
 export interface InstitutionBase extends InstitutionData {
   institutionID: number;
 }

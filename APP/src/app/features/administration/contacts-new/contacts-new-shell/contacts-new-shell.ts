@@ -13,7 +13,7 @@ import { TabGroup } from '../../../../shared/components/tab-group/tab-group';
 export class ContactsNewShell {
   tabs = [
     {
-      label: 'Create contacts',
+      label: 'Create contact',
       url: administrationPaths.contacts_new.create,
     },
     {

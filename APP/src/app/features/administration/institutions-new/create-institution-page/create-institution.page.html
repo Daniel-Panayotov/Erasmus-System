@@ -1,0 +1,6 @@
+<app-institution-form
+  [institution]="institution()"
+  (save)="createInstitution($event)"
+  (valueChange)="valueChange($event)"
+  [serverErrors]="serverErrors()"
+/>

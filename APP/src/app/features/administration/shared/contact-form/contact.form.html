@@ -4,8 +4,8 @@
     <div class="form-controls">
       <!-- First name -->
       <div class="control-container">
-        <label for="language">First name *</label>
-        <input type="text" id="language" placeholder="Ivan" [formField]="contactForm.firstName" />
+        <label for="firstName">First name *</label>
+        <input type="text" id="firstName" placeholder="Ivan" [formField]="contactForm.firstName" />
         @if (contactForm.firstName().touched() && contactForm.firstName().invalid()) {
           <p class="error">{{ contactForm.firstName().errors()[0].message }}</p>
         }
@@ -13,8 +13,8 @@
 
       <!-- Last name -->
       <div class="control-container">
-        <label for="language">Last name *</label>
-        <input type="text" id="language" placeholder="Petkov" [formField]="contactForm.lastName" />
+        <label for="lastName">Last name *</label>
+        <input type="text" id="lastName" placeholder="Petkov" [formField]="contactForm.lastName" />
         @if (contactForm.lastName().touched() && contactForm.lastName().invalid()) {
           <p class="error">{{ contactForm.lastName().errors()[0].message }}</p>
         }
@@ -22,8 +22,8 @@
 
       <!-- Phone name -->
       <div class="control-container">
-        <label for="language">Phone *</label>
-        <input type="text" id="language" placeholder="+359....." [formField]="contactForm.phone" />
+        <label for="phone">Phone *</label>
+        <input type="text" id="phone" placeholder="+359....." [formField]="contactForm.phone" />
         @if (contactForm.phone().touched() && contactForm.phone().invalid()) {
           <p class="error">{{ contactForm.phone().errors()[0].message }}</p>
         }
@@ -31,10 +31,10 @@
 
       <!-- Email name -->
       <div class="control-container">
-        <label for="language">Email *</label>
+        <label for="email">Email *</label>
         <input
-          type="text"
-          id="language"
+          type="email"
+          id="email"
           placeholder="example@gmail.com"
           [formField]="contactForm.email"
         />

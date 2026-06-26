@@ -14,7 +14,7 @@ public class InstitutionHandlers
 
         if (!await query.AnyAsync()) return Results.BadRequest("Invalid institution.");
 
-        var institution = await query.Select(InstitutionExpressions.Base).ToListAsync();
+        var institution = await query.Select(InstitutionExpressions.Base).FirstAsync();
 
         return Results.Ok(institution);
     }
