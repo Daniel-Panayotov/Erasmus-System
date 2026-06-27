@@ -14,9 +14,9 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { RouterLink } from '@angular/router';
-import { Button } from '../../../models/data-table.model';
+import { Button } from '../../models/data-table.model';
 
 export interface Column {
   label: string;
@@ -47,7 +47,7 @@ export class DataTable implements AfterViewInit {
   columns = input.required<Column[]>();
   buttons = input<Button<any>[]>();
   onDrop = output<CdkDragDrop<string[]>>();
-  clickedOut = output<any | null>();
+  clickRowEvent = output<any | null>();
 
   tableSource = new MatTableDataSource<any>([]);
   dropListSource: any[] = [];
@@ -75,6 +75,11 @@ export class DataTable implements AfterViewInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(this.tableSource.data, event.previousIndex, event.currentIndex);
+      this.tableSource.data = [...this.tableSource.data];
+      return;
+    }
     this.onDrop.emit(event);
   }
 
@@ -82,6 +87,6 @@ export class DataTable implements AfterViewInit {
     if (this.clickedRow() == row) this.clickedRow.set(null);
     else this.clickedRow.set(row);
 
-    this.clickedOut.emit(this.clickedRow());
+    this.clickRowEvent.emit(this.clickedRow());
   }
 }

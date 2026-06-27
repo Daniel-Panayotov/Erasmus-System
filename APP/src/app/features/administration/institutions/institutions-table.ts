@@ -5,7 +5,7 @@ import { InstitutionsBaseTable } from '../shared/institutions-table/institutions
 @Component({
   selector: 'app-contacts-table',
   imports: [InstitutionsBaseTable],
-  template: '<app-institutions-base-table (clickinstitution)="selectInstitution($event)" />',
+  template: '<app-institutions-base-table (clickRowEvent)="selectInstitution($event)" />',
 })
 export class InstitutionsTable {
   selectInstitution(row: InstitutionBase | null) {}

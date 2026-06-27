@@ -1,4 +1,5 @@
 import { Signal, WritableSignal } from '@angular/core';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 interface BaseButton<T> {
   label: string;
@@ -16,3 +17,11 @@ interface HandlerButton<T> extends BaseButton<T> {
 }
 
 export type Button<T> = UrlButton<T> | HandlerButton<T>;
+
+export type DropTarget = 'base' | 'select';
+
+export interface DropEvent {
+  drop: CdkDragDrop<string[]>;
+  src: DropTarget;
+  target: DropTarget;
+}

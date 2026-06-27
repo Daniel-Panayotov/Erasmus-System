@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { InstitutionBase, InstitutionData, SaveInstitution } from '../models/institution.model';
 import { take } from 'rxjs';
+import { Parameter } from '../../../shared/models/parameter.model';
 
 @Service()
 export class InstitutionService {
@@ -15,11 +16,11 @@ export class InstitutionService {
       .pipe(take(1));
   }
 
-  public GetAll() {
+  public GetAll(parameters: Parameter<InstitutionBase>[]) {
     const url = `Institutions/get-all`;
 
     return this.http
-      .get<InstitutionBase[]>(url, { observe: 'response', credentials: 'include' })
+      .post<InstitutionBase[]>(url, parameters, { observe: 'response', credentials: 'include' })
       .pipe(take(1));
   }
 

@@ -29,7 +29,7 @@ export class ContactsShell {
     ...(this.currentUrl()?.includes('create')
       ? [
           { label: 'Create contact', url: administrationPaths.contacts.create },
-          { label: 'Add institutions', url: administrationPaths.contacts.create_institutions },
+          { label: 'Add institution', url: administrationPaths.contacts.create_institutions },
         ]
       : [
           {

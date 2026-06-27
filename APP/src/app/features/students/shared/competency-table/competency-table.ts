@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { Column, DataTable } from '../../../../shared/components/data-tables/data-table/data-table';
+import { Column, DataTable } from '../../../../shared/components/data-table/data-table';
 import { LanguageCompetencyData } from '../../models/language-competency.model';
 import { Button } from '../../../../shared/models/data-table.model';
 

@@ -1,6 +1,7 @@
 <app-data-table
-  [dataSignal]="institutionsSignal()"
+  [dataSignal]="institutions()"
   [columns]="columns"
   [buttons]="buttons()"
-  (clickedOut)="clickRow($event)"
+  (clickRowEvent)="clickRowEvent.emit($event)"
+  (onDrop)="onDrop.emit($event)"
 />

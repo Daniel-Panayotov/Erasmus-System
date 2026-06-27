@@ -1,8 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import {
-  LanguageCompetencyBase,
-  LanguageCompetencyData,
-} from '../../../models/language-competency.model';
+import { LanguageCompetencyData } from '../../../models/language-competency.model';
 import { studentPaths } from '../../../student.paths';
 import { ProfileDraftStore } from '../../profile-draft.store';
 import {

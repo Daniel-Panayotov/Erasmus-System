@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
-import { Column, DataTable } from '../../../../shared/components/data-tables/data-table/data-table';
+import { Column, DataTable } from '../../../../shared/components/data-table/data-table';
 import { Button } from '../../../../shared/models/data-table.model';
 import { ContactBase } from '../../models/contact.model';
 import { ContactService } from '../../services/contact.service';
