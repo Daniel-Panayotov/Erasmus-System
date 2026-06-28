@@ -36,7 +36,7 @@ export class UpdateContactPage {
     this.contactAPI
       .Update(this.contactID(), { ...data, institutionID: contact.institution.institutionID })
       .subscribe({
-        next: () => this.router.navigate(['..'], { relativeTo: this.route }),
+        next: () => this.router.navigate(['../..'], { relativeTo: this.route }),
         error(err: HttpErrorResponse) {
           console.log(err);
         },

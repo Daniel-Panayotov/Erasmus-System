@@ -7,8 +7,8 @@ import { catchError, EMPTY, map } from 'rxjs';
 import { createButton, deleteButton, updateButton } from '../../../../shared/utils/table-buttons';
 import { administrationPaths } from '../../administration.paths';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { Parameter } from '../../../../shared/models/parameter.model';
 import { Column, DataTable } from '../../../../shared/components/data-table/data-table';
+import { InstitutionParameter } from '../../../../shared/models/parameter.model';
 
 @Component({
   selector: 'app-institutions-base-table',
@@ -19,21 +19,28 @@ export class InstitutionsBaseTable {
   private institutionsAPI = inject(InstitutionService);
 
   overrideSource = input<InstitutionBase[]>();
-  parameters = input<Parameter<InstitutionBase>[]>();
+  sourceFilter = input<(src: InstitutionBase[]) => InstitutionBase[]>();
+  parameters = input<InstitutionParameter[]>();
+
   additionalButtons = input<Button<InstitutionBase>[]>();
   overrideButtons = input<Button<InstitutionBase>[]>();
+
   clickRowEvent = output<InstitutionBase | null>();
-  onDrop = output<CdkDragDrop<string[]>>();
+  onDrop = output<CdkDragDrop<InstitutionBase[]>>();
 
   private institutionsResource = rxResource({
     params: () => ({ parameters: this.parameters() ?? [] }),
     stream: ({ params }) =>
       this.institutionsAPI.GetAll(params.parameters).pipe(map((v) => v.body as InstitutionBase[])),
   });
+  reload = () => this.institutionsResource.reload();
 
-  private institutionsSignal = computed<InstitutionBase[]>(
-    () => this.overrideSource() ?? this.institutionsResource.value() ?? [],
+  private source = computed(() => this.institutionsResource.value() ?? []);
+  private filteredSource = computed<InstitutionBase[]>(
+    () => this.sourceFilter()?.(this.source()) ?? this.source(),
   );
+
+  institutions = computed<InstitutionBase[]>(() => this.overrideSource() ?? this.filteredSource());
 
   buttons = computed<Button<InstitutionBase>[]>(
     () => this.overrideButtons() ?? [...this.baseButtons, ...(this.additionalButtons() ?? [])],
@@ -46,7 +53,6 @@ export class InstitutionsBaseTable {
     ),
     deleteButton((row) => {
       if (!row()) return;
-
       this.institutionsAPI
         .Delete(row()?.institutionID!)
         .pipe(catchError((err) => EMPTY))
@@ -63,8 +69,4 @@ export class InstitutionsBaseTable {
     { label: 'Name', field: 'name' },
     { label: 'Address', field: 'address' },
   ];
-
-  get institutions() {
-    return this.institutionsSignal;
-  }
 }

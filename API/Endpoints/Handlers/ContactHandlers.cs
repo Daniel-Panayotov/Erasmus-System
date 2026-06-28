@@ -1,6 +1,7 @@
 ﻿using API.DTOs;
 using API.Expressions;
 using API.Models;
+using LinqKit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,7 @@ public class ContactHandlers
 
         if (!await query.AnyAsync()) return Results.BadRequest("Invalid contact.");
             
-        var contact = await query.Select(ContactExpressions.DTO).FirstAsync();
+        var contact = await query.Select(ContactExpressions.DTO.Expand()).FirstAsync();
 
         return Results.Ok(contact);
     }

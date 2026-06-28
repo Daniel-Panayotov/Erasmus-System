@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { InstitutionBase, InstitutionData, SaveInstitution } from '../models/institution.model';
 import { take } from 'rxjs';
-import { Parameter } from '../../../shared/models/parameter.model';
+import { InstitutionParameter } from '../../../shared/models/parameter.model';
 
 @Service()
 export class InstitutionService {
@@ -16,11 +16,14 @@ export class InstitutionService {
       .pipe(take(1));
   }
 
-  public GetAll(parameters: Parameter<InstitutionBase>[]) {
-    const url = `Institutions/get-all`;
+  public GetAll(queryParams: InstitutionParameter[]) {
+    let url = `Institutions/get-all`;
+
+    if (queryParams.length > 0)
+      url += '?' + queryParams.map((p) => `${p.field}=${p.value}`).join('&');
 
     return this.http
-      .post<InstitutionBase[]>(url, parameters, { observe: 'response', credentials: 'include' })
+      .get<InstitutionBase[]>(url, { observe: 'response', credentials: 'include' })
       .pipe(take(1));
   }
 

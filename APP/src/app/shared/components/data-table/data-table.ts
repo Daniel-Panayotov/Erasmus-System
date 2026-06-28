@@ -39,21 +39,21 @@ export interface Column {
   templateUrl: './data-table.html',
   styleUrl: './data-table.css',
 })
-export class DataTable implements AfterViewInit {
+export class DataTable<T> implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  dataSignal = input.required<any[]>();
+  dataSignal = input.required<T[]>();
   columns = input.required<Column[]>();
-  buttons = input<Button<any>[]>();
-  onDrop = output<CdkDragDrop<string[]>>();
-  clickRowEvent = output<any | null>();
+  buttons = input<Button<T>[]>();
+  onDrop = output<CdkDragDrop<T[]>>();
+  clickRowEvent = output<T | null>();
 
-  tableSource = new MatTableDataSource<any>([]);
-  dropListSource: any[] = [];
+  tableSource = new MatTableDataSource<T>([]);
+  dropListSource: T[] = [];
 
   headerDefs = computed(() => this.columns().map((col) => col.field));
-  clickedRow = signal<any | null>(null);
+  clickedRow = signal<T | null>(null);
 
   constructor() {
     effect(() => {
@@ -74,7 +74,7 @@ export class DataTable implements AfterViewInit {
     if (this.tableSource.paginator) this.tableSource.paginator.firstPage();
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<T[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(this.tableSource.data, event.previousIndex, event.currentIndex);
       this.tableSource.data = [...this.tableSource.data];

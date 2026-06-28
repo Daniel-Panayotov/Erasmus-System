@@ -1,17 +1,10 @@
-export type DeepFieldParameter<T> = {
-  [K in keyof T & string]: {
-    field: K;
-    deeperField: T[K] extends object
-      ? DeepFieldParameter<T[K]> | FieldParameter<T[K]>
-      : FieldParameter<T[K]>;
-  };
-}[keyof T & string];
+export type QueryParameter<T> = {
+  field: T;
+  value: string;
+};
 
-export type FieldParameter<T> = {
-  [K in keyof T & string]: {
-    field: K;
-    value: T[K];
-  };
-}[keyof T & string];
+export type Parameter<T> = QueryParameter<T>;
 
-export type Parameter<T> = FieldParameter<T> | DeepFieldParameter<T>;
+export type InstitutionParamField = 'contactID' | 'institutionID';
+
+export type InstitutionParameter = QueryParameter<InstitutionParamField>;

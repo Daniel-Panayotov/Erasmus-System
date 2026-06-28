@@ -44,3 +44,16 @@ public record InstitutionBaseDTO : InstitutionDataDTO
         InstitutionID = institutionID;
     }
 }
+
+public record InstitutionDTO : InstitutionBaseDTO
+{
+    public IEnumerable<ContactBaseDTO> Contacts { get; init; }
+
+    public InstitutionDTO(
+        int institutionID, 
+        string code, 
+        string name, string 
+        address, 
+        IEnumerable<ContactBaseDTO> contacts) : base(institutionID, code, name, address)
+    { Contacts = contacts; }
+}

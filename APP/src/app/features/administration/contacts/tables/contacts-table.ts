@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { ContactBaseTable } from '../shared/contact-table/contact-base-table';
-import { ContactBase } from '../models/contact.model';
-import { ContactStore } from './contact.store';
+import { ContactBaseTable } from '../../shared/contact-table/contact-base-table';
+import { ContactBase } from '../../models/contact.model';
+import { ContactStore } from '../contact.store';
 
 @Component({
   selector: 'app-contacts-table',

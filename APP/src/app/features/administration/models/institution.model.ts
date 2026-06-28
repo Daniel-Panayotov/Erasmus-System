@@ -1,3 +1,5 @@
+import { ContactBase } from './contact.model';
+
 export interface InstitutionData {
   code: string;
   name: string;
@@ -13,4 +15,8 @@ export interface InstitutionBase extends InstitutionData {
 export interface SaveInstitution extends InstitutionData {
   contactIDs: number[];
   facultyIDs: number[];
+}
+
+export interface InstitutionDTO extends InstitutionBase {
+  contacts: ContactBase[];
 }
