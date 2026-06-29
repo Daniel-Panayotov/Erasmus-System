@@ -79,29 +79,29 @@ public class InstitutionHandlers
         var query = ctx.Institutions.Where(i => i.InstitutionId == institutionID);
         if (!await query.AnyAsync()) return Results.BadRequest("Invalid institution.");
 
-        var institution = await query.FirstAsync();
+        var institution = await query.Include(i => i.Contacts)
+                                     .Include(i => i.Faculties)
+                                     .FirstAsync();
 
         institution.Code = data.Code;
         institution.Name = data.Name;
         institution.Address = data.Address;
 
-        if (data.ContactIDs.Any())
-        {
-            var contactsQuery = ctx.Contacts.Where(c => data.ContactIDs.Contains(c.ContactId));
-            if (!await contactsQuery.AnyAsync()) return Results.BadRequest("Invalid contacts.");
+        // contacts
+        var contactsQuery = ctx.Contacts.Where(c => data.ContactIDs.Contains(c.ContactId));
+        if (!await contactsQuery.AnyAsync() && data.ContactIDs.Any()) return Results.BadRequest("Invalid contacts.");
 
-            var contacts = await contactsQuery.ToListAsync();
-            institution.Contacts = contacts;
-        }
+        var contacts = await contactsQuery.ToListAsync();
+        institution.Contacts.Clear();
+        institution.Contacts = contacts;
+        
+        //faculties
+        var facultiesQuery = ctx.Faculties.Where(f => data.FacultyIDs.Contains(f.FacultyId));
+        if (!await facultiesQuery.AnyAsync() && data.FacultyIDs.Any()) return Results.BadRequest("Invalid faculties.");
 
-        if (data.FacultyIDs.Any())
-        {
-            var facultiesQuery = ctx.Faculties.Where(f => data.FacultyIDs.Contains(f.FacultyId));
-            if (!await facultiesQuery.AnyAsync()) return Results.BadRequest("Invalid faculties.");
-
-            var faculties = await facultiesQuery.ToListAsync();
-            institution.Faculties = faculties;
-        }
+        var faculties = await facultiesQuery.ToListAsync();
+        institution.Faculties.Clear();
+        institution.Faculties = faculties;
 
         try
         {

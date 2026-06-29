@@ -78,11 +78,12 @@ public class ContactHandlers
 
         if (data.InstitutionID != null)
         {
-            if (!await ctx.Institutions.Where(i => i.InstitutionId == data.InstitutionID).AnyAsync()) 
+            if (!await ctx.Institutions.Where(i => i.InstitutionId == data.InstitutionID).AnyAsync())
                 return Results.BadRequest("Invalid institution.");
 
             contact.InstitutionId = (int)data.InstitutionID;
         }
+        else contact.InstitutionId = null;
 
         try
         {
