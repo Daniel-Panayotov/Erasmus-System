@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
-import { InstitutionBase, InstitutionData, SaveInstitution } from '../models/institution.model';
+import { Institution, InstitutionBase, SaveInstitution } from '../models/institution.model';
 import { take } from 'rxjs';
 import { InstitutionParameter } from '../../../shared/models/parameter.model';
 
@@ -12,7 +12,7 @@ export class InstitutionService {
     const url = `Institutions/get-one?InstitutionID=${InstitutionID}`;
 
     return this.http
-      .get<InstitutionBase>(url, { observe: 'response', credentials: 'include' })
+      .get<Institution>(url, { observe: 'response', credentials: 'include' })
       .pipe(take(1));
   }
 

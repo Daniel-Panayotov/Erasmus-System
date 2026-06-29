@@ -20,9 +20,14 @@ public class ContactHandlers
         return Results.Ok(contact);
     }
 
-    public static async Task<IResult> GetAll(UEMSContext ctx)
+    public static async Task<IResult> GetAll([FromQuery] int? institutionID, UEMSContext ctx)
     {
-        var contacts = await ctx.Contacts.Select(ContactExpressions.Base).ToListAsync();
+        var query = ctx.Contacts.AsQueryable();
+            
+        if (institutionID != null) 
+            query = query.Where(c => c.InstitutionId == institutionID);
+            
+        var contacts = await query.Select(ContactExpressions.Base).ToListAsync();
 
         return Results.Ok(contacts);
     }

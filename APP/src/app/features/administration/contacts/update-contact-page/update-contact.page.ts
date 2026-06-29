@@ -30,8 +30,7 @@ export class UpdateContactPage {
   contactSignal = signal<ContactData | null>(null);
 
   updateContact(data: ContactData) {
-    if (!this.contactResource.hasValue()) return; //TODO Display error with modal
-    const contact = this.contactResource.value();
+    const contact = this.contactResource.value()!;
 
     this.contactAPI
       .Update(this.contactID(), { ...data, institutionID: contact.institution.institutionID })

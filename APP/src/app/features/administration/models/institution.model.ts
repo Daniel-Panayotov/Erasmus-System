@@ -17,6 +17,6 @@ export interface SaveInstitution extends InstitutionData {
   facultyIDs: number[];
 }
 
-export interface InstitutionDTO extends InstitutionBase {
+export interface Institution extends InstitutionBase {
   contacts: ContactBase[];
 }

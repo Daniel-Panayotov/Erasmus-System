@@ -1,6 +1,7 @@
 ﻿using API.DTOs;
 using API.Expressions;
 using API.Models;
+using LinqKit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,7 @@ public class InstitutionHandlers
 
         if (!await query.AnyAsync()) return Results.BadRequest("Invalid institution.");
 
-        var institution = await query.Select(InstitutionExpressions.Base).FirstAsync();
+        var institution = await query.Select(InstitutionExpressions.DTO.Expand()).FirstAsync();
 
         return Results.Ok(institution);
     }

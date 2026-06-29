@@ -4,6 +4,7 @@ import { UpdateInstitutionPage } from './update-institution-page/update-institut
 import { CreateInstitutionPage } from './create-institution-page/create-institution.page';
 import { InstitutionsTable } from './tables/institutions-table';
 import { CreateInstitutionContactsTable } from './tables/create-institution-contacts-tables';
+import { UpdateInstitutionContactsTable } from './tables/update-institution-contacts-tables';
 
 export const INSTITUTIONS_ROUTES: Routes = [
   {
@@ -16,7 +17,7 @@ export const INSTITUTIONS_ROUTES: Routes = [
       { path: 'create/contacts', component: CreateInstitutionContactsTable },
       // { path: 'create/faculties', component: CreateInstitutionPage },
       { path: ':institutionID/update', component: UpdateInstitutionPage },
-      // { path: ':institutionID/contacts', component: UpdateInstitutionPage },
+      { path: ':institutionID/contacts', component: UpdateInstitutionContactsTable },
       // { path: ':institutionID/faculties', component: UpdateInstitutionPage },
     ],
   },
