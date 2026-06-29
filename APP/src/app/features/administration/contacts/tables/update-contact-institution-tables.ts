@@ -75,7 +75,6 @@ export class UpdateContactInstitutionsTable implements OnDestroy {
         phone: contact.phone,
         institutionID: drop.previousContainer.data[drop.previousIndex].institutionID,
       };
-      console.log(body);
 
       this.contactAPI.Update(this.contactID(), body).subscribe({
         next: () => {

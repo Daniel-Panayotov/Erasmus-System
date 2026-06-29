@@ -29,11 +29,13 @@ export class UpdateInstitutionPage {
   });
 
   updateInstitution(data: InstitutionData) {
-    this.institutionAPI.Update(this.institutionID(), data).subscribe({
-      next: () => this.router.navigate(['..'], { relativeTo: this.route }),
-      error(err: HttpErrorResponse) {
-        console.log(err);
-      },
-    });
+    this.institutionAPI
+      .Update(this.institutionID(), { ...data, contactIDs: [], facultyIDs: [] })
+      .subscribe({
+        next: () => this.router.navigate(['..'], { relativeTo: this.route }),
+        error(err: HttpErrorResponse) {
+          console.log(err);
+        },
+      });
   }
 }

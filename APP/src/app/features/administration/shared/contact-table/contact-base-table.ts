@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { Column, DataTable } from '../../../../shared/components/data-table/data-table';
 import { Button } from '../../../../shared/models/data-table.model';
 import { ContactBase } from '../../models/contact.model';
@@ -7,6 +7,8 @@ import { createButton, deleteButton, updateButton } from '../../../../shared/uti
 import { administrationPaths } from '../../administration.paths';
 import { catchError, EMPTY, map } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { ContactParameter } from '../../../../shared/models/parameter.model';
 
 @Component({
   selector: 'app-contact-base-table',
@@ -16,15 +18,35 @@ import { rxResource } from '@angular/core/rxjs-interop';
 export class ContactBaseTable {
   private contactsAPI = inject(ContactService);
 
-  buttonsInput = input<Button<ContactBase>[]>();
-  clickContact = output<ContactBase | null>();
+  overrideSource = input<ContactBase[]>();
+  sourceFilter = input<(src: ContactBase[]) => ContactBase[]>();
+  parameters = input<ContactParameter[]>();
+
+  additionalButtons = input<Button<ContactBase>[]>();
+  overrideButtons = input<Button<ContactBase>[]>();
+
+  clickRowEvent = output<ContactBase | null>();
+  onDrop = output<CdkDragDrop<ContactBase[]>>();
 
   contactsResource = rxResource({
-    stream: () => this.contactsAPI.GetAll().pipe(map((v) => v.body as ContactBase[])),
+    params: () => ({ parameters: this.parameters() ?? [] }),
+    stream: ({ params }) =>
+      this.contactsAPI.GetAll(params.parameters).pipe(map((v) => v.body as ContactBase[])),
   });
-  contactsSignal = signal<ContactBase[]>([]);
+  reload = () => this.contactsResource.reload();
 
-  buttons = computed<Button<ContactBase>[]>(() => [
+  private source = computed(() => this.contactsResource.value() ?? []);
+  private filteredSource = computed<ContactBase[]>(
+    () => this.sourceFilter()?.(this.source()) ?? this.source(),
+  );
+
+  contacts = computed<ContactBase[]>(() => this.overrideSource() ?? this.filteredSource());
+
+  buttons = computed<Button<ContactBase>[]>(
+    () => this.overrideButtons() ?? [...this.baseButtons, ...(this.additionalButtons() ?? [])],
+  );
+
+  private baseButtons: Button<ContactBase>[] = [
     createButton(() => administrationPaths.contacts.create),
     updateButton((row) =>
       row == null ? [''] : administrationPaths.contacts.update(row.contactID.toString()),
@@ -40,8 +62,7 @@ export class ContactBaseTable {
           row.set(null);
         });
     }),
-    ...(this.buttonsInput() ?? []),
-  ]);
+  ];
 
   columns: Column[] = [
     { label: 'ID', field: 'contactID' },
@@ -50,15 +71,4 @@ export class ContactBaseTable {
     { label: 'Phone', field: 'phone' },
     { label: 'Email', field: 'email' },
   ];
-
-  constructor() {
-    effect(() => {
-      if (this.contactsResource.hasValue()) this.contactsSignal.set(this.contactsResource.value());
-      else this.contactsSignal.set([]);
-    });
-  }
-
-  clickRow(row: ContactBase | null) {
-    this.clickContact.emit(row);
-  }
 }

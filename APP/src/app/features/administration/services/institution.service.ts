@@ -33,7 +33,7 @@ export class InstitutionService {
     return this.http.post(url, body, { observe: 'response', credentials: 'include' }).pipe(take(1));
   }
 
-  public Update(InstitutionID: number, body: InstitutionData) {
+  public Update(InstitutionID: number, body: SaveInstitution) {
     const url = `Institutions/update?InstitutionID=${InstitutionID}`;
 
     return this.http.post(url, body, { observe: 'response', credentials: 'include' }).pipe(take(1));

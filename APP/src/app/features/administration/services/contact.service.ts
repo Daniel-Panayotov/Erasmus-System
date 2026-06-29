@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { take } from 'rxjs';
 import { Contact, ContactBase, SaveContact } from '../models/contact.model';
+import { ContactParameter } from '../../../shared/models/parameter.model';
 
 @Service()
 export class ContactService {
@@ -15,8 +16,11 @@ export class ContactService {
       .pipe(take(1));
   }
 
-  public GetAll() {
-    const url = `contacts/get-all`;
+  public GetAll(queryParams: ContactParameter[]) {
+    let url = `contacts/get-all`;
+
+    if (queryParams.length > 0)
+      url += '?' + queryParams.map((p) => `${p.field}=${p.value}`).join('&');
 
     return this.http
       .get<ContactBase[]>(url, { observe: 'response', credentials: 'include' })

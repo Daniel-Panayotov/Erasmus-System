@@ -6,7 +6,7 @@ import { ContactStore } from '../contact.store';
 @Component({
   selector: 'app-contacts-table',
   imports: [ContactBaseTable],
-  template: '<app-contact-base-table (clickContact)="selectContact($event)" />',
+  template: '<app-contact-base-table (clickRowEvent)="selectContact($event)" />',
 })
 export class ContactsTable {
   private contactStore = inject(ContactStore);

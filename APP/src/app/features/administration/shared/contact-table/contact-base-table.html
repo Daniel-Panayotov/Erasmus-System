@@ -1,6 +1,7 @@
 <app-data-table
-  [dataSignal]="contactsSignal()"
+  [dataSignal]="contacts()"
   [columns]="columns"
   [buttons]="buttons()"
-  (clickRowEvent)="clickRow($event)"
+  (clickRowEvent)="clickRowEvent.emit($event)"
+  (onDrop)="onDrop.emit($event)"
 />
