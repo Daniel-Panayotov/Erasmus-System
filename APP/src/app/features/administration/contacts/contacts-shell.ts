@@ -1,7 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { administrationPaths } from '../administration.paths';
 import { PageShell } from '../../../shared/components/page-shell/page-shell';
-import { ContactStore } from './contact.store';
+import { ContactsStore } from './contact.store';
 import { EventType, Router } from '@angular/router';
 import { filter, map, startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -9,11 +9,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-contacts-shell',
   imports: [PageShell],
-  providers: [ContactStore],
+  providers: [ContactsStore],
   template: '<app-page-shell [tabs]="tabs()" />',
 })
 export class ContactsShell {
-  private draftStore = inject(ContactStore);
+  private contactsStore = inject(ContactsStore);
   private router = inject(Router);
 
   currentUrl = toSignal(
@@ -34,9 +34,9 @@ export class ContactsShell {
       : [
           {
             label: 'Institutions',
-            disabled: this.draftStore.selectedContactID() == null ? true : false,
+            disabled: this.contactsStore.selectedContactID() == null ? true : false,
             url: administrationPaths.contacts.update_institutions(
-              this.draftStore.selectedContactID()?.toString() ?? '',
+              this.contactsStore.selectedContactID()?.toString() ?? '',
             ),
           },
         ]),

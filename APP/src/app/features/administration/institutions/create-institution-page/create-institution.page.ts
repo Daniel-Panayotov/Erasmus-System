@@ -18,20 +18,20 @@ import { InstitutionsStore } from '../institutions.store';
 })
 export class CreateInstitutionPage {
   private institutionAPI = inject(InstitutionService);
-  private draftStore = inject(InstitutionsStore);
+  private institutionsStore = inject(InstitutionsStore);
   private router = inject(Router);
 
   serverErrors = signal<TreeValidationResult | null>(null);
 
-  institution = this.draftStore.institutionModel;
+  institution = this.institutionsStore.drafts.institutionModel;
 
   valueChange(data: InstitutionFormModel) {
-    this.draftStore.institutionModel.set(data);
+    this.institutionsStore.drafts.institutionModel.set(data);
   }
 
   //TODO: Faculty IDs
   createInstitution(data: InstitutionData) {
-    const contacts = this.draftStore.contacts();
+    const contacts = this.institutionsStore.drafts.contacts();
 
     const body: SaveInstitution = {
       ...data,

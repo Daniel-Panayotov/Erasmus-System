@@ -1,7 +1,7 @@
 import { CdkDragDrop, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { Component, computed, inject } from '@angular/core';
 import { InstitutionsBaseTable } from '../../shared/institutions-table/institutions-base-table';
-import { ContactStore } from '../contact.store';
+import { ContactsStore } from '../contact.store';
 import { InstitutionBase } from '../../models/institution.model';
 import { DropTarget } from '../../../../shared/models/data-table.model';
 
@@ -31,20 +31,20 @@ import { DropTarget } from '../../../../shared/models/data-table.model';
   `,
 })
 export class CreateContactInstitutionsTable {
-  private contactStore = inject(ContactStore);
+  private contactsStore = inject(ContactsStore);
 
   overrideSelect = computed<InstitutionBase[]>(() =>
-    this.contactStore.institution() ? [this.contactStore.institution()!] : [],
+    this.contactsStore.drafts.institution() ? [this.contactsStore.drafts.institution()!] : [],
   );
 
   filter = computed(
     () => (src: InstitutionBase[]) =>
-      src.filter((v) => this.contactStore.institution()?.institutionID != v.institutionID),
+      src.filter((v) => this.contactsStore.drafts.institution()?.institutionID != v.institutionID),
   );
 
   out(drop: CdkDragDrop<InstitutionBase[]>, target: DropTarget) {
     if (target == 'select')
-      this.contactStore.institution.set(drop.previousContainer.data[drop.previousIndex]);
-    else this.contactStore.institution.set(null);
+      this.contactsStore.drafts.institution.set(drop.previousContainer.data[drop.previousIndex]);
+    else this.contactsStore.drafts.institution.set(null);
   }
 }

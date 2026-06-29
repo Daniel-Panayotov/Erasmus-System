@@ -13,10 +13,10 @@ import { InstitutionsStore } from './institutions.store';
   template: '<app-page-shell [tabs]="tabs()" />',
 })
 export class InstitutionsShell {
-  private institutionStore = inject(InstitutionsStore);
+  private institutionsStore = inject(InstitutionsStore);
   private router = inject(Router);
 
-  selectedInstitutionID = this.institutionStore.selectedinstitutionID;
+  selectedInstitutionID = this.institutionsStore.selectedinstitutionID;
 
   currentUrl = toSignal(
     this.router.events.pipe(

@@ -3,7 +3,7 @@ import { InstitutionsBaseTable } from '../../shared/institutions-table/instituti
 import { CdkDragDrop, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { InstitutionBase } from '../../models/institution.model';
 import { DropTarget } from '../../../../shared/models/data-table.model';
-import { ContactStore } from '../contact.store';
+import { ContactsStore } from '../contact.store';
 import { InstitutionParameter } from '../../../../shared/models/parameter.model';
 import { ContactService } from '../../services/contact.service';
 import { Contact, SaveContact } from '../../models/contact.model';
@@ -38,7 +38,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class UpdateContactInstitutionsTable implements OnDestroy {
   private contactAPI = inject(ContactService);
-  private contactStore = inject(ContactStore);
+  private contactsStore = inject(ContactsStore);
 
   contactID = input.required<number>();
 
@@ -88,6 +88,6 @@ export class UpdateContactInstitutionsTable implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.contactStore.selectedContactID.set(null);
+    this.contactsStore.selectedContactID.set(null);
   }
 }

@@ -4,13 +4,15 @@ import { ContactBase } from '../models/contact.model';
 
 @Injectable()
 export class InstitutionsStore {
-  institutionModel = signal<InstitutionFormModel | null>(null);
-  contacts = signal<ContactBase[]>([]);
+  drafts = {
+    institutionModel: signal<InstitutionFormModel | null>(null),
+    contacts: signal<ContactBase[]>([]),
+  };
 
   selectedinstitutionID = signal<number | null>(null);
 
   resetDrafts() {
-    this.institutionModel.set(null);
-    this.contacts.set([]);
+    this.drafts.institutionModel.set(null);
+    this.drafts.contacts.set([]);
   }
 }

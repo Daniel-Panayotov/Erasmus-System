@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ContactBaseTable } from '../../shared/contact-table/contact-base-table';
 import { ContactBase } from '../../models/contact.model';
-import { ContactStore } from '../contact.store';
+import { ContactsStore } from '../contact.store';
 
 @Component({
   selector: 'app-contacts-table',
@@ -9,9 +9,9 @@ import { ContactStore } from '../contact.store';
   template: '<app-contact-base-table (clickRowEvent)="selectContact($event)" />',
 })
 export class ContactsTable {
-  private contactStore = inject(ContactStore);
+  private contactsStore = inject(ContactsStore);
 
   selectContact(row: ContactBase | null) {
-    this.contactStore.selectedContactID.set(row?.contactID ?? null);
+    this.contactsStore.selectedContactID.set(row?.contactID ?? null);
   }
 }

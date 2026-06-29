@@ -9,8 +9,8 @@ import { InstitutionBase } from '../../models/institution.model';
   template: '<app-institutions-base-table (clickRowEvent)="selectInstitution($event)" />',
 })
 export class InstitutionsTable {
-  private institutionStore = inject(InstitutionsStore);
+  private institutionsStore = inject(InstitutionsStore);
   selectInstitution(row: InstitutionBase | null) {
-    this.institutionStore.selectedinstitutionID.set(row?.institutionID ?? null);
+    this.institutionsStore.selectedinstitutionID.set(row?.institutionID ?? null);
   }
 }
