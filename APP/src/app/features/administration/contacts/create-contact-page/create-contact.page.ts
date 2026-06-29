@@ -26,9 +26,7 @@ export class CreateContactPage {
   }
 
   createContact(data: ContactData) {
-    const institutionID = this.draftStore.institution()?.institutionID;
-
-    if (institutionID == null) return; //TODO error modal
+    const institutionID = this.draftStore.institution()?.institutionID ?? null;
 
     const body: SaveContact = { ...data, institutionID };
 

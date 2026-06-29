@@ -11,5 +11,5 @@ public class ContactExpressions
         c => new ContactBaseDTO(c.ContactId, c.FirstName, c.LastName, c.Phone, c.Email);
 
     public readonly static Expression<Func<Contact, ContactDTO>> DTO =
-        c => new ContactDTO(c.ContactId, c.FirstName, c.LastName, c.Phone, c.Email, InstitutionExpressions.Base.Invoke(c.Institution));
+        c => new ContactDTO(c.ContactId, c.FirstName, c.LastName, c.Phone, c.Email, c.Institution != null ? InstitutionExpressions.Base.Invoke(c.Institution) : null);
 }

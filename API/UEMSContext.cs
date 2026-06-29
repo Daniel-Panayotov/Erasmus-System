@@ -49,8 +49,8 @@ public partial class UEMSContext : DbContext
             entity.Property(e => e.MotivationText).HasMaxLength(500);
             entity.Property(e => e.StudentId).HasColumnName("StudentID");
 
-            entity.Ignore(e => e.MobilityTypeEnum);
             entity.Ignore(e => e.DegreeEnum);
+            entity.Ignore(e => e.MobilityTypeEnum);
 
             entity.HasOne(d => d.ReceivingInstitutionNavigation).WithMany(p => p.ApplicationReceivingInstitutionNavigations)
                 .HasForeignKey(d => d.ReceivingInstitution)
@@ -95,7 +95,6 @@ public partial class UEMSContext : DbContext
 
             entity.HasOne(d => d.Institution).WithMany(p => p.Contacts)
                 .HasForeignKey(d => d.InstitutionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Contacts_Institutions");
         });
 
@@ -108,7 +107,6 @@ public partial class UEMSContext : DbContext
 
             entity.HasOne(d => d.Faculty).WithMany(p => p.Disciplines)
                 .HasForeignKey(d => d.FacultyId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Disciplines_Faculties");
         });
 
@@ -120,7 +118,6 @@ public partial class UEMSContext : DbContext
 
             entity.HasOne(d => d.Institution).WithMany(p => p.Faculties)
                 .HasForeignKey(d => d.InstitutionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Faculties_Institutions");
         });
 
@@ -258,7 +255,6 @@ public partial class UEMSContext : DbContext
 
             entity.HasOne(d => d.InstitutionFaculty).WithMany(p => p.Subjects)
                 .HasForeignKey(d => d.InstitutionFacultyId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Subjects_Faculties");
         });
 

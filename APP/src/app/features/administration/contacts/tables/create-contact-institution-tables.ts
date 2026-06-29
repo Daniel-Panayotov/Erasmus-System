@@ -42,8 +42,8 @@ export class CreateContactInstitutionsTable {
       src.filter((v) => this.contactStore.institution()?.institutionID != v.institutionID),
   );
 
-  out(drop: CdkDragDrop<InstitutionBase[]>, src: DropTarget) {
-    if (src == 'select')
+  out(drop: CdkDragDrop<InstitutionBase[]>, target: DropTarget) {
+    if (target == 'select')
       this.contactStore.institution.set(drop.previousContainer.data[drop.previousIndex]);
     else this.contactStore.institution.set(null);
   }

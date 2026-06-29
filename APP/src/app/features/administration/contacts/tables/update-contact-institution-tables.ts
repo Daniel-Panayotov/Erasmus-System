@@ -50,7 +50,6 @@ export class UpdateContactInstitutionsTable implements OnDestroy {
     stream: ({ params }) =>
       this.contactAPI.GetOne(params.contactID).pipe(map((v) => v.body as Contact)),
   });
-  contactSignal = computed(() => this.contactResource.value() ?? null);
 
   parameters = computed<InstitutionParameter[]>(() => [
     { field: 'contactID', value: this.contactID().toString() },
@@ -63,29 +62,29 @@ export class UpdateContactInstitutionsTable implements OnDestroy {
     return src.filter((v) => !selectIDs.includes(v.institutionID));
   });
 
-  out(drop: CdkDragDrop<InstitutionBase[]>, src: DropTarget) {
-    const contact = this.contactSignal();
+  out(drop: CdkDragDrop<InstitutionBase[]>, target: DropTarget) {
+    const contact = this.contactResource.value() ?? null;
     if (contact == null) return; //TODO Display error
 
-    if (src == 'select') {
-      const body: SaveContact = {
-        firstName: contact.firstName,
-        lastName: contact.lastName,
-        email: contact.email,
-        phone: contact.phone,
-        institutionID: drop.previousContainer.data[drop.previousIndex].institutionID,
-      };
+    const body: SaveContact = {
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      email: contact.email,
+      phone: contact.phone,
+      institutionID: drop.previousContainer.data[drop.previousIndex].institutionID,
+    };
 
-      this.contactAPI.Update(this.contactID(), body).subscribe({
-        next: () => {
-          this.selectTable.reload();
-          this.baseTable.reload();
-        },
-        error(err: HttpErrorResponse) {
-          console.log(err);
-        },
-      });
-    }
+    if (target == 'base') body.institutionID = null;
+
+    this.contactAPI.Update(this.contactID(), body).subscribe({
+      next: () => {
+        this.selectTable.reload();
+        this.baseTable.reload();
+      },
+      error(err: HttpErrorResponse) {
+        console.log(err);
+      },
+    });
   }
 
   ngOnDestroy(): void {

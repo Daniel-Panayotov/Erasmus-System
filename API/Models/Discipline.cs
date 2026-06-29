@@ -8,9 +8,9 @@ public partial class Discipline
 
     public string Code { get; set; } = null!;
 
-    public int FacultyId { get; set; }
+    public int? FacultyId { get; set; }
 
-    public virtual Faculty Faculty { get; set; } = null!;
+    public virtual Faculty? Faculty { get; set; }
 
     public virtual ICollection<RelDisciplineSubject> RelDisciplineSubjects { get; set; } = new List<RelDisciplineSubject>();
 

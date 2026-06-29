@@ -54,7 +54,7 @@ public record ContactBaseDTO : ContactDataDTO
 
 public record ContactDTO : ContactBaseDTO
 {
-    public InstitutionBaseDTO Institution { get; init; }
+    public InstitutionBaseDTO? Institution { get; init; }
 
     public ContactDTO(
         int contactID,
@@ -62,7 +62,7 @@ public record ContactDTO : ContactBaseDTO
         string lastName,
         string phone,
         string email,
-        InstitutionBaseDTO institution)
+        InstitutionBaseDTO? institution)
         : base(contactID, firstName, lastName, phone, email)
     { Institution = institution; }
 }

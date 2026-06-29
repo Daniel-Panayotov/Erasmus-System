@@ -10,9 +10,9 @@ public partial class Subject
 
     public int Credits { get; set; }
 
-    public int InstitutionFacultyId { get; set; }
+    public int? InstitutionFacultyId { get; set; }
 
-    public virtual Faculty InstitutionFaculty { get; set; } = null!;
+    public virtual Faculty? InstitutionFaculty { get; set; }
 
     public virtual ICollection<RelDisciplineSubject> RelDisciplineSubjects { get; set; } = new List<RelDisciplineSubject>();
 

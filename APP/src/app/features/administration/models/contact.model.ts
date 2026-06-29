@@ -9,7 +9,7 @@ export interface ContactData {
 
 export interface ContactFormModel extends ContactData {}
 export interface SaveContact extends ContactData {
-  institutionID: number;
+  institutionID: number | null;
 }
 
 export interface ContactBase extends ContactData {
@@ -17,5 +17,5 @@ export interface ContactBase extends ContactData {
 }
 
 export interface Contact extends ContactBase {
-  institution: InstitutionBase;
+  institution: InstitutionBase | null;
 }
