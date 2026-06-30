@@ -2,8 +2,8 @@ import { Component, computed, inject } from '@angular/core';
 import { administrationPaths } from '../administration.paths';
 import { PageShell } from '../../../shared/components/page-shell/page-shell';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { EventType, Router } from '@angular/router';
-import { filter, map, startWith } from 'rxjs';
+import { ActivatedRoute, EventType, Router } from '@angular/router';
+import { filter, map, startWith, tap } from 'rxjs';
 import { InstitutionsStore } from './institutions.store';
 
 @Component({
@@ -15,13 +15,18 @@ import { InstitutionsStore } from './institutions.store';
 export class InstitutionsShell {
   private institutionsStore = inject(InstitutionsStore);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   selectedInstitutionID = this.institutionsStore.selectedinstitutionID;
 
   currentUrl = toSignal(
     this.router.events.pipe(
       filter((e) => e.type == EventType.NavigationEnd),
-      map(() => this.router.url),
+      tap((e) => {
+        const institutionID = this.route.firstChild?.snapshot.params['institutionID'] ?? null;
+        this.selectedInstitutionID.set(institutionID);
+      }),
+      map((e) => e.url),
       startWith(this.router.url),
     ),
   );

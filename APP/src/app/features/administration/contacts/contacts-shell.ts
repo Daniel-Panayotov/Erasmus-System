@@ -2,8 +2,8 @@ import { Component, computed, inject } from '@angular/core';
 import { administrationPaths } from '../administration.paths';
 import { PageShell } from '../../../shared/components/page-shell/page-shell';
 import { ContactsStore } from './contact.store';
-import { EventType, Router } from '@angular/router';
-import { filter, map, startWith } from 'rxjs';
+import { ActivatedRoute, EventType, Router } from '@angular/router';
+import { filter, map, startWith, tap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -15,11 +15,18 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class ContactsShell {
   private contactsStore = inject(ContactsStore);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  selectedContactID = this.contactsStore.selectedContactID;
 
   currentUrl = toSignal(
     this.router.events.pipe(
       filter((e) => e.type == EventType.NavigationEnd),
-      map(() => this.router.url),
+      tap(() => {
+        const contactID = this.route.firstChild?.snapshot.params['contactID'] ?? null;
+        this.selectedContactID.set(contactID);
+      }),
+      map((e) => e.url),
       startWith(this.router.url),
     ),
   );
@@ -34,9 +41,9 @@ export class ContactsShell {
       : [
           {
             label: 'Institutions',
-            disabled: this.contactsStore.selectedContactID() == null ? true : false,
+            disabled: this.selectedContactID() == null ? true : false,
             url: administrationPaths.contacts.update_institutions(
-              this.contactsStore.selectedContactID()?.toString() ?? '',
+              this.selectedContactID()?.toString() ?? '',
             ),
           },
         ]),
