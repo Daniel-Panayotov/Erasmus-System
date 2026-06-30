@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, output } from '@angular/core';
+import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { Button } from '../../../../shared/models/data-table.model';
 import { InstitutionBase } from '../../models/institution.model';
 import { InstitutionService } from '../../services/institution.service';
@@ -35,12 +35,15 @@ export class InstitutionsBaseTable {
   });
   reload = () => this.institutionsResource.reload();
 
-  private source = computed(() => this.institutionsResource.value() ?? []);
+  private resourceValue = computed(() => this.institutionsResource.value() ?? []);
   private filteredSource = computed<InstitutionBase[]>(
-    () => this.sourceFilter()?.(this.source()) ?? this.source(),
+    () => this.sourceFilter()?.(this.resourceValue()) ?? this.resourceValue(),
   );
 
-  institutions = computed<InstitutionBase[]>(() => this.overrideSource() ?? this.filteredSource());
+  private computedSource = computed<InstitutionBase[]>(
+    () => this.overrideSource() ?? this.filteredSource(),
+  );
+  institutions = signal<InstitutionBase[]>([]);
 
   buttons = computed<Button<InstitutionBase>[]>(
     () => this.overrideButtons() ?? [...this.baseButtons, ...(this.additionalButtons() ?? [])],
@@ -69,4 +72,10 @@ export class InstitutionsBaseTable {
     { label: 'Name', field: 'name' },
     { label: 'Address', field: 'address' },
   ];
+
+  constructor() {
+    effect(() => {
+      this.institutions.set(this.computedSource());
+    });
+  }
 }

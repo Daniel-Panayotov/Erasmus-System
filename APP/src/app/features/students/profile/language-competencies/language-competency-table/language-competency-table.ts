@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { LanguageCompetencyService } from '../../../services/language-competency.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { LanguageCompetencyBase } from '../../../models/language-competency.model';
@@ -30,7 +30,9 @@ export class LanguageCompetencyTable {
         .pipe(map((v) => v.body as LanguageCompetencyBase[])),
   });
 
-  competenciesSignal = signal<LanguageCompetencyBase[]>([]);
+  competenciesSignal = computed<LanguageCompetencyBase[]>(
+    () => this.competenciesResource.value() ?? [],
+  );
 
   buttons: Button<LanguageCompetencyBase>[] = [
     createButton(() => studentPaths.profiles(this.studentID()).competencies_create),
@@ -53,12 +55,4 @@ export class LanguageCompetencyTable {
         });
     }),
   ];
-
-  constructor() {
-    effect(() => {
-      if (this.competenciesResource.hasValue()) {
-        this.competenciesSignal.set(this.competenciesResource.value());
-      } else this.competenciesSignal.set([]);
-    });
-  }
 }

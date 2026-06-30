@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, output } from '@angular/core';
+import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { Column, DataTable } from '../../../../shared/components/data-table/data-table';
 import { Button } from '../../../../shared/models/data-table.model';
 import { ContactBase } from '../../models/contact.model';
@@ -35,12 +35,15 @@ export class ContactBaseTable {
   });
   reload = () => this.contactsResource.reload();
 
-  private source = computed(() => this.contactsResource.value() ?? []);
+  private resourceValue = computed(() => this.contactsResource.value() ?? []);
   private filteredSource = computed<ContactBase[]>(
-    () => this.sourceFilter()?.(this.source()) ?? this.source(),
+    () => this.sourceFilter()?.(this.resourceValue()) ?? this.resourceValue(),
   );
 
-  contacts = computed<ContactBase[]>(() => this.overrideSource() ?? this.filteredSource());
+  private computedSource = computed<ContactBase[]>(
+    () => this.overrideSource() ?? this.filteredSource(),
+  );
+  contacts = signal<ContactBase[]>([]);
 
   buttons = computed<Button<ContactBase>[]>(
     () => this.overrideButtons() ?? [...this.baseButtons, ...(this.additionalButtons() ?? [])],
@@ -71,4 +74,10 @@ export class ContactBaseTable {
     { label: 'Phone', field: 'phone' },
     { label: 'Email', field: 'email' },
   ];
+
+  constructor() {
+    effect(() => {
+      this.contacts.set(this.computedSource());
+    });
+  }
 }

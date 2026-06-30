@@ -1,9 +1,10 @@
 import { CdkDragDrop, CdkDropListGroup } from '@angular/cdk/drag-drop';
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { DropTarget } from '../../../../shared/models/data-table.model';
 import { InstitutionsStore } from '../institutions.store';
 import { ContactBaseTable } from '../../shared/contact-table/contact-base-table';
 import { ContactBase } from '../../models/contact.model';
+import { moveBetweenSignalArrays } from '../../../../shared/utils/signal-utilities';
 
 @Component({
   selector: 'app-create-institution-contacts-table',
@@ -11,11 +12,12 @@ import { ContactBase } from '../../models/contact.model';
   template: `
     <div cdkDropListGroup class="table-page-container">
       <app-contact-base-table
-        [overrideSource]="overrideSelect()"
+        #select
+        [overrideSource]="contactDraft()"
         [overrideButtons]="[]"
         (onDrop)="out($event, 'select')"
       />
-      <app-contact-base-table [sourceFilter]="filter()" (onDrop)="out($event, 'base')" />
+      <app-contact-base-table #base (onDrop)="out($event, 'base')" />
     </div>
   `,
   styles: `
@@ -33,23 +35,14 @@ import { ContactBase } from '../../models/contact.model';
 export class CreateInstitutionContactsTable {
   private institutionsStore = inject(InstitutionsStore);
 
-  overrideSelect = this.institutionsStore.drafts.contacts;
+  @ViewChild('base') baseTable!: ContactBaseTable;
 
-  filter = computed(() => (src: ContactBase[]) => {
-    const selectIDs = this.overrideSelect().map((v) => v.contactID);
-    return src.filter((v) => !selectIDs.includes(v.contactID));
-  });
+  contactDraft = this.institutionsStore.drafts.contacts;
 
-  out(drop: CdkDragDrop<ContactBase[]>, src: DropTarget) {
-    if (src == 'select')
-      this.institutionsStore.drafts.contacts.update((v) => [
-        ...v,
-        drop.previousContainer.data[drop.previousIndex],
-      ]);
-    else
-      this.institutionsStore.drafts.contacts.update((v) => {
-        v.splice(drop.previousIndex, 1);
-        return [...v];
-      });
+  out(drop: CdkDragDrop<ContactBase[]>, target: DropTarget) {
+    let srcSignal = target == 'base' ? this.contactDraft : this.baseTable.contacts;
+    let targetSignal = target == 'base' ? this.baseTable.contacts : this.contactDraft;
+
+    moveBetweenSignalArrays(srcSignal, targetSignal, drop.previousIndex, drop.currentIndex);
   }
 }
