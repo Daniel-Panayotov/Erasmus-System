@@ -1,10 +1,13 @@
 import { Routes } from '@angular/router';
 import { ApplicationForm } from '../shared/application-form/application.form';
+import { studentsTree } from '../student.paths';
+
+const routeTree = studentsTree.studentID(':studentID').applications;
 
 export const APPLICATIONS_ROUTES: Routes = [
   {
     path: '',
-    children: [{ path: 'create', component: ApplicationForm }],
+    children: [{ path: routeTree.create.segment, component: ApplicationForm }],
   },
 ];
 

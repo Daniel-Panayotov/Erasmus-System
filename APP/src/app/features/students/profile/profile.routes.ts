@@ -5,6 +5,9 @@ import { UpdateStudentPage } from './update-student/update-student.page';
 import { CreateCompetencyPage } from './language-competencies/create-competency/create-competency.page';
 import { LanguageCompetencyTable } from './language-competencies/language-competency-table/language-competency-table';
 import { UpdateCompetencyPage } from './language-competencies/update-competency/update-competency.page';
+import { studentsTree } from '../student.paths';
+
+const routeTree = studentsTree.studentID(':studentID').profile;
 
 export const PROFILE_ROUTES: Routes = [
   {
@@ -12,14 +15,17 @@ export const PROFILE_ROUTES: Routes = [
     component: ProfileShell,
     children: [
       { path: '', redirectTo: 'view', pathMatch: 'full' },
-      { path: 'view', component: Profile, title: 'Profile view' },
-      { path: 'update', component: UpdateStudentPage, title: 'Profile form' },
+      { path: routeTree.view.segment, component: Profile, title: 'Profile view' },
+      { path: routeTree.update.segment, component: UpdateStudentPage, title: 'Profile form' },
       {
-        path: 'language-competencies',
+        path: routeTree.language_competencies.segment,
         children: [
           { path: '', component: LanguageCompetencyTable },
-          { path: 'create', component: CreateCompetencyPage },
-          { path: 'update/:competencyID', component: UpdateCompetencyPage },
+          { path: routeTree.language_competencies.create.segment, component: CreateCompetencyPage },
+          {
+            path: routeTree.language_competencies.update.segment,
+            children: [{ path: ':competencyID', component: UpdateCompetencyPage }],
+          },
         ],
       },
     ],

@@ -1,5 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
-import { administrationPaths } from '../administration.paths';
+import { administration } from '../administration.paths';
 import { PageShell } from '../../../shared/components/page-shell/page-shell';
 import { ContactsStore } from './contact.store';
 import { ActivatedRoute, EventType, Router } from '@angular/router';
@@ -32,19 +32,18 @@ export class ContactsShell {
   );
 
   tabs = computed(() => [
-    { label: 'Contacts', url: administrationPaths.contacts.view },
+    { label: 'Contacts', url: administration.contacts.view.segments },
     ...(this.currentUrl()?.includes('create')
       ? [
-          { label: 'Create contact', url: administrationPaths.contacts.create },
-          { label: 'Add institution', url: administrationPaths.contacts.create_institutions },
+          { label: 'Create contact', url: administration.contacts.create.segments },
+          { label: 'Add institution', url: administration.contacts.create.institutions.segments },
         ]
       : [
           {
             label: 'Institutions',
             disabled: this.selectedContactID() == null ? true : false,
-            url: administrationPaths.contacts.update_institutions(
-              this.selectedContactID()?.toString() ?? '',
-            ),
+            url: administration.contacts.contactID(this.selectedContactID()?.toString() ?? '')
+              .institutions.segments,
           },
         ]),
   ]);

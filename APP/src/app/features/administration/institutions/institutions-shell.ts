@@ -1,5 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
-import { administrationPaths } from '../administration.paths';
+import { administration } from '../administration.paths';
 import { PageShell } from '../../../shared/components/page-shell/page-shell';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, EventType, Router } from '@angular/router';
@@ -32,27 +32,27 @@ export class InstitutionsShell {
   );
 
   tabs = computed(() => [
-    { label: 'Institutions', url: administrationPaths.institutions.view },
+    { label: 'Institutions', url: administration.institutions.view.segments },
     ...(this.currentUrl()?.includes('create')
       ? [
-          { label: 'Create institution', url: administrationPaths.institutions.create },
-          { label: 'Add Contacts', url: administrationPaths.institutions.create_contacts },
-          { label: 'Add Faculties', url: administrationPaths.institutions.create_faculties },
+          { label: 'Create institution', url: administration.institutions.create.segments },
+          { label: 'Add Contacts', url: administration.institutions.create.contacts.segments },
+          { label: 'Add Faculties', url: administration.institutions.create.faculties.segments },
         ]
       : [
           {
             label: 'Contacts',
             disabled: this.selectedInstitutionID() == null ? true : false,
-            url: administrationPaths.institutions.contacts(
+            url: administration.institutions.institutionID(
               this.selectedInstitutionID()?.toString() ?? '',
-            ),
+            ).contacts.segments,
           },
           {
             label: 'Faculties',
             disabled: this.selectedInstitutionID() == null ? true : false,
-            url: administrationPaths.institutions.faculties(
+            url: administration.institutions.institutionID(
               this.selectedInstitutionID()?.toString() ?? '',
-            ),
+            ).faculties.segments,
           },
         ]),
   ]);

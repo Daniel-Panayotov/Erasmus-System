@@ -1,6 +1,6 @@
 import { Component, inject, input } from '@angular/core';
 import { LanguageCompetencyData } from '../../../models/language-competency.model';
-import { studentPaths } from '../../../student.paths';
+import { studentsTree } from '../../../student.paths';
 import { ProfileDraftStore } from '../../profile-draft.store';
 import {
   createButton,
@@ -22,14 +22,17 @@ export class DraftCompetencyTable {
   userID = input.required<string>();
 
   buttons: Button<LanguageCompetencyData>[] = [
-    createButton(() => studentPaths.newProfile(this.userID()).competencies_create),
-    updateButton((row) =>
-      studentPaths.newProfile(this.userID()).competencies_update(
-        this.draftStore
-          .competenciesDraft()
-          .findIndex((v) => v == row)
-          .toString(),
-      ),
+    createButton(
+      () => studentsTree.new.userID(this.userID()).language_competencies.create.segments,
+    ),
+    updateButton(
+      (row) =>
+        studentsTree.new.userID(this.userID()).language_competencies.update.competencyIndex(
+          this.draftStore
+            .competenciesDraft()
+            .findIndex((v) => v == row)
+            .toString(),
+        ).segments,
     ),
     deleteButton((row) => {
       const rowValue = row();

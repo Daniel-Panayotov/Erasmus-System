@@ -8,7 +8,7 @@ import {
   InstitutionFormModel,
   SaveInstitution,
 } from '../../models/institution.model';
-import { administrationPaths } from '../../administration.paths';
+import { administration } from '../../administration.paths';
 import { InstitutionsStore } from '../institutions.store';
 
 @Component({
@@ -40,7 +40,7 @@ export class CreateInstitutionPage {
     };
 
     this.institutionAPI.Create(body).subscribe({
-      next: (v) => this.router.navigate(administrationPaths.institutions.view),
+      next: (v) => this.router.navigate(administration.institutions.view.segments),
       error(err) {},
     });
   }

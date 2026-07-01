@@ -5,7 +5,7 @@ import { InstitutionService } from '../../services/institution.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { catchError, EMPTY, map } from 'rxjs';
 import { createButton, deleteButton, updateButton } from '../../../../shared/utils/table-buttons';
-import { administrationPaths } from '../../administration.paths';
+import { administration } from '../../administration.paths';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Column, DataTable } from '../../../../shared/components/data-table/data-table';
 import { InstitutionParameter } from '../../../../shared/models/parameter.model';
@@ -50,9 +50,11 @@ export class InstitutionsBaseTable {
   );
 
   private baseButtons: Button<InstitutionBase>[] = [
-    createButton(() => administrationPaths.institutions.create),
+    createButton(() => administration.institutions.create.segments),
     updateButton((row) =>
-      row == null ? [''] : administrationPaths.institutions.update(row.institutionID.toString()),
+      row == null
+        ? ['']
+        : administration.institutions.institutionID(row.institutionID.toString()).update.segments,
     ),
     deleteButton((row) => {
       if (!row()) return;

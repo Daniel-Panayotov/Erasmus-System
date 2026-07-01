@@ -3,7 +3,7 @@ import { moveItemInArray } from '@angular/cdk/drag-drop';
 
 export function insertInArraySignalAt<T>(signal: WritableSignal<T[]>, item: T, index: number) {
   const list = signal();
-  //We will be adding an element, thats why I accound for it with + 1
+  //We will be adding an element, thats why I account for it with + 1
   if (index > list.length) throw Error();
 
   list.push(item);

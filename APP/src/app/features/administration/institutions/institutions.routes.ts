@@ -5,20 +5,39 @@ import { CreateInstitutionPage } from './create-institution-page/create-institut
 import { InstitutionsTable } from './tables/institutions-table';
 import { CreateInstitutionContactsTable } from './tables/create-institution-contacts-tables';
 import { UpdateInstitutionContactsTable } from './tables/update-institution-contacts-tables';
+import { administration } from '../administration.paths';
+
+const routeTree = administration.institutions;
 
 export const INSTITUTIONS_ROUTES: Routes = [
   {
-    path: '',
+    path: routeTree.segment,
     component: InstitutionsShell,
     children: [
       { path: '', redirectTo: 'view', pathMatch: 'full' },
-      { path: 'view', component: InstitutionsTable },
-      { path: 'create', component: CreateInstitutionPage },
-      { path: 'create/contacts', component: CreateInstitutionContactsTable },
-      // { path: 'create/faculties', component: CreateInstitutionPage },
-      { path: ':institutionID/update', component: UpdateInstitutionPage },
-      { path: ':institutionID/contacts', component: UpdateInstitutionContactsTable },
-      // { path: ':institutionID/faculties', component: UpdateInstitutionPage },
+      { path: routeTree.view.segment, component: InstitutionsTable },
+      {
+        path: routeTree.create.segment,
+        children: [
+          { path: '', component: CreateInstitutionPage },
+          { path: routeTree.create.contacts.segment, component: CreateInstitutionContactsTable },
+          // { path: routeTree.create.faculties.segment, component: CreateInstitutionPage },
+        ],
+      },
+      {
+        path: ':institutionID',
+        children: [
+          {
+            path: routeTree.institutionID(':institutionID').update.segment,
+            component: UpdateInstitutionPage,
+          },
+          {
+            path: routeTree.institutionID(':institutionID').contacts.segment,
+            component: UpdateInstitutionContactsTable,
+          },
+          // { path: ':institutionID/faculties', component: UpdateInstitutionPage },
+        ],
+      },
     ],
   },
 ];

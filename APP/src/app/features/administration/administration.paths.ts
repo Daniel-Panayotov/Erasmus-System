@@ -1,7 +1,16 @@
-import { contactPaths } from './contacts/contact.paths';
-import { institutionsPaths } from './institutions/institutions.paths';
+import { buildNode, PathSegment } from '../../shared/utils/app-route-utilities';
+import { ContactsNode, contacts } from './contacts/contact.paths';
+import { institutions, InstitutionsNode } from './institutions/institutions.paths';
 
-export const administrationPaths = {
-  institutions: institutionsPaths.bind(this, ['/administration', 'institutions'])(),
-  contacts: contactPaths.bind(this, ['/administration', 'contacts'])(),
+export interface AdministrationNode extends PathSegment {
+  institutions: InstitutionsNode;
+  contacts: ContactsNode;
+}
+
+const administrationTree = {
+  segment: '/administration',
+  institutions,
+  contacts,
 };
+
+export const administration = buildNode(administrationTree) as AdministrationNode;

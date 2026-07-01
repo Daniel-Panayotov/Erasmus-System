@@ -3,18 +3,30 @@ import { authGuard } from '../../core/guards/auth.guard';
 import { PROFILE_ROUTES } from './profile/profile.routes';
 import { APPLICATIONS_ROUTES } from './applications/applications.routes';
 import { PROFILE_NEW_ROUTES } from './profile-new/profile-new.routes';
+import { studentsTree } from './student.paths';
+
+const routeTree = studentsTree;
 
 export const STUDENTS_ROUTES: Routes = [
   {
-    path: 'students',
+    path: routeTree.segment.replace('/', ''),
     canActivateChild: [authGuard],
     children: [
-      { path: 'new/:userID', children: PROFILE_NEW_ROUTES },
+      {
+        path: routeTree.new.segment,
+        children: [{ path: ':userID', children: PROFILE_NEW_ROUTES }],
+      },
       {
         path: ':studentID',
         children: [
-          { path: 'applications', children: APPLICATIONS_ROUTES },
-          { path: 'profile', children: PROFILE_ROUTES },
+          {
+            path: routeTree.studentID(':studentID').applications.segment,
+            children: APPLICATIONS_ROUTES,
+          },
+          {
+            path: routeTree.studentID(':studentID').profile.segment,
+            children: PROFILE_ROUTES,
+          },
         ],
       },
     ],

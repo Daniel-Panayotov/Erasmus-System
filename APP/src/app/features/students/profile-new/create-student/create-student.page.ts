@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StudentForm } from '../../shared/student-form/student.form';
 import { ProfileDraftStore } from '../profile-draft.store';
-import { studentPaths } from '../../student.paths';
+import { studentsTree } from '../../student.paths';
 
 @Component({
   selector: 'app-create-student-page',
@@ -35,7 +35,9 @@ export class CreateStudentPage {
 
     this.studentAPI.CreateStudent(this.userID(), body).subscribe({
       next: (v) =>
-        this.router.navigate(studentPaths.profiles(v.body?.student?.studentID?.toString()!).view),
+        this.router.navigate(
+          studentsTree.studentID(v.body?.student?.studentID?.toString()!).profile.view.segments,
+        ),
       error(err: HttpErrorResponse) {},
     });
   }

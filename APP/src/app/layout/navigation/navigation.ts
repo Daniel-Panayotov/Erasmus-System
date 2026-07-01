@@ -4,9 +4,9 @@ import { AuthenticationService } from '../../features/authentication/services/au
 import { providedIcons } from '../../shared/utils/icon.provider';
 import { HorizontalNavigation } from '../../shared/components/horizontal-navigation/horizontal-navigation';
 import { NavIcon } from '../../shared/models/horizontal-navigation.model';
-import { studentPaths } from '../../features/students/student.paths';
-import { authPaths } from '../../features/authentication/authentication.paths';
-import { administrationPaths } from '../../features/administration/administration.paths';
+import { studentsTree } from '../../features/students/student.paths';
+import { authentication } from '../../features/authentication/authentication.paths';
+import { administration } from '../../features/administration/administration.paths';
 
 @Component({
   selector: 'app-navigation',
@@ -23,13 +23,13 @@ export class Navigation {
   private studentNavIcons: Signal<NavIcon[]> = computed(() => [
     {
       iconName: providedIcons.heroClipboard,
-      route: studentPaths.applications(this.studentID!.toString()).create,
+      route: studentsTree.studentID(this.studentID!.toString()).applications.create.segments,
       name: 'Apply',
       float: 'left',
     },
     {
       iconName: providedIcons.heroClipboard,
-      route: studentPaths.profiles(this.studentID!.toString()).view,
+      route: studentsTree.studentID(this.studentID!.toString()).profile.view.segments,
       name: 'Profile',
       float: 'right',
     },
@@ -38,7 +38,7 @@ export class Navigation {
   private notStudentNavIcons: NavIcon[] = [
     {
       iconName: providedIcons.heroUser,
-      route: studentPaths.newProfile(this.auth.state()?.userID!).profile,
+      route: studentsTree.new.userID(this.auth.state()?.userID!).profile.segments,
       name: 'Create profile',
       float: 'left',
     },
@@ -48,13 +48,13 @@ export class Navigation {
     const items: NavIcon[] = [
       {
         iconName: providedIcons.heroClipboard,
-        route: administrationPaths.contacts.view,
+        route: administration.contacts.view.segments,
         name: 'Contacts',
         float: 'left',
       },
       {
         iconName: providedIcons.heroClipboard,
-        route: administrationPaths.institutions.view,
+        route: administration.institutions.view.segments,
         name: 'Institutions',
         float: 'left',
       },
@@ -79,7 +79,7 @@ export class Navigation {
 
   public async logout() {
     this.auth.logout().subscribe((x) => {
-      this.router.navigate(authPaths.login());
+      this.router.navigate(authentication.login.segments);
     });
   }
 
@@ -92,6 +92,6 @@ export class Navigation {
   }
 
   get authPaths() {
-    return authPaths;
+    return authentication;
   }
 }

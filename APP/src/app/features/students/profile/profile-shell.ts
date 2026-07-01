@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { studentPaths } from '../student.paths';
+import { studentsTree } from '../student.paths';
 import { PageShell } from '../../../shared/components/page-shell/page-shell';
 
 @Component({
@@ -13,15 +13,15 @@ export class ProfileShell {
   tabs = computed(() => [
     {
       label: 'Profile',
-      url: studentPaths.profiles(this.studentID()).view,
+      url: studentsTree.studentID(this.studentID()).profile.view.segments,
     },
     {
       label: 'Language competencies',
-      url: studentPaths.profiles(this.studentID()).competencies_table,
+      url: studentsTree.studentID(this.studentID()).profile.language_competencies.segments,
     },
     {
       label: 'Profile update',
-      url: studentPaths.profiles(this.studentID()).update,
+      url: studentsTree.studentID(this.studentID()).profile.update.segments,
     },
   ]);
 }

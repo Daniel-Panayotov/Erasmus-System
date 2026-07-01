@@ -3,8 +3,7 @@ import { Home } from './layout/home/home';
 import { NotFound } from './layout/not-found/not-found';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: Home, title: 'Home page' },
+  { path: '', pathMatch: 'full', component: Home, title: 'Home page' },
   {
     path: '',
     loadChildren: () =>

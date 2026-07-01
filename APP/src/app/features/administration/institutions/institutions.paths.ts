@@ -1,11 +1,33 @@
-export const institutionsPaths = (path: string[]) => ({
-  view: path.concat(['view']),
+import { PathSegment } from '../../../shared/utils/app-route-utilities';
 
-  create: path.concat(['create']),
-  create_contacts: path.concat(['create', 'contacts']),
-  create_faculties: path.concat(['create', 'faculties']),
+interface InstitutionsCreateNode extends PathSegment {
+  contacts: PathSegment;
+  faculties: PathSegment;
+}
+interface InstitutionsIDNode extends PathSegment {
+  update: PathSegment;
+  contacts: PathSegment;
+  faculties: PathSegment;
+}
 
-  update: (institutionID: string) => path.concat([institutionID, 'update']),
-  contacts: (institutionID: string) => path.concat([institutionID, 'contacts']),
-  faculties: (institutionID: string) => path.concat([institutionID, 'faculties']),
-});
+export interface InstitutionsNode extends PathSegment {
+  view: PathSegment;
+  create: InstitutionsCreateNode;
+  institutionID: (institutionID: string) => InstitutionsIDNode;
+}
+
+export const institutions = {
+  segment: 'institutions',
+  view: { segment: 'view' },
+  create: {
+    segment: 'create',
+    contacts: { segment: 'contacts' },
+    faculties: { segment: 'faculties' },
+  },
+  institutionID: (institutionID: string) => ({
+    segment: institutionID,
+    update: { segment: 'update' },
+    contacts: { segment: 'contacts' },
+    faculties: { segment: 'faculties' },
+  }),
+};

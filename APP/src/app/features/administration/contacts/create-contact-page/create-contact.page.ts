@@ -4,7 +4,7 @@ import { ContactService } from '../../services/contact.service';
 import { Router } from '@angular/router';
 import { TreeValidationResult } from '@angular/forms/signals';
 import { ContactData, ContactFormModel, SaveContact } from '../../models/contact.model';
-import { administrationPaths } from '../../administration.paths';
+import { administration } from '../../administration.paths';
 import { ContactsStore } from '../contact.store';
 
 @Component({
@@ -33,7 +33,7 @@ export class CreateContactPage {
     this.contactAPI.Create(body).subscribe({
       next: (v) => {
         this.contactsStore.resetDrafts();
-        this.router.navigate(administrationPaths.contacts.view);
+        this.router.navigate(administration.contacts.view.segments);
       },
       error(err) {},
     });

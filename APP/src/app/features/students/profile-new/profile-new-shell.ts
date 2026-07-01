@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { studentPaths } from '../student.paths';
+import { studentsTree } from '../student.paths';
 import { ProfileDraftStore } from './profile-draft.store';
 import { PageShell } from '../../../shared/components/page-shell/page-shell';
 
@@ -15,11 +15,11 @@ export class ProfileNewShell {
   tabs = computed(() => [
     {
       label: 'Create profile',
-      url: studentPaths.newProfile(this.userID()).profile,
+      url: studentsTree.new.userID(this.userID()).profile.segments,
     },
     {
       label: 'Language competencies',
-      url: studentPaths.newProfile(this.userID()).competencies_table,
+      url: studentsTree.new.userID(this.userID()).language_competencies.segments,
     },
   ]);
 }

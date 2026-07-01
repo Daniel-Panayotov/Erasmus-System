@@ -13,7 +13,7 @@ import { Router, RouterLink } from '@angular/router';
 import { UserData } from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { authPaths } from '../../authentication.paths';
+import { authentication } from '../../authentication.paths';
 
 @Component({
   selector: 'app-authentication-form',
@@ -73,6 +73,6 @@ export class AuthenticationForm {
   );
 
   get authPaths() {
-    return authPaths;
+    return authentication;
   }
 }

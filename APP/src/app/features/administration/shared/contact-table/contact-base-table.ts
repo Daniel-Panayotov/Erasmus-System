@@ -4,7 +4,7 @@ import { Button } from '../../../../shared/models/data-table.model';
 import { ContactBase } from '../../models/contact.model';
 import { ContactService } from '../../services/contact.service';
 import { createButton, deleteButton, updateButton } from '../../../../shared/utils/table-buttons';
-import { administrationPaths } from '../../administration.paths';
+import { administration } from '../../administration.paths';
 import { catchError, EMPTY, map } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
@@ -50,9 +50,11 @@ export class ContactBaseTable {
   );
 
   private baseButtons: Button<ContactBase>[] = [
-    createButton(() => administrationPaths.contacts.create),
+    createButton(() => administration.contacts.create.segments),
     updateButton((row) =>
-      row == null ? [''] : administrationPaths.contacts.update(row.contactID.toString()),
+      row == null
+        ? ['']
+        : administration.contacts.contactID(row.contactID.toString()).update.segments,
     ),
     deleteButton((row) => {
       if (!row()) return;

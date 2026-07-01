@@ -1,8 +1,26 @@
-export const contactPaths = (path: string[]) => ({
-  view: path.concat(['view']),
-  create: path.concat(['create']),
-  create_institutions: path.concat(['create', 'institutions']),
-  update: (contactID: string) => path.concat([contactID, 'update']),
-  update_institutions: (contactID: string) => path.concat([contactID, 'institutions']),
-});
-//TODO: CHECK WHAT DIFF THERE SHOULD BE BETWEEN INSTITUTIONS IN CREATE V UPDATE
+import { PathSegment } from '../../../shared/utils/app-route-utilities';
+
+interface ContactsCreateNode extends PathSegment {
+  institutions: PathSegment;
+}
+interface ContactsIDNode extends PathSegment {
+  update: PathSegment;
+  institutions: PathSegment;
+}
+
+export interface ContactsNode extends PathSegment {
+  view: PathSegment;
+  create: ContactsCreateNode;
+  contactID: (contactID: string) => ContactsIDNode;
+}
+
+export const contacts = {
+  segment: 'contacts',
+  view: { segment: 'view' },
+  create: { segment: 'create', institutions: { segment: 'institutions' } },
+  contactID: (contactID: string) => ({
+    segment: contactID,
+    institutions: { segment: 'institutions' },
+    update: { segment: 'update' },
+  }),
+};
