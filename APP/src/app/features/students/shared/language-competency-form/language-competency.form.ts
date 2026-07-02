@@ -1,4 +1,4 @@
-import { Component, input, OnInit, output, signal } from '@angular/core';
+import { Component, effect, input, OnInit, output, signal } from '@angular/core';
 import {
   LanguageCompetencyData,
   LanguageCompetencyFormModel,
@@ -22,6 +22,7 @@ export class LanguageCompetencyForm implements OnInit {
   competency = input<LanguageCompetencyData>();
   serverErrors = input<TreeValidationResult | null>();
   save = output<LanguageCompetencyData>();
+  touched = output<boolean>();
 
   formModel = signal<LanguageCompetencyFormModel>({
     language: '',
@@ -49,6 +50,12 @@ export class LanguageCompetencyForm implements OnInit {
       },
     },
   );
+
+  constructor() {
+    effect(() => {
+      this.touched.emit(this.competencyForm().touched());
+    });
+  }
 
   ngOnInit() {
     if (!this.competency()) return;

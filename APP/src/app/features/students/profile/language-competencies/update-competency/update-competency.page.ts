@@ -10,19 +10,22 @@ import {
 } from '../../../models/language-competency.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LanguageCompetencyForm } from '../../../shared/language-competency-form/language-competency.form';
+import { CanDeactivateFormInterface } from '../../../../../core/guards/form.guard';
 
 @Component({
   selector: 'app-update-competency-page',
   imports: [LanguageCompetencyForm],
   templateUrl: './update-competency.page.html',
 })
-export class UpdateCompetencyPage {
+export class UpdateCompetencyPage implements CanDeactivateFormInterface {
   private languageAPI = inject(LanguageCompetencyService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
   studentID = input.required<number>();
   competencyID = input.required<number>();
+
+  canDeactivate = signal(true);
 
   serverErrors = signal<TreeValidationResult | null>(null);
 
@@ -46,7 +49,10 @@ export class UpdateCompetencyPage {
 
   updateCompetency(data: LanguageCompetencyData) {
     this.languageAPI.Update(this.competencyID(), data).subscribe({
-      next: () => this.router.navigate(['../..'], { relativeTo: this.route }),
+      next: () => {
+        this.canDeactivate.set(true);
+        this.router.navigate(['../..'], { relativeTo: this.route });
+      },
       error(err: HttpErrorResponse) {},
     });
   }

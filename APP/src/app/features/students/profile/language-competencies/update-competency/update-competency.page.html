@@ -6,5 +6,6 @@
     [competency]="competencyResource.value()"
     (save)="updateCompetency($event)"
     [serverErrors]="serverErrors()"
+    (touched)="canDeactivate.set(!$event)"
   />
 }

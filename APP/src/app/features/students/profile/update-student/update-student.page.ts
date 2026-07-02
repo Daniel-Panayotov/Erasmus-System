@@ -7,13 +7,14 @@ import { TreeValidationResult } from '@angular/forms/signals';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StudentForm } from '../../shared/student-form/student.form';
+import { CanDeactivateFormInterface } from '../../../../core/guards/form.guard';
 
 @Component({
   selector: 'app-update-student-page',
   imports: [StudentForm],
   templateUrl: './update-student.page.html',
 })
-export class UpdateStudentPage {
+export class UpdateStudentPage implements CanDeactivateFormInterface {
   private studentAPI = inject(StudentService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -21,6 +22,7 @@ export class UpdateStudentPage {
   studentID = input.required<number>();
 
   serverErrors = signal<TreeValidationResult | null>(null);
+  canDeactivate = signal(true);
 
   studentResource = rxResource({
     params: () => ({ studentID: this.studentID() }),
@@ -30,7 +32,10 @@ export class UpdateStudentPage {
 
   updateStudent(data: StudentData) {
     this.studentAPI.UpdateStudent(this.studentID(), data).subscribe({
-      next: () => this.router.navigate(['..'], { relativeTo: this.route }),
+      next: () => {
+        this.canDeactivate.set(true);
+        this.router.navigate(['..'], { relativeTo: this.route });
+      },
       error(err: HttpErrorResponse) {
         console.log(err);
       },

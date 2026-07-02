@@ -24,8 +24,14 @@ export class CreateInstitutionPage {
   serverErrors = signal<TreeValidationResult | null>(null);
 
   institution = this.institutionsStore.drafts.institutionModel;
+  draftTouched = this.institutionsStore.drafts.touched;
 
+  changeTouched(touched: boolean) {
+    if (this.draftTouched()) return;
+    this.draftTouched.set(touched);
+  }
   valueChange(data: InstitutionFormModel) {
+    if (!this.draftTouched()) return;
     this.institutionsStore.drafts.institutionModel.set(data);
   }
 
@@ -40,7 +46,10 @@ export class CreateInstitutionPage {
     };
 
     this.institutionAPI.Create(body).subscribe({
-      next: (v) => this.router.navigate(administration.institutions.view.segments),
+      next: (v) => {
+        this.institutionsStore.resetDrafts();
+        this.router.navigate(administration.institutions.view.segments);
+      },
       error(err) {},
     });
   }

@@ -24,6 +24,7 @@ export class ContactForm implements OnInit {
   serverErrors = input<TreeValidationResult | null>();
   save = output<ContactData>();
   valueChange = output<ContactFormModel>();
+  touched = output<boolean>();
 
   formModel = signal<ContactFormModel>({
     firstName: '',
@@ -79,6 +80,9 @@ export class ContactForm implements OnInit {
   constructor() {
     effect(() => {
       this.valueChange.emit(this.contactForm().value());
+    });
+    effect(() => {
+      this.touched.emit(this.contactForm().touched());
     });
   }
 

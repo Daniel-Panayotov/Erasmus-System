@@ -23,8 +23,14 @@ export class CreateStudentPage {
   serverErrors = signal<TreeValidationResult | null>(null);
 
   student = computed(() => this.draftStore.studentDraft());
+  draftTouched = this.draftStore.touched;
 
+  changeTouched(touched: boolean) {
+    if (this.draftTouched()) return;
+    this.draftTouched.set(touched);
+  }
   valueChange(data: StudentFormModel) {
+    if (!this.draftTouched()) return;
     this.draftStore.studentDraft.set(data);
   }
 
@@ -34,10 +40,12 @@ export class CreateStudentPage {
     const body: NewStudent = { ...data, languageCompetencies: competencies };
 
     this.studentAPI.CreateStudent(this.userID(), body).subscribe({
-      next: (v) =>
+      next: (v) => {
+        this.draftStore.resetDrafts();
         this.router.navigate(
           studentsTree.studentID(v.body?.student?.studentID?.toString()!).profile.view.segments,
-        ),
+        );
+      },
       error(err: HttpErrorResponse) {},
     });
   }

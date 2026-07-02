@@ -23,6 +23,7 @@ export class InstitutionForm implements OnInit {
   serverErrors = input<TreeValidationResult | null>();
   save = output<InstitutionData>();
   valueChange = output<InstitutionFormModel>();
+  touched = output<boolean>();
 
   formModel = signal<InstitutionFormModel>({
     code: '',
@@ -64,6 +65,9 @@ export class InstitutionForm implements OnInit {
   constructor() {
     effect(() => {
       this.valueChange.emit(this.institutionForm().value());
+    });
+    effect(() => {
+      this.touched.emit(this.institutionForm().touched());
     });
   }
 

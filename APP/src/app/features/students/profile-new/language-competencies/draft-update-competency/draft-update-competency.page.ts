@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LanguageCompetencyData } from '../../../models/language-competency.model';
 import { LanguageCompetencyForm } from '../../../shared/language-competency-form/language-competency.form';
 import { ProfileDraftStore } from '../../profile-draft.store';
+import { CanDeactivateFormInterface } from '../../../../../core/guards/form.guard';
 
 @Component({
   selector: 'app-draft-update-competency-page',
   imports: [LanguageCompetencyForm],
   templateUrl: './draft-update-competency.page.html',
 })
-export class DraftUpdateCompetencyPage implements OnInit {
+export class DraftUpdateCompetencyPage implements OnInit, CanDeactivateFormInterface {
   private draftStore = inject(ProfileDraftStore);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -18,6 +19,8 @@ export class DraftUpdateCompetencyPage implements OnInit {
   userID = input.required<number>();
   competencyIndex = input.required<number>();
   serverErrors = signal<TreeValidationResult | null>(null);
+
+  canDeactivate = signal(true);
 
   competency = computed(() => this.draftStore.competenciesDraft()[this.competencyIndex()]);
 
@@ -33,6 +36,7 @@ export class DraftUpdateCompetencyPage implements OnInit {
       return [...list];
     });
 
+    this.canDeactivate.set(true);
     this.router.navigate(['../..'], { relativeTo: this.route });
   }
 }

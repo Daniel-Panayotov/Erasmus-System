@@ -7,18 +7,21 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { Contact, ContactData } from '../../models/contact.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CanDeactivateFormInterface } from '../../../../core/guards/form.guard';
 
 @Component({
   selector: 'app-update-contact-page',
   imports: [ContactForm],
   templateUrl: './update-contact.page.html',
 })
-export class UpdateContactPage {
+export class UpdateContactPage implements CanDeactivateFormInterface {
   private contactAPI = inject(ContactService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
   contactID = input.required<number>();
+
+  canDeactivate = signal(true);
 
   serverErrors = signal<TreeValidationResult | null>(null);
 
@@ -38,7 +41,10 @@ export class UpdateContactPage {
         institutionID: contact.institution?.institutionID ?? null,
       })
       .subscribe({
-        next: () => this.router.navigate(['../..'], { relativeTo: this.route }),
+        next: () => {
+          this.canDeactivate.set(true);
+          this.router.navigate(['../..'], { relativeTo: this.route });
+        },
         error(err: HttpErrorResponse) {
           console.log(err);
         },

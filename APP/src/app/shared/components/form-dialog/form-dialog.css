@@ -1,0 +1,12 @@
+mat-dialog-actions {
+  gap: 1rem;
+}
+
+button[matButton] {
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+button[matButton]:hover {
+  background-color: rgb(218, 205, 205);
+}

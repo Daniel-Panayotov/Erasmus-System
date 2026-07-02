@@ -5,13 +5,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TreeValidationResult } from '@angular/forms/signals';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LanguageCompetencyForm } from '../../../shared/language-competency-form/language-competency.form';
+import { MatDialog } from '@angular/material/dialog';
+import { CanDeactivateFormInterface } from '../../../../../core/guards/form.guard';
 
 @Component({
   selector: 'app-create-competency-page',
   imports: [LanguageCompetencyForm],
   templateUrl: './create-competency.page.html',
 })
-export class CreateCompetencyPage {
+export class CreateCompetencyPage implements CanDeactivateFormInterface {
   private languageAPI = inject(LanguageCompetencyService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -20,9 +22,13 @@ export class CreateCompetencyPage {
 
   serverErrors = signal<TreeValidationResult | null>(null);
 
+  canDeactivate = signal(true);
   createCompetency(data: LanguageCompetencyData) {
     this.languageAPI.Create(this.studentID(), data).subscribe({
-      next: () => this.router.navigate(['..'], { relativeTo: this.route }),
+      next: () => {
+        this.canDeactivate.set(true);
+        this.router.navigate(['..'], { relativeTo: this.route });
+      },
       error(err: HttpErrorResponse) {},
     });
   }

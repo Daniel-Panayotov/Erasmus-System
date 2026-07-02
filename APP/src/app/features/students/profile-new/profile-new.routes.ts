@@ -5,6 +5,7 @@ import { DraftCompetencyTable } from './language-competencies/draft-language-com
 import { DraftCreateCompetencyPage } from './language-competencies/draft-create-competency/draft-create-competency.page';
 import { DraftUpdateCompetencyPage } from './language-competencies/draft-update-competency/draft-update-competency.page';
 import { studentsTree } from '../student.paths';
+import { formGuard } from '../../../core/guards/form.guard';
 
 const routeTree = studentsTree.new.userID(':userID');
 
@@ -12,6 +13,7 @@ export const PROFILE_NEW_ROUTES: Routes = [
   {
     path: '',
     component: ProfileNewShell,
+    canDeactivate: [formGuard],
     children: [
       { path: routeTree.profile.segment, component: CreateStudentPage },
       {
@@ -24,7 +26,13 @@ export const PROFILE_NEW_ROUTES: Routes = [
           },
           {
             path: routeTree.language_competencies.update.segment,
-            children: [{ path: ':competencyIndex', component: DraftUpdateCompetencyPage }],
+            children: [
+              {
+                path: ':competencyIndex',
+                component: DraftUpdateCompetencyPage,
+                canDeactivate: [formGuard],
+              },
+            ],
           },
         ],
       },

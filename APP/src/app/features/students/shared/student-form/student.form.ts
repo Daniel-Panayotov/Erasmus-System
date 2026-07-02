@@ -23,6 +23,7 @@ export class StudentForm implements OnInit {
   serverErrors = input<TreeValidationResult | null>();
   save = output<StudentData>();
   valueChange = output<StudentFormModel>();
+  touched = output<boolean>();
 
   formModel = signal<StudentFormModel>({
     firstName: '',
@@ -95,6 +96,9 @@ export class StudentForm implements OnInit {
   constructor() {
     effect(() => {
       this.valueChange.emit(this.studentForm().controlValue());
+    });
+    effect(() => {
+      this.touched.emit(this.studentForm().touched());
     });
   }
 

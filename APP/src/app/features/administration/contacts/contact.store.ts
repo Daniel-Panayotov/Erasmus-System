@@ -5,6 +5,7 @@ import { InstitutionBase } from '../models/institution.model';
 @Injectable()
 export class ContactsStore {
   drafts = {
+    touched: signal<boolean>(false),
     contactModel: signal<ContactFormModel | null>(null),
     institution: signal<InstitutionBase | null>(null),
   };
@@ -12,6 +13,7 @@ export class ContactsStore {
   selectedContactID = signal<number | null>(null);
 
   resetDrafts() {
+    this.drafts.touched.set(false);
     this.drafts.contactModel.set(null);
     this.drafts.institution.set(null);
   }

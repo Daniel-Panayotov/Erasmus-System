@@ -6,6 +6,8 @@ import { InstitutionsTable } from './tables/institutions-table';
 import { CreateInstitutionContactsTable } from './tables/create-institution-contacts-tables';
 import { UpdateInstitutionContactsTable } from './tables/update-institution-contacts-tables';
 import { administration } from '../administration.paths';
+import { InstitutionsCreateShell } from './institutions-create-shell';
+import { formGuard } from '../../../core/guards/form.guard';
 
 const routeTree = administration.institutions;
 
@@ -18,6 +20,8 @@ export const INSTITUTIONS_ROUTES: Routes = [
       { path: routeTree.view.segment, component: InstitutionsTable },
       {
         path: routeTree.create.segment,
+        component: InstitutionsCreateShell,
+        canDeactivate: [formGuard],
         children: [
           { path: '', component: CreateInstitutionPage },
           { path: routeTree.create.contacts.segment, component: CreateInstitutionContactsTable },
@@ -30,6 +34,7 @@ export const INSTITUTIONS_ROUTES: Routes = [
           {
             path: routeTree.institutionID(':institutionID').update.segment,
             component: UpdateInstitutionPage,
+            canDeactivate: [formGuard],
           },
           {
             path: routeTree.institutionID(':institutionID').contacts.segment,

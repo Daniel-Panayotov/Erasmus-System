@@ -6,5 +6,6 @@
     [student]="studentResource.value()"
     (save)="updateStudent($event)"
     [serverErrors]="serverErrors()"
+    (touched)="canDeactivate.set(!$event)"
   />
 }

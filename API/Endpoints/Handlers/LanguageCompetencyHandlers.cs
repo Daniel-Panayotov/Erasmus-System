@@ -10,11 +10,11 @@ public class LanguageCompetencyHandlers
 {
     public static async Task<IResult> GetAll(int studentID, UEMSContext ctx)
     {
+        if (!await ctx.Students.Where(s => s.StudentId == studentID).AnyAsync()) return Results.BadRequest("Invalid student.");
+
         var query = ctx.LanguageCompetencies
             .Where(l => l.StudentId == studentID)
             .Select(LanguageCompetencyExpressions.Base);
-
-        if (!await query.AnyAsync()) return Results.BadRequest("Invalid student or no competencies.");
 
         var competencies = await query.ToListAsync();
 

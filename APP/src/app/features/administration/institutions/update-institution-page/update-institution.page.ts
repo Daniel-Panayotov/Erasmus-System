@@ -7,13 +7,14 @@ import { TreeValidationResult } from '@angular/forms/signals';
 import { map } from 'rxjs';
 import { Institution, InstitutionData } from '../../models/institution.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CanDeactivateFormInterface } from '../../../../core/guards/form.guard';
 
 @Component({
   selector: 'app-update-institution-page',
   imports: [InstitutionForm],
   templateUrl: './update-institution.page.html',
 })
-export class UpdateInstitutionPage {
+export class UpdateInstitutionPage implements CanDeactivateFormInterface {
   private institutionAPI = inject(InstitutionService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -21,6 +22,8 @@ export class UpdateInstitutionPage {
   institutionID = input.required<number>();
 
   serverErrors = signal<TreeValidationResult | null>(null);
+
+  canDeactivate = signal(true);
 
   institutionResource = rxResource({
     params: () => ({ institutionID: this.institutionID() }),
@@ -34,7 +37,10 @@ export class UpdateInstitutionPage {
     this.institutionAPI
       .Update(this.institutionID(), { ...data, contactIDs, facultyIDs: [] })
       .subscribe({
-        next: () => this.router.navigate(['..'], { relativeTo: this.route }),
+        next: () => {
+          this.canDeactivate.set(true);
+          this.router.navigate(['..'], { relativeTo: this.route });
+        },
         error(err: HttpErrorResponse) {
           console.log(err);
         },

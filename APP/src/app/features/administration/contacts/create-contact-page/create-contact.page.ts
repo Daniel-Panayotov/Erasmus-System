@@ -20,8 +20,15 @@ export class CreateContactPage {
   serverErrors = signal<TreeValidationResult | null>(null);
 
   contact = this.contactsStore.drafts.contactModel;
+  draftTouched = this.contactsStore.drafts.touched;
+
+  changeTouched(touched: boolean) {
+    if (this.draftTouched()) return;
+    this.draftTouched.set(touched);
+  }
 
   valueChange(data: ContactFormModel) {
+    if (!this.draftTouched()) return;
     this.contactsStore.drafts.contactModel.set(data);
   }
 
