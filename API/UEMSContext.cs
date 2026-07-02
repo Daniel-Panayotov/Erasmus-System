@@ -19,7 +19,7 @@ public partial class UEMSContext : DbContext
 
     public virtual DbSet<Faculty> Faculties { get; set; }
 
-    public virtual DbSet<HashedRefreshToken> HashedRefreshTokens { get; set; }
+    public virtual DbSet<HashedToken> HashedTokens { get; set; }
 
     public virtual DbSet<Institution> Institutions { get; set; }
 
@@ -121,17 +121,20 @@ public partial class UEMSContext : DbContext
                 .HasConstraintName("FK_Faculties_Institutions");
         });
 
-        modelBuilder.Entity<HashedRefreshToken>(entity =>
+        modelBuilder.Entity<HashedToken>(entity =>
         {
-            entity.Property(e => e.HashedRefreshTokenId).HasColumnName("HashedRefreshTokenID");
+            entity.Property(e => e.HashedTokenId).HasColumnName("HashedTokenID");
+            entity.Property(e => e.TokenType).HasMaxLength(20);
             entity.Property(e => e.ExpiresAt).HasColumnType("datetime");
-            entity.Property(e => e.HashedToken).HasMaxLength(255);
+            entity.Property(e => e.Token).HasMaxLength(255);
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
-            entity.HasOne(d => d.User).WithMany(p => p.HashedRefreshTokens)
+            entity.Ignore(e => e.TokenTypeEnum);
+
+            entity.HasOne(d => d.User).WithMany(p => p.HashedTokens)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_HashedRefreshTokens_Users");
+                .HasConstraintName("FK_HashedTokens_Users");
         });
 
         modelBuilder.Entity<Institution>(entity =>

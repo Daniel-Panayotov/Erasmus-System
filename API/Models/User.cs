@@ -8,7 +8,7 @@ public partial class User
 
     public string Password { get; set; } = null!;
 
-    public virtual ICollection<HashedRefreshToken> HashedRefreshTokens { get; set; } = new List<HashedRefreshToken>();
+    public virtual ICollection<HashedToken> HashedTokens { get; set; } = new List<HashedToken>();
 
     public virtual Student? Student { get; set; }
 }

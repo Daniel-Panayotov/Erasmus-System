@@ -1,4 +1,5 @@
-﻿using API.Utilities;
+﻿using API.Models;
+using API.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -71,7 +72,7 @@ public class JWTService(IConfigStore configStore, ICryptographicService crypto, 
         return signedToken;
     }
 
-    public async Task<bool> ValidateRefreshTokenAgainstHash(ClaimsPrincipal principal, string token)
+    public async Task<bool> ValidateTokenAgainstHash(ClaimsPrincipal principal, TokenType type, string token)
     {
         using var scope = _provider.CreateScope();
         var ctx = scope.ServiceProvider.GetRequiredService<UEMSContext>();
@@ -79,30 +80,16 @@ public class JWTService(IConfigStore configStore, ICryptographicService crypto, 
         var userID = principal.TryGetUserID();
         if (userID == null) return false;
 
-        var query = ctx.HashedRefreshTokens.Where(t => t.UserId == userID);
-
+        var query = ctx.HashedTokens.Where(t => t.UserId == userID && t.TokenType == type.ToString());
         if (!await query.AnyAsync()) return false;
+        Console.WriteLine("\n\n" + 1 + "\n\n");
 
         var tokenEntries = await query.ToListAsync();
 
         string tokenHash = _cryptoService.ComputeHash(token);
 
-        bool isTokenValid = tokenEntries.Where(t => t.HashedToken.Equals(tokenHash)).Any();
+        bool isTokenValid = tokenEntries.Where(t => t.Token.Equals(tokenHash)).Any();
 
         return isTokenValid;
-    }
-
-    public async Task<bool> ValidateTokenIdentity(ClaimsPrincipal principal) 
-    {
-        using var scope = _provider.CreateScope();
-        var ctx = scope.ServiceProvider.GetRequiredService<UEMSContext>();
-
-        var userID = principal.TryGetUserID();
-        if (userID == null) return false;
-
-        var query = ctx.Users.Where(u => u.UserId == userID);
-        if (!await query.AnyAsync()) return false;
-
-        return true;
     }
 }

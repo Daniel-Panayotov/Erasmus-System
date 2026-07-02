@@ -1,5 +1,6 @@
 ﻿using API.Endpoints.Handlers;
 using API.Utilities;
+using API.Models;
 
 namespace API.Endpoints;
 

@@ -1,4 +1,5 @@
-﻿using API.Utilities;
+﻿using API.Models;
+using API.Utilities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -51,17 +52,10 @@ public class JWTAuthenticationHandler(
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var principal = tokenHandler.ValidateToken(token, parameters, out var validatedToken);
-
-            if (jwtType.TokenType == TokenType.Refresh)
-            {
-                bool isRefreshTokenValid = await jwtService.ValidateRefreshTokenAgainstHash(principal, token);
-                if (!isRefreshTokenValid) return AuthenticateResult.Fail("Invalid token.");
-            } else
-            {
-                bool isIdentityValid = await jwtService.ValidateTokenIdentity(principal);
-                if (!isIdentityValid) return AuthenticateResult.Fail("Invalid identity.");
-            }
-
+            
+            bool isRefreshTokenValid = await jwtService.ValidateTokenAgainstHash(principal, jwtType.TokenType, token);
+            if (!isRefreshTokenValid) return AuthenticateResult.Fail("Invalid token.");
+           
             var ticket = new AuthenticationTicket(principal, Scheme.Name);
             return AuthenticateResult.Success(ticket);
         }

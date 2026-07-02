@@ -30,8 +30,13 @@ public class AuthenticationHandlers
 
         string tokenHash = crypto.ComputeHash(token);
 
-        HashedRefreshToken hashedToken = new HashedRefreshToken { UserId = user.UserID, HashedToken = tokenHash, ExpiresAt = DateTime.Now.AddDays(config.JwtConfig.RefreshTokenExpireDays) };
-        ctx.HashedRefreshTokens.Add(hashedToken);
+        HashedToken hashedToken = new HashedToken { 
+            UserId = user.UserID, 
+            TokenType = TokenType.Refresh.ToString(), 
+            Token = tokenHash, 
+            ExpiresAt = DateTime.Now.AddDays(config.JwtConfig.RefreshTokenExpireDays) 
+        };
+        ctx.HashedTokens.Add(hashedToken);
 
         try {
             var entries = await ctx.SaveChangesAsync();
@@ -80,8 +85,13 @@ public class AuthenticationHandlers
         string token = jwtService.GenerateRefreshToken(registeredUser.UserId.ToString());
         string tokenHash = crypto.ComputeHash(token);
 
-        HashedRefreshToken hashedToken = new HashedRefreshToken { User = registeredUser, HashedToken = tokenHash, ExpiresAt = DateTime.Now.AddDays(config.JwtConfig.RefreshTokenExpireDays) };
-        ctx.HashedRefreshTokens.Add(hashedToken);
+        HashedToken hashedToken = new HashedToken { 
+            User = registeredUser, 
+            TokenType = TokenType.Refresh.ToString(), 
+            Token = tokenHash, 
+            ExpiresAt = DateTime.Now.AddDays(config.JwtConfig.RefreshTokenExpireDays) 
+        };
+        ctx.HashedTokens.Add(hashedToken);
         try
         {
             var entries = await ctx.SaveChangesAsync();
@@ -105,7 +115,8 @@ public class AuthenticationHandlers
         return Results.Ok();
     }
 
-    public static async Task<IResult> Refresh(HttpContext http, UEMSContext ctx, JWTService jwtService, IConfigStore config)
+    public static async Task<IResult> Refresh(HttpContext http, [FromServices] UEMSContext ctx,
+        [FromServices] ICryptographicService crypto, [FromServices] JWTService jwtService, [FromServices] IConfigStore config)
     {
         var userID = http.User.TryGetUserID();
         if (userID == null) return Results.BadRequest("Invalid user identity.");
@@ -116,6 +127,27 @@ public class AuthenticationHandlers
         var userToken = new SafeUserDTO(user.UserID, user.Email, user.Student);
 
         string token = jwtService.GenerateAccessToken(userID.ToString(), []);
+        string tokenHash = crypto.ComputeHash(token);
+
+        await ctx.HashedTokens.Where(t => t.UserId == userID && t.TokenType == TokenType.Access.ToString()).ExecuteDeleteAsync();
+
+        HashedToken hashedToken = new HashedToken
+        {
+            UserId = (int)userID,
+            TokenType = TokenType.Access.ToString(),
+            Token = tokenHash,
+            ExpiresAt = DateTime.Now.AddMinutes(config.JwtConfig.AccessTokenExpireMinutes)
+        };
+        ctx.HashedTokens.Add(hashedToken);
+        try
+        {
+            var entries = await ctx.SaveChangesAsync();
+            if (entries == 0) return Results.BadRequest("Couldn't Refresh.");
+        }
+        catch (DbUpdateException)
+        {
+            return Results.BadRequest("Database update failed.");
+        }
 
         var jwtConfig = config.JwtConfig;
         http.Response.Cookies.Append(jwtConfig.AccessTokenKey, token, new CookieOptions
@@ -135,7 +167,7 @@ public class AuthenticationHandlers
         var userID = http.User.TryGetUserID();
         if (userID == null) return Results.BadRequest("Invalid user identity.");
 
-        await ctx.HashedRefreshTokens.Where(t => t.UserId == userID).ExecuteDeleteAsync();
+        await ctx.HashedTokens.Where(t => t.UserId == userID).ExecuteDeleteAsync();
 
         http.Response.Cookies.Delete(config.JwtConfig.RefreshTokenKey);
         http.Response.Cookies.Delete(config.JwtConfig.AccessTokenKey);

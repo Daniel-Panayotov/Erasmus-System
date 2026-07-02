@@ -26,7 +26,7 @@ public class CleanupService : BackgroundService
         using var scope = _services.CreateScope();
         var ctx = scope.ServiceProvider.GetRequiredService<UEMSContext>();
 
-        await ctx.HashedRefreshTokens.Where(t => DateTime.Now.CompareTo(t.ExpiresAt) >= 0).ExecuteDeleteAsync();
+        await ctx.HashedTokens.Where(t => DateTime.Now.CompareTo(t.ExpiresAt) >= 0).ExecuteDeleteAsync();
 
         await ctx.DisposeAsync();
     }
