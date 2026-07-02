@@ -82,20 +82,21 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HashedRefreshTokens",
+                name: "HashedTokens",
                 columns: table => new
                 {
-                    HashedRefreshTokenID = table.Column<int>(type: "int", nullable: false)
+                    HashedTokenID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    HashedToken = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    TokenType = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     ExpiresAt = table.Column<DateTime>(type: "datetime", nullable: false),
                     UserID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HashedRefreshTokens", x => x.HashedRefreshTokenID);
+                    table.PrimaryKey("PK_HashedTokens", x => x.HashedTokenID);
                     table.ForeignKey(
-                        name: "FK_HashedRefreshTokens_Users",
+                        name: "FK_HashedTokens_Users",
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID");
@@ -388,8 +389,8 @@ namespace API.Migrations
                 column: "InstitutionID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HashedRefreshTokens_UserID",
-                table: "HashedRefreshTokens",
+                name: "IX_HashedTokens_UserID",
+                table: "HashedTokens",
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
@@ -468,7 +469,7 @@ namespace API.Migrations
                 name: "ApplicationDocuments");
 
             migrationBuilder.DropTable(
-                name: "HashedRefreshTokens");
+                name: "HashedTokens");
 
             migrationBuilder.DropTable(
                 name: "LanguageCompetencies");

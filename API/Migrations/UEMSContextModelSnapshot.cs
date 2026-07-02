@@ -219,32 +219,37 @@ namespace API.Migrations
                     b.ToTable("Faculties");
                 });
 
-            modelBuilder.Entity("API.Models.HashedRefreshToken", b =>
+            modelBuilder.Entity("API.Models.HashedToken", b =>
                 {
-                    b.Property<int>("HashedRefreshTokenId")
+                    b.Property<int>("HashedTokenId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("HashedRefreshTokenID");
+                        .HasColumnName("HashedTokenID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HashedRefreshTokenId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HashedTokenId"));
 
                     b.Property<DateTime>("ExpiresAt")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("HashedToken")
+                    b.Property<string>("Token")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("TokenType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int")
                         .HasColumnName("UserID");
 
-                    b.HasKey("HashedRefreshTokenId");
+                    b.HasKey("HashedTokenId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("HashedRefreshTokens");
+                    b.ToTable("HashedTokens");
                 });
 
             modelBuilder.Entity("API.Models.Institution", b =>
@@ -617,13 +622,13 @@ namespace API.Migrations
                     b.Navigation("Institution");
                 });
 
-            modelBuilder.Entity("API.Models.HashedRefreshToken", b =>
+            modelBuilder.Entity("API.Models.HashedToken", b =>
                 {
                     b.HasOne("API.Models.User", "User")
-                        .WithMany("HashedRefreshTokens")
+                        .WithMany("HashedTokens")
                         .HasForeignKey("UserId")
                         .IsRequired()
-                        .HasConstraintName("FK_HashedRefreshTokens_Users");
+                        .HasConstraintName("FK_HashedTokens_Users");
 
                     b.Navigation("User");
                 });
@@ -796,7 +801,7 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Models.User", b =>
                 {
-                    b.Navigation("HashedRefreshTokens");
+                    b.Navigation("HashedTokens");
 
                     b.Navigation("Student");
                 });
