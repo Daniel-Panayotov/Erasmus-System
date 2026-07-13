@@ -4,9 +4,7 @@ public partial class Application
 {
     public int ApplicationId { get; set; }
 
-    public byte[] Photo { get; set; } = null!;
-
-    public string MobilityType { get; set; } = null!;
+    public int PhotoId { get; set; }
 
     public DateOnly StudyFrom { get; set; }
 
@@ -24,31 +22,31 @@ public partial class Application
 
     public string Degree { get; set; } = null!;
 
-    public bool PriorStudyAbroad { get; set; }
-
-    public int? PriorStudyDuration { get; set; }
+    public int MobilityId { get; set; }
 
     public int StudentId { get; set; }
 
-    public int SendingInstitution { get; set; }
+    public int SendingFacultyId { get; set; }
 
-    public int ReceivingInstitution { get; set; }
+    public int TermId { get; set; }
 
-    public virtual MobilityType MobilityTypeEnum => Enum.Parse<MobilityType>(this.MobilityType);
     public virtual Degree DegreeEnum => Enum.Parse<Degree>(this.Degree);
 
-    public virtual ApplicationDocument? ApplicationDocument { get; set; }
+    public virtual ApplicationFile? ApplicationFile { get; set; }
 
-    public virtual Institution ReceivingInstitutionNavigation { get; set; } = null!;
+    public virtual Mobility Mobility { get; set; } = null!;
 
-    public virtual ICollection<RelInstitutionApplication> RelInstitutionApplications { get; set; } = new List<RelInstitutionApplication>();
+    public virtual File Photo { get; set; } = null!;
 
-    public virtual Institution SendingInstitutionNavigation { get; set; } = null!;
+    public virtual Faculty SendingFaculty { get; set; } = null!;
 
     public virtual Student Student { get; set; } = null!;
+
+    public virtual ICollection<Study> Studies { get; set; } = new List<Study>();
+
+    public virtual Term Term { get; set; } = null!;
 
     public virtual ICollection<WorkExperience> WorkExperiences { get; set; } = new List<WorkExperience>();
 }
 
-public enum MobilityType { Study, Traineeship }
 public enum Degree { Bachelor, Master }

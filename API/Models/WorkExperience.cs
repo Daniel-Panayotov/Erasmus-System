@@ -16,5 +16,9 @@ public partial class WorkExperience
 
     public int ApplicationId { get; set; }
 
+    public virtual WorkExperienceType ExperienceTypeEnum => Enum.Parse<WorkExperienceType>(this.ExperienceType);
+
     public virtual Application Application { get; set; } = null!;
 }
+
+public enum WorkExperienceType { Internship, Employment, Volunteering }

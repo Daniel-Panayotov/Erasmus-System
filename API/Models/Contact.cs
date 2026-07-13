@@ -12,9 +12,9 @@ public partial class Contact
 
     public string Email { get; set; } = null!;
 
-    public int? InstitutionId { get; set; }
+    public virtual ICollection<Faculty> Faculties { get; set; } = new List<Faculty>();
 
-    public virtual Institution? Institution { get; set; }
+    public virtual ICollection<FacultyMobility> FacultyMobilities { get; set; } = new List<FacultyMobility>();
 
-    public virtual ICollection<RelInstitutionApplication> RelInstitutionApplications { get; set; } = new List<RelInstitutionApplication>();
+    public virtual ICollection<Firm> Firms { get; set; } = new List<Firm>();
 }

@@ -1,5 +1,6 @@
 ﻿using API.DTOs;
 using API.Models;
+using LinqKit;
 using System.Linq.Expressions;
 
 namespace API.Expressions;
@@ -10,7 +11,18 @@ public class LanguageCompetencyExpressions
         l => new LanguageCompetencyBaseDTO(
             l.LanguageCompetencyId,
             l.Language,
+            l.CompetencyLevel,
             l.CanFollowLectures,
             l.CanFollowLecturesWithLessons
+        );
+
+    public readonly static Expression<Func<LanguageCompetency, LanguageCompetencyDTO>> DTO =
+        l => new LanguageCompetencyDTO(
+            l.LanguageCompetencyId,
+            l.Language,
+            l.CompetencyLevel,
+            l.CanFollowLectures,
+            l.CanFollowLecturesWithLessons,
+            l.Certificate != null ? FileExpressions.Base.Invoke(l.Certificate) : null
         );
 }

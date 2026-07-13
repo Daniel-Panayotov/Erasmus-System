@@ -12,7 +12,7 @@ public partial class Discipline
 
     public virtual Faculty? Faculty { get; set; }
 
-    public virtual ICollection<RelDisciplineSubject> RelDisciplineSubjects { get; set; } = new List<RelDisciplineSubject>();
+    public virtual ICollection<FacultyMobility> FacultyMobilities { get; set; } = new List<FacultyMobility>();
 
-    public virtual ICollection<RelInstitutionApplication> RelInstitutionApplications { get; set; } = new List<RelInstitutionApplication>();
+    public virtual ICollection<RelDisciplineSubject> RelDisciplineSubjects { get; set; } = new List<RelDisciplineSubject>();
 }
