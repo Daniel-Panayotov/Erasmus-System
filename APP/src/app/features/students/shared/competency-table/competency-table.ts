@@ -15,6 +15,7 @@ export class CompetencyTable {
   columns: Column[] = [
     { label: 'ID', field: 'languageCompetencyID' },
     { label: 'Language', field: 'language' },
+    { label: 'Certificate', field: 'certificateUrl', isUrl: true, anchorLabel: 'Download' },
     { label: 'Competency Level', field: 'competencyLevel' },
     { label: 'Can Follow Lectures', field: 'canFollowLectures' },
     { label: 'Can Follow Lectures With Lessons', field: 'canFollowLecturesWithLessons' },

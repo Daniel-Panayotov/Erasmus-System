@@ -46,6 +46,14 @@ table {
   background-color: rgb(236, 232, 232);
 }
 
+/* Anchor */
+
+.anchor-url-container {
+  background-color: rgb(153, 154, 165);
+  padding: 0.25rem 0.5rem;
+  border-radius: 10%;
+}
+
 /* BUTTONS */
 
 .button-container {

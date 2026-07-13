@@ -30,8 +30,11 @@ export class LanguageCompetencyTable {
           v.body?.map(
             (v) =>
               ({
-                languageCompetencyID: v.languageCompetencyID,
-                ...v.dataDTO,
+                languageCompetencyID: v.baseDTO.languageCompetencyID,
+                certificateUrl: v.certificateBase
+                  ? this.competenciesAPI.certificateUrl(v.baseDTO.languageCompetencyID)
+                  : undefined,
+                ...v.baseDTO.dataDTO,
               }) as LanguageCompetencyTableDTO,
           ),
         ),

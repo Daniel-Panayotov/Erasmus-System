@@ -21,7 +21,7 @@ export class LanguageCompetencyService {
     const url = `${this.baseURL}/get-all?studentID=${studentID}`;
 
     return this.http
-      .get<LanguageCompetencyBaseDTO[]>(url, {
+      .get<LanguageCompetencyDTO[]>(url, {
         observe: 'response',
         credentials: 'include',
       })

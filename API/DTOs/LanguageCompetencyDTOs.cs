@@ -16,20 +16,11 @@ public record LanguageCompetencyBaseDTO
     LanguageCompetencyDataDTO DataDTO
 );
 
-public record LanguageCompetencyDTO : LanguageCompetencyBaseDTO
-{
-    public FileBaseDTO? CertificateBase { get; init; }
-
-    public LanguageCompetencyDTO(
-        int languageCompetencyID,
-        string language,
-        CompetencyLevel competencyLevel,
-        bool canFollowLectures,
-        bool canFollowLecturesWithLessons,
-        FileBaseDTO? certificateBase
-    ) : base(languageCompetencyID, language, competencyLevel, canFollowLectures, canFollowLecturesWithLessons)
-    { CertificateBase = certificateBase; }
-}
+public record LanguageCompetencyDTO
+(
+    FileBaseDTO? CertificateBase,
+    LanguageCompetencyBaseDTO BaseDTO
+);
 
 public record SaveLanguageCompetencyDTO (
     string Language,

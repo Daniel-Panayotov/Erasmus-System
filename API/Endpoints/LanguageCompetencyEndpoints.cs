@@ -26,7 +26,7 @@ public class LanguageCompetencyEndpoints
 
         var query = ctx.LanguageCompetencies
             .Where(l => l.StudentId == studentID)
-            .Select(LanguageCompetencyExpressions.Base.Expand());
+            .Select(LanguageCompetencyExpressions.DTO.Expand());
 
         var competencies = await query.ToListAsync();
 

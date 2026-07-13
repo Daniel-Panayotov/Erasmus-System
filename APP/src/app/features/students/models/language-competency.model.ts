@@ -23,6 +23,7 @@ export interface LanguageCompetencyBaseDTO {
 
 export interface LanguageCompetencyTableDTO extends LanguageCompetencyData {
   languageCompetencyID: number;
+  certificateUrl?: string;
 }
 
 export interface LanguageCompetencyDTO {

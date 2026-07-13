@@ -21,6 +21,8 @@ import { Button } from '../../models/data-table.model';
 export interface Column {
   label: string;
   field: string;
+  isUrl?: boolean;
+  anchorLabel?: string;
 }
 
 @Component({
