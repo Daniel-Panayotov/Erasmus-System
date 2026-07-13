@@ -3,6 +3,7 @@ using API.Expressions;
 using API.Models;
 using API.Services;
 using API.Utilities;
+using LinqKit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

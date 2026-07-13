@@ -9,8 +9,6 @@ public class ApplicationExpressions
     public readonly static Expression<Func<Application, ApplicationBaseDTO>> Base =
         a => new ApplicationBaseDTO(
             applicationID: a.ApplicationId,
-            photo: a.Photo,
-            mobilityType: a.MobilityTypeEnum,
             studyFrom: a.StudyFrom,
             studyTo: a.StudyTo,
             accommodation: a.Accommodation,
@@ -18,8 +16,6 @@ public class ApplicationExpressions
             accommodationTo: a.AccommodationTo,
             bulgarianCourse: a.BulgarianCourse,
             motivationText: a.MotivationText,
-            degree: a.DegreeEnum,
-            priorStudyAbroad: a.PriorStudyAbroad,
-            priorStudyDuration: a.PriorStudyDuration
+            degree: a.DegreeEnum
         );
 }

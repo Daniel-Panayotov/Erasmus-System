@@ -82,7 +82,6 @@ public class JWTService(IConfigStore configStore, ICryptographicService crypto, 
 
         var query = ctx.HashedTokens.Where(t => t.UserId == userID && t.TokenType == type.ToString());
         if (!await query.AnyAsync()) return false;
-        Console.WriteLine("\n\n" + 1 + "\n\n");
 
         var tokenEntries = await query.ToListAsync();
 

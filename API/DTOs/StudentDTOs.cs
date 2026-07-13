@@ -45,7 +45,7 @@ public record StudentDataDTO : IStudentDTO
 
 public record NewStudentDTO : StudentDataDTO
 {
-    public IEnumerable<LanguageCompetencyDataDTO> LanguageCompetencies { get; init; }
+    public IEnumerable<SaveLanguageCompetencyDTO> LanguageCompetencies { get; init; }
     public NewStudentDTO(
         string firstname,
         string lastname,
@@ -54,7 +54,7 @@ public record NewStudentDTO : StudentDataDTO
         string nationality,
         string address,
         string phonenumber,
-        IEnumerable<LanguageCompetencyDataDTO> languageCompetencies) : base(
+        IEnumerable<SaveLanguageCompetencyDTO> languageCompetencies) : base(
             firstname,
             lastname,
             birthdate,

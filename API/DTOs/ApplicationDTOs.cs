@@ -4,8 +4,6 @@ namespace API.DTOs;
 
 public interface IApplicationDTO
 {
-    public byte[] Photo { get; init; }
-    public MobilityType MobilityType { get; init; }
     public DateOnly StudyFrom { get; init; }
     public DateOnly StudyTo { get; init; }
     public bool Accommodation { get; init; }
@@ -14,14 +12,10 @@ public interface IApplicationDTO
     public bool BulgarianCourse { get; init; }
     public string? MotivationText { get; init; }
     public Degree Degree { get; init; }
-    public bool PriorStudyAbroad { get; init; }
-    public int? PriorStudyDuration { get; init; }
 }
 
 public record ApplicationDataDTO : IApplicationDTO
 {
-    public byte[] Photo { get; init; }
-    public MobilityType MobilityType { get; init; }
     public DateOnly StudyFrom { get; init; }
     public DateOnly StudyTo { get; init; }
     public bool Accommodation { get; init; }
@@ -30,12 +24,8 @@ public record ApplicationDataDTO : IApplicationDTO
     public bool BulgarianCourse { get; init; }
     public string? MotivationText { get; init; }
     public Degree Degree { get; init; }
-    public bool PriorStudyAbroad { get; init; }
-    public int? PriorStudyDuration { get; init; }
 
     public ApplicationDataDTO(
-        byte[] photo, 
-        MobilityType mobilityType, 
         DateOnly studyFrom, 
         DateOnly studyTo, 
         bool accommodation,
@@ -43,12 +33,8 @@ public record ApplicationDataDTO : IApplicationDTO
         DateOnly? accommodationTo,
         bool bulgarianCourse,
         string? motivationText,
-        Degree degree,
-        bool priorStudyAbroad,
-        int? priorStudyDuration)
+        Degree degree)
     {
-        Photo = photo;
-        MobilityType = mobilityType;
         StudyFrom = studyFrom;
         StudyTo = studyTo;
         Accommodation = accommodation;
@@ -57,8 +43,6 @@ public record ApplicationDataDTO : IApplicationDTO
         BulgarianCourse = bulgarianCourse;
         MotivationText = motivationText;
         Degree = degree;
-        PriorStudyAbroad = priorStudyAbroad;
-        PriorStudyDuration = priorStudyDuration;
     }
 }
 
@@ -68,8 +52,6 @@ public record ApplicationExtendedDataDTO : ApplicationDataDTO
     public int ReceivingInstitution { get; init; }
 
     public ApplicationExtendedDataDTO(
-        byte[] photo,
-        MobilityType mobilityType,
         DateOnly studyFrom,
         DateOnly studyTo,
         bool accommodation,
@@ -78,12 +60,8 @@ public record ApplicationExtendedDataDTO : ApplicationDataDTO
         bool bulgarianCourse,
         string? motivationText,
         Degree degree,
-        bool priorStudyAbroad,
-        int? priorStudyDuration,
         int sendingInstitution,
         int receivingInstitution) : base(
-            photo,
-            mobilityType,
             studyFrom,
             studyTo,
             accommodation,
@@ -91,9 +69,7 @@ public record ApplicationExtendedDataDTO : ApplicationDataDTO
             accommodationTo,
             bulgarianCourse,
             motivationText,
-            degree,
-            priorStudyAbroad,
-            priorStudyDuration)
+            degree)
     {
         SendingInstitution = sendingInstitution;
         ReceivingInstitution = receivingInstitution;
@@ -106,8 +82,6 @@ public record ApplicationBaseDTO : ApplicationDataDTO
 
     public ApplicationBaseDTO(
         int applicationID,
-        byte[] photo,
-        MobilityType mobilityType,
         DateOnly studyFrom,
         DateOnly studyTo,
         bool accommodation,
@@ -115,11 +89,7 @@ public record ApplicationBaseDTO : ApplicationDataDTO
         DateOnly? accommodationTo,
         bool bulgarianCourse,
         string? motivationText,
-        Degree degree,
-        bool priorStudyAbroad,
-        int? priorStudyDuration) : base(
-            photo,
-            mobilityType,
+        Degree degree) : base(
             studyFrom,
             studyTo,
             accommodation,
@@ -127,15 +97,12 @@ public record ApplicationBaseDTO : ApplicationDataDTO
             accommodationTo,
             bulgarianCourse,
             motivationText,
-            degree,
-            priorStudyAbroad,
-            priorStudyDuration)
+            degree)
     { ApplicationID = applicationID; }
 }
 
 public record NewApplicationDTO (
     IFormFile photo,
-    MobilityType mobilityType,
     DateOnly studyFrom,
     DateOnly studyTo,
     bool accommodation,
@@ -143,6 +110,4 @@ public record NewApplicationDTO (
     DateOnly? accommodationTo,
     bool bulgarianCourse,
     string? motivationText,
-    Degree degree,
-    bool priorStudyAbroad,
-    int priorStudyDuration);
+    Degree degree);
