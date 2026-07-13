@@ -16,12 +16,18 @@ export interface LanguageCompetencyData {
   canFollowLecturesWithLessons: boolean;
 }
 
-export interface LanguageCompetencyBase extends LanguageCompetencyData {
+export interface LanguageCompetencyBaseDTO {
+  languageCompetencyID: number;
+  dataDTO: LanguageCompetencyData;
+}
+
+export interface LanguageCompetencyTableDTO extends LanguageCompetencyData {
   languageCompetencyID: number;
 }
 
-export interface LanguageCompetency extends LanguageCompetencyBase {
+export interface LanguageCompetencyDTO {
   certificateBase: FileBase | null;
+  baseDTO: LanguageCompetencyBaseDTO;
 }
 
 export interface LanguageCompetencyFormModel extends LanguageCompetencyData {

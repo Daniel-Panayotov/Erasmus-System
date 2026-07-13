@@ -10,7 +10,13 @@ import { CanDeactivateFormInterface } from '../../../../../core/guards/form.guar
 @Component({
   selector: 'app-create-competency-page',
   imports: [LanguageCompetencyForm],
-  templateUrl: './create-competency.page.html',
+  template: `
+    <app-language-competency-form
+      (save)="createCompetency($event)"
+      [serverErrors]="serverErrors()"
+      (touched)="canDeactivate.set(!$event)"
+    />
+  `,
 })
 export class CreateCompetencyPage implements CanDeactivateFormInterface {
   private languageAPI = inject(LanguageCompetencyService);

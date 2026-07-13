@@ -1,5 +1,8 @@
-import { Component, inject, input } from '@angular/core';
-import { LanguageCompetencyData } from '../../../models/language-competency.model';
+import { Component, computed, inject, input } from '@angular/core';
+import {
+  LanguageCompetencyTableDTO,
+  LanguageCompetencyData,
+} from '../../../models/language-competency.model';
 import { studentsTree } from '../../../student.paths';
 import { ProfileDraftStore } from '../../profile-draft.store';
 import {
@@ -14,12 +17,18 @@ import { removeFromArraySignalAt } from '../../../../../shared/utils/signal-util
 @Component({
   selector: 'app-draft-language-competency-table',
   imports: [CompetencyTable],
-  templateUrl: './draft-competency-table.html',
+  template: '<app-competency-table [competencies]="competenciesSignal()" [buttons]="buttons" />',
 })
 export class DraftCompetencyTable {
   private draftStore = inject(ProfileDraftStore);
 
   userID = input.required<string>();
+
+  competenciesSignal = computed(() =>
+    this.draftStore
+      .competenciesDraft()
+      .map((v, i) => ({ languageCompetencyID: i, ...v }) as LanguageCompetencyTableDTO),
+  );
 
   buttons: Button<LanguageCompetencyData>[] = [
     createButton(
@@ -45,8 +54,4 @@ export class DraftCompetencyTable {
       row.set(null);
     }),
   ];
-
-  get competenciesSignal() {
-    return this.draftStore.competenciesDraft;
-  }
 }

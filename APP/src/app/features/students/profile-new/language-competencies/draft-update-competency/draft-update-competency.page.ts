@@ -9,7 +9,14 @@ import { CanDeactivateFormInterface } from '../../../../../core/guards/form.guar
 @Component({
   selector: 'app-draft-update-competency-page',
   imports: [LanguageCompetencyForm],
-  templateUrl: './draft-update-competency.page.html',
+  template: `
+    <app-language-competency-form
+      [competency]="competency()"
+      (save)="updateCompetency($event)"
+      [serverErrors]="serverErrors()"
+      (touched)="canDeactivate.set(!$event)"
+    />
+  `,
 })
 export class DraftUpdateCompetencyPage implements OnInit, CanDeactivateFormInterface {
   private draftStore = inject(ProfileDraftStore);

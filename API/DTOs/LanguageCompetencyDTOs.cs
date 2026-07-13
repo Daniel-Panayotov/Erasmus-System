@@ -2,50 +2,19 @@
 
 namespace API.DTOs;
 
-public interface ILanguageCompetencyDTO
-{
-    public string Language { get; }
-    public CompetencyLevel CompetencyLevel { get; }
-    public bool CanFollowLectures { get; }
-    public bool CanFollowLecturesWithLessons { get; }
-}
+public record LanguageCompetencyDataDTO
+(
+    string Language,
+    CompetencyLevel CompetencyLevel,
+    bool CanFollowLectures,
+    bool CanFollowLecturesWithLessons
+);
 
-public record LanguageCompetencyDataDTO : ILanguageCompetencyDTO
-{
-    public string Language { get; init; }
-    public CompetencyLevel CompetencyLevel { get; init; }
-    public bool CanFollowLectures { get; init; }
-    public bool CanFollowLecturesWithLessons { get; init; }
-
-    public LanguageCompetencyDataDTO(
-        string language,
-        CompetencyLevel competencyLevel,
-        bool canFollowLectures,
-        bool canFollowLecturesWithLessons
-    )
-    {
-        Language = language;
-        CompetencyLevel = competencyLevel;
-        CanFollowLectures = canFollowLectures;
-        CanFollowLecturesWithLessons = canFollowLecturesWithLessons;
-    }
-}
-
-public record LanguageCompetencyBaseDTO : LanguageCompetencyDataDTO
-{
-    public int LanguageCompetencyID { get; init; }
-
-    public LanguageCompetencyBaseDTO (
-        int languageCompetencyID,
-        string language,
-        CompetencyLevel competencyLevel,
-        bool canFollowLectures,
-        bool canFollowLecturesWithLessons
-    ) : base(language, competencyLevel, canFollowLectures, canFollowLecturesWithLessons) 
-    {
-        LanguageCompetencyID = languageCompetencyID;
-    }
-}
+public record LanguageCompetencyBaseDTO
+(
+    int LanguageCompetencyID,
+    LanguageCompetencyDataDTO DataDTO
+);
 
 public record LanguageCompetencyDTO : LanguageCompetencyBaseDTO
 {

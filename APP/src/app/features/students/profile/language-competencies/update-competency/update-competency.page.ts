@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import {
-  LanguageCompetency,
+  LanguageCompetencyDTO,
   LanguageCompetencyFormModel,
 } from '../../../models/language-competency.model';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -36,18 +36,14 @@ export class UpdateCompetencyPage implements CanDeactivateFormInterface {
     stream: ({ params }) =>
       this.languageAPI.GetOne(params.competencyID).pipe(
         map((v) => {
-          const body = v.body as LanguageCompetency;
+          const body = v.body as LanguageCompetencyDTO;
 
           if (body.certificateBase)
-            this.certificateUrl.set(this.languageAPI.certificateUrl(body.languageCompetencyID));
+            this.certificateUrl.set(
+              this.languageAPI.certificateUrl(body.baseDTO.languageCompetencyID),
+            );
 
-          return {
-            language: body.language,
-            competencyLevel: body.competencyLevel,
-            certificate: null,
-            canFollowLectures: body.canFollowLectures,
-            canFollowLecturesWithLessons: body.canFollowLecturesWithLessons,
-          } as LanguageCompetencyFormModel;
+          return { certificate: null, ...body.baseDTO.dataDTO } as LanguageCompetencyFormModel;
         }),
       ),
   });

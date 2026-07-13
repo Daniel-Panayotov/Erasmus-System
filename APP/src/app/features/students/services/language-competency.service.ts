@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import {
-  LanguageCompetency,
-  LanguageCompetencyBase,
+  LanguageCompetencyBaseDTO,
+  LanguageCompetencyDTO,
   LanguageCompetencyFormModel,
 } from '../models/language-competency.model';
 import { take } from 'rxjs';
@@ -21,7 +21,7 @@ export class LanguageCompetencyService {
     const url = `${this.baseURL}/get-all?studentID=${studentID}`;
 
     return this.http
-      .get<LanguageCompetencyBase[]>(url, {
+      .get<LanguageCompetencyBaseDTO[]>(url, {
         observe: 'response',
         credentials: 'include',
       })
@@ -32,7 +32,7 @@ export class LanguageCompetencyService {
     const url = `${this.baseURL}/get-one?competencyID=${competencyID}`;
 
     return this.http
-      .get<LanguageCompetency>(url, {
+      .get<LanguageCompetencyDTO>(url, {
         observe: 'response',
         credentials: 'include',
       })

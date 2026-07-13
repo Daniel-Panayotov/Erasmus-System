@@ -8,7 +8,10 @@ import { ProfileDraftStore } from '../../profile-draft.store';
 @Component({
   selector: 'app-draft-create-competency-page',
   imports: [LanguageCompetencyForm],
-  templateUrl: './draft-create-competency.page.html',
+  template: `<app-language-competency-form
+    (save)="createCompetency($event)"
+    [serverErrors]="serverErrors()"
+  />`,
 })
 export class DraftCreateCompetencyPage {
   private draftStore = inject(ProfileDraftStore);

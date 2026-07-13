@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { Column, DataTable } from '../../../../shared/components/data-table/data-table';
-import { LanguageCompetencyBase } from '../../models/language-competency.model';
+import { LanguageCompetencyTableDTO } from '../../models/language-competency.model';
 import { Button } from '../../../../shared/models/data-table.model';
 
 @Component({
@@ -9,7 +9,7 @@ import { Button } from '../../../../shared/models/data-table.model';
   templateUrl: './competency-table.html',
 })
 export class CompetencyTable {
-  competencies = input.required<LanguageCompetencyBase[]>();
+  competencies = input.required<LanguageCompetencyTableDTO[]>();
   buttons = input.required<Button<any>[]>();
 
   columns: Column[] = [

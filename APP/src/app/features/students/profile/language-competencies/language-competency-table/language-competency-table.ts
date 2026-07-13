@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { LanguageCompetencyService } from '../../../services/language-competency.service';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { LanguageCompetencyBase } from '../../../models/language-competency.model';
+import { LanguageCompetencyTableDTO } from '../../../models/language-competency.model';
 import { catchError, EMPTY, map } from 'rxjs';
 import { studentsTree } from '../../../student.paths';
 import { Button } from '../../../../../shared/models/data-table.model';
@@ -15,7 +15,7 @@ import { CompetencyTable } from '../../../shared/competency-table/competency-tab
 @Component({
   selector: 'app-language-competency-table',
   imports: [CompetencyTable],
-  templateUrl: './language-competency-table.html',
+  template: '<app-competency-table [competencies]="competenciesSignal()" [buttons]="buttons" />',
 })
 export class LanguageCompetencyTable {
   private competenciesAPI = inject(LanguageCompetencyService);
@@ -25,16 +25,24 @@ export class LanguageCompetencyTable {
   competenciesResource = rxResource({
     params: () => ({ studentID: this.studentID() }),
     stream: ({ params }) =>
-      this.competenciesAPI
-        .GetAll(parseInt(params.studentID))
-        .pipe(map((v) => v.body as LanguageCompetencyBase[])),
+      this.competenciesAPI.GetAll(parseInt(params.studentID)).pipe(
+        map((v) =>
+          v.body?.map(
+            (v) =>
+              ({
+                languageCompetencyID: v.languageCompetencyID,
+                ...v.dataDTO,
+              }) as LanguageCompetencyTableDTO,
+          ),
+        ),
+      ),
   });
 
-  competenciesSignal = computed<LanguageCompetencyBase[]>(
+  competenciesSignal = computed<LanguageCompetencyTableDTO[]>(
     () => this.competenciesResource.value() ?? [],
   );
 
-  buttons: Button<LanguageCompetencyBase>[] = [
+  buttons: Button<LanguageCompetencyTableDTO>[] = [
     createButton(
       () => studentsTree.studentID(this.studentID()).profile.language_competencies.create.segments,
     ),
