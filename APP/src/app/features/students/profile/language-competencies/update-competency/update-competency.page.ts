@@ -5,8 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import {
-  LanguageCompetencyBase,
-  LanguageCompetencyData,
+  LanguageCompetency,
+  LanguageCompetencyFormModel,
 } from '../../../models/language-competency.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LanguageCompetencyForm } from '../../../shared/language-competency-form/language-competency.form';
@@ -29,25 +29,30 @@ export class UpdateCompetencyPage implements CanDeactivateFormInterface {
 
   serverErrors = signal<TreeValidationResult | null>(null);
 
+  certificateUrl = signal<string | null>(null);
+
   competencyResource = rxResource({
-    params: () => ({ studentID: this.studentID(), competencyID: this.competencyID() }),
+    params: () => ({ competencyID: this.competencyID() }),
     stream: ({ params }) =>
-      this.languageAPI.GetAll(params.studentID).pipe(
-        map((res) => {
-          const competencies = res.body as LanguageCompetencyBase[];
+      this.languageAPI.GetOne(params.competencyID).pipe(
+        map((v) => {
+          const body = v.body as LanguageCompetency;
 
-          const filteredCompetencies = competencies.filter(
-            (v) => v.languageCompetencyID == params.competencyID,
-          );
+          if (body.certificateBase)
+            this.certificateUrl.set(this.languageAPI.certificateUrl(body.languageCompetencyID));
 
-          if (filteredCompetencies.length == 0) return;
-
-          return filteredCompetencies[0];
+          return {
+            language: body.language,
+            competencyLevel: body.competencyLevel,
+            certificate: null,
+            canFollowLectures: body.canFollowLectures,
+            canFollowLecturesWithLessons: body.canFollowLecturesWithLessons,
+          } as LanguageCompetencyFormModel;
         }),
       ),
   });
 
-  updateCompetency(data: LanguageCompetencyData) {
+  updateCompetency(data: LanguageCompetencyFormModel) {
     this.languageAPI.Update(this.competencyID(), data).subscribe({
       next: () => {
         this.canDeactivate.set(true);

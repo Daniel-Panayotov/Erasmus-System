@@ -1,7 +1,7 @@
 import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
 import { TreeValidationResult } from '@angular/forms/signals';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LanguageCompetencyData } from '../../../models/language-competency.model';
+import { LanguageCompetencyFormModel } from '../../../models/language-competency.model';
 import { LanguageCompetencyForm } from '../../../shared/language-competency-form/language-competency.form';
 import { ProfileDraftStore } from '../../profile-draft.store';
 import { CanDeactivateFormInterface } from '../../../../../core/guards/form.guard';
@@ -29,7 +29,7 @@ export class DraftUpdateCompetencyPage implements OnInit, CanDeactivateFormInter
       this.router.navigate(['../..'], { relativeTo: this.route });
   }
 
-  updateCompetency(data: LanguageCompetencyData) {
+  updateCompetency(data: LanguageCompetencyFormModel) {
     this.draftStore.competenciesDraft.update((list) => {
       list[this.competencyIndex()] = data;
 

@@ -20,7 +20,25 @@ export class StudentService {
   public CreateStudent(userID: number, body: NewStudent) {
     const url = `students/create?userID=${userID}`;
 
-    return this.http.post(url, body, { observe: 'response', credentials: 'include' }).pipe(
+    const formData = new FormData();
+
+    formData.append('firstName', body.firstName);
+    formData.append('lastName', body.lastName);
+    formData.append('birthDate', body.birthDate.toDateString());
+    formData.append('gender', body.gender);
+    formData.append('nationality', body.nationality);
+    formData.append('address', body.address);
+    formData.append('phoneNumber', body.phoneNumber);
+    body.languageCompetencies.forEach((competency, index) => {
+      formData.append(`languageCompetencies[${index}].language`, competency.language);
+      formData.append(`languageCompetencies[${index}].competencyLevel`, competency.competencyLevel.toString());
+      formData.append(`languageCompetencies[${index}].canFollowLectures`,`${competency.canFollowLectures}`);
+      formData.append(`languageCompetencies[${index}].canFollowLecturesWithLessons`, `${competency.canFollowLecturesWithLessons}`);
+      if (competency.certificate)
+        formData.append(`languageCompetencies[${index}].certificate`, competency.certificate);
+    });
+
+    return this.http.post(url, formData, { observe: 'response', credentials: 'include' }).pipe(
       switchMap(() => this.auth.refresh()),
       take(1),
     );

@@ -1,4 +1,4 @@
-import { LanguageCompetencyData } from './language-competency.model';
+import { LanguageCompetencyFormModel } from './language-competency.model';
 
 export interface StudentData {
   firstName: string;
@@ -19,5 +19,5 @@ export type StudentFormModel = Omit<StudentBase, 'studentID' | 'birthDate'> & {
 };
 
 export interface NewStudent extends StudentData {
-  languageCompetencies: LanguageCompetencyData[];
+  languageCompetencies: LanguageCompetencyFormModel[];
 }

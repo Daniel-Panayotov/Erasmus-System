@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { LanguageCompetencyData } from '../../../models/language-competency.model';
+import { LanguageCompetencyFormModel } from '../../../models/language-competency.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TreeValidationResult } from '@angular/forms/signals';
 import { LanguageCompetencyForm } from '../../../shared/language-competency-form/language-competency.form';
@@ -17,7 +17,7 @@ export class DraftCreateCompetencyPage {
 
   serverErrors = signal<TreeValidationResult | null>(null);
 
-  createCompetency(data: LanguageCompetencyData) {
+  createCompetency(data: LanguageCompetencyFormModel) {
     this.draftStore.competenciesDraft.update((v) => {
       const competencies = v;
       competencies.push(data);

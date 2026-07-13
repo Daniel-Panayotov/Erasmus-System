@@ -1,11 +1,10 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { LanguageCompetencyData } from '../../../models/language-competency.model';
+import { LanguageCompetencyFormModel } from '../../../models/language-competency.model';
 import { LanguageCompetencyService } from '../../../services/language-competency.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TreeValidationResult } from '@angular/forms/signals';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LanguageCompetencyForm } from '../../../shared/language-competency-form/language-competency.form';
-import { MatDialog } from '@angular/material/dialog';
 import { CanDeactivateFormInterface } from '../../../../../core/guards/form.guard';
 
 @Component({
@@ -23,7 +22,7 @@ export class CreateCompetencyPage implements CanDeactivateFormInterface {
   serverErrors = signal<TreeValidationResult | null>(null);
 
   canDeactivate = signal(true);
-  createCompetency(data: LanguageCompetencyData) {
+  createCompetency(data: LanguageCompetencyFormModel) {
     this.languageAPI.Create(this.studentID(), data).subscribe({
       next: () => {
         this.canDeactivate.set(true);
