@@ -1,8 +1,5 @@
-import { Component, computed, inject, input } from '@angular/core';
-import {
-  LanguageCompetencyTableDTO,
-  LanguageCompetencyData,
-} from '../../../models/language-competency.model';
+import { Component, computed, inject, input, Signal } from '@angular/core';
+import { LanguageCompetencyTableDTO } from '../../../models/language-competency.model';
 import { studentsTree } from '../../../student.paths';
 import { ProfileDraftStore } from '../../profile-draft.store';
 import {
@@ -17,7 +14,7 @@ import { removeFromArraySignalAt } from '../../../../../shared/utils/signal-util
 @Component({
   selector: 'app-draft-language-competency-table',
   imports: [CompetencyTable],
-  template: '<app-competency-table [competencies]="competenciesSignal()" [buttons]="buttons" />',
+  template: '<app-competency-table [competencies]="competenciesSignal()" [buttons]="buttons()" />',
 })
 export class DraftCompetencyTable {
   private draftStore = inject(ProfileDraftStore);
@@ -30,28 +27,25 @@ export class DraftCompetencyTable {
       .map((v, i) => ({ languageCompetencyID: i, ...v }) as LanguageCompetencyTableDTO),
   );
 
-  buttons: Button<LanguageCompetencyData>[] = [
+  buttons: Signal<Button<LanguageCompetencyTableDTO>[]> = computed(() => [
     createButton(
       () => studentsTree.new.userID(this.userID()).language_competencies.create.segments,
     ),
     updateButton(
       (row) =>
-        studentsTree.new.userID(this.userID()).language_competencies.update.competencyIndex(
-          this.draftStore
-            .competenciesDraft()
-            .findIndex((v) => v == row)
-            .toString(),
-        ).segments,
+        studentsTree.new
+          .userID(this.userID())
+          .language_competencies.update.competencyIndex(row?.languageCompetencyID.toString() ?? '')
+          .segments,
     ),
     deleteButton((row) => {
       const rowValue = row();
       if (!rowValue) return;
 
-      const index = this.draftStore.competenciesDraft().findIndex((v) => v == rowValue);
-      if (index == -1) return;
+      if (rowValue.languageCompetencyID >= this.draftStore.competenciesDraft().length) return;
 
-      removeFromArraySignalAt(this.draftStore.competenciesDraft, index);
+      removeFromArraySignalAt(this.draftStore.competenciesDraft, rowValue.languageCompetencyID);
       row.set(null);
     }),
-  ];
+  ]);
 }

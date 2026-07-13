@@ -61,7 +61,7 @@ public class LanguageCompetencyEndpoints
         {
             StudentId = studentID,
             Language = data.Language,
-            CompetencyLevel = data.CompetencyLevel,
+            CompetencyLevel = data.CompetencyLevel.ToString(),
             CanFollowLectures = data.CanFollowLectures,
             CanFollowLecturesWithLessons = data.CanFollowLecturesWithLessons
         };
@@ -105,7 +105,7 @@ public class LanguageCompetencyEndpoints
         var competency = await query.FirstAsync();
 
         competency.Language = data.Language;
-        competency.CompetencyLevel = data.CompetencyLevel;
+        competency.CompetencyLevel = data.CompetencyLevel.ToString();
         competency.CanFollowLectures = data.CanFollowLectures;
         competency.CanFollowLecturesWithLessons = data.CanFollowLecturesWithLessons;
 

@@ -4,7 +4,6 @@
 } @else if (competencyResource.hasValue()) {
   <app-language-competency-form
     [competency]="competencyResource.value()"
-    [certificateUrl]="certificateUrl()"
     (save)="updateCompetency($event)"
     [serverErrors]="serverErrors()"
     (touched)="canDeactivate.set(!$event)"

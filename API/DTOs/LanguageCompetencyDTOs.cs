@@ -22,10 +22,11 @@ public record LanguageCompetencyDTO
     LanguageCompetencyBaseDTO BaseDTO
 );
 
-public record SaveLanguageCompetencyDTO (
-    string Language,
-    CompetencyLevel CompetencyLevel,
-    IFormFile? Certificate,
-    bool CanFollowLectures,
-    bool CanFollowLecturesWithLessons
-);
+public class SaveLanguageCompetencyDTO
+{
+    public string Language { get; set; }
+    public CompetencyLevel CompetencyLevel { get; set; }
+    public IFormFile? Certificate { get; set; }
+    public bool CanFollowLectures { get; set; }
+    public bool CanFollowLecturesWithLessons { get; set; }
+};

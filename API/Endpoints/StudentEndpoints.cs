@@ -53,7 +53,7 @@ public static class StudentEndpoints
             {
                 Student = student,
                 Language = comp.Language,
-                CompetencyLevel = comp.CompetencyLevel,
+                CompetencyLevel = comp.CompetencyLevel.ToString(),
                 CanFollowLectures = comp.CanFollowLectures,
                 CanFollowLecturesWithLessons = comp.CanFollowLecturesWithLessons
             };

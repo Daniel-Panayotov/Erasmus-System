@@ -10,7 +10,7 @@ public class LanguageCompetencyExpressions
     public readonly static Expression<Func<LanguageCompetency, LanguageCompetencyDataDTO>> Data =
         l => new LanguageCompetencyDataDTO(
             l.Language,
-            l.CompetencyLevel,
+            l.CompetencyLevelEnum,
             l.CanFollowLectures,
             l.CanFollowLecturesWithLessons
         );

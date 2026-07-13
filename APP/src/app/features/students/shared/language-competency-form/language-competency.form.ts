@@ -32,13 +32,12 @@ import { MatSelectModule } from '@angular/material/select';
 export class LanguageCompetencyForm implements OnInit {
   competency = input<LanguageCompetencyFormModel>();
   serverErrors = input<TreeValidationResult | null>();
-  certificateUrl = input<string | null>();
   save = output<LanguageCompetencyFormModel>();
   touched = output<boolean>();
 
   @ViewChild('fileInput', { static: true }) fileInput!: ElementRef<HTMLInputElement>;
 
-  competencyLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+  competencyLevels = ['Native', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
   formModel = signal<LanguageCompetencyFormModel>({
     language: '',

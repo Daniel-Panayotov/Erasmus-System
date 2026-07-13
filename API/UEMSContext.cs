@@ -265,9 +265,12 @@ public partial class UEMSContext : DbContext
             entity.HasIndex(e => e.CertificateId, "UQ_LanguageCompetencies_CertificateID").IsUnique();
 
             entity.Property(e => e.LanguageCompetencyId).HasColumnName("LanguageCompetencyID");
+            entity.Property(e => e.CompetencyLevel).HasMaxLength(10);
             entity.Property(e => e.CertificateId).HasColumnName("CertificateID");
             entity.Property(e => e.Language).HasMaxLength(100);
             entity.Property(e => e.StudentId).HasColumnName("StudentID");
+
+            entity.Ignore(e => e.CompetencyLevelEnum);
 
             entity.HasOne(d => d.Certificate).WithOne(p => p.LanguageCompetency)
                 .HasForeignKey<LanguageCompetency>(d => d.CertificateId)
@@ -277,6 +280,11 @@ public partial class UEMSContext : DbContext
                 .HasForeignKey(d => d.StudentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_LanguageCompetencies_Students");
+
+            modelBuilder.Entity<LanguageCompetency>()
+                .HasIndex(l => l.CertificateId)
+                .IsUnique()
+                .HasFilter("CertificateId IS NOT NULL");
         });
 
         modelBuilder.Entity<Mobility>(entity =>
