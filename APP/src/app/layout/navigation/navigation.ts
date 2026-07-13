@@ -35,14 +35,14 @@ export class Navigation {
     },
   ]);
 
-  private notStudentNavIcons: NavIcon[] = [
+  private notStudentNavIcons: Signal<NavIcon[]> = computed(() => [
     {
       iconName: providedIcons.heroUser,
       route: studentsTree.new.userID(this.auth.state()?.userID!).profile.segments,
       name: 'Create profile',
       float: 'left',
     },
-  ];
+  ]);
 
   public profileNavIcons: Signal<NavIcon[]> = computed(() => {
     const items: NavIcon[] = [
@@ -68,7 +68,7 @@ export class Navigation {
     ];
 
     if (this.auth.state()?.student) items.push(...this.studentNavIcons());
-    else items.push(...this.notStudentNavIcons);
+    else items.push(...this.notStudentNavIcons());
 
     return items;
   });
