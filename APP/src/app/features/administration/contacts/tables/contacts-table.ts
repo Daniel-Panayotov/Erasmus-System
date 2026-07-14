@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ContactBaseTable } from '../../shared/contact-table/contact-base-table';
-import { ContactBase } from '../../models/contact.model';
+import { ContactTableDTO } from '../../models/contact.model';
 import { ContactsStore } from '../contact.store';
 
 @Component({
@@ -11,7 +11,7 @@ import { ContactsStore } from '../contact.store';
 export class ContactsTable {
   private contactsStore = inject(ContactsStore);
 
-  selectContact(row: ContactBase | null) {
+  selectContact(row: ContactTableDTO | null) {
     this.contactsStore.selectedContactID.set(row?.contactID ?? null);
   }
 }

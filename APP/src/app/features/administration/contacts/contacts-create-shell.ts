@@ -12,7 +12,7 @@ export class ContactsCreateShell implements OnDestroy, CanDeactivateFormInterfac
   private contactsStore = inject(ContactsStore);
 
   canDeactivate = computed(() => {
-    return !this.contactsStore.drafts.contactModel() && !this.contactsStore.drafts.institution();
+    return !this.contactsStore.drafts.contactModel();
   });
 
   ngOnDestroy(): void {

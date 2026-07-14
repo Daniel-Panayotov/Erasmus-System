@@ -34,17 +34,7 @@ export class ContactsShell {
   tabs = computed(() => [
     { label: 'Contacts', url: administration.contacts.view.segments },
     ...(this.currentUrl()?.includes('create')
-      ? [
-          { label: 'Create contact', url: administration.contacts.create.segments },
-          { label: 'Add institution', url: administration.contacts.create.institutions.segments },
-        ]
-      : [
-          {
-            label: 'Institutions',
-            disabled: this.selectedContactID() == null ? true : false,
-            url: administration.contacts.contactID(this.selectedContactID()?.toString() ?? '')
-              .institutions.segments,
-          },
-        ]),
+      ? [{ label: 'Create contact', url: administration.contacts.create.segments }]
+      : []),
   ]);
 }

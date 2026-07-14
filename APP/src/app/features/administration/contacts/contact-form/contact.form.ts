@@ -10,7 +10,7 @@ import {
   required,
   TreeValidationResult,
 } from '@angular/forms/signals';
-import { ContactData, ContactFormModel } from '../../models/contact.model';
+import { ContactDataDTO } from '../../models/contact.model';
 import { Patterns } from '../../../../shared/utils/patterns';
 
 @Component({
@@ -20,13 +20,13 @@ import { Patterns } from '../../../../shared/utils/patterns';
   styleUrl: './contact.form.css',
 })
 export class ContactForm implements OnInit {
-  contact = input.required<ContactData | null>();
+  contact = input.required<ContactDataDTO | null>();
   serverErrors = input<TreeValidationResult | null>();
-  save = output<ContactData>();
-  valueChange = output<ContactFormModel>();
+  save = output<ContactDataDTO>();
+  valueChange = output<ContactDataDTO>();
   touched = output<boolean>();
 
-  formModel = signal<ContactFormModel>({
+  formModel = signal<ContactDataDTO>({
     firstName: '',
     lastName: '',
     phone: '',
@@ -69,7 +69,7 @@ export class ContactForm implements OnInit {
         action: async (detail) => {
           if (detail().invalid()) return;
 
-          const formData = detail().value() as ContactData;
+          const formData = detail().value() as ContactDataDTO;
 
           this.save.emit(formData);
         },
@@ -89,11 +89,7 @@ export class ContactForm implements OnInit {
   ngOnInit() {
     if (!this.contact()) return;
 
-    const contactData: ContactFormModel = {
-      ...(this.contact() as ContactData),
-    };
-
-    this.contactForm().controlValue.set(contactData);
+    this.contactForm().controlValue.set(this.contact()!);
   }
 
   onPhoneInput(event: InputEvent) {

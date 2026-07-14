@@ -1,13 +1,11 @@
 import { Injectable, signal } from '@angular/core';
-import { ContactFormModel } from '../models/contact.model';
-import { InstitutionBase } from '../models/institution.model';
+import { ContactDataDTO } from '../models/contact.model';
 
 @Injectable()
 export class ContactsStore {
   drafts = {
     touched: signal<boolean>(false),
-    contactModel: signal<ContactFormModel | null>(null),
-    institution: signal<InstitutionBase | null>(null),
+    contactModel: signal<ContactDataDTO | null>(null),
   };
 
   selectedContactID = signal<number | null>(null);
@@ -15,6 +13,5 @@ export class ContactsStore {
   resetDrafts() {
     this.drafts.touched.set(false);
     this.drafts.contactModel.set(null);
-    this.drafts.institution.set(null);
   }
 }

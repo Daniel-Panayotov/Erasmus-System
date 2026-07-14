@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { take } from 'rxjs';
-import { Contact, ContactBase, SaveContact } from '../models/contact.model';
+import { ContactBaseDTO, ContactDataDTO } from '../models/contact.model';
 import { ContactParameter } from '../../../shared/models/parameter.model';
 
 @Service()
@@ -12,7 +12,7 @@ export class ContactService {
     const url = `contacts/get-one?contactID=${contactID}`;
 
     return this.http
-      .get<Contact>(url, { observe: 'response', credentials: 'include' })
+      .get<ContactBaseDTO>(url, { observe: 'response', credentials: 'include' })
       .pipe(take(1));
   }
 
@@ -23,17 +23,17 @@ export class ContactService {
       url += '?' + queryParams.map((p) => `${p.field}=${p.value}`).join('&');
 
     return this.http
-      .get<ContactBase[]>(url, { observe: 'response', credentials: 'include' })
+      .get<ContactBaseDTO[]>(url, { observe: 'response', credentials: 'include' })
       .pipe(take(1));
   }
 
-  public Create(body: SaveContact) {
+  public Create(body: ContactDataDTO) {
     const url = `contacts/create`;
 
     return this.http.post(url, body, { observe: 'response', credentials: 'include' }).pipe(take(1));
   }
 
-  public Update(contactID: number, body: SaveContact) {
+  public Update(contactID: number, body: ContactDataDTO) {
     const url = `contacts/update?contactID=${contactID}`;
 
     return this.http.post(url, body, { observe: 'response', credentials: 'include' }).pipe(take(1));

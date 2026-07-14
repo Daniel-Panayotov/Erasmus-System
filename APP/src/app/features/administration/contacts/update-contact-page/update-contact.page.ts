@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TreeValidationResult } from '@angular/forms/signals';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { Contact, ContactData } from '../../models/contact.model';
+import { ContactBaseDTO, ContactDataDTO } from '../../models/contact.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CanDeactivateFormInterface } from '../../../../core/guards/form.guard';
 
@@ -28,33 +28,26 @@ export class UpdateContactPage implements CanDeactivateFormInterface {
   contactResource = rxResource({
     params: () => ({ contactID: this.contactID() }),
     stream: ({ params }) =>
-      this.contactAPI.GetOne(params.contactID).pipe(map((v) => v.body as Contact)),
+      this.contactAPI.GetOne(params.contactID).pipe(map((v) => v.body as ContactBaseDTO)),
   });
-  contactSignal = signal<ContactData | null>(null);
+  contactSignal = signal<ContactDataDTO | null>(null);
 
-  updateContact(data: ContactData) {
-    const contact = this.contactResource.value()!;
-
-    this.contactAPI
-      .Update(this.contactID(), {
-        ...data,
-        institutionID: contact.institution?.institutionID ?? null,
-      })
-      .subscribe({
-        next: () => {
-          this.canDeactivate.set(true);
-          this.router.navigate(['../..'], { relativeTo: this.route });
-        },
-        error(err: HttpErrorResponse) {
-          console.log(err);
-        },
-      });
+  updateContact(data: ContactDataDTO) {
+    this.contactAPI.Update(this.contactID(), data).subscribe({
+      next: () => {
+        this.canDeactivate.set(true);
+        this.router.navigate(['../..'], { relativeTo: this.route });
+      },
+      error(err: HttpErrorResponse) {
+        console.log(err);
+      },
+    });
   }
 
   constructor() {
     effect(() => {
       this.contactResource.hasValue()
-        ? this.contactSignal.set({ ...(this.contactResource.value() as ContactData) })
+        ? this.contactSignal.set(this.contactResource.value().dataDTO)
         : this.contactSignal.set(null);
     });
   }

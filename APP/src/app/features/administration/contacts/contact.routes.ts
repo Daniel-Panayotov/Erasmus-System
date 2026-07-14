@@ -3,8 +3,6 @@ import { UpdateContactPage } from './update-contact-page/update-contact.page';
 import { ContactsShell } from './contacts-shell';
 import { CreateContactPage } from './create-contact-page/create-contact.page';
 import { ContactsTable } from './tables/contacts-table';
-import { CreateContactInstitutionsTable } from './tables/create-contact-institution-tables';
-import { UpdateContactInstitutionsTable } from './tables/update-contact-institution-tables';
 import { administration } from '../administration.paths';
 import { ContactsCreateShell } from './contacts-create-shell';
 import { formGuard } from '../../../core/guards/form.guard';
@@ -22,13 +20,7 @@ export const CONTACT_ROUTES: Routes = [
         path: routeTree.create.segment,
         component: ContactsCreateShell,
         canDeactivate: [formGuard],
-        children: [
-          { path: '', component: CreateContactPage },
-          {
-            path: routeTree.create.institutions.segment,
-            component: CreateContactInstitutionsTable,
-          },
-        ],
+        children: [{ path: '', component: CreateContactPage }],
       },
       {
         path: ':contactID',
@@ -37,10 +29,6 @@ export const CONTACT_ROUTES: Routes = [
             path: routeTree.contactID(':contactID').update.segment,
             component: UpdateContactPage,
             canDeactivate: [formGuard],
-          },
-          {
-            path: routeTree.contactID(':contactID').institutions.segment,
-            component: UpdateContactInstitutionsTable,
           },
         ],
       },

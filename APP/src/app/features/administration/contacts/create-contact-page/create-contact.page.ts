@@ -3,7 +3,7 @@ import { ContactForm } from '../contact-form/contact.form';
 import { ContactService } from '../../services/contact.service';
 import { Router } from '@angular/router';
 import { TreeValidationResult } from '@angular/forms/signals';
-import { ContactData, ContactFormModel, SaveContact } from '../../models/contact.model';
+import { ContactDataDTO } from '../../models/contact.model';
 import { administration } from '../../administration.paths';
 import { ContactsStore } from '../contact.store';
 
@@ -27,17 +27,13 @@ export class CreateContactPage {
     this.draftTouched.set(touched);
   }
 
-  valueChange(data: ContactFormModel) {
+  valueChange(data: ContactDataDTO) {
     if (!this.draftTouched()) return;
     this.contactsStore.drafts.contactModel.set(data);
   }
 
-  createContact(data: ContactData) {
-    const institutionID = this.contactsStore.drafts.institution()?.institutionID ?? null;
-
-    const body: SaveContact = { ...data, institutionID };
-
-    this.contactAPI.Create(body).subscribe({
+  createContact(data: ContactDataDTO) {
+    this.contactAPI.Create(data).subscribe({
       next: (v) => {
         this.contactsStore.resetDrafts();
         this.router.navigate(administration.contacts.view.segments);

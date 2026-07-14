@@ -1,19 +1,15 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '../../core/guards/auth.guard';
 import { CONTACT_ROUTES } from './contacts/contact.routes';
-import { INSTITUTIONS_ROUTES } from './institutions/institutions.routes';
 import { administration } from './administration.paths';
 
 const routeTree = administration;
 
 export const ADMINISTRATION_ROUTES: Routes = [
   {
-    path: routeTree.segment.replace("/", ""),
+    path: routeTree.segment.replace('/', ''),
     canActivateChild: [authGuard],
-    children: [
-      { path: "", children: CONTACT_ROUTES },
-      { path: "", children: INSTITUTIONS_ROUTES },
-    ],
+    children: [{ path: '', children: CONTACT_ROUTES }],
   },
 ];
 

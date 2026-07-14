@@ -1,21 +1,15 @@
-import { InstitutionBase } from './institution.model';
-
-export interface ContactData {
+export interface ContactDataDTO {
   firstName: string;
   lastName: string;
   phone: string;
   email: string;
 }
 
-export interface ContactFormModel extends ContactData {}
-export interface SaveContact extends ContactData {
-  institutionID: number | null;
-}
-
-export interface ContactBase extends ContactData {
+export interface ContactBaseDTO {
   contactID: number;
+  dataDTO: ContactDataDTO;
 }
 
-export interface Contact extends ContactBase {
-  institution: InstitutionBase | null;
+export interface ContactTableDTO extends ContactDataDTO {
+  contactID: number;
 }

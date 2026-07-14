@@ -1,7 +1,7 @@
 import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { Column, DataTable } from '../../../../shared/components/data-table/data-table';
 import { Button } from '../../../../shared/models/data-table.model';
-import { ContactBase } from '../../models/contact.model';
+import { ContactTableDTO } from '../../models/contact.model';
 import { ContactService } from '../../services/contact.service';
 import { createButton, deleteButton, updateButton } from '../../../../shared/utils/table-buttons';
 import { administration } from '../../administration.paths';
@@ -18,38 +18,44 @@ import { ContactParameter } from '../../../../shared/models/parameter.model';
 export class ContactBaseTable {
   private contactsAPI = inject(ContactService);
 
-  overrideSource = input<ContactBase[]>();
-  sourceFilter = input<(src: ContactBase[]) => ContactBase[]>();
+  overrideSource = input<ContactTableDTO[]>();
+  sourceFilter = input<(src: ContactTableDTO[]) => ContactTableDTO[]>();
   parameters = input<ContactParameter[]>();
 
-  additionalButtons = input<Button<ContactBase>[]>();
-  overrideButtons = input<Button<ContactBase>[]>();
+  additionalButtons = input<Button<ContactTableDTO>[]>();
+  overrideButtons = input<Button<ContactTableDTO>[]>();
 
-  clickRowEvent = output<ContactBase | null>();
-  onDrop = output<CdkDragDrop<ContactBase[]>>();
+  clickRowEvent = output<ContactTableDTO | null>();
+  onDrop = output<CdkDragDrop<ContactTableDTO[]>>();
 
   contactsResource = rxResource({
     params: () => ({ parameters: this.parameters() ?? [] }),
     stream: ({ params }) =>
-      this.contactsAPI.GetAll(params.parameters).pipe(map((v) => v.body as ContactBase[])),
+      this.contactsAPI
+        .GetAll(params.parameters)
+        .pipe(
+          map((v) =>
+            v.body!.map((c) => ({ contactID: c.contactID, ...c.dataDTO }) as ContactTableDTO),
+          ),
+        ),
   });
   reload = () => this.contactsResource.reload();
 
   private resourceValue = computed(() => this.contactsResource.value() ?? []);
-  private filteredSource = computed<ContactBase[]>(
+  private filteredSource = computed<ContactTableDTO[]>(
     () => this.sourceFilter()?.(this.resourceValue()) ?? this.resourceValue(),
   );
 
-  private computedSource = computed<ContactBase[]>(
+  private computedSource = computed<ContactTableDTO[]>(
     () => this.overrideSource() ?? this.filteredSource(),
   );
-  contacts = signal<ContactBase[]>([]);
+  contacts = signal<ContactTableDTO[]>([]);
 
-  buttons = computed<Button<ContactBase>[]>(
+  buttons = computed<Button<ContactTableDTO>[]>(
     () => this.overrideButtons() ?? [...this.baseButtons, ...(this.additionalButtons() ?? [])],
   );
 
-  private baseButtons: Button<ContactBase>[] = [
+  private baseButtons: Button<ContactTableDTO>[] = [
     createButton(() => administration.contacts.create.segments),
     updateButton((row) =>
       row == null

@@ -1,68 +1,15 @@
 ﻿namespace API.DTOs;
 
-public interface IContactDTO
-{
-    public string FirstName { get; }
-    public string LastName { get; }
-    public string Phone { get; }
-    public string Email { get; }
-}
-
 public record ContactDataDTO
-{
-    public string FirstName { get; init; }
-    public string LastName { get; init; }
-    public string Phone { get; init; }
-    public string Email { get; init; }
+(
+    string FirstName,
+    string LastName,
+    string Phone,
+    string Email
+);
 
-    public ContactDataDTO(string firstName, string lastName, string phone, string email)
-    {
-        FirstName = firstName;
-        LastName = lastName;
-        Phone = phone;
-        Email = email;
-    }
-}
-
-public record SaveContactDTO : ContactDataDTO
-{
-    public int? InstitutionID { get; init; }
-
-    public SaveContactDTO(
-        string firstName,
-        string lastName,
-        string phone,
-        string email,
-        int? institutionID)
-        : base(firstName, lastName, phone, email)
-    { InstitutionID = institutionID; }
-}
-
-public record ContactBaseDTO : ContactDataDTO
-{
-    public int ContactID { get; init; }
-
-    public ContactBaseDTO(
-        int contactID, 
-        string firstName, 
-        string lastName, 
-        string phone, 
-        string email) 
-        : base(firstName, lastName, phone, email) 
-    { ContactID = contactID; }
-}
-
-public record ContactDTO : ContactBaseDTO
-{
-    public InstitutionBaseDTO? Institution { get; init; }
-
-    public ContactDTO(
-        int contactID,
-        string firstName,
-        string lastName,
-        string phone,
-        string email,
-        InstitutionBaseDTO? institution)
-        : base(contactID, firstName, lastName, phone, email)
-    { Institution = institution; }
-}
+public record ContactBaseDTO
+(
+    int contactID,
+    ContactDataDTO DataDTO
+);

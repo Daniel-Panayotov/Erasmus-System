@@ -7,9 +7,13 @@ namespace API.Expressions;
 
 public class ContactExpressions
 {
-    //public readonly static Expression<Func<Contact, ContactBaseDTO>> Base =
-    //    c => new ContactBaseDTO(c.ContactId, c.FirstName, c.LastName, c.Phone, c.Email);
+    public readonly static Expression<Func<Contact, ContactDataDTO>> Data =
+    c => new ContactDataDTO(
+        c.FirstName, c.LastName, c.Phone, c.Email
+    );
 
-    //public readonly static Expression<Func<Contact, ContactDTO>> DTO =
-    //    c => new ContactDTO(c.ContactId, c.FirstName, c.LastName, c.Phone, c.Email, c.Institution != null ? InstitutionExpressions.Base.Invoke(c.Institution) : null);
+    public readonly static Expression<Func<Contact, ContactBaseDTO>> Base =
+    c => new ContactBaseDTO(
+        c.ContactId, ContactExpressions.Data.Invoke(c)
+    );
 }
