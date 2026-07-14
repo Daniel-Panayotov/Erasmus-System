@@ -1,9 +1,10 @@
-export interface FileData {
+export interface FileDataDTO {
   fileName: string;
   contentType: string;
   fileSize: number;
 }
 
-export interface FileBase extends FileData {
+export interface FileBaseDTO {
   fileID: number;
+  dataDTO: FileDataDTO;
 }

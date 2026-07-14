@@ -1,4 +1,4 @@
-import { FileBase } from '../../../shared/models/file.model';
+import { FileBaseDTO } from '../../../shared/models/file.model';
 
 export enum CompetencyLevel {
   Native = 'Native',
@@ -28,7 +28,7 @@ export interface LanguageCompetencyTableDTO extends LanguageCompetencyData {
 }
 
 export interface LanguageCompetencyDTO {
-  certificateBase: FileBase | null;
+  certificateBase: FileBaseDTO | null;
   baseDTO: LanguageCompetencyBaseDTO;
 }
 
