@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { UserData, SafeUser } from '../models/user.model';
+import { UserDataDTO, SafeUser } from '../models/user.model';
 import { catchError, switchMap, take, tap, throwError } from 'rxjs';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class AuthenticationService {
 
   private _state = signal<SafeUser | null>(null);
 
-  public login(data: UserData) {
+  public login(data: UserDataDTO) {
     const url = 'auth/login';
 
     return this.http.post(url, data, { observe: 'response', credentials: 'include' }).pipe(
@@ -20,7 +20,7 @@ export class AuthenticationService {
     );
   }
 
-  public register(data: UserData) {
+  public register(data: UserDataDTO) {
     const url = 'auth/register';
 
     return this.http.post(url, data, { observe: 'response', credentials: 'include' }).pipe(

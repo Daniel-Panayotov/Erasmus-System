@@ -7,18 +7,21 @@ namespace API.Expressions;
 
 public class UserExpressions
 {
+    public readonly static Expression<Func<User, UserDataDTO>> Data =
+    u => new UserDataDTO(
+        u.Email,
+        u.Password
+    );
+
     public readonly static Expression<Func<User, UserBaseDTO>> Base =
     s => new UserBaseDTO(
         s.UserId,
-        s.Email,
-        s.Password
+        UserExpressions.Data.Invoke(s)
     );
 
     public readonly static Expression<Func<User, UserDTO>> DTO =
     s => new UserDTO(
-        s.UserId,
-        s.Email,
-        s.Password,
-        student: s.Student == null ? null : StudentExpressions.Base.Invoke(s.Student)
+        s.Student == null ? null : StudentExpressions.Base.Invoke(s.Student),
+        UserExpressions.Base.Invoke(s)
     );
 }

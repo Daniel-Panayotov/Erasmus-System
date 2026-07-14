@@ -25,14 +25,14 @@ public static class AuthenticationEndpoints
         [FromServices] ICryptographicService crypto, [FromServices] IConfigStore config)
     {
         var query = ctx.Users.Where(u => u.Email.CompareTo(userDTO.Email) == 0)
-                             .Select(UserExpressions.Base);
+                             .Select(UserExpressions.Base.Expand());
 
         if (!await query.AnyAsync()) return Results.BadRequest("Invalid email.");
 
         var user = await query.FirstAsync();
 
         string passHash = crypto.ComputeHash(userDTO.Password);
-        if (!user.Password.Equals(passHash)) return Results.BadRequest("Invalid password.");
+        if (!user.DataDTO.Password.Equals(passHash)) return Results.BadRequest("Invalid password.");
 
         string token = jwtService.GenerateRefreshToken(user.UserID.ToString());
 
@@ -138,7 +138,7 @@ public static class AuthenticationEndpoints
         var query = ctx.Users.Where(u => u.UserId == userID);
         var user = await query.Select(UserExpressions.DTO.Expand()).FirstAsync();
 
-        var userToken = new SafeUserDTO(user.UserID, user.Email, user.Student);
+        var userToken = new SafeUserDTO(user.BaseDTO.UserID, user.BaseDTO.DataDTO.Email, user.Student);
 
         string token = jwtService.GenerateAccessToken(userID.ToString(), []);
         string tokenHash = crypto.ComputeHash(token);

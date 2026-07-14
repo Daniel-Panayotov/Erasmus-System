@@ -38,7 +38,7 @@ export class Navigation {
   private notStudentNavIcons: Signal<NavIcon[]> = computed(() => [
     {
       iconName: providedIcons.heroUser,
-      route: studentsTree.new.userID(this.auth.state()?.userID!).profile.segments,
+      route: studentsTree.new.userID(this.auth.state()?.userID.toString()!).profile.segments,
       name: 'Create profile',
       float: 'left',
     },

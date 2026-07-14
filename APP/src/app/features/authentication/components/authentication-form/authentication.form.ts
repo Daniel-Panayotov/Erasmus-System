@@ -10,7 +10,7 @@ import {
   TreeValidationResult,
 } from '@angular/forms/signals';
 import { Router, RouterLink } from '@angular/router';
-import { UserData } from '../../models/user.model';
+import { UserDataDTO } from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { authentication } from '../../authentication.paths';
@@ -27,7 +27,7 @@ export class AuthenticationForm {
 
   isLogin = input.required<boolean>();
 
-  formModel = signal<UserData>({
+  formModel = signal<UserDataDTO>({
     email: '',
     password: '',
   });
