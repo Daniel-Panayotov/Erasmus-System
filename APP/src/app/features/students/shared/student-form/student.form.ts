@@ -9,7 +9,7 @@ import {
   required,
   TreeValidationResult,
 } from '@angular/forms/signals';
-import { StudentData, StudentFormModel } from '../../models/student.model';
+import { StudentDataDTO, StudentFormModel } from '../../models/student.model';
 import { Patterns } from '../../../../shared/utils/patterns';
 
 @Component({
@@ -21,7 +21,7 @@ import { Patterns } from '../../../../shared/utils/patterns';
 export class StudentForm implements OnInit {
   student = input.required<StudentFormModel | null>();
   serverErrors = input<TreeValidationResult | null>();
-  save = output<StudentData>();
+  save = output<StudentDataDTO>();
   valueChange = output<StudentFormModel>();
   touched = output<boolean>();
 
@@ -85,7 +85,7 @@ export class StudentForm implements OnInit {
         action: async (detail) => {
           if (detail().invalid()) return;
 
-          const formData = detail().value() as StudentData;
+          const formData = detail().value() as StudentDataDTO;
 
           this.save.emit(formData);
         },
@@ -105,7 +105,7 @@ export class StudentForm implements OnInit {
   ngOnInit() {
     if (!this.student()) return;
 
-    const studentdata: StudentFormModel = { ...(this.student() as StudentData) };
+    const studentdata: StudentFormModel = { ...(this.student() as StudentDataDTO) };
 
     this.studentForm().controlValue.set(studentdata);
   }

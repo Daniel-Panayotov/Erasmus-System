@@ -2,6 +2,7 @@
 using API.Expressions;
 using API.Models;
 using API.Utilities;
+using LinqKit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +20,7 @@ public static class StudentEndpoints
     private static async Task<IResult> Get(int studentID, UEMSContext ctx)
     {
         var query = ctx.Students.Where(s => s.StudentId == studentID)
-                                .Select(StudentExpressions.Base);
+                                .Select(StudentExpressions.Base.Expand());
 
         if (!await query.AnyAsync()) return Results.BadRequest("Student could not be found.");
 
@@ -34,16 +35,18 @@ public static class StudentEndpoints
 
         if (await query.AnyAsync()) return Results.BadRequest("User already has an account.");
 
+        var userData = data.DataDTO;
+
         Student student = new Student
         {
             UserId = userID,
-            FirstName = data.FirstName,
-            LastName = data.LastName,
-            Gender = data.Gender.ToString(),
-            BirthDate = data.BirthDate,
-            Nationality = data.Nationality,
-            Address = data.Address,
-            PhoneNumber = data.PhoneNumber,
+            FirstName = userData.FirstName,
+            LastName = userData.LastName,
+            Gender = userData.Gender.ToString(),
+            BirthDate = userData.BirthDate,
+            Nationality = userData.Nationality,
+            Address = userData.Address,
+            PhoneNumber = userData.PhoneNumber,
         };
 
         LanguageCompetency competency;
@@ -100,8 +103,8 @@ public static class StudentEndpoints
 
         student.FirstName = data.FirstName;
         student.LastName = data.LastName;
-        student.BirthDate = data.BirthDate;
         student.Gender = data.Gender.ToString();
+        student.BirthDate = data.BirthDate;
         student.Nationality = data.Nationality;
         student.Address = data.Address;
         student.PhoneNumber = data.PhoneNumber;

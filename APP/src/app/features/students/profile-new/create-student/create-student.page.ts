@@ -1,6 +1,6 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { StudentService } from '../../services/student.service';
-import { NewStudent, StudentData, StudentFormModel } from '../../models/student.model';
+import { NewStudent, StudentDataDTO, StudentFormModel } from '../../models/student.model';
 import { TreeValidationResult } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -34,10 +34,10 @@ export class CreateStudentPage {
     this.draftStore.studentDraft.set(data);
   }
 
-  createStudent(data: StudentData) {
+  createStudent(data: StudentDataDTO) {
     const competencies = this.draftStore.competenciesDraft();
 
-    const body: NewStudent = { ...data, languageCompetencies: competencies };
+    const body: NewStudent = { dataDTO: data, languageCompetencies: competencies };
 
     this.studentAPI.CreateStudent(this.userID(), body).subscribe({
       next: (v) => {

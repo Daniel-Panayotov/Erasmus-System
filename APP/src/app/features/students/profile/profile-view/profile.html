@@ -2,13 +2,13 @@
   <div class="profile">
     @if (student(); as s) {
       <span>{{ s.studentID }}</span>
-      <span>{{ s.firstName }}</span>
-      <span>{{ s.lastName }}</span>
-      <span>{{ s.birthDate }}</span>
-      <span>{{ s.gender }}</span>
-      <span>{{ s.nationality }}</span>
-      <span>{{ s.address }}</span>
-      <span>{{ s.phoneNumber }}</span>
+      <span>{{ s.dataDTO.firstName }}</span>
+      <span>{{ s.dataDTO.lastName }}</span>
+      <span>{{ s.dataDTO.gender }}</span>
+      <span>{{ s.dataDTO.birthDate }}</span>
+      <span>{{ s.dataDTO.nationality }}</span>
+      <span>{{ s.dataDTO.address }}</span>
+      <span>{{ s.dataDTO.phoneNumber }}</span>
     }
   </div>
 </div>

@@ -2,7 +2,7 @@ import { Component, inject, input, signal } from '@angular/core';
 import { StudentService } from '../../services/student.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { StudentBase, StudentData } from '../../models/student.model';
+import { StudentDataDTO } from '../../models/student.model';
 import { TreeValidationResult } from '@angular/forms/signals';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,10 +27,10 @@ export class UpdateStudentPage implements CanDeactivateFormInterface {
   studentResource = rxResource({
     params: () => ({ studentID: this.studentID() }),
     stream: ({ params }) =>
-      this.studentAPI.GetStudent(params.studentID).pipe(map((v) => v.body as StudentBase)),
+      this.studentAPI.GetStudent(params.studentID).pipe(map((v) => v.body?.dataDTO)),
   });
 
-  updateStudent(data: StudentData) {
+  updateStudent(data: StudentDataDTO) {
     this.studentAPI.UpdateStudent(this.studentID(), data).subscribe({
       next: () => {
         this.canDeactivate.set(true);

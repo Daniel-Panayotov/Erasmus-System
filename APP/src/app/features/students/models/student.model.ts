@@ -1,6 +1,6 @@
 import { LanguageCompetencyFormModel } from './language-competency.model';
 
-export interface StudentData {
+export interface StudentDataDTO {
   firstName: string;
   lastName: string;
   birthDate: Date;
@@ -10,14 +10,16 @@ export interface StudentData {
   phoneNumber: string;
 }
 
-export interface StudentBase extends StudentData {
+export interface StudentBaseDTO {
   studentID: number;
+  dataDTO: StudentDataDTO;
 }
 
-export type StudentFormModel = Omit<StudentBase, 'studentID' | 'birthDate'> & {
+export interface NewStudent {
+  languageCompetencies: LanguageCompetencyFormModel[];
+  dataDTO: StudentDataDTO;
+}
+
+export type StudentFormModel = Omit<StudentDataDTO, 'birthDate'> & {
   birthDate: Date | null;
 };
-
-export interface NewStudent extends StudentData {
-  languageCompetencies: LanguageCompetencyFormModel[];
-}

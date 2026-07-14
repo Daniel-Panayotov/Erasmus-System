@@ -1,4 +1,4 @@
-import { StudentBase } from '../../students/models/student.model';
+import { StudentBaseDTO } from '../../students/models/student.model';
 
 export interface UserData {
   email: string;
@@ -10,5 +10,5 @@ export interface UserBase extends UserData {
 }
 
 export type SafeUser = Omit<UserBase, 'password'> & {
-  student?: StudentBase;
+  student?: StudentBaseDTO;
 };

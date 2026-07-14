@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
-import { NewStudent, StudentBase, StudentData } from '../models/student.model';
+import { NewStudent, StudentBaseDTO, StudentDataDTO } from '../models/student.model';
 import { switchMap, take } from 'rxjs';
 import { AuthenticationService } from '../../authentication/services/authentication.service';
 import { toFormData } from '../../../shared/utils/formdata-utilities';
@@ -14,7 +14,7 @@ export class StudentService {
     const url = `students/get?studentID=${studentID}`;
 
     return this.http
-      .get<StudentBase>(url, { observe: 'response', credentials: 'include' })
+      .get<StudentBaseDTO>(url, { observe: 'response', credentials: 'include' })
       .pipe(take(1));
   }
 
@@ -29,7 +29,7 @@ export class StudentService {
     );
   }
 
-  public UpdateStudent(studentID: number, body: StudentData) {
+  public UpdateStudent(studentID: number, body: StudentDataDTO) {
     const url = `students/update?studentID=${studentID}`;
 
     return this.http.post(url, body, { observe: 'response', credentials: 'include' }).pipe(take(1));

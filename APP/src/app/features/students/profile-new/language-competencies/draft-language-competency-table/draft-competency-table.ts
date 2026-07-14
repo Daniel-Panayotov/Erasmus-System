@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, Signal } from '@angular/core';
+import { Component, computed, inject, input, OnDestroy, Signal } from '@angular/core';
 import { LanguageCompetencyTableDTO } from '../../../models/language-competency.model';
 import { studentsTree } from '../../../student.paths';
 import { ProfileDraftStore } from '../../profile-draft.store';
@@ -16,16 +16,29 @@ import { removeFromArraySignalAt } from '../../../../../shared/utils/signal-util
   imports: [CompetencyTable],
   template: '<app-competency-table [competencies]="competenciesSignal()" [buttons]="buttons()" />',
 })
-export class DraftCompetencyTable {
+export class DraftCompetencyTable implements OnDestroy {
   private draftStore = inject(ProfileDraftStore);
 
   userID = input.required<string>();
 
   competenciesSignal = computed(() =>
-    this.draftStore
-      .competenciesDraft()
-      .map((v, i) => ({ languageCompetencyID: i, ...v }) as LanguageCompetencyTableDTO),
+    this.draftStore.competenciesDraft().map((v, i) => {
+      this.competenciesSignal().forEach((c) => {
+        if (c.certificateUrl) URL.revokeObjectURL(c.certificateUrl);
+      });
+      return {
+        languageCompetencyID: i,
+        certificateUrl: v.certificate ? URL.createObjectURL(v.certificate) : undefined,
+        ...v,
+      } as LanguageCompetencyTableDTO;
+    }),
   );
+
+  ngOnDestroy(): void {
+    this.competenciesSignal().forEach((c) => {
+      if (c.certificateUrl) URL.revokeObjectURL(c.certificateUrl);
+    });
+  }
 
   buttons: Signal<Button<LanguageCompetencyTableDTO>[]> = computed(() => [
     createButton(
