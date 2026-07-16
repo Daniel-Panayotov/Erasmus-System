@@ -53,6 +53,12 @@ export class Navigation {
         float: 'left',
       },
       {
+        iconName: providedIcons.heroClipboard,
+        route: administration.universities.view.segments,
+        name: 'Universities',
+        float: 'left',
+      },
+      {
         iconName: providedIcons.heroLockClosed,
         route: [],
         name: 'Logout',

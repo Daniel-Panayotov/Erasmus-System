@@ -5,10 +5,10 @@ export type QueryParameter<T> = {
 
 export type Parameter<T> = QueryParameter<T>;
 
-export type InstitutionParamField = 'contactID' | 'institutionID';
-
-export type InstitutionParameter = QueryParameter<InstitutionParamField>;
-
 export type ContactParamField = 'contactID' | 'institutionID';
 
 export type ContactParameter = QueryParameter<ContactParamField>;
+
+export type UniversityParamField = 'facultyID';
+
+export type UniversityParameter = QueryParameter<UniversityParamField>;

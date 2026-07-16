@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from '../../core/guards/auth.guard';
 import { CONTACT_ROUTES } from './contacts/contact.routes';
 import { administration } from './administration.paths';
+import { UNIVERSITY_ROUTES } from './universities/university.routes';
 
 const routeTree = administration;
 
@@ -9,7 +10,10 @@ export const ADMINISTRATION_ROUTES: Routes = [
   {
     path: routeTree.segment.replace('/', ''),
     canActivateChild: [authGuard],
-    children: [{ path: '', children: CONTACT_ROUTES }],
+    children: [
+      { path: '', children: CONTACT_ROUTES },
+      { path: '', children: UNIVERSITY_ROUTES },
+    ],
   },
 ];
 

@@ -1,0 +1,46 @@
+<div class="main-container">
+  <h1 class="form-title">Contact Form</h1>
+  <form [formRoot]="universityForm">
+    <div class="form-controls">
+      <!-- Code -->
+      <div class="control-container">
+        <label for="code">Code *</label>
+        <input type="text" id="code" placeholder="BG101" [formField]="universityForm.code" />
+        @if (universityForm.code().touched() && universityForm.code().invalid()) {
+          <p class="error">{{ universityForm.code().errors()[0].message }}</p>
+        }
+      </div>
+
+      <!-- University name -->
+      <div class="control-container">
+        <label for="name">University name *</label>
+        <input
+          type="text"
+          id="name"
+          placeholder="Angel kunchev"
+          [formField]="universityForm.name"
+        />
+        @if (universityForm.name().touched() && universityForm.name().invalid()) {
+          <p class="error">{{ universityForm.name().errors()[0].message }}</p>
+        }
+      </div>
+
+      <!-- University address-->
+      <div class="control-container">
+        <label for="address">Address *</label>
+        <input
+          type="text"
+          id="address"
+          placeholder="bul. Osvobojdenie"
+          [formField]="universityForm.address"
+        />
+        @if (universityForm.address().touched() && universityForm.address().invalid()) {
+          <p class="error">{{ universityForm.address().errors()[0].message }}</p>
+        }
+      </div>
+    </div>
+    <button class="bg-green-500 button" type="submit" [disabled]="universityForm().invalid()">
+      Submit
+    </button>
+  </form>
+</div>

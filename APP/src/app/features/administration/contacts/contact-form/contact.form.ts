@@ -69,7 +69,7 @@ export class ContactForm implements OnInit {
         action: async (detail) => {
           if (detail().invalid()) return;
 
-          const formData = detail().value() as ContactDataDTO;
+          const formData = detail().value();
 
           this.save.emit(formData);
         },

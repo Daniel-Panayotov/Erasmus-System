@@ -1,0 +1,10 @@
+@if (universityResource.isLoading()) {
+} @else if (universityResource.error(); as err) {
+} @else if (universityResource.hasValue()) {
+  <app-university-form
+    [university]="universitySignal()"
+    (save)="updateUniversity($event)"
+    [serverErrors]="serverErrors()"
+    (touched)="canDeactivate.set(!$event)"
+  />
+}
